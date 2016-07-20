@@ -108,6 +108,9 @@ li {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.align-right {
+    text-align: right;
+}
 /*sider*/
 .sidebar {
     width: 250px;
@@ -158,4 +161,13 @@ li {
 /*manage*/
 .main-container {
     min-width: 760px;
+    height: 100%;
+}
+.right-content .form-inline button {
+    padding: 6px 30px;
+}
+.right-content .operation {
+    background: #ccc;
+    padding: 10px 0;
+    height: 10%;
 }

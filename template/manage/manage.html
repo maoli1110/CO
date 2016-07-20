@@ -3,6 +3,29 @@
 	<div class="sidebar" ng-include="'template/core/sidebar.html'"></div>
 	<div class="right-content">
 		<!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
-		<div class="content-main" ui-view></div>
+		<div class="container-fluid">
+			<div class="row operation">
+				<div class="col-md-8">
+					<form class="form-inline">
+						<button type="button" class="btn btn-primary">筛选</button>
+						<div class="form-group">
+							<select name="" id="" class="form-control">
+								<option value="">我负责的</option>
+								<option value="">我负责的</option>
+								<option value="">我负责的</option>
+							</select>
+						</div>
+						<div class="form-group">
+						   	<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+						</div>
+						<button type="button" class="btn btn-primary">搜索</button>
+					</form>
+				</div>
+				<div class="col-md-3 align-right">
+					<button type="button" class="btn btn-primary">统计</button>
+					<button type="button" class="btn btn-primary">新建协作</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
