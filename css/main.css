@@ -41,6 +41,9 @@ li {
 .inline {
     display: inline-block;
 }
+.block {
+    display: block;
+}
 .monitor-border {
     border: 1px solid #e6eaf1;
 }
@@ -111,11 +114,20 @@ li {
 .align-right {
     text-align: right;
 }
+.f-white {
+    color: #fff;
+}
+.ml-10 {
+    margin-left: 10px;
+}
+/*reset bootstrapcss*/
 /*sider*/
 .sidebar {
     width: 250px;
+    top: 0;
+    left: 0;
     border: 1px solid #ccc;
-    float: left;
+    background-color: #B1C3D7;
 }
 .sidebar .first-title{
     background: #204975;
@@ -158,16 +170,70 @@ li {
     background-color: #6D9CD2;
     border-color: #6D9CD2;
 }
+.navbar-header>div>div {
+    color: #fff;
+}
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
 /*manage*/
 .main-container {
-    min-width: 760px;
+    /*min-width: 760px;*/
     height: 100%;
+
 }
 .right-content .form-inline button {
     padding: 6px 30px;
 }
 .right-content .operation {
-    background: #ccc;
-    padding: 10px 0;
-    height: 10%;
+    background: #CEDAE6;
+    padding: 10px 6px;
+    height: 50px;
+}
+.operation .right-btn {
+    right: 6px;
+}
+.filter-table .checkbox > div  {
+    background-color:green;
+    height:30px;
+    line-height:30px;
+    width:80px;
+    text-align:center;
+}
+.filter-table .checkbox > label {
+    top: 14px;
+    right: 0;
+}
+.addcoo {
+    width: 300px;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    background-color: #f5f5f5;
+}
+.addcoo .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.addcoo .row > div {
+    text-align: center;
+    /*height: 30px;*/
+    line-height: 50px;
+}
+.addcoo .row  a {
+    display: block;
+    color: #fff;
+    background-color: green;
+    margin: 15px 15px;
+}
+.addcoo .close {
+    margin-right: 10px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+.right-content .filter {
+    background: #eee;
+    width: inherit;
+    height: 20%;
+
 }
