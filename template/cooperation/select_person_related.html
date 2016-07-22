@@ -1,0 +1,79 @@
+<div class="select-person-related">
+    <div class="modal-header">
+        <h3 class="modal-title">选择相关人</h3> 
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-6 left">
+                <div class="row">
+                    <div class="col-xs-6 select">
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" placeholder="Text input">
+                    </div>
+                </div>
+                <div>
+                    <li>
+                        <a class="first-title" ng-click="isCollapsed = !isCollapsed">
+                            <span class="glyphicon glyphicon-triangle-right"></span><span>施工员</span>
+                        </a>
+                        <ul class="sub-nav" uib-collapse="!isCollapsed">
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="first-title" ng-click="isCollapsed = !isCollapsed">
+                            <span class="glyphicon glyphicon-triangle-right"></span><span>施工员</span>
+                        </a>
+                        <ul class="sub-nav" uib-collapse="!isCollapsed">
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                            <li><a ui-sref="#">张三</a></li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
+                
+            <div class="col-xs-6 right">
+                <div class="clearfix">
+                    <div class="pull-left"><input type="checkbox"><span>全选</span></div>
+                    <div class="pull-right">已选择{{}}人，需要签字{{}}人</div>
+                </div>
+                <div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>质量报告</td>
+                                <td>李十四</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>质量报告</td>
+                                <td>李十四</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>质量报告</td>
+                                <td>李十四</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

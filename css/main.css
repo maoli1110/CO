@@ -237,3 +237,46 @@ li {
     height: 20%;
 
 }
+/* create */
+.create .title {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #ECEEF0;
+    margin-bottom: 20px;
+}
+.create .row label {
+    line-height: 32px;
+    text-align: right;
+}
+.create .row {
+    padding-bottom: 10px;
+}
+.create input {
+    height: 32px;
+}
+/*select person*/
+.select-person-related .left select {
+   height: 30px;
+   width: 100%
+}
+
+.select-person-related .search >div{
+    line-height: 34px;
+}
+.select-person-responsible .row {
+    padding: 10px 20px;
+}
+.select-person-responsible .left select {
+    height: 34px;
+    width: 100%;
+}
+.select-person-responsible .person-list {
+    margin-left: 20px;
+    margin-right: 22px;
+    border: 1px solid #ccc;
+}
+.select-person-responsible .person-list .sub-nav li img {
+    border-radius: 29px;
+    margin-right: 2px;
+}
