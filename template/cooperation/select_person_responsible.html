@@ -1,0 +1,51 @@
+<div class="select-person-responsible">
+    <div class="modal-header">
+        <h3 class="modal-title">选择相关人</h3> 
+    </div>
+    <div class="modal-body">
+        <div class="row left">
+            <div class="row">
+                <div class="col-xs-6 select">
+                    <select name="" id=""></select>
+                </div>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" placeholder="Text input">
+                </div>
+            </div>
+            <div class="row person-list">
+                <li>
+                    <a class="first-title" ng-click="isCollapsed = !isCollapsed">
+                        <span class="glyphicon glyphicon-triangle-right"></span><span>施工员</span>
+                    </a>
+                    <ul class="sub-nav" uib-collapse="!isCollapsed">
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员<input type="radio"></a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                        <li><a ui-sref="#"><img src="http://placehold.it/30x30">张三 预算员</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="first-title" ng-click="isCollapsed = !isCollapsed">
+                        <span class="glyphicon glyphicon-triangle-right"></span><span>施工员</span>
+                    </a>
+                    <ul class="sub-nav" uib-collapse="!isCollapsed">
+                        <li><a ui-sref="#">张三</a></li>
+                        <li><a ui-sref="#">张三</a></li>
+                        <li><a ui-sref="#">张三</a></li>
+                        <li><a ui-sref="#">张三</a></li>
+                        <li><a ui-sref="#">张三</a></li>
+                        <li><a ui-sref="#">张三</a></li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>
