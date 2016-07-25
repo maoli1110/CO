@@ -5,22 +5,29 @@
 		  	<label for="exampleInputName2" class="col-xs-2">协作名称：</label>
 		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="">
 		    <label for="exampleInputName2" class="col-xs-2">负责人：</label>
-		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="" ng-click="selectPerson()">
+		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder=""><span class="plus-icon" ng-click="selectPerson()">+</span>
 		</div>
 			
 		<div class="row">
-		  	<label for="exampleInputName2" class="col-xs-2">协作名称：</label>
+		  	<label for="exampleInputName2" class="col-xs-2">优先级：</label>
 		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="">
-		    <label for="exampleInputName2" class="col-xs-2">负责人：</label>
+		    <label for="exampleInputName2" class="col-xs-2">限制期限：</label>
 		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="">
 		</div>
-
+		<div class="row">
+			<label class="col-xs-2">标识：</label>
+		  	<select class="selectpicker">
+			  	<option>Mustard</option>
+			  	<option>Ketchup</option>
+			  	<option>Relish</option>
+			</select>
+		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">关联模型：</label>
-			<div class="col-xs-6 list-inline">
-				<button class="btn">与工程关联</button>
-				<button class="btn">与图上构建关联</button>
-				<button class="btn">与构建类别相关</button>
+			<div class="list-inline">
+				<button class="btn btn-default">与工程关联</button>
+				<button class="btn btn-default">与图上构建关联</button>
+				<button class="btn btn-default">与构建类别相关</button>
 			</div>
 		</div>
 		<div class="row">
@@ -29,16 +36,40 @@
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">相关人员：</label>
-			<div class="col-xs-6"><button class="btn">添加</button></div>
+			<div><button class="btn btn-default">添加</button></div>
 		</div>
+		<!-- upload -->
 		<div class="row">
 			<label for="" class="col-xs-2">照片：</label>
-			<div class="col-xs-6"><button class="btn">添加</button></div>
+			<div class="upload-img">
+				<input class="upload-img" type="file" nv-file-select uploader="uploader" style="display:none;"/><br/>
+		        <ul class="list-inline inline">
+		            <li ng-repeat="item in uploader.queue">
+		                Name: <span ng-bind="item.file.name"></span><br/>
+		               
+		                <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+		                <button ng-click="item.upload()">upload</button>
+		            </li>
+		        </ul>
+		        <button class="btn btn-default btn-add" ng-click="fileUpload()">+</button>
+		        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+	                <span class="glyphicon glyphicon-upload"></span> Upload all
+	            </button>
+	            <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading" disabled="disabled">
+	                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+	            </button>
+				<!-- <div class="col-xs-6"><button class="btn">添加</button></div> -->
+			</div>
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">资料：</label>
-			<div class="col-xs-6"><button class="btn">添加</button></div>
+			<div><button class="btn btn-default btn-add">+</button></div>
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript">
+	$('.selectpicker').selectpicker({
+  style: 'btn-default',
+  size: 'auto'
+});
+</script>

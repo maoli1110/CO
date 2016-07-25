@@ -4,39 +4,20 @@
 	<div class="right-content">
 		<!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
 		<div class="container-fluid rela">
-			<!-- <div class="row operation">
-				<form class="form-inline">
-					<button type="button" class="btn btn-primary" ng-click="isCollapsed = !isCollapsed">筛选</button>
-					<div class="form-group">
-						<select name="" id="" class="form-control">
-							<option value="">我负责的</option>
-							<option value="">我负责的</option>
-							<option value="">我负责的</option>
-						</select>
-					</div>
-					<div class="form-group">
-					   	<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-					</div>
-					<button type="button" class="btn btn-primary">搜索</button>
-					<div class="right-btn inline absol">
-						<button type="button" class="btn btn-primary">统计</button>
-						<button type="button" class="btn btn-primary" ng-click="openNew()">新建协作</button>
-					</div>
-				</form>
-			</div> -->
 			<div class="operation clearfix">
 				<div class="left">
-					<button type="button" class="btn btn-primary" ng-click="isCollapsed = !isCollapsed">筛选</button>
+					<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
 					<select class="selectpicker">
 					  <option>Mustard</option>
 					  <option>Ketchup</option>
 					  <option>Relish</option>
 					</select>
 					<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+					<button type="button" class="btn btn-default">搜索</button>
 				</div>
 				<div class="right">
-					<button type="button" class="btn btn-primary">统计</button>
-					<button type="button" class="btn btn-primary" ng-click="openNew()">新建协作</button>
+					<button type="button" class="btn btn-default">统计</button>
+					<button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
 				</div>
 				
 			</div>
@@ -136,8 +117,8 @@
 </div>
 <script type="text/javascript">
 	$('.selectpicker').selectpicker({
-  style: 'btn-info',
-  size: 4
+  style: 'btn-default',
+  size: 'auto'
 });
 </script>
 

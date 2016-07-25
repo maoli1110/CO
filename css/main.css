@@ -126,27 +126,22 @@ li {
     width: 250px;
     top: 0;
     left: 0;
-    border: 1px solid #ccc;
-    background-color: #B1C3D7;
 }
 .sidebar .first-title{
-    background: #204975;
-    width: 250px;
+    background: #353944;
     display: block;
     height: 40px;
     line-height: 40px;
     color: #fff;
-    border-bottom: 1px solid #fff;
 }
 .sidebar .sub-nav a {
-    background: #B1C3D7;
+    background: #24292F;
     width: 250px;
     display: block;
     height: 40px;
     text-align: center;
     line-height: 40px;
     color: #fff;
-    border-bottom: 1px solid #fff;
 }
 .right-content {
     margin-left: 250px;
@@ -169,8 +164,8 @@ li {
     border-radius: 0;
 }
 .navbar-default {
-    background-color: #6D9CD2;
-    border-color: #6D9CD2;
+    background-color: #69c080;
+    border-color: #69c080;
 }
 .navbar-header {
     float: left;
@@ -192,7 +187,7 @@ li {
 }
 /*manage*/
 .main-container {
-    min-width: 768px;
+    min-width: 830px;
     height: 100%;
 
 }
@@ -200,7 +195,7 @@ li {
     padding: 6px 30px;
 }
 .right-content .operation {
-    background: #CEDAE6;
+    background: #EDEEF0;
     padding: 0 15px;
     height: 50px;
     line-height: 50px;
@@ -210,12 +205,16 @@ li {
 .operation .left {
     float: left;
 }
+.operation .left .btn, .operation .left input {
+    border-radius: 0;
+}
 .operation .right {
     float: right;
 }
 .operation .form-control {
     width: auto;
     display: inline-block;
+    padding-bottom: 9px;
 }
 .operation .right-btn {
     right: 6px;
@@ -260,8 +259,9 @@ li {
 }
 .right-content .filter {
     background: #eee;
-    width: inherit;
+    width: 100%;
     height: 20%;
+    margin: 0;
 
 }
 /* create */
@@ -281,6 +281,25 @@ li {
 }
 .create input {
     height: 32px;
+}
+.create .plus-icon {
+    background-color: #EDEEF0;
+    border: 1px solid #ccc;
+    color: #ccc;
+    font-size: 15px;
+    padding: 0 5px;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-left: 4px;
+}
+.create .btn-add {
+    font-size: 50px;
+    color: #ccc;
+    background-color: #EDEEF0;
+    padding: 5px 25px;
+}
+.create .upload-img *{
+    vertical-align: middle;
 }
 /*select person*/
 .select-person-related .left select {
@@ -303,6 +322,17 @@ li {
     margin-right: 22px;
     border: 1px solid #ccc;
 }
+.select-person-responsible .person-list li {
+    position: relative;
+}
+.select-person-responsible .person-list label{
+    width: 100%;
+}
+.select-person-responsible .person-list input {
+    position: absolute;
+    right: 0;
+}
+
 .select-person-responsible .person-list .sub-nav li img {
     border-radius: 29px;
     margin-right: 2px;

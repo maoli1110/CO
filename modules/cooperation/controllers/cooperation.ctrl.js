@@ -2,8 +2,8 @@
 /**
  * 协作管理
  */
-angular.module('core').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer',
-    function ($scope, $http, $uibModal, $httpParamSerializer) {
+angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader',
+    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader) {
     console.log('1111');
     
     $scope.selectPerson = function () {
@@ -14,7 +14,17 @@ angular.module('core').controller('coopreationCtrl', ['$scope', '$http', '$uibMo
     		controller:'selectresponsibleCtrl'
     	});
     }
+
+    var uploader = $scope.uploader = new FileUploader({
+            url: 'upload.php',
+   			queueLimit: 2
+        });
     
+    $scope.fileUpload = function () {
+    	$('.upload-img').attr('uploader', 'uploader');
+    	$('.upload-img').attr('nv-file-select', '');
+    	$('.upload-img').click();
+    }
        
 }]).controller('selectresponsibleCtrl',['$scope', '$http', '$uibModalInstance',
 	function ($scope, $http, $uibModalInstance) {
