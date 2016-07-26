@@ -16,9 +16,6 @@ angular.module('core').directive('copyRadio', function () {
 	};
 });
 
-'use strict';
-
-
 angular.module('core')
     // Angular File Upload module does not include this directive
     // Only for example

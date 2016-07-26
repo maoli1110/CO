@@ -12,7 +12,7 @@ var ApplicationConfiguration = (function(){
 	};
 
 	var urls = {
-        apiUrl: 'http://172.16.21.47:8080/bx/rs/TestRestServices/testRestMethod?str=15221113063'
+        apiUrl: 'http://172.16.21.69:8080/bimco/rs/co/'
         // wwwUrl: 'https://www.suncloud.cn',
         // panelApiUrl: 'https://panel.suncloud.cn/api/index.php?r=',
         // loginUrl: 'https://passport.suncloud.cn/index.php?client_id=panel'

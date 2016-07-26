@@ -2,8 +2,8 @@
 /**
  * 协作管理
  */
-angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader',
-    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader) {
+angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation',
+    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation) {
     console.log('1111');
     
     $scope.selectPerson = function () {
@@ -26,13 +26,58 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	$('.upload-img').click();
     }
        
-}]).controller('selectresponsibleCtrl',['$scope', '$http', '$uibModalInstance',
-	function ($scope, $http, $uibModalInstance) {
+}]).controller('selectresponsibleCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
+	function ($scope, $http, $uibModalInstance,Cooperation) {
+
+		//设置默认值
+		$scope.selectedOption = {};
+		$scope.deptInfo = {
+			availableOptions:[]
+		};
+		$scope.userList = [];
+		
+		
+		//获取项目部
+		Cooperation.getDeptInfo().then(function (data) {
+			console.log(data);
+			$scope.deptInfo.availableOptions = data;
+			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
+		});
+
+
+		$http.get('a.json').then(function (data) {
+			console.log(data.data)
+			$scope.userList = data.data;
+		});
+
+		$scope.switchUsers = function (params) {
+			var deptId = params.deptId;
+			Cooperation.getUserList(deptId).then(function (data) {
+				$scope.userList = data;
+			});
+		}
+
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		}
 
-		//http请求
+		$scope.changeStaus = function (id, pid, user) {
+
+			angular.forEach($scope.userList, function(value,key) {
+					for(var i = 0; i< value.users.length;i++){
+						if(key == pid && i == id){
+							value.users[i].add = true;
+						} else {
+							value.users[i].add = false;
+						}
+					}
+			});
+			console.log('userList',$scope.userList);
+			
+		}
+		
+
+
 //		$http({
 //	            method: 'get',
 //	            data:{'projid':'','sn':''},
@@ -63,33 +108,45 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 //            $scope.greeting = data;
 //        });
 		
-		$.ajax({
-		    url: "http://172.16.21.69:8080/bimco/rs/co/typeList/",
-		    type: "GET",
-		    dataType: 'JSONP',
-		    success: function(result){
-		        jsontree = result;
-		    }
-		});
+		// $.ajax({
+		//     url: "http://172.16.21.69:8080/bimco/rs/co/userList/1",
+		//     type: "GET",
+		//     success: function(result){
+		//       console.log(result);
+		//     }
+		// });
+
 		var obj = {ppid:123,projType:12};
 		var obj1 = JSON.stringify(obj);
 		console.log(obj1);
-		$http.post('http://localhost:8080/bimco/rs/co/floorCompClassList',obj1,{
-            transformRequest: angular.identity}).success(function(data) {
-			console.log(data);
-		});
-//		$.ajax({
-//			 contentType: "application/json; charset=utf-8",
-//		 	 dataType : 'json',
-//
-//		    url: "http://localhost:8080/bimco/rs/co/floorCompClassList",
-//		    type: "POST",
-//		    data: obj1,
-// 
-//		    success: function(result){
-//		        console.log(result);
-//		    }
-//		});
+		// $http.post('http://localhost:8080/bimco/rs/co/floorCompClassList',obj1,{
+  //           transformRequest: angular.identity}).success(function(data) {
+		// 	console.log(data);
+		// });
+
+
+		// $.ajax({
+		// 	contentType: "application/json; charset=utf-8",
+		// 	data: '{"ppid":123,"projType":12}',
+		//  	dataType : 'json',
+		//     url: "http://172.16.21.69:8080/bimco/rs/co/floorCompClassList",
+		//     type: "POST",
+		//     success: function(result){
+		//         console.log(result);
+		//     }
+		// });
+		
+		//传true false
+		// $.ajax({
+		// 	contentType: "text/plain; charset=utf-8",
+		// 	data: '{"queryFromBV": true}',
+		//  	dataType : 'json',
+		//     url: "http://172.16.21.69:8080/bimco/rs/co/coQueryFilter",
+		//     type: "POST",
+		//     success: function(result){
+		//         console.log(result);
+		//     }
+		// });
 		
 		
 }]);

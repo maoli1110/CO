@@ -4,13 +4,12 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     var url = ApplicationConfiguration.urls.apiUrl;
 
     /**
-     *获取参数test
+     *获取项目部列表
      */
-    this.getData = function (params) {
-        console.log('1111');
-        console.log(params);
+    this.getDeptInfo = function () {
         var delay = $q.defer();
-        $http.post(url, params)
+        var url_join= url + 'deptInfoList';
+        $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
@@ -18,6 +17,18 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             });
         return delay.promise;
     };
+
+    this.getUserList = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'userList/' + params;
+        $http.get('a.json')
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
 
 
 });

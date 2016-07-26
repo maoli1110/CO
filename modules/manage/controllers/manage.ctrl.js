@@ -19,6 +19,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.trans = function () {
     	var url = $state.href('newcopper', {parameter: "parameter"});
 		window.open(url,'_blank');
+        //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
     }
 
     
