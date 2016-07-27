@@ -25,6 +25,30 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	$('.upload-img').attr('nv-file-select', '');
     	$('.upload-img').click();
     }
+
+    //设置日期相关
+    $scope.dateOptions = {
+	    formatYear: 'yy',
+	    maxDate: new Date(2020, 5, 22),
+	    startingDay: 1,
+	};
+
+	$scope.open2 = function() {
+	    $scope.popup2.opened = true;
+	};
+
+	$scope.popup2 = {
+	    opened: false
+	};
+	$scope.checksignal = false;
+
+	//根据复选框来判断是否显示日期控件
+	$scope.isChecked = function () {
+		$scope.checksignal = !$scope.checksignal;
+		if(!$scope.checksignal){
+			$scope.dt = null;
+		}
+	}
        
 }]).controller('selectresponsibleCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
 	function ($scope, $http, $uibModalInstance,Cooperation) {
@@ -149,4 +173,28 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		// });
 		
 		
+}]).controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$stateParams',
+    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$stateParams) {
+  
+	   	var coid = $stateParams.coid;
+	   	Cooperation.getCollaboration(coid).then(function (data) {
+	   		console.log(data);
+	   		$scope.collaList = data;
+	   	});
+
+	   	$scope.downImg = function () {
+	   		sendCommand(3,coid);
+	   	}
+
+	   	$scope.checkModel = function () {
+	   		sendCommand(1,coid);
+	   	}
+
+	   	function sendCommand(optType,id){
+		    var param = "{"+ "\"optType\":"+optType+",\"id\":\""+id + "\"}";
+		    document.location = "http://bv.local?param=" + param;
+		}
+
+
+   
 }]);

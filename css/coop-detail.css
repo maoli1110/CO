@@ -1,0 +1,311 @@
+header{
+    height:40px;
+    background:#ddd;
+    text-align:center;
+    position:relative;
+}
+header p{
+    line-height:40px;
+    /*color:#fff;*/
+}
+header .close{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+/*---------------------main--------------------*/
+.main{
+    /*height:1000px;*/
+    /*border:1px solid red;*/
+}
+/*-------------------main_content---------------*/
+.main_content{
+    width: 90%;
+    margin: 0 auto;
+    /*border: 1px solid #000;*/
+}
+/*------------------content_left-----------------*/
+.content_left{
+    /*width:80%;*/
+    /*height:1000px;*/
+    /*display:inline-block;*/
+    /*background:rebeccapurple;*/
+}
+.content_left .proTitle{
+    width:70px;
+    /*height:1000px;*/
+    /*border:1px solid #0000ff;*/
+    display:inline-block;
+}
+.content_left .proTitle .message {
+    width:70px;
+    height:70px;
+    background:cornflowerblue;
+    text-align:center;
+    float:left;
+}
+.content_left .proTitle .message p{
+    width:40px;
+    font-size:16px;
+    font-weight:bold;
+    color:#fff;
+    margin: 13px;
+    float: left;
+}
+/*-------------proInfo-------------*/
+.proInfo{
+    width:93%;
+    /*height:1000px;*/
+    /*background:red;*/
+    float:right;
+}
+.proInfo .pro_man{
+
+    border-bottom:1px solid #ddd;
+    height:150px;
+
+}
+.proInfo .pro_man .active{
+    margin-top:15px;
+    width: 32%;
+    /*height: 100px;*/
+    margin-right: 13.5px;
+    /*background: plum;*/
+    float: left;
+}
+.active div{
+    margin-left:30px;
+
+}
+
+.active span{
+    display:inline-block;
+    width:80px;
+    text-align:left;
+}
+.active p{
+    display:inline-block;
+}
+.active .btn{
+    margin-top:10px;
+    width:130px;
+    margin-left:30px;
+}
+/*-------------detail(详情描述)--------------*/
+.textHeight{
+    height:130px;
+}
+.detail {
+    /*height:100px;*/
+    margin-top:20px;
+    border-bottom:1px solid #ddd;
+    padding:10px 0;
+}
+
+.Avatar{
+    /*clear:both;*/
+    margin-top:20px;
+}
+.Avatar .photo dl{
+    height: 100px;
+    float:left;
+    margin-right:30px;
+    text-align:center;
+    font-size:12px;
+
+}
+.Avatar .photo dl dt{
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+    border:1px solid #ddd;
+}
+.Avatar .photo dl dt img{
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+    border:1px solid #ddd;
+}
+.Avatar .photo dl dd{
+    line-height:20px;
+}
+/*-----------------------action--------------*/
+.action{
+    height:150px;
+    margin:20px 0;
+    border-bottom:1px solid #ddd;
+}
+.action dl{
+    width:120px;
+    height:120px;
+    float:left;
+    text-align:center;
+    margin-right:10px;
+
+}
+.action dl dt{
+    width:100px;
+    height:100px;
+    border:1px solid #ddd;
+}
+
+.action dl dt img{
+    width:100px;
+    height:100px;
+}
+.action dl dd{
+    width:100px;
+    margin-top:10px;
+}
+/*-------------reply---------------------------*/
+.reply{
+margin:10px 0;
+}
+.reply .man_pic{
+    text-align:center;
+
+}
+.reply .man_pic p{
+    margin-top:10px;
+}
+.reply .man_pic img{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+}
+.reply .comment {
+    border: 1px solid #ccc;
+    height: 77px;
+    line-height: 75px;
+    border-radius: 23px;
+}
+/*-----------principal(个人信息)-----------------------------*/
+.principal{
+    width:30%;
+    border:1px solid red;
+    margin-right:30px;
+    float:left;
+}
+/*--------------------content_right---------------*/
+.content_right{
+    width:20%;
+    /*height:1000px;*/
+    float:right;
+
+
+    /*background:red;*/
+}
+/*-------bttn(侧边栏样式)-----------------------------------*/
+ .btn_box{
+    width:43px;
+    height:74px;
+    background:#6495ED;
+    text-align:center;
+     /*display:inline-block;*/
+     float:left;
+     border-radius: 5px;
+
+}
+ .btn_box span{
+     font-size: 46px;
+     color: #fff;
+ }
+ /*-------------------aside--------------------------*/
+.aside{
+    width:84%;
+    /*border:1px solid red;*/
+    float:right;
+    /*position:absolute;*/
+    /*right:0;*/
+    /*top:0;*/
+
+    /*display:none;*/
+}
+.aside .side_title{
+    line-height:35px;
+    text-align:center;
+    background:#ddd;
+}
+
+/*----------------state-----------------------*/
+.state{
+    width: 82%;
+    border-left: 1px solid #6495ED;
+    height: auto;
+    margin-left: 30px;
+    margin-top: 20px;
+    position: relative;
+
+}
+.state ul{
+    width: 113%;
+    position: relative;
+    left: -14px;
+    top: 0;
+    float:left;
+    /*display:inline-block;*/
+
+}
+.state ul li{
+    list-style:none;
+    clear:both;
+    margin-bottom:20px;
+
+}
+.state ul li .step{
+    width:30px;
+    height:30px;
+    background:#6495ED;
+    border-radius: 50%;
+    display:inline-block;
+
+}
+.state ul li .handle{
+    float: right;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    width: 82%;
+    display:inline-block;
+    border-radius: 5px;
+    text-align: center;
+
+}
+.icon_man{
+    display:inline-block;
+}
+.state ul li .handle p{
+    display:inline-block;
+    font-size:12px;
+}
+
+.icon_man img{
+    width:24px;
+    height:24px;
+    border-radius: 50%;
+}
+/*------------------footer---------------------*/
+.footer{
+
+    height:50px;
+    text-align:center;
+    line-height:50px;
+    background:#ECEEF0;
+    clear:both;
+}
+.footer .btn{
+    margin:0 10px;
+}
+
+.show-icon {
+    bottom: -1px;
+    width: 100px;
+    background: #0a0909;
+    opacity: 0.5;
+}
+.show-icon span {
+    margin: 0 7px;
+    color: #fff;
+}
+.data-list :hover .show-icon {
+    display: block;
+}

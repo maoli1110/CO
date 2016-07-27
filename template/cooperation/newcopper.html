@@ -2,17 +2,27 @@
 	<div class="create">
 		<div class="title">创建协作</div>
 		<div class="row">
-		  	<label for="exampleInputName2" class="col-xs-2">协作名称：</label>
-		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="">
-		    <label for="exampleInputName2" class="col-xs-2">负责人：</label>
-		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder=""><span class="plus-icon" ng-click="selectPerson()">+</span>
+		  	<label for="" class="col-xs-2">协作名称：</label>
+		    <input type="text" class="col-xs-3" id="" placeholder="">
+		    <label for="" class="col-xs-2">负责人：</label>
+		    <input type="text" class="col-xs-3" id="" placeholder=""><span class="plus-icon" ng-click="selectPerson()">+</span>
 		</div>
 			
 		<div class="row">
-		  	<label for="exampleInputName2" class="col-xs-2">优先级：</label>
-		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="">
-		    <label for="exampleInputName2" class="col-xs-2">限制期限：</label>
-		    <input type="text" class="col-xs-3" id="exampleInputName2" placeholder="">
+		  	<label for="" class="col-xs-2">优先级：</label>
+		   	<select class="selectpicker col-xs-3 priority">
+			  	<option>Mustard</option>
+			  	<option>Ketchup</option>
+			  	<option>Relish</option>
+			</select>
+		    <label for="" class="col-xs-2">限制期限：</label>
+		    <p class="input-group col-xs-3">
+	          <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal"/>
+	          <span class="input-group-btn">
+	            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+	          </span>
+	          <input type="checkbox" ng-click="isChecked()">
+	        </p>
 		</div>
 		<div class="row">
 			<label class="col-xs-2">标识：</label>
@@ -64,6 +74,13 @@
 		<div class="row">
 			<label for="" class="col-xs-2">资料：</label>
 			<div><button class="btn btn-default btn-add">+</button></div>
+		</div>
+		<div class="btn-submit">
+			<div class="text-center">
+				<button class="btn btn-default">存储</button>
+				<button class="btn btn-default">提交</button>
+				<button class="btn btn-default">取消</button>
+			</div>
 		</div>
 	</div>
 </div>
