@@ -22,7 +22,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getUserList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'userList/' + params;
-        $http.get('a.json')
+        $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {

@@ -1,0 +1,30 @@
+<div class="add-update">
+    <div class="modal-header">
+        <h3 class="modal-title">添加更新</h3> 
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-2">描述：</div>
+            <div class="col-xs-9"><textarea class="form-control" rows="3" ng-model="data.comment"></textarea></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">资料：</div>
+            <div class="col-xs-9 upload-docs">
+                <input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
+                 <ul class="list-inline inline">
+                    <li ng-repeat="item in uploader1.queue">
+                        Name: <span ng-bind="item.file.name"></span><br/>
+                        <button ng-click="item.upload()">upload</button>
+                        <button ng-click="item.cancel()">cancel</button>
+                        <button ng-click="item.remove()">remove</button>
+                    </li>
+                </ul>
+                <button class="btn btn-default btn-add" ng-click="docsUpload()">+</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>
