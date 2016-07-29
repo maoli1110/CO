@@ -3,7 +3,7 @@ body, ol, ul, li, dl, dd, dt, table, tr, td, div, p, img, h1, h2, h3, h4, h5, h6
     margin: 0px;
     padding: 0px;
     font-family: "Microsoft yahei", Simsun, Arial;
-    font-size: 12px;
+    font-size: 1rem;
     color: #333;
 }
 html, body {
@@ -27,6 +27,7 @@ a, a:hover, a:active, a:visited, a:link {
 li {
     list-style: none;
 }
+
 /*input{
     outline: none;
     border: none;
@@ -122,6 +123,12 @@ li {
 }
 .red {
     background-color: red;
+}
+.btn-add {
+    font-size: 50px;
+    color: #ccc;
+    background-color: #EDEEF0;
+    padding: 5px 25px;
 }
 /*reset bootstrapcss*/
 .container-fluid {
@@ -297,25 +304,31 @@ li {
     line-height: 30px;
     margin-left: 4px;
 }
-.create .btn-add {
-    font-size: 50px;
-    color: #ccc;
-    background-color: #EDEEF0;
-    padding: 5px 25px;
-}
 .create .upload-img *{
     vertical-align: middle;
 }
 .create .btn-submit {
     bottom: 0px;
-    position: absolute;
+    position: fixed;
     background: #ECEEF0;
     padding:15px 0;
     width: 100%;
 }
 .create .row .priority {
     float: left;
-    margin-left: -15px;
+    margin-left: -2px;
+    padding: 0 0px;
+}
+.create .selected-list {
+    text-align: center;
+}
+.create .selected-list * {
+    vertical-align: middle;
+}
+.create .selected-list img{
+    height: 50px;
+    width: 50px;
+    border-radius:24px;
 }
 /*select person*/
 .select-person-related .left select {
@@ -348,8 +361,7 @@ li {
     position: absolute;
     right: 0;
 }
-
-.select-person-responsible .person-list .sub-nav li img {
+.person-list .sub-nav li img {
     border-radius: 29px;
     margin-right: 2px;
     height: 50px;
@@ -368,5 +380,13 @@ li {
     position: absolute;
     background: #ECEEF0;
     padding:15px 0;
+    width: 100%;
+}
+/* add-update */
+.add-update .modal-body .row {
+    padding: 10px;
+}
+/* select-project */
+.select-project .form-inline .form-control{
     width: 100%;
 }

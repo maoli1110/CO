@@ -5,7 +5,7 @@
 		  	<label for="" class="col-xs-2">协作名称：</label>
 		    <input type="text" class="col-xs-3" id="" placeholder="">
 		    <label for="" class="col-xs-2">负责人：</label>
-		    <input type="text" class="col-xs-3" id="" placeholder=""><span class="plus-icon" ng-click="selectPerson()">+</span>
+		    <input type="text" class="col-xs-3" id="" placeholder="" ng-model="responsiblePerson"><span class="plus-icon" ng-click="selectResponsible()">+</span>
 		</div>
 			
 		<div class="row">
@@ -35,7 +35,8 @@
 		<div class="row">
 			<label for="" class="col-xs-2">关联模型：</label>
 			<div class="list-inline">
-				<button class="btn btn-default">与工程关联</button>
+				<!-- <button class="btn btn-default" popover-placement="right" popover-trigger="'focus'" uib-popover-template="dynamicPopover.templateUrl">与工程关联</button> -->
+				<button class="btn btn-default" ng-click="linkProject()">与工程关联</button>
 				<button class="btn btn-default">与图上构建关联</button>
 				<button class="btn btn-default">与构建类别相关</button>
 			</div>
@@ -46,13 +47,23 @@
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">相关人员：</label>
-			<div><button class="btn btn-default">添加</button></div>
+			<div class="selected-list inline">
+				<ul class="inline" ng-repeat="item in sign">
+					<img src="{{item.avatar}}" alt="">
+					<li>{{item.username}}</li>
+				</ul>
+				<ul class="inline" ng-repeat="item in noSign">
+					<img src="{{item.avatar}}" alt="">
+					<li>{{item.username}}</li>
+				</ul>
+				<button class="btn btn-default" ng-click="selectRelated()">添加</button>
+			</div>
 		</div>
 		<!-- upload -->
 		<div class="row">
 			<label for="" class="col-xs-2">照片：</label>
 			<div class="upload-img">
-				<input class="upload-img" type="file" nv-file-select uploader="uploader" style="display:none;"/><br/>
+				<input class="upload-img" type="file" nv-file-select="" uploader="uploader" style="display:none;"/><br/>
 		        <ul class="list-inline inline">
 		            <li ng-repeat="item in uploader.queue">
 		                Name: <span ng-bind="item.file.name"></span><br/>
@@ -73,7 +84,16 @@
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">资料：</label>
-			<div><button class="btn btn-default btn-add">+</button></div>
+			<div class="upload-docs">
+				<input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
+				 <ul class="list-inline inline">
+		            <li ng-repeat="item in uploader1.queue">
+		                Name: <span ng-bind="item.file.name"></span><br/>
+		                <button ng-click="item.upload()">upload</button>
+		            </li>
+		        </ul>
+				<button class="btn btn-default btn-add" ng-click="docsUpload()">+</button>
+			</div>
 		</div>
 		<div class="btn-submit">
 			<div class="text-center">

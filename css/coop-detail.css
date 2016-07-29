@@ -1,3 +1,39 @@
+@media screen and (min-width: 320px) and (max-width: 768px){
+    .main img{
+    width: 70px;
+    height: 70px;
+    }
+    .data-list dl, .data-list dt, .data-list dd{
+        width: 70px;
+        height: 70px;
+    }
+    .data-list .show-icon {
+        width: 70px;
+    }
+    .data-list .show-icon span {
+        margin:0 5px;
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1920px){
+    .main img{
+    width: 100px;
+    height: 100px;
+    }
+    .data-list dl, .data-list dt, .data-list dd{
+        width: 100px;
+        height: 100px;
+    }
+    .data-list .show-icon {
+        width: 100px
+    }
+    .data-list .show-icon span {
+        margin: 7px 12px;
+    }
+}
+
+
 header{
     height:40px;
     background:#ddd;
@@ -17,12 +53,12 @@ header .close{
 .main{
     /*height:1000px;*/
     /*border:1px solid red;*/
+   position:relative;
+   overflow:hidden;
 }
 /*-------------------main_content---------------*/
 .main_content{
-    width: 90%;
     margin: 0 auto;
-    /*border: 1px solid #000;*/
 }
 /*------------------content_left-----------------*/
 .content_left{
@@ -54,15 +90,15 @@ header .close{
 }
 /*-------------proInfo-------------*/
 .proInfo{
-    width:93%;
+    width:95%;
     /*height:1000px;*/
     /*background:red;*/
     float:right;
 }
 .proInfo .pro_man{
-
+    padding-bottom: 10px;
     border-bottom:1px solid #ddd;
-    height:150px;
+    
 
 }
 .proInfo .pro_man .active{
@@ -72,10 +108,6 @@ header .close{
     margin-right: 13.5px;
     /*background: plum;*/
     float: left;
-}
-.active div{
-    margin-left:30px;
-
 }
 
 .active span{
@@ -88,8 +120,6 @@ header .close{
 }
 .active .btn{
     margin-top:10px;
-    width:130px;
-    margin-left:30px;
 }
 /*-------------detail(详情描述)--------------*/
 .textHeight{
@@ -108,7 +138,7 @@ header .close{
 }
 .Avatar .photo dl{
     height: 100px;
-    float:left;
+    display: inline-block;
     margin-right:30px;
     text-align:center;
     font-size:12px;
@@ -131,30 +161,24 @@ header .close{
 }
 /*-----------------------action--------------*/
 .action{
-    height:150px;
+    
     margin:20px 0;
     border-bottom:1px solid #ddd;
 }
 .action dl{
-    width:120px;
-    height:120px;
-    float:left;
+    display: inline-block;
     text-align:center;
     margin-right:10px;
 
 }
 .action dl dt{
-    width:100px;
-    height:100px;
     border:1px solid #ddd;
 }
 
 .action dl dt img{
-    width:100px;
-    height:100px;
+    
 }
 .action dl dd{
-    width:100px;
     margin-top:10px;
 }
 /*-------------reply---------------------------*/
@@ -162,11 +186,11 @@ header .close{
 margin:10px 0;
 }
 .reply .man_pic{
-    text-align:center;
-
+    text-align:left;
 }
 .reply .man_pic p{
     margin-top:10px;
+    margin-left: 8px;
 }
 .reply .man_pic img{
     width:50px;
@@ -188,12 +212,14 @@ margin:10px 0;
 }
 /*--------------------content_right---------------*/
 .content_right{
-    width:20%;
-    /*height:1000px;*/
+    min-width: 260px;
     float:right;
+	position:absolute;
+    top: 40px;
+	right:0;
+	background:#fff;
+	bottom:0;
 
-
-    /*background:red;*/
 }
 /*-------bttn(侧边栏样式)-----------------------------------*/
  .btn_box{
@@ -202,17 +228,22 @@ margin:10px 0;
     background:#6495ED;
     text-align:center;
      /*display:inline-block;*/
-     float:left;
-     border-radius: 5px;
+    position:absolute;
+    top: 40px;
+    right:16%;
+    float:left;
+    border-radius: 5px;
+    line-height: 74px;
 
 }
  .btn_box span{
-     font-size: 46px;
+     font-size: 30px;
      color: #fff;
+     line-height:none;
  }
  /*-------------------aside--------------------------*/
 .aside{
-    width:84%;
+    width:100%;
     /*border:1px solid red;*/
     float:right;
     /*position:absolute;*/
@@ -230,27 +261,36 @@ margin:10px 0;
 /*----------------state-----------------------*/
 .state{
     width: 82%;
-    border-left: 1px solid #6495ED;
-    height: auto;
     margin-left: 30px;
     margin-top: 20px;
-    position: relative;
-
+}
+.state::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0;
+    width: 2px;
+    height: 94%;
+    background: #6495ed;
 }
 .state ul{
-    width: 113%;
+    width: 100%;
     position: relative;
-    left: -14px;
+    left: -16px;
     top: 0;
-    float:left;
-    /*display:inline-block;*/
+    margin-left: 19px;
 
 }
 .state ul li{
     list-style:none;
     clear:both;
     margin-bottom:20px;
+    position:relative;
 
+}
+.state ul li:last-child{
+	 margin-bottom:0;
+	 
 }
 .state ul li .step{
     width:30px;
@@ -258,16 +298,18 @@ margin:10px 0;
     background:#6495ED;
     border-radius: 50%;
     display:inline-block;
+    position:absolute;
+    top:0;
+    left:-15px;
 
 }
 .state ul li .handle{
-    float: right;
     line-height: 30px;
     border: 1px solid #ddd;
     width: 82%;
     display:inline-block;
     border-radius: 5px;
-    text-align: center;
+    margin-left: 30px;
 
 }
 .icon_man{
@@ -285,12 +327,15 @@ margin:10px 0;
 }
 /*------------------footer---------------------*/
 .footer{
-
+	width:100%;
     height:50px;
     text-align:center;
     line-height:50px;
     background:#ECEEF0;
     clear:both;
+    position:fixed;
+    bottom:0;
+    left:0;
 }
 .footer .btn{
     margin:0 10px;
@@ -306,6 +351,12 @@ margin:10px 0;
     margin: 0 7px;
     color: #fff;
 }
-.data-list :hover .show-icon {
+.data-list :hover .show-icon{
     display: block;
+}
+.data-list dd {
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+    white-space: nowrap;/*强制不换行*/
+    height: 30px;
 }
