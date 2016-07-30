@@ -33,12 +33,12 @@
 			</select>
 		</div>
 		<div class="row">
-			<label for="" class="col-xs-2">关联模型：</label>
+			<label for="" class="col-xs-2">关联：</label>
 			<div class="list-inline">
 				<!-- <button class="btn btn-default" popover-placement="right" popover-trigger="'focus'" uib-popover-template="dynamicPopover.templateUrl">与工程关联</button> -->
-				<button class="btn btn-default" ng-click="linkProject()">与工程关联</button>
-				<button class="btn btn-default">与图上构建关联</button>
-				<button class="btn btn-default">与构建类别相关</button>
+				<button class="btn btn-default" ng-click="linkProject()">工程</button>
+				<button class="btn btn-default">图上构建</button>
+				<button class="btn btn-default">构建类别</button>
 			</div>
 		</div>
 		<div class="row">
@@ -48,11 +48,11 @@
 		<div class="row">
 			<label for="" class="col-xs-2">相关人员：</label>
 			<div class="selected-list inline">
-				<ul class="inline" ng-repeat="item in sign">
+				<ul class="inline" ng-repeat="item in related.sign">
 					<img src="{{item.avatar}}" alt="">
 					<li>{{item.username}}</li>
 				</ul>
-				<ul class="inline" ng-repeat="item in noSign">
+				<ul class="inline" ng-repeat="item in related.noSign">
 					<img src="{{item.avatar}}" alt="">
 					<li>{{item.username}}</li>
 				</ul>

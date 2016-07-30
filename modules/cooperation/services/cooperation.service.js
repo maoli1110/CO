@@ -19,7 +19,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     };
 
-    //获取项目部下对应的用户列表
+    //获取项目部下对应的联系人列表
     this.getUserList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'userList/' + params;
@@ -31,6 +31,20 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             });
         return delay.promise;
     }
+
+    //获取工程树节点
+    this.getProjectTree = function () {
+        var delay = $q.defer();
+        var url_join = url + 'projectTree/';
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+
     //获取协作详情列表
     this.getCollaboration = function (coid) {
         var delay = $q.defer();

@@ -20,12 +20,12 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            
+        <div class="row" style="max-height:600px;overflow:auto;">
+            <ul id="tree" class="ztree"></ul>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok1()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-primary confirm" type="button" ng-click="ok1()">确定</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

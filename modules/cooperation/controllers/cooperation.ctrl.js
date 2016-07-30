@@ -17,15 +17,21 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	});
     }
     //选择相关人
+    $scope.related = {};
     $scope.selectRelated = function () {
     	var modalInstance = $uibModal.open({
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/select_person_related.html',
-    		controller:'selectpersonCtrl'
+    		controller:'selectpersonCtrl',
+    		resolve:{
+    			items: function () {
+    				return $scope.related;
+    			}
+    		}
     	});
     	modalInstance.result.then(function (selectedItem) {
-    		$scope.noSign = selectedItem.noSign;
-    		$scope.sign = selectedItem.sign;
+    		$scope.related.noSign = selectedItem.noSign;
+    		$scope.related.sign = selectedItem.sign;
     	});
     }
     //与工程关联
@@ -33,9 +39,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	var modalInstance = $uibModal.open({
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/link_project.html',
-    		controller:'selectpersonCtrl'
+    		controller:'linkprojectCtrl'
     	});
     }
+
     //上传照片
     var uploader = $scope.uploader = new FileUploader({
             url: 'upload.php',
@@ -107,8 +114,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	
        
-}]).controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
-	function ($scope, $http, $uibModalInstance,Cooperation) {
+}]).controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items',
+	function ($scope, $http, $uibModalInstance,Cooperation,items) {
 		//选择负责人,联系人
 		//设置默认值
 		$scope.selectedOption = {};
@@ -121,15 +128,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
 		//获取项目部
 		Cooperation.getDeptInfo().then(function (data) {
-			console.log(data);
+			//console.log(data);
 			$scope.deptInfo.availableOptions = data;
 			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
 		});
 
-
-		$http.get('a.json').then(function (data) {
-			console.log(data.data)
-			$scope.userList = data.data;
+		//默认联系人列表 deptId = 1
+		Cooperation.getUserList(1).then(function (data) {
+			$scope.userList = data;
 		});
 
 		//切换项目部切换联系人
@@ -155,14 +161,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			//console.log();
 		}
 
-		//选择负责人点击确定按钮
-		$scope.ok = function () {
-			$uibModalInstance.close($scope.responsiblePerson);
-		}
-
-		$scope.cancel = function () {
-			$uibModalInstance.dismiss('cancel');
-		}
+		
 
 		//联系人可以多选
 		$scope.changeStaus = function (id, pid, user) {
@@ -180,6 +179,13 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		}
 
 		//选中的相关人
+		console.log(items);
+		if(items.length){
+			var a = [];
+			a.contact(items.noSign, item.sign);
+			console.log(a);
+		}
+		
 		$scope.relatedSelected = [];
 		$scope.addRelated = function (id, pid, current) {
 			$scope.relatedSelected.push(current);
@@ -221,11 +227,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
         //选择不需要签字的相关人
         var noSign = function () {
-	        angular.forEach(signSelected, function (value, key) {
-	        		nosignSelected = _.filter($scope.relatedSelected, function (o) {
-	        			return o.username != value.username
-	        		});
-	        });
+        	if(signSelected.length) {
+        		angular.forEach(signSelected, function (value, key) {
+		        		nosignSelected = _.filter($scope.relatedSelected, function (o) {
+		        			return o.username != value.username
+		        		});
+		        });
+        	} else {
+        		nosignSelected = $scope.relatedSelected;
+        	}
         }
 
         //选择相关人点击确定按钮
@@ -233,22 +243,65 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         	noSign: '',
         	sign: signSelected
         };
+
+        //选择负责人-确定按钮
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.responsiblePerson);
+		}
+		//选择相关人-确定按钮
 		$scope.ok1 = function () {
 			noSign();
 			trans_selected.noSign = nosignSelected;
 			$uibModalInstance.close(trans_selected);
 		}
 
-
-
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		}
 		
+}]).controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
+	function ($scope, $http, $uibModalInstance,Cooperation) {
+		var setting = {  
+			view:{
+				selectedMulti: false
+			},
+			callback:{
+				onClick: zTreeOnClick
+			}
+         };
+		$scope.projectTree = [];
+		//获取工程树
+		Cooperation.getProjectTree().then(function (data) {
+			console.log(data);
+			$scope.projectTree = data;
+			var treeObj = $.fn.zTree.init($("#tree"), setting, $scope.projectTree);
+			//全部打开
+			treeObj.expandAll(true);
+		});
+
+		function zTreeOnClick (event, treeId, treeNode) {
+			//点击工程
+			console.log('treeNode',treeNode);
+			if((treeNode.name === 'PDS内网测试') || (treeNode.name === '临时')) {
+				$('.confirm').attr('disabled', true);
+			} else {
+				$('.confirm').attr('disabled', false);
+			}
+	 	}
+
+	 	$scope.cancel = function () {
+	 		$uibModalInstance.dismiss('cancel');
+	 	}
+
+
+
 }]).controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$stateParams',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$stateParams) {
   		//根据ui-sref路由拿到对应的coid
 	   	var coid = $stateParams.coid;
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
-	   		console.log(data);
+	   		//console.log(data);
 	   		$scope.collaList = data;
 	   	});
 
