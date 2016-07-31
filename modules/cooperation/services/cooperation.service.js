@@ -19,7 +19,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     };
 
-    //获取项目部下对应的联系人列表
+    //获取项目部下对应的联系人列表€
     this.getUserList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'userList/' + params;

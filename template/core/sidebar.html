@@ -1,15 +1,9 @@
 <div style="width:250px;line-height:40px;background-color:#353943;color:#fff;";>2016年7月20 星期三</div>
-<ul class="">
-    <li ng-repeat="item in deptInfoList">
-        <a class="first-title" ng-click="a = !a">
-            <span> {{item.deptName}}（{{item.count}}）</span>
-        </a>
-        <ul class="sub-nav" uib-collapse="!a">
-            <li><a ui-sref="#"> 土建项目部1（30）</a></li>
-            <li><a ui-sref="#"> 土建项目部1（30）</a></li>
-            <li><a ui-sref="#"> 土建项目部1（30）</a></li>
-            <li><a ui-sref="#"> 土建项目部1（30）</a></li>
-            <li><a ui-sref="#"> 土建项目部1（30）</a></li>
-        </ul>
-    </li>
-</ul>
+<uib-accordion close-others="true">
+    <div uib-accordion-group class="panel-default" is-open="status.open">
+      <uib-accordion-heading>
+        I can have markup, too! <span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span>
+      </uib-accordion-heading>
+      This is just some content to illustrate fancy headings.
+    </div>
+</uib-accordion>
