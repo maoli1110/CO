@@ -10,14 +10,22 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	var modalInstance = $uibModal.open({
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/select_person_responsible.html',
-    		controller:'selectpersonCtrl'
+    		controller:'selectpersonCtrl',
+    		resolve:{
+    			items: function () {
+    				return [];
+    			}
+    		}
     	});
     	modalInstance.result.then(function (selectedItem) {
     		$scope.responsiblePerson = selectedItem;
     	});
     }
     //选择相关人
-    $scope.related = {};
+    $scope.related = {
+    	sign:[],
+    	noSign:[]
+    };
     $scope.selectRelated = function () {
     	var modalInstance = $uibModal.open({
     		backdrop : 'static',
@@ -180,13 +188,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
 		//选中的相关人
 		console.log(items);
-		if(items.length){
-			var a = [];
-			a.contact(items.noSign, item.sign);
-			console.log(a);
+		if(items.sign){
+			var a = items.sign.concat(items.noSign);
+			console.log('a',a);
 		}
 		
-		$scope.relatedSelected = [];
+		$scope.relatedSelected = a;
 		$scope.addRelated = function (id, pid, current) {
 			$scope.relatedSelected.push(current);
 			//数组去重
