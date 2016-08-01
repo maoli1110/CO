@@ -8,7 +8,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		 state('cooperation', {
 			url:"/cooperation",
 			templateUrl: 'template/cooperation/cooperation.html',
-			controller: 'manageCtrl',
+			controller: 'coopreationCtrl',
 			data: {
 				displayName: 'cooperation'
 			}
@@ -16,7 +16,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		.state('newcopper', {
 			'url':"/newcopper",
 			templateUrl: 'template/cooperation/newcopper.html',
-			controller: 'coopreationCtrl',
+			controller: 'newcoopreationCtrl',
 			data: {
 				displayName: 'newcopper'
 			}

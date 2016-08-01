@@ -2,15 +2,15 @@
     <div class="modal-header">
         <h3 class="modal-title">选择相关人</h3> 
     </div>
-    <div class="modal-body">
+    <div class="modal-body" copy-radio>
         <div class="row">
             <div class="col-xs-6 left">
                 <div class="row">
                     <div class="col-xs-6 select">
                          <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                     </div>
-                    <div class="col-xs-6">
-                        <input type="text" class="form-control" placeholder="Text input">
+                    <div class="col-xs-6 search">
+                        <input type="text" class="form-control" placeholder="Text input" ng-keypress="responsibleSearch($event)" ng-model="queryForm">
                     </div>
                 </div>
                 <div class="person-list">

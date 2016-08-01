@@ -1,17 +1,19 @@
 'use strict';
 
-angular.module('core').directive('copyRadio', function () {
+angular.module('core').directive('copyRadio', function ($timeout) {
 	return {
 		restrict: 'AE',
 		link: function (scope, ele, attr) {
+           
 			var checkObj= angular.element('.sub-nav li');
-			console.log(checkObj);
+			//console.log(checkObj);
 			checkObj.on('click', function () {
 				if($(this).find(':checkbox').prop('checked')){
 					$(this).siblings().find(':checkbox').prop('checked',false);
 					$(this).parent().parent().siblings().find(':checkbox').prop('checked', false);
 				}
 			})
+
 		}
 	};
 });

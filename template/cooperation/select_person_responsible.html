@@ -2,15 +2,15 @@
     <div class="modal-header">
         <h3 class="modal-title">选择负责人</h3>
     </div>
-    <div class="modal-body" copy-radio>
+    <div class="modal-body">
         <div class="row left">
             <div class="row">
                 <div class="col-xs-6 select">
                     <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                 </div>
                 <div class="col-xs-6">
-                    <input type="text" class="form-control" placeholder="Text input">
-                </div>
+                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索" ng-keypress="responsibleSearch($event)">
+                </div>  
             </div>
             <div class="row person-list">
                 <li ng-repeat="user in userList">
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button> 
         <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

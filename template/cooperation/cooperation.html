@@ -16,62 +16,135 @@
 					<button type="button" class="btn btn-default">搜索</button>
 				</div>
 				<div class="right">
-					<button type="button" class="btn btn-default">统计</button>
+					<button type="button" class="btn btn-default" id="comboBox_count" ng-click="data_countShow()">统计</button>
 					<button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
 				</div>
 				
 			</div>
 			</div>
+			<!--筛选框-->
+		<div class="comboBox">
 			<div class="row absol filter" ng-show="isCollapsed">
-				<div class="filter-table">
-					<form class="form-inline">
+			<div class="filter-table">
+				<form class="form-inline">
+					<div class="tabs">
 						<div class="checkbox">
-						    <label>
-						       <input type="checkbox">协作类型
-						    </label>
+							<label class="manage_title">
+								<input type="checkbox" class="comboBox_checkType">协作类型
+							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox dis">
 							<div class="rela">问题整改</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
+							<label class="absol">
+								<input type="checkbox" id="ComboBox_reform">
+							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox dis">
 							<div class="rela">阶段报告</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
+							<label class="absol">
+								<input type="checkbox">
+							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox dis">
 							<div class="checkbox">方案报审</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
+							<label class="absol">
+								<input type="checkbox">
+							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox dis">
 							<div class="rela">方案会签</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
+							<label class="absol">
+								<input type="checkbox">
+							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox dis">
 							<div class="rela">协作类型</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
+							<label class="absol">
+								<input type="checkbox">
+							</label>
 						</div>
-					</form>
-				</div>
+					</div>
+					<!--most(优先级)-->
+					<div class="tabs">
+						<div class="checkbox">
+							<label class="manage_title">
+								<input type="checkbox" class="comboBox_checkType " >协作类型
+							</label>
+						</div>
+						<div class="most_bj">
+							<div class="rela"><span>I</span></div>
+						</div>
+						<div class="most_bj">
+							<div class="rela"><span>II</span></div>
+						</div>
+						<div class="most_bj active">
+							<div class="rela"><span>III</span></div>
+						</div>
+					</div>
+					<!--marking标识-->
+					<div class="marking">
+						<div class="tabs">
+							<div class="checkbox">
+								<label class="manage_title">
+									<input type="checkbox" class="comboBox_checkType">协作类型
+								</label>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+						</div>
+						<!--2F-->
+						<div class="tabs mark_mar">
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+							<div class="most_bj">
+								<div class="rela"><span>质量安全</span></div>
+							</div>
+						</div>
+					</div>
+
+				</form>
+
 			</div>
-			
-			<div class="addcoo absol" ng-show="openSignal">
+		</div>
+		</div>
+		<!---->
+			<div class="addcoo absol overflow" ng-show="openSignal">
 				<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
 				<div class="row">
 					<div class="col-md-6"><a ng-click="trans()">问题整改</a></div><div class="col-md-6"><a href="">阶段性报告</a></div>
 				</div>
 			</div>
 			<div class="table-list">
-				<table class="table">
+				<table class="table" class="info_list">
 					<thead>
 						<tr>
 							<th>协助类型11111</th>
@@ -113,11 +186,68 @@
 						</tr>
 					</tbody>
 				</table>
+
 			</div>
+		<!--data_count-->
+			<div class="data_count">
+				<!--data_list-->
+				<div class="data_list overflow">
+					<!--data_every-->
+					<div class="data_every">
+						<div id="data_graph" class="data_graph"></div>
+						<div class="data_count data_titleInfo">
+							<ul>
+								<h4>优先级</h4>
+								<li><span class="data_raduis"></span><p>一级</p></li>
+								<li><span class="data_raduis"></span><p>二级</p></li>
+								<li><span class="data_raduis"></span><p>三级</p></li>
+							</ul>
+						</div>
+
+					</div>
+					<div class="data_every">
+						<div id="data_graph2" class="data_graph"></div>
+						<div class="data_count data_titleInfo">
+							<ul>
+								<h4>优先级</h4>
+								<li><span class="data_raduis"></span><p>一级</p></li>
+								<li><span class="data_raduis"></span><p>二级</p></li>
+								<li><span class="data_raduis"></span><p>三级</p></li>
+							</ul>
+						</div>
+
+					</div>
+					<div class="data_every" style="border-bottom:0">
+						<div id="data_graph3" class="data_graph"></div>
+						<div class="data_count data_titleInfo">
+							<ul>
+								<h4>优先级</h4>
+								<li><span class="data_raduis"></span><p>一级</p></li>
+								<li><span class="data_raduis"></span><p>二级</p></li>
+								<li><span class="data_raduis"></span><p>三级</p></li>
+							</ul>
+						</div>
+
+					</div>
+					<div class="data_every" style="border-bottom:0">
+						<div id="data_graph4" class="data_graph"></div>
+						<div class="data_count data_titleInfo">
+							<ul>
+								<h4>优先级</h4>
+								<li><span class="data_raduis"></span><p>一级</p></li>
+								<li><span class="data_raduis"></span><p>二级</p></li>
+								<li><span class="data_raduis"></span><p>三级</p></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
 			</div>
-		</div>
 	</div>
 </div>
+
+	<!--</div>-->
+<!--</div>-->
 <script type="text/javascript">
 	$('.selectpicker').selectpicker({
   style: 'btn-default',

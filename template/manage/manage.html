@@ -1,128 +1,471 @@
 <header ng-include="'template/core/header.html'"></header>
 <div class="main-container rela">
-	<div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
-	<div class="right-content">
-		<!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
-		<div class="container-fluid rela">
-			<div class="operation clearfix">
-				<div class="left">
-					<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
-					<select class="selectpicker">
-					  <option>Mustard</option>
-					  <option>Ketchup</option>
-					  <option>Relish</option>
-					</select>
-					<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-					<button type="button" class="btn btn-default">搜索</button>
-				</div>
-				<div class="right">
-					<button type="button" class="btn btn-default">统计</button>
-					<button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
-				</div>
-				
-			</div>
-			</div>
-			<div class="row absol filter" ng-show="isCollapsed">
-				<div class="filter-table">
-					<form class="form-inline">
-						<div class="checkbox">
-						    <label>
-						       <input type="checkbox">协作类型
-						    </label>
-						</div>
-						<div class="checkbox">
-							<div class="rela">问题整改</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
-						</div>
-						<div class="checkbox">
-							<div class="rela">阶段报告</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
-						</div>
-						<div class="checkbox">
-							<div class="checkbox">方案报审</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
-						</div>
-						<div class="checkbox">
-							<div class="rela">方案会签</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
-						</div>
-						<div class="checkbox">
-							<div class="rela">协作类型</div>
-						    <label class="absol">
-						       <input type="checkbox">
-						    </label>
-						</div>
-					</form>
-				</div>
-			</div>
-			
-			<div class="addcoo absol" ng-show="openSignal">
-				<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
-				<div class="row">
-					<div class="col-md-6"><a ng-click="trans()">问题整改</a></div><div class="col-md-6"><a href="">阶段性报告</a></div>
-				</div>
-			</div>
-			<div class="table-list">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>协助类型11111</th>
-							<th>主题</th>
-							<th>负责人</th>
-							<th>优先级</th>
-							<th>当前状态</th>
-							<th>标识</th>
-							<th>期限</th>
-							<th>最后操作时间</th>
-							<th>操作人</th>
-							<th>详情</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><div>问题整改</div></td>
-							<td>安全监理工程师通知单</td>
-							<td>贾吉祥</td>
-							<td>1</td>
-							<td>确认中</td>
-							<td>质量</td>
-							<td>未超期</td>
-							<td>2016-15-15 14:00</td>
-							<td>贾吉祥</td>
-							<td>详情</td>
-						</tr>
-						<tr>
-							<td><div>问题整改</div></td>
-							<td>安全监理工程师通知单</td>
-							<td>贾吉祥</td>
-							<td>1</td>
-							<td>确认中</td>
-							<td>质量</td>
-							<td>未超期</td>
-							<td>2016-15-15 14:00</td>
-							<td>贾吉祥</td>
-							<td>详情</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			</div>
-		</div>
-	</div>
+    <div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
+    <div class="right-content">
+        <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
+        <div class="container-fluid rela">
+            <div class="operation clearfix">
+                <div class="left">
+                    <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
+                    <select class="selectpicker">
+                        <option>Mustard</option>
+                        <option>Ketchup</option>
+                        <option>Relish</option>
+                    </select>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                    <button type="button" class="btn btn-default">搜索</button>
+                </div>
+                <div class="right">
+                    <button type="button" class="btn btn-default">统计</button>
+                    <button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
+                </div>
+            </div>
+        </div>
+        <!--筛选框-->
+        <div class="comboBox">
+            <div class="row absol filter" ng-show="isCollapsed">
+                <div class="filter-table">
+                    <form class="form-inline">
+                        <div class="tabs">
+                            <div class="checkbox">
+                                <label class="manage_title">
+                                    <input type="checkbox" class="comboBox_checkType">协作类型
+                                </label>
+                            </div>
+                            <div class="checkbox dis">
+                                <div class="rela">问题整改</div>
+                                <label class="absol">
+                                    <input type="checkbox" id="ComboBox_reform">
+                                </label>
+                            </div>
+                            <div class="checkbox dis">
+                                <div class="rela">阶段报告</div>
+                                <label class="absol">
+                                    <input type="checkbox">
+                                </label>
+                            </div>
+                            <div class="checkbox dis">
+                                <div class="checkbox">方案报审</div>
+                                <label class="absol">
+                                    <input type="checkbox">
+                                </label>
+                            </div>
+                            <div class="checkbox dis">
+                                <div class="rela">方案会签</div>
+                                <label class="absol">
+                                    <input type="checkbox">
+                                </label>
+                            </div>
+                            <div class="checkbox dis">
+                                <div class="rela">协作类型</div>
+                                <label class="absol">
+                                    <input type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <!--most(优先级)-->
+                        <div class="tabs">
+                            <div class="checkbox">
+                                <label class="manage_title">
+                                    <input type="checkbox" class="comboBox_checkType">协作类型
+                                </label>
+                            </div>
+                            <div class="most_bj">
+                                <div class="rela"><span>I</span></div>
+                            </div>
+                            <div class="most_bj">
+                                <div class="rela"><span>II</span></div>
+                            </div>
+                            <div class="most_bj active">
+                                <div class="rela"><span>III</span></div>
+                            </div>
+                        </div>
+                        <!--marking标识-->
+                        <div class="marking">
+                            <div class="tabs">
+                                <div class="checkbox">
+                                    <label class="manage_title">
+                                        <input type="checkbox" class="comboBox_checkType">协作类型
+                                    </label>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                            </div>
+                            <!--2F-->
+                            <div class="tabs mark_mar">
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                                <div class="most_bj">
+                                    <div class="rela"><span>质量安全</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="addcoo absol clearfix" ng-show="openSignal">
+            <div class="row"><span class="glyphicon glyphicon-remove align-right block close"
+                                   ng-click="closeNew()"></span></div>
+            <div class="row">
+                <div class="col-md-6"><a ng-click="trans()">问题整改</a></div>
+                <div class="col-md-6"><a href="">阶段性报告</a></div>
+            </div>
+        </div>
+        <div class="trends">
+            <div class="table-list rela clearfix">
+            <!--<table class="table">
+                <thead>
+                    <tr>
+                        <th>协助类型</th>
+                        <th>主题</th>
+                        <th>负责人</th>
+                        <th>优先级</th>
+                        <th>当前状态</th>
+                        <th>标识</th>
+                        <th>期限</th>
+                        <th>最后操作时间</th>
+                        <th>操作人</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><div>问题整改</div></td>
+                        <td>安全监理工程师通知单</td>
+                        <td>贾吉祥</td>
+                        <td>1</td>
+                        <td>确认中</td>
+                        <td>质量</td>
+                        <td>未超期</td>
+                        <td>2016-15-15 14:00</td>
+                        <td>贾吉祥</td>
+                    </tr>
+                    <tr>
+                        <td><div>问题整改</div></td>
+                        <td>安全监理工程师通知单</td>
+                        <td>贾吉祥</td>
+                        <td>1</td>
+                        <td>确认中</td>
+                        <td>质量</td>
+                        <td>未超期</td>
+                        <td>2016-15-15 14:00</td>
+                        <td>贾吉祥</td>
+                    </tr>
+                </tbody>
+            </table>-->
+
+            <div class="goods_pro">
+
+                <div class="right_Content clearfix">
+                    <!--<div class="tools"></div>-->
+                    <div class="content clearfix">
+                        <!--商品展示-->
+                        <div class="good_list clearfix">
+                            <!--商品1F-->
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <!--商品1F-->
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <!--商品1F-->
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img src="imgs/icon_ion.png">
+                                <p>钢结构平台</p>
+                                </dt>
+                                <dd>
+                                    <div class="box"><img src="imgs/img01.png"></div>
+                                    <p>资料更新</p>
+                                    <p><b>10</b>/10</p>
+                                </dd>
+                            </dl>
+
+                        </div>
+
+                        <!--商品列表展示页面-->
+                        <div class="pro_list clearfix">
+                            <!--list-->
+                            <!--<div class="top_slide_wrap">-->
+                            <!--<div class="bx-wrapper">-->
+                            <!--<div class="showImg">-->
+                            <!--<ul class="slide_box">-->
+                            <!--<li><a href="#"><img src="show/0/1.jpg" alt=""></a></li>-->
+                            <!--<li><a href="#"><img src="show/0/2.jpg" alt=""></a></li>-->
+                            <!--<li><a href="#"><img src="show/0/3.jpg" alt=""></a></li>-->
+                            <!--<li><a href="#"><img src="show/0/4.jpg" alt=""></a></li>-->
+                            <!--</ul>-->
+                            <!--<span class="turnDown"><img src="img/close.png" style="width:30px;height:30px;"></span>-->
+                            <!--<a class="options pre" href="javascript:;" data-drec="pre"><i-->
+                            <!--class="pre"></i></a>-->
+                            <!--<a class="options next" href="javascript:;" data-drex="next"><i-->
+                            <!--class="next"></i></a>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <ul class="list">
+                                <li>
+                                    <!--icon_img-->
+                                    <div class="icon_img"><img src="imgs/icon_img.png"></div>
+                                    <!--工程师资料-->
+                                    <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
+                                    <div class="bx-controls">
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!--icon_img-->
+                                    <div class="icon_img"><img src="imgs/icon_img.png"></div>
+                                    <!--工程师资料-->
+                                    <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
+                                    <div class="bx-controls">
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!--icon_img-->
+                                    <div class="icon_img"><img src="imgs/icon_img.png"></div>
+                                    <!--工程师资料-->
+                                    <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
+                                    <div class="bx-controls">
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                        <div class="img_list actives">
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="bar">
+                                                <img src="imgs/iocn_search.png" />
+                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_add.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!--图片选择器-->
+    <div class="top_slide_wrap">
+        <div class="bx-wrapper">
+            <div class="showImg">
+                <ul class="slide_box">
+                    <li>
+                        <a href="#"><img src="imgs/show/0/1.jpg" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>
+                    </li>
+                </ul>
+                <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;"></span>
+                <a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>
+                <a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+<div class="mask"></div>
+<script src="js/goods.js"></script>
 <script type="text/javascript">
-	$('.selectpicker').selectpicker({
-  style: 'btn-default',
-  size: 'auto'
-});
+    $('.selectpicker').selectpicker({
+        style: 'btn-default',
+        size: 'auto'
+    });
 </script>
 
 

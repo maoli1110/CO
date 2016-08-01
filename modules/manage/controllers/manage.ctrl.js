@@ -31,7 +31,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     })
     //获取工程列表
     Manage.getProjectInfoList().then(function (data) {
-        console.log(data);
+        //console.log(data);
         $scope.projectInfoList = data;
     });
     $scope.getProjectList = function (index) {

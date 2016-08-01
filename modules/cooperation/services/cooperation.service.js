@@ -23,7 +23,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getUserList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'userList/' + params;
-        $http.get('a.json')
+        $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -44,7 +44,17 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             });
         return delay.promise;
     }
-
+    //获取构件
+    this.getFloorCompClassList = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'floorCompClassList';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
     //获取协作详情列表
     this.getCollaboration = function (coid) {
         var delay = $q.defer();

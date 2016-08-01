@@ -1,0 +1,130 @@
+
+/*form(筛选框)*/
+
+.comboBox .filter-table form{
+	padding:10px 0;
+	float:left;
+	height:auto;
+}
+.comboBox .filter-table form .checkbox .manage_title .comboBox_checkType{
+	float: left;
+	margin-top: 2px;
+	margin-right:5px;
+}
+.comboBox .filter-table .manage_title{
+	clear:both;
+	margin:0 10px;
+}
+
+
+.comboBox .filter-table .dis{
+	margin-right:10px;
+}
+/*tabs*/
+.comboBox .filter-table .tabs{
+	margin:20px 0;
+	clear:both;
+}
+.comboBox .filter-table .marking{
+	clear:both;
+}
+.comboBox .filter-table .tabs .most_bj{
+    height: 30px;
+    line-height: 30px;
+    width: 80px;
+    text-align: center;
+    background:#fff;
+    border:1px solid #ddd;
+    display: inline-block;
+    margin-right: 10px;
+}
+.comboBox .filter-table .mark_mar{
+	margin-left: 81.3px;
+}
+.comboBox .filter-table .tabs .active{
+	background:#666;
+}
+
+/*data_count(数据统计页面)*/
+
+/*table-list*/
+.table-list{
+	overflow:hidden;
+}
+/*data_count*/
+.data_count{
+	display:none;
+	height:auto;
+}
+.data_count .overflow{
+	overflow:auto;
+	zoom:1;
+}
+/*data_every*/
+.data_count .data_every{
+	width:50%;
+	border-right:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	float:left;
+	height:300px;
+	margin-bottom:10px;
+
+}
+.data_count .data_every .data_titleInfo{
+	width: 25%;
+	height: 70%;
+	float: right;
+	margin-top: 47px;
+	margin-right:15px;
+
+}
+.data_count .data_every .data_titleInfo ul h4{
+	font-weight:normal;
+	line-height:40px;
+	border-bottom:1px solid #ddd;
+	padding:0 20px;
+}
+.data_count .data_every .data_titleInfo ul{
+	background:#F9F9FA;
+	border:1px solid #ddd;
+}
+.data_count .data_every .data_titleInfo ul li{
+	line-height:40px;
+	padding:0 30px;
+}
+.data_count .data_every .data_titleInfo ul li:last-child{
+	padding-bottom:20px;
+}
+.data_count .data_every .data_graph{
+	width:300px;
+	height:300px;
+	float:left;
+	margin-left:60px;
+}
+/*data_titleInfo（内圈的颜色）*/
+.data_count .data_every .data_titleInfo ul li:nth-of-type(1) span{
+	border: 4px solid #E6D055;
+}
+.data_count .data_every .data_titleInfo ul li:nth-of-type(2) span{
+	border: 4px solid #73CC6C;
+}
+.data_count .data_every .data_titleInfo ul li:nth-of-type(3) span{
+	border: 4px solid #5887FD;
+}
+.data_count .data_every .data_titleInfo ul li .data_raduis{
+	width: 20px;
+	height: 20px;
+	border: 4px solid #E6D055;
+	border-radius: 50%;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-top: 12px;
+}
+
+/*data_graph*/
+.data_count .data_count .data_graph{
+	width:300px;
+	height:300px;
+}
+
