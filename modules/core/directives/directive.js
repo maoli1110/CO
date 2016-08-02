@@ -13,7 +13,19 @@ angular.module('core').directive('copyRadio', function ($timeout) {
 					$(this).parent().parent().siblings().find(':checkbox').prop('checked', false);
 				}
 			})
-
+            //点击新建协作把统计页面给关闭
+            $(".new_cooper").click(function(){
+                alert(123)
+                $(".data_count").hide();
+            })
+            //点击返回按钮关闭当前对话框
+            $(".data_back").click(function(){
+                $(".data_count").hide();
+                $(".table-list").show();
+            })
+            //项目列表的高度等于窗口的高度
+            console.info($(".trends").height())
+            $(".panel-group").height($("body").height()).css({"overflow":"auto"})
 		}
 	};
 });
@@ -31,6 +43,7 @@ angular.module('core').directive('showIcon', function () {
                     $(this).parent().parent().siblings().find(':checkbox').prop('checked', false);
                 }
             })
+
         }
     };
 });

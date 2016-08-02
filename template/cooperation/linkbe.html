@@ -1,0 +1,43 @@
+<div class="linkbe">
+    <div class="modal-header">
+        <h3 class="modal-title">选择BE资料</h3> 
+    </div>
+    <div class="modal-body" copy-radio>
+        <div class="row">
+            <div class="col-xs-6 left">
+                <div class="select">
+                    <label for="">项目：</label>
+                    <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchDept(selectedOption)"></select>
+                </div>
+                <div class="select">
+                    <label for="">工程：</label>
+                    <select name="" id="" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-click="switchDept(selectedOption)"></select>
+                </div>
+                <div class="person-list" style="min-height:600px;overflow:auto;">
+                    <ul id="tree" class="ztree"></ul>
+                </div>
+            </div>
+            <div class="col-xs-6 right">
+                <div class="clearfix">
+                    <div class="pull-left"><input type="checkbox"><span>共{{}}资料</span></div>
+                    <div class="pull-right"><input type="text" palceholder="搜索"></div>
+                </div>
+                <div>
+                    <table class="table">
+                        <tbody>
+                            <tr ng-repeat="row in docList">
+                                <td><input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"></td>
+                                <td>{{row.docName}}</td>
+                                <td>{{row.uploader}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

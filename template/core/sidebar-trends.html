@@ -1,0 +1,13 @@
+<div style="width:250px;line-height:40px;background-color:#353943;color:#fff;";>2016年7月20 星期三</div>
+<uib-accordion close-others="true" copy-radio>
+    <div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="deptInList in deptInfoList" ng-click="childItems(deptInList.deptId)">
+      <uib-accordion-heading >
+       {{deptInList.deptName}} <span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span>
+      </uib-accordion-heading>
+      <div ng-repeat="getProList in projectInfoList" class="manage_proList" ng-click="trentsList(getProList.ppid)">
+          <!--111111-->
+          {{getProList.projectName}}
+      </div>
+    </div>
+</uib-accordion>
+

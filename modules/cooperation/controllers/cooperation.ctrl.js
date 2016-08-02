@@ -9,18 +9,25 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     
     $scope.openNew = function () {
     	$scope.openSignal = true;
+    	Cooperation.getTypeList().then(function (data) {
+    		console.log(data);
+    		$scope.typeList = data;
+    	});
     }
 
     $scope.closeNew = function () {
     	$scope.openSignal = false;
     }
 
-    $scope.trans = function () {
-    	var url = $state.href('newcopper', {parameter: "parameter"});
+    $scope.trans = function (typeId) {
+
+    	var url = $state.href('newcopper', {typeid: typeId});
 		window.open(url,'_blank');
         //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
     }
 
+    //获取类型列表
+    
 	//统计页面
 	var comboxCount = $("#comboBox_count");
 	comboxCount.on("click",function(){

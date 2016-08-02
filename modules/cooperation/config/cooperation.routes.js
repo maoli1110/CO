@@ -14,7 +14,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			}
 		})
 		.state('newcopper', {
-			'url':"/newcopper",
+			'url':"/newcopper/:typeid",
 			templateUrl: 'template/cooperation/newcopper.html',
 			controller: 'newcoopreationCtrl',
 			data: {

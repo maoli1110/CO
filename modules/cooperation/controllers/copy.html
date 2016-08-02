@@ -23,9 +23,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     //优先级默认值 
     $scope.priority = 1;
     $scope.linkOpenSignal = true;
-    $scope.linkProject1 =false;
-    $scope.linkComponent1 = false;
-    $scope.linkCategoty1 =false;
     console.log($stateParams.typeid);
    
     //选择负责人
@@ -71,14 +68,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     	var modalInstance = $uibModal.open({
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/link_project.html',
-    		controller:'linkprojectCtrl'
+    		controller:''
     	});
     	modalInstance.result.then(function (linkProjectSelected) {
     		$scope.linkProjectSelected = linkProjectSelected;
     		console.log($scope.linkProjectSelected);
     		if(linkProjectSelected.name){
     			$scope.linkOpenSignal = false;
-    			$scope.linkProject1 = true;
     		}
     	});
     }
@@ -98,14 +94,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/link_component_category.html',
     		controller:'linkcategoryCtrl'
-    	});
-    	modalInstance.result.then(function (selectedCategory) {
-    		$scope.selectedCategory = selectedCategory;
-    		console.log($scope.selectedCategory);
-    		if(selectedCategory.length){
-    			$scope.linkOpenSignal =false;
-    			$scope.linkCategoty1 = true;
-    		}
     	});
     }
     //删除关联
@@ -420,7 +408,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			$uibModalInstance.dismiss('cancel');
 		}
 		
-}]).controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
+}]).controller('',['$scope', '$http', '$uibModalInstance','Cooperation',
 	function ($scope, $http, $uibModalInstance,Cooperation) {
 		var linkProjectSelected = [];
 		var ppid,projType;
@@ -500,89 +488,62 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 }]).controller('linkcategoryCtrl',['$scope', '$http', '$uibModal', '$uibModalInstance','Cooperation',
 	 function ($scope, $http, $uibModal, $uibModalInstance, Cooperation) {
 	 	$scope.openSignal = true;
- 		var setting = { 
+
+	 	if($scope.openSignal) {
+	 		var setting = {  
 			view:{
 				selectedMulti: false
 			},
 			callback:{
 				onClick: zTreeOnClick
 			}
-    	};
-		$scope.projectTree = [];
-		var selectedProject =  {};
-		var ppid,projType;
-		var selectedNodes;
-		//获取工程树
-		Cooperation.getProjectTree().then(function (data) {
-			console.log(data);
-			$scope.projectTree = data;
-			var treeObj = $.fn.zTree.init($("#tree"), setting, $scope.projectTree);
-			//全部打开
-			treeObj.expandAll(true);
-		});
-
-		function zTreeOnClick (event, treeId, treeNode) {
-			//点击工程
-			console.log('treeNode',treeNode);
-			selectedProject =  treeNode;
-			if((treeNode.name === 'PDS内网测试') || (treeNode.name === '临时')) {
-				$('.confirm').attr('disabled', true);
-			} else {
-				$('.confirm').attr('disabled', false);
-			}
-	 	}
-	 	
-	 	$scope.ok = function () {
-	 		ppid = selectedProject.value.split('-')[1];
-	 		projType = selectedProject.value.split('-')[0];
-	 		console.log(ppid,projType);
-	 		var obj = {ppid:ppid, projType:projType};
-	 		var params = JSON.stringify(obj);
-
-	 		$scope.openSignal = false;
-
-	 		var setting1 = {  
-				view:{
-					selectedMulti: false
-				},
-				check: {
-					enable: true
-				},
-				callback:{
-					onCheck: onCheck
-				}
-	         };
+         };
 			$scope.projectTree = [];
+			var selectedProject =  {};
+			var ppid,projType;
 			//获取工程树
-			Cooperation.getFloorCompClassList(params).then(function (data) {
+			Cooperation.getProjectTree().then(function (data) {
 				console.log(data);
 				$scope.projectTree = data;
-				var treeObj = $.fn.zTree.init($("#tree1"), setting1, $scope.projectTree);
+				var treeObj = $.fn.zTree.init($("#tree"), setting, $scope.projectTree);
 				//全部打开
 				treeObj.expandAll(true);
-
 			});
-			
-			function onCheck (event, treeId, treeNode) {
-				var treeObj = $.fn.zTree.getZTreeObj("tree1");
-				selectedNodes = treeObj.getCheckedNodes(true);
-				console.log(selectedNodes);
-		 	}
-	 	}
 
-	 	$scope.ok1 = function () {
-	 		//传递参数
-	 		var  selectedCategory = [];
-	 		angular.forEach(selectedNodes, function(value, key) {
-	 			var a = {}
-	 			a.ppid=ppid;
-	 			a.projType = projType;
-	 			a.name = value.name;
-	 			selectedCategory.push(a);
-	 		});
-	 		console.log('selectedCategory',selectedCategory);
-	 		$uibModalInstance.close(selectedCategory);
-	 	}
+			function zTreeOnClick (event, treeId, treeNode) {
+				//点击工程
+				console.log('treeNode',treeNode);
+				selectedProject =  treeNode;
+				if((treeNode.name === 'PDS内网测试') || (treeNode.name === '临时')) {
+					$('.confirm').attr('disabled', true);
+				} else {
+					$('.confirm').attr('disabled', false);
+				}
+		 	}
+		 	
+		 	$scope.ok = function () {
+		 		ppid = selectedProject.value.split('-')[1];
+		 		projType = selectedProject.value.split('-')[0];
+		 		console.log(ppid,projType);
+		 		var params = {ppid:ppid, projType:projType}
+		 		$uibModalInstance.close();
+		 		var modalInstance = $uibModal.open({
+					backdrop : 'static',
+		    		templateUrl: 'template/cooperation/link_component_category.html',
+		    		controller:'openedProjectCtrl',
+		    		resolve:{
+		    			items: function () {
+		    				return params;
+		    			}
+		    		}
+				});
+		 	}
+
+		 } else {
+
+		 }
+
+	 	
 
 	 	$scope.cancel = function () {
 	 		$uibModalInstance.dismiss('cancel');

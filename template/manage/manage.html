@@ -1,6 +1,6 @@
 <header ng-include="'template/core/header.html'"></header>
 <div class="main-container rela">
-    <div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
+    <div class="sidebar absol" ng-include="'template/core/sidebar-trends.html'"></div>
     <div class="right-content">
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
         <div class="container-fluid rela">
@@ -144,7 +144,7 @@
                 <div class="col-md-6"><a href="">阶段性报告</a></div>
             </div>
         </div>
-        <div class="trends">
+        <div class="trends clearfix">
             <div class="table-list rela clearfix">
             <!--<table class="table">
                 <thead>
@@ -186,7 +186,7 @@
                 </tbody>
             </table>-->
 
-            <div class="goods_pro">
+            <div class="goods_pro clearfix">
 
                 <div class="right_Content clearfix">
                     <!--<div class="tools"></div>-->
@@ -194,107 +194,107 @@
                         <!--商品展示-->
                         <div class="good_list clearfix">
                             <!--商品1F-->
-                            <dl>
+                            <dl ng-repeat="trentsLiInfo in trentsCount">
                                 <dt>
                                     <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
+                                <p>{{trentsLiInfo.projectType}}</p>
                                 </dt>
                                 <dd>
                                     <div class="box"><img src="imgs/img01.png"></div>
                                     <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
+                                    <p><b>{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <!--商品1F-->
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <!--商品1F-->
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>
-                                    <img src="imgs/icon_ion.png">
-                                <p>钢结构平台</p>
-                                </dt>
-                                <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>10</b>/10</p>
-                                </dd>
-                            </dl>
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--&lt;!&ndash;商品1F&ndash;&gt;-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--&lt;!&ndash;商品1F&ndash;&gt;-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
+                            <!--<dl>-->
+                                <!--<dt>-->
+                                    <!--<img src="imgs/icon_ion.png">-->
+                                <!--<p>钢结构平台</p>-->
+                                <!--</dt>-->
+                                <!--<dd>-->
+                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
+                                    <!--<p>资料更新</p>-->
+                                    <!--<p><b>10</b>/10</p>-->
+                                <!--</dd>-->
+                            <!--</dl>-->
 
                         </div>
 
@@ -462,10 +462,12 @@
 <div class="mask"></div>
 <script src="js/goods.js"></script>
 <script type="text/javascript">
+
     $('.selectpicker').selectpicker({
         style: 'btn-default',
         size: 'auto'
     });
+
 </script>
 
 

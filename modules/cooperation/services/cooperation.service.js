@@ -32,10 +32,45 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 
+    //获取项目部下工程列表（BE）
+    this.getProjectList = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'projectList/' + params;
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+    //选择BE资料-工程所属资料标签树
+    this.getDocTagList = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'docTagList/' + params;
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+    //获取工程对应资料列表
+    this.getDocList = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'docList';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
     //获取工程树节点
     this.getProjectTree = function () {
         var delay = $q.defer();
-        var url_join = url + 'projectTree/';
+        var url_join = url + 'projectTree';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -67,5 +102,43 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             });
         return delay.promise;
     };
+
+    //获取类型列表
+    this.getTypeList = function () {
+        var delay = $q.defer();
+        var url_join= url + 'typeList';
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+
+    //获取选择表单列表
+    this.getTemplateNode = function (params) {
+        var delay = $q.defer();
+        var url_join= url + 'template/' + params;
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+
+    //创建协作
+    this.createCollaboration = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'collaboration';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
 
 });
