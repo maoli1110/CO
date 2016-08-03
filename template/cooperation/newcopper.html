@@ -26,10 +26,7 @@
 		</div>
 		<div class="row">
 			<label class="col-xs-2">标识：</label>
-		  	<select class="selectpicker">
-			  	<option>Mustard</option>
-			  	<option>Ketchup</option>
-			  	<option>Relish</option>
+		  	<select ng-model="mark" ng-options="item.picMarker for item in markerList" ng-click="switchMark(mark)">
 			</select>
 		</div>
 		<div class="row">
@@ -47,24 +44,28 @@
 				<span>图上构件：{{linkProjectSelected.name}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
 			</div>
 			<div ng-show="linkCategoty1">
-				<span ng-repeat="items in selectedCategory">构件类别：{{items.name}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
+				构件类别：<span ng-repeat="items in linkProjectSelected track by $index" style="margin-left:20px;">{{items.compClass}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
 			</div>
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">描述：</label>
-			<textarea class="col-xs-6" rows="4"></textarea>
+			<textarea class="col-xs-6" rows="4" ng-model="desc"></textarea>
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">相关人员：</label>
 			<div class="selected-list inline">
-				<ul class="inline" ng-repeat="item in related.sign">
-					<img src="{{item.avatar}}" alt="">
-					<li>{{item.username}}</li>
-				</ul>
-				<ul class="inline" ng-repeat="item in related.noSign">
-					<img src="{{item.avatar}}" alt="">
-					<li>{{item.username}}</li>
-				</ul>
+				<div class="inline">
+					<ul class="inline" ng-repeat="item in related.sign">
+						<img src="{{item.avatar}}" alt="">
+						<li>{{item.username}}</li>
+					</ul>
+				</div>
+				<div class="inline" style="border-left:1px solid #ccc;">
+					<ul class="inline" ng-repeat="item in related.noSign">
+						<img src="{{item.avatar}}" alt="">
+						<li>{{item.username}}</li>
+					</ul>
+				</div>
 				<button class="btn btn-default" ng-click="selectRelated()">添加</button>
 			</div>
 		</div>
@@ -109,6 +110,11 @@
 			<div>
 				<ul ng-repeat="items in docSelectedList">
 					<li>{{items.docName}}</li>
+				</ul>
+			</div>
+			<div>
+				<ul ng-repeat="items in formSelectedList">
+					<li>{{items.name}}</li>
 				</ul>
 			</div>
 			<div class="upload-docs">

@@ -1,4 +1,5 @@
 <header ng-include="'template/core/header.html'"></header>
+
 <div class="main-container rela">
     <div class="sidebar absol" ng-include="'template/core/sidebar-trends.html'"></div>
     <div class="right-content">
@@ -146,178 +147,31 @@
         </div>
         <div class="trends clearfix">
             <div class="table-list rela clearfix">
-            <!--<table class="table">
-                <thead>
-                    <tr>
-                        <th>协助类型</th>
-                        <th>主题</th>
-                        <th>负责人</th>
-                        <th>优先级</th>
-                        <th>当前状态</th>
-                        <th>标识</th>
-                        <th>期限</th>
-                        <th>最后操作时间</th>
-                        <th>操作人</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><div>问题整改</div></td>
-                        <td>安全监理工程师通知单</td>
-                        <td>贾吉祥</td>
-                        <td>1</td>
-                        <td>确认中</td>
-                        <td>质量</td>
-                        <td>未超期</td>
-                        <td>2016-15-15 14:00</td>
-                        <td>贾吉祥</td>
-                    </tr>
-                    <tr>
-                        <td><div>问题整改</div></td>
-                        <td>安全监理工程师通知单</td>
-                        <td>贾吉祥</td>
-                        <td>1</td>
-                        <td>确认中</td>
-                        <td>质量</td>
-                        <td>未超期</td>
-                        <td>2016-15-15 14:00</td>
-                        <td>贾吉祥</td>
-                    </tr>
-                </tbody>
-            </table>-->
-
             <div class="goods_pro clearfix">
 
                 <div class="right_Content clearfix">
                     <!--<div class="tools"></div>-->
                     <div class="content clearfix">
                         <!--商品展示-->
-                        <div class="good_list clearfix">
+                        <div class="good_list clearfix" >
                             <!--商品1F-->
-                            <dl ng-repeat="trentsLiInfo in trentsCount">
+                            <dl ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage()">
                                 <dt>
                                     <img src="imgs/icon_ion.png">
                                 <p>{{trentsLiInfo.projectType}}</p>
                                 </dt>
                                 <dd>
-                                    <div class="box"><img src="imgs/img01.png"></div>
-                                    <p>资料更新</p>
-                                    <p><b>{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
+                                    <div class="box"><img src="imgs/img_build.png"></div>
+                                    <div class=" data_update">
+                                        <p >资料更新</p>
+                                        <p><b>{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
+                                    </div>
                                 </dd>
                             </dl>
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--&lt;!&ndash;商品1F&ndash;&gt;-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--&lt;!&ndash;商品1F&ndash;&gt;-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-                            <!--<dl>-->
-                                <!--<dt>-->
-                                    <!--<img src="imgs/icon_ion.png">-->
-                                <!--<p>钢结构平台</p>-->
-                                <!--</dt>-->
-                                <!--<dd>-->
-                                    <!--<div class="box"><img src="imgs/img01.png"></div>-->
-                                    <!--<p>资料更新</p>-->
-                                    <!--<p><b>10</b>/10</p>-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-
                         </div>
 
                         <!--商品列表展示页面-->
                         <div class="pro_list clearfix">
-                            <!--list-->
-                            <!--<div class="top_slide_wrap">-->
-                            <!--<div class="bx-wrapper">-->
-                            <!--<div class="showImg">-->
-                            <!--<ul class="slide_box">-->
-                            <!--<li><a href="#"><img src="show/0/1.jpg" alt=""></a></li>-->
-                            <!--<li><a href="#"><img src="show/0/2.jpg" alt=""></a></li>-->
-                            <!--<li><a href="#"><img src="show/0/3.jpg" alt=""></a></li>-->
-                            <!--<li><a href="#"><img src="show/0/4.jpg" alt=""></a></li>-->
-                            <!--</ul>-->
-                            <!--<span class="turnDown"><img src="img/close.png" style="width:30px;height:30px;"></span>-->
-                            <!--<a class="options pre" href="javascript:;" data-drec="pre"><i-->
-                            <!--class="pre"></i></a>-->
-                            <!--<a class="options next" href="javascript:;" data-drex="next"><i-->
-                            <!--class="next"></i></a>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</div>-->
                             <ul class="list">
                                 <li>
                                     <!--icon_img-->
@@ -326,7 +180,7 @@
                                     <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
                                     <div class="bx-controls">
                                         <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()" /></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
                                                 <img src="imgs/icon_down.png" />
@@ -334,7 +188,7 @@
                                             </div>
                                         </div>
                                         <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()"/></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
                                                 <img src="imgs/icon_down.png" />
@@ -342,7 +196,7 @@
                                             </div>
                                         </div>
                                         <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()"/></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
                                                 <img src="imgs/icon_down.png" />
@@ -350,7 +204,7 @@
                                             </div>
                                         </div>
                                         <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
+                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()"/></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
                                                 <img src="imgs/icon_down.png" />
@@ -359,70 +213,70 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <!--icon_img-->
-                                    <div class="icon_img"><img src="imgs/icon_img.png"></div>
-                                    <!--工程师资料-->
-                                    <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
-                                    <div class="bx-controls">
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <!--icon_img-->
-                                    <div class="icon_img"><img src="imgs/icon_img.png"></div>
-                                    <!--工程师资料-->
-                                    <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
-                                    <div class="bx-controls">
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+                                <!--<li>-->
+                                    <!--&lt;!&ndash;icon_img&ndash;&gt;-->
+                                    <!--<div class="icon_img"><img src="imgs/icon_img.png"></div>-->
+                                    <!--&lt;!&ndash;工程师资料&ndash;&gt;-->
+                                    <!--<p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>-->
+                                    <!--<div class="bx-controls">-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="imgs/iocn_search.png" />-->
+                                                <!--<img src="imgs/icon_down.png" />-->
+                                                <!--<img src="imgs/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="imgs/iocn_search.png" />-->
+                                                <!--<img src="imgs/icon_down.png" />-->
+                                                <!--<img src="imgs/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="imgs/iocn_search.png" />-->
+                                                <!--<img src="imgs/icon_down.png" />-->
+                                                <!--<img src="imgs/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--&lt;!&ndash;icon_img&ndash;&gt;-->
+                                    <!--<div class="icon_img"><img src="imgs/icon_img.png"></div>-->
+                                    <!--&lt;!&ndash;工程师资料&ndash;&gt;-->
+                                    <!--<p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>-->
+                                    <!--<div class="bx-controls">-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="imgs/iocn_search.png" />-->
+                                                <!--<img src="imgs/icon_down.png" />-->
+                                                <!--<img src="imgs/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="imgs/iocn_search.png" />-->
+                                                <!--<img src="imgs/icon_down.png" />-->
+                                                <!--<img src="imgs/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="imgs/iocn_search.png" />-->
+                                                <!--<img src="imgs/icon_down.png" />-->
+                                                <!--<img src="imgs/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
                             </ul>
                         </div>
                     </div>
@@ -449,7 +303,7 @@
                         <a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>
                     </li>
                 </ul>
-                <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;"></span>
+                <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>
                 <a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>
                 <a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>
             </div>
@@ -460,13 +314,21 @@
 
 
 <div class="mask"></div>
-<script src="js/goods.js"></script>
+<!--<script src="js/goods.js"></script>-->
 <script type="text/javascript">
 
     $('.selectpicker').selectpicker({
         style: 'btn-default',
         size: 'auto'
+
     });
+    $(function(){
+        $(".good_list").on("click",".good_list>dl",function(){
+            alert(123)
+            $(".good_list").hide();
+            $(".pro_list").show();
+        })
+    })
 
 </script>
 

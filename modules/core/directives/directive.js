@@ -24,8 +24,8 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(".table-list").show();
             })
             //项目列表的高度等于窗口的高度
-            console.info($(".trends").height())
-            $(".panel-group").height($("body").height()).css({"overflow":"auto"})
+            $(".trends").height($("body").height()).css({"overflow":"auto"})
+            $(".panel-group").height($("body").height()-150).css({"overflow":"auto"})
 		}
 	};
 });

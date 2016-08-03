@@ -93,7 +93,8 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取协作详情列表
     this.getCollaboration = function (coid) {
         var delay = $q.defer();
-        var url_join= tempUrl + 'detail/' + coid;
+        // var url_join= tempUrl + 'detail/' + coid;
+        var url_join= url + 'detail/' + coid;
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -138,6 +139,19 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         }).error(function (data) {
             delay.reject(data);
         });
+        return delay.promise;
+    }
+
+    //获取标识
+    this.getMarkerList = function (params) {
+        var delay = $q.defer();
+        var url_join= url + 'markers';
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
         return delay.promise;
     }
 

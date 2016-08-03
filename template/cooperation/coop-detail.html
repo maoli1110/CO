@@ -75,7 +75,7 @@
                                     <dd>打桩</dd>
                                 </dl> -->
                                 <dl class="data-list" ng-repeat="item in collaList.docs">
-                                    <dt class="rela"><img src="item.fileUrl" ng-click="zoom(item.uuid)"/><div class="absol show-icon"></span><span class="glyphicon glyphicon-save" ng-click="downDocs(item.uuid)"></span></div></dt>
+                                    <dt class="rela"><img src="item.fileUrl" ng-click="previewDocs(item.uuid)"/><div class="absol show-icon"></span><span class="glyphicon glyphicon-save a-{{$index}}" ng-click="downDocs(item.uuid)"></span></div></dt>
                                     <dd title="{{item.name}}">{{item.name}}</dd>
                                 </dl>
                             </div>
@@ -184,10 +184,15 @@
         
     </div>
     <div class="footer">
-        <button type="button" class="btn">编辑协作</button>
-        <button type="button" class="btn" ng-click="addUpdate()">添加更新</button>
+        <button type="button" class="btn a-222">编辑协作</button>
+        <button type="button" class="btn" onclick="changePic(0)">添加更新</button>
         <button type="button" class="btn">用过</button>
         <button type="button" class="btn">拒绝</button>
         <button type="button" class="btn">结果</button>
         <button type="button" class="btn">导出</button>
     </div>
+    <script>
+        function changeDocPreview (index) {
+            $('.a-'+index+'').removeClass('glyphicon-save').addClass('glyphicon-open-file');
+        }
+    </script>

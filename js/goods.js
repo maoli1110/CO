@@ -2,8 +2,10 @@
  * Created by sdergt on 2016/7/21.
  */
 $(function(){
+
     //$(".pro_list").hide();
-    $(".good_list dl").click(function(){
+    $(".good_list").on("click",".good_list>dl",function(){
+        alert(123)
         $(".good_list").hide();
         $(".pro_list").show();
     })
@@ -38,7 +40,7 @@ $(function(){
     }
     $(".list>li").click(function(){
         index = $(this).index();
-        //console.info(index)
+        console.info(index)
         var $img = $(".slide_box img");
         //获取一组数据中小图片的个数，来判断插入多少张大图；
         var aLiChild = $(this).find(".bx-controls").children();
