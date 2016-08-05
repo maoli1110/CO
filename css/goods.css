@@ -10,6 +10,7 @@ body {
    
 }
 /*---------------------------header--------------------------------*/
+
 .trends .header{
     height:70px;
 }
@@ -118,19 +119,26 @@ body {
 
 /*--------------------商品列表页面-------------------------*/
 /*-----------------------pro_list-------------------------*/
+.back{
+    color:#69C080;
+    font-size: 23px !important;
+    float: left;
+    margin-top: 15px;
+    margin-right: 10px;
+}
 .trends .pro_list{
     overflow:auto;
     min-width:1200px;
     display:none;
+    background:#ddd;
 }
+
 .trends .pro_list .list{
     height:auto;
 }
 .trends .pro_list .list li{
     list-style:none;
     margin-top:10px;
-    margin-left:10px;
-
     height:150px;
     background:#fff;
     margin-bottom:10px;
@@ -143,11 +151,14 @@ body {
     padding:10px;
     width:50px;
     height: 128px;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 .trends .pro_list .list li .icon_img img{
     /*float:left;*/
     display:block;
+    width:50px;
+    height:50px;
+    border-radius: 50%;
 
 }
 /*-------------------------*/
@@ -175,6 +186,11 @@ body {
     height:80px;
 
 }
+.trends .pro_list .list li .tools_bar img{
+    width:100px;
+    height:80px;
+
+}
 .trends .pro_list .list li .bar{
     width:100px;
     height:20px;
@@ -193,3 +209,10 @@ body {
     display:none;
 }
 /*-----------关闭按钮------------*/
+
+/*返回按钮*/
+.manage_back{
+    display:inline-block;
+    padding:0 10px;
+
+}

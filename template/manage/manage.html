@@ -7,14 +7,19 @@
         <div class="container-fluid rela">
             <div class="operation clearfix">
                 <div class="left">
+                    <div class="manage_back" ng-click="listBack()">
+                        <span class="fa fa-reply back"></span>
+                        <b>返回</b>
+                    </div>
                     <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
-                    <select class="selectpicker">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
+
+                    <select class="selectpicker" ng-model="doc_type" id="doc_type">
+                        <option value="0">Mustard</option>
+                        <option value="1">Ketchup</option>
+                        <option value="2">Relish</option>
                     </select>
                     <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                    <button type="button" class="btn btn-default">搜索</button>
+                    <button type="button" class="btn btn-default" ng-click="manageSeacher(trentsLiInfo.ppid)">搜索</button>
                 </div>
                 <div class="right">
                     <button type="button" class="btn btn-default">统计</button>
@@ -155,7 +160,7 @@
                         <!--商品展示-->
                         <div class="good_list clearfix" >
                             <!--商品1F-->
-                            <dl ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage()">
+                            <dl ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage(trentsLiInfo.ppid)">
                                 <dt>
                                     <img src="imgs/icon_ion.png">
                                 <p>{{trentsLiInfo.projectType}}</p>
@@ -171,40 +176,16 @@
                         </div>
 
                         <!--商品列表展示页面-->
-                        <div class="pro_list clearfix">
+                        <div class="pro_list clearfix" ng-click ="letter()">
                             <ul class="list">
-                                <li>
+                                <li ng-repeat="getTrents in trentsListInfo">
                                     <!--icon_img-->
-                                    <div class="icon_img"><img src="imgs/icon_img.png"></div>
+                                    <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
                                     <!--工程师资料-->
-                                    <p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>
-                                    <div class="bx-controls">
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()" /></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()"/></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()"/></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
-                                                <img src="imgs/icon_add.png" />
-                                            </div>
-                                        </div>
-                                        <div class="img_list actives">
-                                            <div class="tools_bar"><img src="imgs/img002.png" style="" ng-click = "lookSelector()"/></div>
+                                    <p><b>{{getTrents.username}}</b>&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs">&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;<span>{{getTrents.updateTime}}</span></p>
+                                    <div class="bx-controls" >
+                                        <div class="img_list actives" ng-repeat = "items in getTrents.docs" ng-click="transformBig(items.uuid)">
+                                            <div class="tools_bar"><img ng-src="{{items.downlodUrl}}"  ng-click = "lookSelector()" /></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
                                                 <img src="imgs/icon_down.png" />
@@ -213,70 +194,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <!--<li>-->
-                                    <!--&lt;!&ndash;icon_img&ndash;&gt;-->
-                                    <!--<div class="icon_img"><img src="imgs/icon_img.png"></div>-->
-                                    <!--&lt;!&ndash;工程师资料&ndash;&gt;-->
-                                    <!--<p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>-->
-                                    <!--<div class="bx-controls">-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="imgs/iocn_search.png" />-->
-                                                <!--<img src="imgs/icon_down.png" />-->
-                                                <!--<img src="imgs/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="imgs/iocn_search.png" />-->
-                                                <!--<img src="imgs/icon_down.png" />-->
-                                                <!--<img src="imgs/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="imgs/iocn_search.png" />-->
-                                                <!--<img src="imgs/icon_down.png" />-->
-                                                <!--<img src="imgs/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--&lt;!&ndash;icon_img&ndash;&gt;-->
-                                    <!--<div class="icon_img"><img src="imgs/icon_img.png"></div>-->
-                                    <!--&lt;!&ndash;工程师资料&ndash;&gt;-->
-                                    <!--<p>胡彪 上传了资料变更图纸，变更图纸，变更图纸，变更图纸<span>2015-06-03 13:16</span></p>-->
-                                    <!--<div class="bx-controls">-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="imgs/iocn_search.png" />-->
-                                                <!--<img src="imgs/icon_down.png" />-->
-                                                <!--<img src="imgs/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="imgs/iocn_search.png" />-->
-                                                <!--<img src="imgs/icon_down.png" />-->
-                                                <!--<img src="imgs/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="imgs/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="imgs/iocn_search.png" />-->
-                                                <!--<img src="imgs/icon_down.png" />-->
-                                                <!--<img src="imgs/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</li>-->
+
                             </ul>
                         </div>
                     </div>

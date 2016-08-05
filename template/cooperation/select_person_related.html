@@ -10,7 +10,7 @@
                          <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                     </div>
                     <div class="col-xs-6 search">
-                        <input type="text" class="form-control" placeholder="Text input" ng-keypress="responsibleSearch($event)" ng-model="queryForm">
+                        <input type="text" class="form-control" placeholder="Text input" ng-keyup="responsibleSearch($event)" ng-model="queryForm">
                     </div>
                 </div>
                 <div class="person-list">
@@ -23,17 +23,21 @@
                         </ul>
                     </li>
                 </div>
+                <div class="all-select">
+                    <span>全选</span><input type="checkbox" style="display: inline-block; width: auto;" ng-click="allSelected()">
+                </div>
+                
             </div>
             <div class="col-xs-6 right">
                 <div class="clearfix">
-                    <div class="pull-left"><input type="checkbox"><span>全选</span></div>
-                    <div class="pull-right">已选择{{}}人，需要签字{{}}人</div>
+                   <!--  <div class="pull-left"><input type="checkbox"><span>全选</span></div> -->
+                    <div class="pull-right">已选择{{relatedSelected.length}}人，需要签字{{trans_selected.sign.length}}人</div>
                 </div>
                 <div>
                     <table class="table">
                         <tbody>
                             <tr ng-repeat="row in relatedSelected">
-                                <td><input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"></td>
+                                <td><input type="checkbox" ng-checked="isSelected" ng-click="updateSelection($event,row)"></td>
                                 <td>{{row.username}}</td>
                                 <td ng-click="removeRelated(row)">删除</td>
                             </tr>

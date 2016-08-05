@@ -23,11 +23,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 		window.open(url,'_blank');
         //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
     }
-        //跳转页面
-        $scope.turnPage = function(){
-            $(".good_list").hide();
-            $(".pro_list").show();
-        }
+
         //对dom直接进行操作
 
     //    图片查看器
@@ -140,23 +136,63 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 
 
     //获取动态列表
+    //跳转页面
+        $(".manage_back").hide();
+        $scope.turnPage = function(id){
+            $(".good_list").hide();
+            $(".pro_list").show();
+            $(".manage_back").show();
+            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:id,searchKey:"",searchType:""}).then(function(data){
+                $scope.trentsListInfo = data.data;
+                console.info("详情列表",$scope.trentsListInfo)
+            });
+            $scope.id= id;
+    //动态列表搜索关键字
+            $scope.manageSeacher = function(){
+    //获取搜索类型关键字
+                $scope.seacherKey = $(exampleInputName2).val();
+    //$scope.doc_type?0:$scope.doc_type;
+                $scope.doc_type = 0;
+                Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:$scope.id,searchKey:$scope.seacherKey,searchType:$scope.doc_type}).then(function(data){
+                    $scope.trentsListInfo = data.data;
+                    console.info("我是搜索列表", $scope.trentsListInfo )
+                });
+            }
+        }
+
+        //通过侧边栏的子元素去调出动态列表
         $scope.trentsList = function(id){
-            //alert(id)
+            //alert(id);
+            $(".good_list").hide();
+            $(".pro_list").show();
+            $(".manage_back").show();
             Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:id,searchKey:"",searchType:""}).then(function(data){
                 $scope.trentsListInfo = data.data;
-                console.info($scope.trentsListInfo)
+                console.info("侧边栏的动态列表",$scope.trentsListInfo)
             });
-            $(".good_list").click(function(){
-                alert(123)
-                $(".good_list").hide();
-                $(".pro_list").show();
-            })
         }
+        $scope.letter = function(){
+            alert(123)
+        }
+
     $scope.getProjectList = function (index) {
         $scope.isOpen = !$scope.isOpen;
     }
-//        获取项目动态列表的数据
+//通过动态列表的图片获取大图的资源路径
+        $scope.transformBig = function(uuid){
+            Manage.getTrendsFileViewUrl({uuid:uuid}).then(function(e){
+                console.info(e)
+            },function(err){
+                console.info(err)
+            })
 
-    
-       
+        }
+
+
+//        回退按钮关闭列表页面
+        $scope.listBack = function(){
+            $(".good_list").show();
+            $(".pro_list").hide();
+            $(".manage_back").hide();
+        }
 }]);

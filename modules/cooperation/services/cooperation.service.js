@@ -94,7 +94,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getCollaboration = function (coid) {
         var delay = $q.defer();
         // var url_join= tempUrl + 'detail/' + coid;
-        var url_join= url + 'detail/' + coid;
+        var url_join= tempUrl + 'detail/' + coid;
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -155,4 +155,20 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 
+    //获取有相关功能的工程列表 
+    this.getProjTipInfo = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'getProjTipInfo';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+
+    //树结构搜索功能
+    
+    
+    
 });

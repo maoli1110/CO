@@ -326,6 +326,9 @@ li {
     padding: 0 0px;
 }
 .create .selected-list {
+    text-align: left;
+}
+.create .selected-list li{
     text-align: center;
 }
 .create .selected-list * {
@@ -342,6 +345,7 @@ li {
 }
 .select-person-related  .left {
     padding: 0 12px 0 5px;
+    border-right: 1px solid #ccc;
 }
 .select-person-related  .select, .select-person-related .search {
     padding: 3px;
@@ -356,15 +360,16 @@ li {
     line-height: 34px;
 }
 .select-person-related .person-list {
-    border: 1px solid #ccc;
     margin-top: 5px;
 }
 .select-person-related .right {
-    border: 1px solid #ccc;
     height: 100%;
 }
 .select-person-related .right > div {
     margin-bottom: 10px;
+}
+.select-person-related .all-select *{
+    vertical-align: middle;
 }
 .select-person-responsible .row {
     padding: 10px 20px;

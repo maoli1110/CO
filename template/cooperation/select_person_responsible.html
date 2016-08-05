@@ -9,7 +9,7 @@
                     <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                 </div>
                 <div class="col-xs-6">
-                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索" ng-keypress="responsibleSearch($event)">
+                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索" ng-keyup="responsibleSearch($event)">
                 </div>  
             </div>
             <div class="row person-list">

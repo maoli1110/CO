@@ -53,14 +53,14 @@
 		</div>
 		<div class="row">
 			<label for="" class="col-xs-2">相关人员：</label>
-			<div class="selected-list inline">
-				<div class="inline">
-					<ul class="inline" ng-repeat="item in related.sign">
-						<img src="{{item.avatar}}" alt="">
+			<div class="selected-list inline col-xs-9">
+				<div class="inline" style="border-right:1px solid #ccc;">
+					<ul class="inline rela" ng-repeat="item in related.sign">
+						<img src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span>
 						<li>{{item.username}}</li>
 					</ul>
 				</div>
-				<div class="inline" style="border-left:1px solid #ccc;">
+				<div class="inline">
 					<ul class="inline" ng-repeat="item in related.noSign">
 						<img src="{{item.avatar}}" alt="">
 						<li>{{item.username}}</li>

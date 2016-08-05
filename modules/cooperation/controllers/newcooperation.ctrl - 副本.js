@@ -311,6 +311,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    	typeId:$stateParams.typeid
 	    };
 	    console.log(JSON.stringify($scope.data));
+	    return;
 		var obj = JSON.stringify($scope.data);
 		Cooperation.createCollaboration(obj).then(function (data) {
 			console.log(data);
@@ -504,8 +505,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			$uibModalInstance.dismiss('cancel');
 		}
 		
-}]).controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','Treesearch',
-	function ($scope, $http, $uibModalInstance,Cooperation,Treesearch) {
+}]).controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
+	function ($scope, $http, $uibModalInstance,Cooperation) {
 		$scope.projtype = "0";
 		$scope.functionOption = "0";
 		var nodelist=[];//树dataArray
@@ -640,43 +641,41 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		}
 
 		$scope.treeSearch = function (type) {
-
-			Treesearch.treesearchCommon(treeObj,type,nodelist,$scope.projtype,$scope.functionOption,$scope.formText,projTypeSearchPpid,initPpid,TextSearchPpid,functionSearchPpid,searchPpid,tjnodestore,gjnodestore,aznodestore,revitnodestore,teklanodestore,pdfppidstore,maxlevel);
-			// treeObj.showNodes(nodelist);
-			// //根据专业查询对应子节点
-			// //debugger;
-			// if(type==1){
-			// 	if($scope.projtype==0){
-			// 		projTypeSearchPpid	= initPpid;
-			// 	}else{
-			// 		projTypeSearchPpid = projTypeSwitch(parseInt($scope.projtype));	
-			// 	}
-			// }
-			// //根据功能进行同步请求查询对应子节点
-			// if(type==2){
-			// 	if($scope.functionOption==0){
-			// 		functionSearchPpid = initPpid;
-			// 	}else{
-			// 		var projTypeTextPpid = _.intersection(projTypeSearchPpid,TextSearchPpid);
-			// 		functionSearchPpid =[];
-			// 		functionFilter(projTypeTextPpid);
-			// 	}
+			treeObj.showNodes(nodelist);
+			//根据专业查询对应子节点
+			//debugger;
+			if(type==1){
+				if($scope.projtype==0){
+					projTypeSearchPpid	= initPpid;
+				}else{
+					projTypeSearchPpid = projTypeSwitch(parseInt($scope.projtype));	
+				}
+			}
+			//根据功能进行同步请求查询对应子节点
+			if(type==2){
+				if($scope.functionOption==0){
+					functionSearchPpid = initPpid;
+				}else{
+					var projTypeTextPpid = _.intersection(projTypeSearchPpid,TextSearchPpid);
+					functionSearchPpid =[];
+					functionFilter(projTypeTextPpid);
+				}
 				
-			// }
-			// //根据条件查询对应子节点
-			// if(type==3){
-			// 	if($scope.formText==""||$scope.formText==null||$scope.formText=="underfined"){
-			// 		TextSearchPpid = initPpid;
-			// 	}else{
-			// 		TextSearchPpid = searchByText();
-			// 	}
-			// }
-			// searchPpid =  _.intersection(projTypeSearchPpid,functionSearchPpid,TextSearchPpid);
-			// var showchildnodes = treeObj.getNodesByFilter(filterbyppid);
-			// var hidenodes = treeObj.getNodesByFilter(filterhidechild);
-			// treeObj.hideNodes(hidenodes);
-			// treeObj.showNodes(showchildnodes);
-			// hideparentnode();
+			}
+			//根据条件查询对应子节点
+			if(type==3){
+				if($scope.formText==""||$scope.formText==null||$scope.formText=="underfined"){
+					TextSearchPpid = initPpid;
+				}else{
+					TextSearchPpid = searchByText();
+				}
+			}
+			searchPpid =  _.intersection(projTypeSearchPpid,functionSearchPpid,TextSearchPpid);
+			var showchildnodes = treeObj.getNodesByFilter(filterbyppid);
+			var hidenodes = treeObj.getNodesByFilter(filterhidechild);
+			treeObj.hideNodes(hidenodes);
+			treeObj.showNodes(showchildnodes);
+			hideparentnode();
 		}
 
 		function filterhidechild(node) {

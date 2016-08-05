@@ -43,24 +43,39 @@ angular.module('manage').service('Manage', function ($http, $q) {
         return delay.promise;
     }
 
+
+    //静态数据
+    //var param = {
+    //    count:10,
+    //    lastUploadTime:"",
+    //    lastUsername:"",
+    //    ppid:1000,
+    //    searchKey:"",
+    //    searchType:""
+    //};
 //    获取动态列表
     this.getTrends = function(params){
         var delay = $q.defer();
         var url_join = trendUrl+"trends";
-        //静态数据
-        //var param = {
-        //    count:10,
-        //    lastUploadTime:"",
-        //    lastUsername:"",
-        //    ppid:1000,
-        //    searchKey:"",
-        //    searchType:""
-        //};
         var obj = JSON.stringify(params);
         console.log(obj);
         $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
             //console.info(data)
+        },function(data){
+            delay.reject(data)
+        })
+        return delay.promise;
+    }
+
+
+//    获取大图效果（获取资料地址）
+//    getTrendsFileViewUrl
+    this.getTrendsFileViewUrl = function(params){
+        var delay = $q.defer();
+        var url_join = trendUrl+ "viewUrl";
+        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data);
         },function(data){
             delay.reject(data)
         })
