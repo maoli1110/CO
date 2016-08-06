@@ -38,13 +38,19 @@
 				<button class="btn btn-default" ng-click="linkCategoty()">构建类别</button>
 			</div>
 			<div ng-show="linkProject1">
-				<span>工程：{{linkProjectSelected.name}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
+				<span>与工程相关, {{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}工程</span><span ng-click="removeLink()" style="margin-left:20px;">重新关联</span>
 			</div>
 			<div ng-show="linkComponent1">
-				<span>图上构件：{{linkProjectSelected.name}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
+				<span>与构件相关：{{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}构件</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
 			</div>
 			<div ng-show="linkCategoty1">
-				构件类别：<span ng-repeat="items in linkProjectSelected track by $index" style="margin-left:20px;">{{items.compClass}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span>
+				<!-- 与构件类别相关：<span ng-repeat="items in linkProjectSelected track by $index" style="margin-left:20px;">{{items.compClass}}</span><span ng-click="removeLink()" style="margin-left:20px;">删除</span> -->
+				<div>与构件类别相关：</div>
+				<div>
+					<ul ng-repeat="item in linkProjectSelected track by $index">
+						<li>{{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}工程 -- {{item.compClass}}构件类别</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="row">

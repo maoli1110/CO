@@ -9,10 +9,11 @@ angular.module('manage').service('Manage', function ($http, $q) {
      */
     this.getDeptInfoList = function () {
         var delay = $q.defer();
-        var url_join = url + 'deptInfoList';
+        var url_join = trendUrl + 'deptInfoList';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
+                console.info(data)
             }).error(function (data, status) {
                 delay.reject(data);
             });
@@ -22,7 +23,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
     this.getProjectInfoList = function (params) {
 
         var delay = $q.defer();
-        var url_join = url + 'projectInfoList/' + params;
+        var url_join = trendUrl + 'projectInfoList/' + params;
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
