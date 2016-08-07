@@ -14,10 +14,10 @@ angular.module('core').directive('copyRadio', function ($timeout) {
 				}
 			})
             //点击新建协作把统计页面给关闭
-            $(".new_cooper").click(function(){
-                alert(123)
-                $(".data_count").hide();
-            })
+            // $(".new_cooper").click(function(){
+            //     alert(123)
+            //     $(".data_count").hide();
+            // })
             //点击返回按钮关闭当前对话框
             $(".data_back").click(function(){
                 $(".data_count").hide();
@@ -30,6 +30,38 @@ angular.module('core').directive('copyRadio', function ($timeout) {
 	};
 });
 
+angular.module('core').directive('overLay', function () {
+    return {
+        restrict: 'AE',
+        link: function (scope, ele, attr) {
+            $('.test').css('background','yellow');
+
+            $('.test').on('click', check);
+            // $(document).on("click", "document", function() {
+            //   console.log("click");
+            // });
+            //document.onclick = check;
+   
+                
+                function check(e) {
+                    console.log('aaa');
+                    var div_container = $(".addcoo");
+                    var div_overlay = $(".addcoo-overlay");
+
+                    if (scope.openSignal) {
+                        var t = (e && e.target) || (event && event.srcElement);
+                        var b = $(".new_cooper");
+                        if (t != div_container && t != b) {
+                            scope.openSignal = false;
+                        }
+                        scope.$apply();
+                    }
+                }
+
+            console.log(scope.openSignal);
+        }
+    }
+});
 
 angular.module('core').directive('showIcon', function () {
     return {

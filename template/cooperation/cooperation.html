@@ -17,7 +17,7 @@
 				</div>
 				<div class="right">
 					<button type="button" class="btn btn-default" id="comboBox_count" >统计</button>
-					<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>
+					<button type="button" class="btn btn-default new_cooper" onclick="show(event,'addcoo','overlay')">新建协作</button>
 				</div>
 				
 			</div>
@@ -135,12 +135,17 @@
 		</div>
 		</div>
 		<!---->
-		<div class="addcoo absol overflow" ng-show="openSignal">
-			<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
-			<div class="row">
-				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>
+		<div>
+			<div id="addcoo" class="addcoo absol overflow" style="display:none" onclick="show(event,'addcoo','overlay')">
+				<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
+				<div class="row">
+					<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>
+				</div>
 			</div>
+			<div id="overlay" class="overlay" style="display:none;"></div>
 		</div>
+		
+		
 		<div class="table-list">
 			<table class="table" class="info_list">
 				<thead>
@@ -255,10 +260,17 @@
 	<!--</div>-->
 <!--</div>-->
 <script type="text/javascript">
+$(function() {
 	$('.selectpicker').selectpicker({
-  style: 'btn-default',
-  size: 'auto'
+	  style: 'btn-default',
+	  size: 'auto'
+	});
+
 });
+
+
+
+	
 </script>
 
 

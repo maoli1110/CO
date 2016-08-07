@@ -8,11 +8,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.openSignal = false;
     
     $scope.openNew = function () {
-    	$scope.openSignal = true;
-    	Cooperation.getTypeList().then(function (data) {
-    		console.log(data);
-    		$scope.typeList = data;
-    	});
+    	//$scope.openSignal = true;
+    	// Cooperation.getTypeList().then(function (data) {
+    	// 	console.log(data);
+    	// 	$scope.typeList = data;
+    	// });
     }
 
     $scope.closeNew = function () {
