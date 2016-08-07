@@ -96,24 +96,34 @@ $(function(){
     })
 
 });
-var url = '#'; 
+var a = false;
 function show(evt,o,f){ 
     evt.stopPropagation?evt.stopPropagation():evt.cancelBubble=true;
     var o = document.getElementById(o); 
     var f = document.getElementById(f); 
     o.style.display = "";
     f.style.display = "";
+    a=true;
+    console.log(a);
+
 } 
 function hide(o,f){ 
     var o = document.getElementById(o); 
     var f = document.getElementById(f); 
     o.style.display = "none";
     f.style.display = "none";
+    a=false;
 } 
+
+
 document.onclick=function(){
     console.log('2222');
-    hide('addcoo','overlay');
+    if(a){
+        hide('addcoo','overlay');
+    }
+    
 }
+
 
 
 

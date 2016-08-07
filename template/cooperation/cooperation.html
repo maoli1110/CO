@@ -13,7 +13,7 @@
 					  <option>Relish</option>
 					</select>
 					<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-					<button type="button" class="btn btn-default">搜索</button>
+					<button type="button" class="btn btn-default" ng-click="sou()">搜索</button>
 				</div>
 				<div class="right">
 					<button type="button" class="btn btn-default" id="comboBox_count" >统计</button>
@@ -136,7 +136,7 @@
 		</div>
 		<!---->
 		<div>
-			<div id="addcoo" class="addcoo absol overflow" style="display:none" onclick="show(event,'addcoo','overlay')">
+			<div id="addcoo" class="addcoo absol overflow animated fadeInRight" style="display:none" onclick="show(event,'addcoo','overlay')">
 				<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
 				<div class="row">
 					<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>

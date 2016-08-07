@@ -12,11 +12,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.linkCategoty1 =false;
     $scope.data = {};
     console.log($stateParams.typeid);
+
    
     //选择负责人
     $scope.selectResponsible = function () {
     	//alert('111');
     	var modalInstance = $uibModal.open({
+    		windowClass:'',
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/select_person_responsible.html',
     		controller:'selectpersonCtrl',

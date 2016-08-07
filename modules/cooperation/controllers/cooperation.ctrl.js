@@ -6,6 +6,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state) {
 
     $scope.openSignal = false;
+
+        $scope.sou = function () {
+    	console.log('1111');
+    }
     
     $scope.openNew = function () {
     	//$scope.openSignal = true;
