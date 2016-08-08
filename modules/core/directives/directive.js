@@ -14,54 +14,22 @@ angular.module('core').directive('copyRadio', function ($timeout) {
 				}
 			})
             //点击新建协作把统计页面给关闭
-            // $(".new_cooper").click(function(){
-            //     alert(123)
-            //     $(".data_count").hide();
-            // })
+            $(".new_cooper").click(function(){
+                alert(123)
+                $(".data_count").hide();
+            })
             //点击返回按钮关闭当前对话框
             $(".data_back").click(function(){
                 $(".data_count").hide();
                 $(".table-list").show();
             })
             //项目列表的高度等于窗口的高度
-            $(".trends").height($("body").height()).css({"overflow":"auto"})
-            $(".panel-group").height($("body").height()-150).css({"overflow":"auto"})
+            //$(".trends").height($("body").height()-150).css({"overflow":"auto"})
+            //$(".panel-group").height($("body").height()-150).css({"overflow":"auto"})
 		}
 	};
 });
 
-angular.module('core').directive('overLay', function () {
-    return {
-        restrict: 'AE',
-        link: function (scope, ele, attr) {
-            $('.test').css('background','yellow');
-
-            $('.test').on('click', check);
-            // $(document).on("click", "document", function() {
-            //   console.log("click");
-            // });
-            //document.onclick = check;
-   
-                
-                function check(e) {
-                    console.log('aaa');
-                    var div_container = $(".addcoo");
-                    var div_overlay = $(".addcoo-overlay");
-
-                    if (scope.openSignal) {
-                        var t = (e && e.target) || (event && event.srcElement);
-                        var b = $(".new_cooper");
-                        if (t != div_container && t != b) {
-                            scope.openSignal = false;
-                        }
-                        scope.$apply();
-                    }
-                }
-
-            console.log(scope.openSignal);
-        }
-    }
-});
 
 angular.module('core').directive('showIcon', function () {
     return {
@@ -134,3 +102,23 @@ angular.module('core')
             }
         };
     }]);
+
+    angular.module('core').directive('scrollDirective', function () {
+        return {
+            restrict: 'AE',
+            link: function (scope, ele, attr) {
+                //$(window).load(function(){
+                //    console.log('22222');
+
+
+                    $("#content-2").mCustomScrollbar({
+                        theme:"minimal"
+                    });
+                $("#content-3").mCustomScrollbar({
+                    theme:"minimal"
+                });
+                //});
+
+            }
+        };
+    });

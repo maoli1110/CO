@@ -111,23 +111,26 @@
 				<button class="btn btn-default btn-add" ng-click="docsUpload()">+</button>
 			</div>
 		</div> -->
-		<div class="row">
+		<div class="row docs">
 			<label for="" class="col-xs-2">资料：</label>
-			<div>
-				<ul ng-repeat="items in docSelectedList">
-					<li>{{items.docName}}</li>
+			<div class="col-xs-8">
+				<ul ng-repeat="items in docSelectedList" class="select-docs rela" style="width:90px;display:inline-block;">
+					<img src="http://placehold.it/80x80" alt="">
+					<span class="absol glyphicon glyphicon-remove" ng-click="removeDoc(items)"></span>
+					<li title="{{items.docName}}">{{items.docName}}</li>
+				</ul>
+				<ul ng-repeat="items in formSelectedList" class="select-form rela"  style="width:90px;display:inline-block;">
+					<img src="http://placehold.it/80x80" alt="">
+					<span class="absol glyphicon glyphicon-remove" ng-click="removeForm(items)"></span>
+					<input type="checkbox" class="absol" ng-checked="isSelected" ng-click="updateSelection($event,items)">
+					<li title="{{items.docName}}">{{items.name}}</li>
 				</ul>
 			</div>
-			<div>
-				<ul ng-repeat="items in formSelectedList">
-					<li>{{items.name}}</li>
-				</ul>
-			</div>
-			<div class="upload-docs">
+		</div>
+		<div class="row upload-docs" style="margin-left:300px;">
 				<button class="btn btn-default" ng-click="linkBe()">引用BE资料</button>
 				<button class="btn btn-default" ng-click="linkForm()">选择表单</button>
 				<button class="btn btn-default" ng-click="uploadDocs()">上传资料</button>
-			</div>
 		</div>
 
 		<div class="btn-submit">

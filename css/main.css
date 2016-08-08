@@ -139,6 +139,12 @@ li {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+/*reset scroll*/
+.sidebar .mCSB_outside + .mCS-minimal.mCSB_scrollTools_vertical, .sidebar .mCSB_outside + .mCS-minimal-dark.mCSB_scrollTools_vertical {
+    right: -3px;
+    margin: 12px 0;
+}
 /*sider*/
 .sidebar {
     width: 250px;
@@ -165,7 +171,9 @@ li {
     margin-left: 250px;
     /*height: 500px;*/
     border: 1px solid #ccc;
-    height: 1000px;
+}
+.right-content .table-list table th,.right-content .table-list table td{
+    text-align: center;
 }
 /*nav-bar*/
 .navbar .header {
@@ -254,19 +262,6 @@ li {
     bottom: 0;
     z-index: 10;
     background-color: #f5f5f5;
-    z-index: 1002;
-    height: 100%;
-}
-.overlay {
-    background-color:#000;
-    z-index: 1001;
-    position: fixed;
-    width: 100%;
-    zoom:1;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.5
 }
 .addcoo .row {
     margin-left: 0px;
@@ -353,6 +348,21 @@ li {
     width: 50px;
     border-radius:24px;
 }
+.create .docs ul li {
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-right: 10px;
+}
+.create .docs .select-form input{
+    top: 48px;
+    left: 33px;
+}
+.create .docs ul span {
+    top: 2px;
+    right: 11px;
+}
 /*select person*/
 .select-person-related .row {
     margin: 0;
@@ -426,6 +436,9 @@ li {
 .linkbe .left select {
     width: 80%;
     margin-top: 5px;
+}
+.linkform .form-list td {
+    border: none;
 }
 /*coop-detail*/
 .coop-detail .btn-submit {

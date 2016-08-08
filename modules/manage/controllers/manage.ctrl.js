@@ -118,19 +118,21 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 
     $scope.childItems = function(id){
         //alert(123)
-
-        Manage.getProjectInfoList(id).then(function (data) {
+        if(!$scope.projectInfoList.length){
+            Manage.getProjectInfoList(id).then(function (data) {
             //alert(id)
             //console.log("123",data);
-            $scope.projectInfoList = data;
-        });
-        //    获取项目统计列表
-        var params = {deptId:id,searchText:""}
-        var obj = JSON.stringify(params)
-        Manage.getProjectTrends(obj).then(function(data){
-            console.info("我是项目统计列表信息",data)
-            $scope.trentsCount = data.data;
-        });
+                $scope.projectInfoList = data;
+            });
+            //    获取项目统计列表
+            var params = {deptId:id,searchText:""}
+            var obj = JSON.stringify(params)
+            Manage.getProjectTrends(obj).then(function(data){
+                console.info("我是项目统计列表信息",data)
+                $scope.trentsCount = data.data;
+            });
+        }
+        
 
     }
 
@@ -172,7 +174,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             });
         }
         $scope.letter = function(){
-            alert(123)
+            //alert(123)
         }
 
     $scope.getProjectList = function (index) {

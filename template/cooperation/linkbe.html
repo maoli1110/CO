@@ -19,8 +19,8 @@
             </div>
             <div class="col-xs-6 right">
                 <div class="clearfix">
-                    <div class="pull-left"><input type="checkbox"><span>共{{}}资料</span></div>
-                    <div class="pull-right"><input type="text" palceholder="搜索"></div>
+                    <div class="pull-left"><input type="checkbox"><span>共{{docList.length}}份资料</span></div>
+                    <div class="pull-right"><input type="text" ng-model="searchname" palceholder="搜索" ng-change="docSearch(searchname)"></div>
                 </div>
                 <div>
                     <table class="table">

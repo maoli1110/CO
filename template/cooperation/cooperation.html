@@ -7,19 +7,19 @@
 			<div class="operation clearfix">
 				<div class="left">
 					<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
-					<select class="selectpicker">
-					  <option>Mustard</option>
-					  <option>Ketchup</option>
-					  <option>Relish</option>
+					<select class="selectpicker" ng-change="changeAttr()" ng-model="coopAttr">
+					  <option value="1">我负责</option>
+					  <option value="2">我签署</option>
+					  <option value="3">我相关</option>
+					  <option value="4">已结束</option>
 					</select>
-					<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-					<button type="button" class="btn btn-default" ng-click="sou()">搜索</button>
+					<input type="text" class="form-control" id="exampleInputName2" placeholder="搜索" ng-model="searchkey">
+					<button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button>
 				</div>
 				<div class="right">
 					<button type="button" class="btn btn-default" id="comboBox_count" >统计</button>
-					<button type="button" class="btn btn-default new_cooper" onclick="show(event,'addcoo','overlay')">新建协作</button>
+					<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>
 				</div>
-				
 			</div>
 		</div>
 		<!--筛选框-->
@@ -135,56 +135,33 @@
 		</div>
 		</div>
 		<!---->
-		<div>
-			<div id="addcoo" class="addcoo absol overflow animated fadeInRight" style="display:none" onclick="show(event,'addcoo','overlay')">
-				<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
-				<div class="row">
-					<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>
-				</div>
+		<div class="addcoo absol overflow" ng-show="openSignal">
+			<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
+			<div class="row">
+				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>
 			</div>
-			<div id="overlay" class="overlay" style="display:none;"></div>
 		</div>
-		
-		
 		<div class="table-list">
 			<table class="table" class="info_list">
 				<thead>
 					<tr>
-						<th>协助类型11111</th>
+						<th>协做类型</th>
 						<th>主题</th>
 						<th>负责人</th>
 						<th>优先级</th>
-						<th>当前状态</th>
-						<th>标识</th>
-						<th>期限</th>
-						<th>最后操作时间</th>
-						<th>操作人</th>
+						<th>最后更新时间</th>
+						<th>更新人</th>
 						<th>详情</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><div>问题整改</div></td>
-						<td>安全监理工程师通知单</td>
-						<td>贾吉祥</td>
-						<td>1</td>
-						<td>确认中</td>
-						<td>质量</td>
-						<td>未超期</td>
-						<td>2016-15-15 14:00</td>
-						<td>贾吉祥</td>
-						<td ui-sref="coopdetail({coid:'57987f050cf26e81c1d837e5'})">详情</td>
-					</tr>
-					<tr>
-						<td><div>问题整改</div></td>
-						<td>安全监理工程师通知单</td>
-						<td>贾吉祥</td>
-						<td>1</td>
-						<td>确认中</td>
-						<td>质量</td>
-						<td>未超期</td>
-						<td>2016-15-15 14:00</td>
-						<td>贾吉祥</td>
+					<tr ng-repeat="item in cooperationList">
+						<td><div style="background:{{item.type.color}}">{{item.type.name}}</div></td>
+						<td>{{item.name}}</td>
+						<td>{{item.collaborator}}</td>
+						<td>{{item.priority}}</td>
+						<td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						<td>{{item.updater}}</td>
 						<td ui-sref="coopdetail({coid:'57987f050cf26e81c1d837e5'})">详情</td>
 					</tr>
 				</tbody>
@@ -260,17 +237,10 @@
 	<!--</div>-->
 <!--</div>-->
 <script type="text/javascript">
-$(function() {
 	$('.selectpicker').selectpicker({
-	  style: 'btn-default',
-	  size: 'auto'
-	});
-
+  style: 'btn-default',
+  size: 'auto'
 });
-
-
-
-	
 </script>
 
 

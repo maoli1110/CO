@@ -44,6 +44,18 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             });
         return delay.promise;
     }
+    //获取协同列表
+    this.getCollaborationList = function (params) {
+        var params = JSON.stringify(params);
+        var delay = $q.defer();
+        var url_join = url + 'collaborationList';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
     //选择BE资料-工程所属资料标签树
     this.getDocTagList = function (params) {
         var delay = $q.defer();

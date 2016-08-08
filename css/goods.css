@@ -55,7 +55,7 @@ body {
 }
 /*--------------good_list------------------*/
 .trends .good_list{
-    width: 100%;
+    width: 98%;
     margin: 30px;
 }
 .trends .good_list dl{
@@ -130,7 +130,7 @@ body {
     overflow:auto;
     min-width:1200px;
     display:none;
-    background:#ddd;
+    background:#F4F2F2;
 }
 
 .trends .pro_list .list{
@@ -142,6 +142,8 @@ body {
     height:150px;
     background:#fff;
     margin-bottom:10px;
+    margin-left:10px;
+    margin-right:10px;
     /*display:none;*/
 }
 /*------------icon_img(工程师头像部分)--------------*/
@@ -208,6 +210,28 @@ body {
     position:absolute;
     display:none;
 }
+/*浏览记录*/
+.pro_Time_surfed{
+    position:relative;
+    text-align:center;
+    line-height:30px;
+    height:30px;
+    padding:10px 0;
+}
+.pro_Time_surfed .pro_line{
+    width: 98.8%;
+    margin-left:10px;
+    margin-right:30px;
+    border:1px solid #ddd;
+}
+.pro_Time_surfed h5{
+    background:#F4F2F2;
+    line-height:20px;
+    width:200px;
+    position:absolute;
+    left:45%;
+    top:-4%;
+}
 /*-----------关闭按钮------------*/
 
 /*返回按钮*/
@@ -216,3 +240,10 @@ body {
     padding:0 10px;
 
 }
+/*滚动条效果*/
+.mCSB_dragger_bar{
+   background:#ddd !important;
+}
+/*.mCSB_draggerContainer{*/
+    /*margin-right:20px;*/
+/*}*/

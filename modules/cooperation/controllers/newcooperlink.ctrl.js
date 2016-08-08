@@ -654,31 +654,30 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				onCheck: onCheck
 			}
          };
+         var treeObj,nodes,params;
+         var data = {};
+         var selectedItem = [];
         function onCheck (event, treeId, treeNode) {
-			var treeObj = $.fn.zTree.getZTreeObj("tree");
-			var nodes = treeObj.getCheckedNodes(true);
+			treeObj = $.fn.zTree.getZTreeObj("tree");
+			nodes = treeObj.getCheckedNodes(true);
 			console.log(nodes);
 			//获取工程对应的资料列表
-			var data = {};
+			data = {};
 			data.tagids=[];
 			var unit = _.filter(nodes, function(o){
 				return o.type === 2
 			});
-			console.log(unit);
-			var selectedItem = [];
 			angular.forEach(unit, function(value,key) {
 				var selectList = [];
 				selectedItem.push(value.value);
 			})
-			console.log(selectedItem);
 			//组合条件
-			var data = {};
 			data.ppid = $scope.projectOption.ppid;
 			data.tagids = selectedItem;
 			data.searchText = '';
 			data.pageInfo = {};
 			//debugger;
-			var params = JSON.stringify(data);
+			params = JSON.stringify(data);
 			console.log(params);
 			Cooperation.getDocList(params).then(function (data) {
 				console.log(data);
@@ -709,6 +708,21 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
         $scope.isSelected = function(id){
         	//console.log(docSelected.indexOf(id));
             return docSelected.indexOf(id)>=0;
+        }
+
+        $scope.docSearch = function (searchname) {
+        	if(searchname) {
+        		var unit = _.filter($scope.docList, function (o) {
+        		return o.docName.indexOf(searchname) != -1;
+	        	})
+	        	$scope.docList = unit;
+        	} else {
+        		Cooperation.getDocList(params).then(function (data) {
+					console.log(data);
+					$scope.docList = data.result;
+				});
+        	}
+        	
         }
 
         $scope.ok = function () {

@@ -13,6 +13,7 @@ var ApplicationConfiguration = (function(){
 
 	var urls = {
         apiUrl: 'http://172.16.21.69:8080/bimco/rs/co/',
+        realUrl: 'http://192.168.13.222:8080/bimco/rs/co/',
         //coUrl: 'http://172.16.21.69:8080/bimco/'
         // wwwUrl: 'https://www.suncloud.cn',
         // panelApiUrl: 'https://panel.suncloud.cn/api/index.php?r=',

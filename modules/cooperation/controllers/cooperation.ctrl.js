@@ -4,19 +4,25 @@
  */
 angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state) {
+    //查询列表初始值
+    var queryData = {};
+	queryData.count = 20;
+	queryData.deptId = '';
+	queryData.groups=[];
+	queryData.modifyTime = '';
+	queryData.ppid = 1000;
+	queryData.queryFromBV = true;
+	queryData.searchKey = '';
+	queryData.searchType = '';
 
     $scope.openSignal = false;
-
-        $scope.sou = function () {
-    	console.log('1111');
-    }
-    
+    $scope.projectInfoList = [];
     $scope.openNew = function () {
-    	//$scope.openSignal = true;
-    	// Cooperation.getTypeList().then(function (data) {
-    	// 	console.log(data);
-    	// 	$scope.typeList = data;
-    	// });
+    	$scope.openSignal = true;
+    	Cooperation.getTypeList().then(function (data) {
+    		console.log(data);
+    		$scope.typeList = data;
+    	});
     }
 
     $scope.closeNew = function () {
@@ -30,8 +36,75 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
     }
 
-    //获取类型列表
-    
+    //获取项目部列表
+    Cooperation.getDeptInfo().then(function (data) {
+    	//debugger;
+    	$scope.deptInfoList = data.slice(0,10);
+    });
+    //获取工程列表
+   	$scope.getprojectInfoList = function (deptId, open) {
+   		//debugger;
+   		//$scope.projectInfoList = [];
+		if(deptId != queryData.deptId){
+			Cooperation.getProjectList(deptId).then(function (data) {
+	   			console.log(data);
+	   			$scope.projectInfoList = data.slice(0,10);
+	   			queryData.deptId = deptId;
+	   			console.log(queryData.deptId);
+   			});
+   		}
+   		
+   		
+   	}
+   	//默认的协同列表
+   	var initCollaborationList = function () {
+   		//1.获取默认的项目部列表
+   		//2.获取第一个项目部列表的工程列表
+   		//3.获取工程列表的第一个工程
+   		//4.以上备注后期实现
+   		// queryData.deptId =1;
+   		// queryData.ppid = 1000;
+   		var params= {deptId:1,ppid:1000,queryFromBV:true,count:20}
+   		Cooperation.getCollaborationList(params).then(function (data) {
+   			$scope.cooperationList = data;
+   		});
+   	}
+   	//initCollaborationList();
+
+   	//点击工程获取协同列表
+   	$scope.getCollaborationList = function (ppid) {
+   		queryData.ppid = ppid;
+   		Cooperation.getCollaborationList(queryData).then(function (data) {
+   			console.log(data);
+   			$scope.cooperationList = data;
+   		});
+   	}
+
+   	//根据属性筛选
+   	$scope.changeAttr = function () {
+   		queryData.searchType = $scope.coopAttr;
+   		Cooperation.getCollaborationList(queryData).then(function (data) {
+   			console.log(data);
+   			$scope.cooperationList = data;
+   		});
+   	}
+
+   	//根据搜索框搜索
+   	$scope.inputSearch = function () {
+   		queryData.deptId?'':1;
+   		if(queryData.deptId==""){
+   			queryData.deptId = 1;
+   		}
+   		queryData.searchKey = $scope.searchkey;
+   		debugger;
+   		Cooperation.getCollaborationList(queryData).then(function (data) {
+   			console.log(data);
+   			$scope.cooperationList = data;
+   		});
+   	}
+
+
+   	
 	//统计页面
 	var comboxCount = $("#comboBox_count");
 	comboxCount.on("click",function(){

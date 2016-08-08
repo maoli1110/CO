@@ -12,13 +12,11 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.linkCategoty1 =false;
     $scope.data = {};
     console.log($stateParams.typeid);
-
    
     //选择负责人
     $scope.selectResponsible = function () {
     	//alert('111');
     	var modalInstance = $uibModal.open({
-    		windowClass:'',
     		backdrop : 'static',
     		templateUrl: 'template/cooperation/select_person_responsible.html',
     		controller:'selectpersonCtrl',
@@ -201,8 +199,44 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     	});
 		
 	}
+	//选择表单勾选之后需要签字的文件
+	var formNeedSignList = [];
+	var updateSelected = function(action,id,name){
+        if(action == 'add' && formNeedSignList.indexOf(id) == -1){
+           formNeedSignList.push(id);
+       	}
+         if(action == 'remove' && formNeedSignList.indexOf(id)!=-1){
+            var idx = formNeedSignList.indexOf(id);
+            formNeedSignList.splice(idx,1);
+         }
+     }
 
-	 //上传照片
+    $scope.updateSelection = function($event, id){
+        var checkbox = $event.target;
+        var action = (checkbox.checked?'add':'remove');
+        updateSelected(action,id,checkbox.name);
+        angular.forEach($scope.formSelectedList, function (value, key) {
+			angular.forEach(formNeedSignList, function (value1, key1) {
+				if(value == value1) {
+					value.needSign = true;
+					$scope.formSelectedList.splice(key,1,value);
+				}
+			})
+		});
+		console.log($scope.formSelectedList);
+    }
+	
+	//删除be资料
+	$scope.removeDoc = function (items) {
+		//lodash删除数组中对象
+		_.pull($scope.docSelectedList,items);
+	}
+	//删除表单资料
+	$scope.removeForm = function (items) {
+		//lodash删除数组中对象
+		_.pull($scope.formSelectedList,items);
+	}
+	//上传照片
     var uploader = $scope.uploader = new FileUploader({
             url: 'upload.php',
    			queueLimit: 5
@@ -295,7 +329,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			var a = {};
 			a.md5 = value.md5;
 			a.name = value.name;
-			a.needSign = true;
+			a.needSign = value.needSign;
 			a.originalUuid = value.uuid;
 			a.size = value.size;
 			formSelectedList1.push(a);
