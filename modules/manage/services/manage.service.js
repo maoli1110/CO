@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('manage').service('Manage', function ($http, $q) {
-    var url = ApplicationConfiguration.urls.apiUrl;
-    var trendUrl = ApplicationConfiguration.urls.trendUrl;
 
+    //var trendUrl = ApplicationConfiguration.urls.trendUrl?ApplicationConfiguration.urls.trendUrl:"";
+    var trendUrl = "/bimco";
+    trendUrl="http://172.16.21.69:8080/bimco";
     /**
      *获取项目部列表
      */
     this.getDeptInfoList = function () {
         var delay = $q.defer();
-        var url_join = trendUrl + 'deptInfoList';
+        var url_join = trendUrl + '/rs/trends/deptInfoList';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -23,7 +24,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
     this.getProjectInfoList = function (params) {
 
         var delay = $q.defer();
-        var url_join = trendUrl + 'projectInfoList/' + params;
+        var url_join = trendUrl + '/rs/trends/projectInfoList/' + params;
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -35,7 +36,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
 //    获取项目动态统计
     this.getProjectTrends = function(obj){
         var delay = $q.defer();
-        var url_join = trendUrl+"projectTrends";
+        var url_join = trendUrl+"/rs/trends/projectTrends";
         $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data)
         },function(data){
@@ -57,7 +58,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
 //    获取动态列表
     this.getTrends = function(params){
         var delay = $q.defer();
-        var url_join = trendUrl+"trends";
+        var url_join = trendUrl+"/rs/trends/trends";
         var obj = JSON.stringify(params);
         console.log(obj);
         $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
@@ -74,7 +75,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
 //    getTrendsFileViewUrl
     this.getTrendsFileViewUrl = function(params){
         var delay = $q.defer();
-        var url_join = trendUrl+ "viewUrl";
+        var url_join = trendUrl+ "/rs/trends/viewUrl";
         $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
         },function(data){

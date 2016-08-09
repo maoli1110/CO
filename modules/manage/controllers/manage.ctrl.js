@@ -111,7 +111,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         var obj = JSON.stringify(params)
         Manage.getProjectTrends(obj).then(function(data){
             //console.info("我是项目统计列表信息",data)
-            $scope.trentsCount = data.data;
+            $scope.trentsCount = data.data.slice(0,9);
         });
     }
     $scope.init();
@@ -122,7 +122,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             Manage.getProjectInfoList(id).then(function (data) {
             //alert(id)
             //console.log("123",data);
-                $scope.projectInfoList = data;
+                $scope.projectInfoList = data.slice(0,9);
             });
             //    获取项目统计列表
             var params = {deptId:id,searchText:""}
@@ -131,6 +131,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 console.info("我是项目统计列表信息",data)
                 $scope.trentsCount = data.data;
             });
+
+
         }
         
 
@@ -163,19 +165,51 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
 
         //通过侧边栏的子元素去调出动态列表
-        $scope.trentsList = function(id){
+        $scope.trentsList = function($event,id) {
             //alert(id);
             $(".good_list").hide();
             $(".pro_list").show();
             $(".manage_back").show();
-            Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:id,searchKey:"",searchType:""}).then(function(data){
+            Manage.getTrends({
+                lastUploadTime: "",
+                lastUsername: "",
+                ppid: id,
+                searchKey: "",
+                searchType: ""
+            }).then(function (data) {
                 $scope.trentsListInfo = data.data;
-                console.info("侧边栏的动态列表",$scope.trentsListInfo)
+                console.info("侧边栏的动态列表", $scope.trentsListInfo)
             });
+
+            $scope.id = id;
+            //动态列表搜索关键字
+            $scope.manageSeacher = function () {
+                //获取搜索类型关键字
+                $scope.seacherKey = $(exampleInputName2).val();
+                //$scope.doc_type?0:$scope.doc_type;
+                $scope.doc_type = 0;
+                Manage.getTrends({
+                    lastUploadTime: "",
+                    lastUsername: "",
+                    ppid: $scope.id,
+                    searchKey: $scope.seacherKey,
+                    searchType: $scope.doc_type
+                }).then(function (data) {
+                    $scope.trentsListInfo = data.data;
+                    console.info("我是搜索列表", $scope.trentsListInfo)
+                });
+            }
+            //$("span.ng-binding").removeClass("active");
+            //获取所有span下面的class名为ng-binding并且移除所有active;
+            $("span[class*=ng-binding]").removeClass("menusActive");
+            //获取当前元素
+            $($event.target).children("span").hide()
+            $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
+
+            $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
+
         }
-        $scope.letter = function(){
-            //alert(123)
-        }
+
 
     $scope.getProjectList = function (index) {
         $scope.isOpen = !$scope.isOpen;

@@ -39,7 +39,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     //获取项目部列表
     Cooperation.getDeptInfo().then(function (data) {
     	//debugger;
-    	$scope.deptInfoList = data.slice(0,10);
+    	$scope.deptInfoList = data;
     });
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
@@ -69,16 +69,174 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    			$scope.cooperationList = data;
    		});
    	}
-   	//initCollaborationList();
+   	initCollaborationList();
 
    	//点击工程获取协同列表
-   	$scope.getCollaborationList = function (ppid) {
+   	$scope.getCollaborationList = function ($event,ppid) {
    		queryData.ppid = ppid;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
    			$scope.cooperationList = data;
    		});
+   		$("span[class*=ng-binding]").removeClass("menusActive");
+            //获取当前元素
+        $($event.target).children("span").hide()
+        $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
+
+        $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
+
    	}
+
+   	//获取协作类型
+   	// Cooperation.getTypeList().then(function (data) {
+    // 		console.log(data);
+    // 		$scope.typeList = data;
+    // });
+
+    //获取优先级列表
+    // Cooperation.getPriorityList().then(function (data) {
+    // 	console.log(data);
+    // 	$scope.priorityList = data;
+    // });
+
+    //获取标识列表
+    // Cooperation.getMarkerList().then(function (data) {
+    // 	console.log(data);
+    // 	$scope.markerList = data;
+    // });
+    
+    //获取动态筛选列表
+    Cooperation.getCoQueryFilter().then(function (data) {
+    	console.log(data);
+    	$scope.coQueryFilterList = data;
+    	debugger;
+    	data[1].list.shift();
+    	data[0].list.shift();
+    	data[2].list.shift();
+    	$scope.coQueryType = data[1].list;
+    	$scope.coPriority = data[0].list;
+    	$scope.coMark = data[2].list;
+    });
+
+	var queryTypeSelected = [];
+	var queryPriorityselected = [];
+	var queryMarkSelected = [];
+    var updateSelected = function(action,id,type){
+        if(action == 'add' && queryTypeSelected.indexOf(id) == -1){
+           type.push(id);
+           console.log(type);
+       	}
+        if(action == 'remove' && queryTypeSelected.indexOf(id)!=-1){
+            var idx = queryTypeSelected.indexOf(id);
+            type.splice(idx,1);
+        }
+     }
+
+    $scope.updateSelection = function($event,id,signal){
+        var checkbox = $event.target;
+        var action = (checkbox.checked?'add':'remove');
+        var type;
+        switch (signal) {
+        	case 1:
+        		type = queryTypeSelected;
+        		break;
+        	case 2:
+        		type = queryPriorityselected;
+        		break;
+        	case 3:
+        		type = queryMarkSelected;
+        		break;
+        }
+
+        updateSelected(action,id,type);
+    }
+
+    $scope.isSelected = function(id){
+    	console.log(queryTypeSelected.indexOf(id));
+        return queryTypeSelected.indexOf(id)>=0;
+    }
+
+    //alltype全选
+    $scope.allType = function () {
+    	debugger;
+    	console.log($scope.typeCheck);
+    	if($scope.typeCheck) {
+    		$('.type-check').find('input').prop('checked',true);
+    		queryTypeSelected = _.cloneDeep($scope.coQueryType);
+    	} else {
+    		$('.type-check').find('input').prop('checked',false);
+    		queryTypeSelected = [];
+    	}
+    	console.log(queryTypeSelected);
+    }
+
+    //allPriority全选
+    $scope.allPriority = function () {
+    	debugger;
+    	console.log($scope.typeCheck);
+    	if($scope.priorityCheck) {
+    		$('.priority-check').find('input').prop('checked',true);
+    		queryPriorityselected = _.cloneDeep($scope.coQueryType);
+    	} else {
+    		$('.priority-check').find('input').prop('checked',false);
+    		queryPriorityselected = [];
+    	}
+    	console.log(queryTypeSelected);
+    }
+
+    //marking标识全选
+    $scope.allMark = function () {
+    	debugger;
+    	console.log($scope.typeCheck);
+    	if($scope.markCheck) {
+    		$('.mark-check').find('input').prop('checked',true);
+    		queryMarkSelected = _.cloneDeep($scope.coQueryType);
+    	} else {
+    		$('.mark-check').find('input').prop('checked',false);
+    		queryMarkSelected = [];
+    	}
+    }
+
+    //动态筛选-确定-按钮-搜索
+    $scope.filterOk = function () {
+    	var groups = [];
+    	console.log(queryTypeSelected);
+    	console.log(queryPriorityselected);
+    	console.log(queryMarkSelected);
+    	var type601Selected = [];
+    	var type602Selected = [];
+    	var type603Selected = [];
+    	//var combSelected = queryTypeSelected.concat(queryPriorityselected,queryMarkSelected);
+    	angular.forEach(queryTypeSelected,function (value, key) {
+    		var unit = {};
+    		unit.type= 601;
+    		unit.value = {key:value.key};
+    		type601Selected.push(unit);
+    	});
+    	angular.forEach(queryPriorityselected,function (value, key) {
+    		var unit = {};
+    		unit.type= 602;
+    		unit.value = {key:value.key};
+    		type602Selected.push(unit);
+    	});
+    	angular.forEach(queryMarkSelected,function (value, key) {
+    		var unit = {};
+    		unit.type= 603;
+    		unit.value = {key:value.key};
+    		type603Selected.push(unit);
+    	});
+    	//console.log(type603Selected);
+    	groups = groups.concat(type601Selected,type602Selected,type603Selected);
+    	console.log(groups);
+
+    	queryData.groups = groups;
+
+    	Cooperation.getCollaborationList(queryData).then(function (data) {
+   			console.log(data);
+   			$scope.cooperationList = data;
+
+   		});
+    }
 
    	//根据属性筛选
    	$scope.changeAttr = function () {
@@ -86,17 +244,17 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
    			$scope.cooperationList = data;
+
    		});
    	}
 
    	//根据搜索框搜索
    	$scope.inputSearch = function () {
-   		queryData.deptId?'':1;
    		if(queryData.deptId==""){
    			queryData.deptId = 1;
    		}
    		queryData.searchKey = $scope.searchkey;
-   		debugger;
+   		//debugger;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
    			$scope.cooperationList = data;

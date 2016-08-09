@@ -26,6 +26,33 @@ angular.module('core').directive('copyRadio', function ($timeout) {
             //项目列表的高度等于窗口的高度
             //$(".trends").height($("body").height()-150).css({"overflow":"auto"})
             //$(".panel-group").height($("body").height()-150).css({"overflow":"auto"})
+
+            //侧边栏子菜单选中和非选中效果
+
+            $(".panel-group > .panel-default").click(function(){
+                console.info(1)
+            })
+                $(".panel-group > .panel-default").map(function(i,val){
+                    console.info(1)
+                    $(".panel-default > .manage_proList").map(function(l,e){
+                        $(".panel-default > .manage_proList").click(function(){
+                            $(this).addClass("active").siblings().removeClass("active");
+                        })
+                    })
+
+                })
+
+            //$(".panel-group > .panel-default").map(function(i,val){
+            //    console.info(1)
+            //    $(".panel-default > .manage_proList").map(function(l,e){
+            //        $(this).click(function(){
+            //            console.log('22222');
+            //            $(this).addClass("active").siblings().removeClass("active");
+            //        })
+            //    })
+            //
+            //})
+
 		}
 	};
 });
@@ -122,3 +149,12 @@ angular.module('core')
             }
         };
     });
+//angular.module('core').directive('checkVisited', function () {
+//    return {
+//        restrict: 'AE',
+//        link: function (scope, ele, attr) {
+//
+//
+//        }
+//    };
+//});

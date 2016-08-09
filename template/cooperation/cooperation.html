@@ -23,115 +23,59 @@
 			</div>
 		</div>
 		<!--筛选框-->
-		<div class="comboBox">
+		<div class="comboBox rela">
 			<div class="row absol filter" ng-show="isCollapsed">
 			<div class="filter-table">
 				<form class="form-inline">
 					<div class="tabs">
 						<div class="checkbox">
-							<label class="manage_title">
-								<input type="checkbox" class="comboBox_checkType">协作类型
+							<label class="filter_title">
+								<input type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型
 							</label>
 						</div>
-						<div class="checkbox dis">
-							<div class="rela">问题整改</div>
-							<label class="absol">
-								<input type="checkbox" id="ComboBox_reform">
-							</label>
-						</div>
-						<div class="checkbox dis">
-							<div class="rela">阶段报告</div>
-							<label class="absol">
-								<input type="checkbox">
-							</label>
-						</div>
-						<div class="checkbox dis">
-							<div class="checkbox">方案报审</div>
-							<label class="absol">
-								<input type="checkbox">
-							</label>
-						</div>
-						<div class="checkbox dis">
-							<div class="rela">方案会签</div>
-							<label class="absol">
-								<input type="checkbox">
-							</label>
-						</div>
-						<div class="checkbox dis">
-							<div class="rela">协作类型</div>
-							<label class="absol">
-								<input type="checkbox">
+						<div class="type-check rela inline check-sub" ng-repeat="item in coQueryType">
+							<label class="rela">
+								<span>{{item.name}}</span>
+								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1)">
 							</label>
 						</div>
 					</div>
 					<!--most(优先级)-->
 					<div class="tabs">
 						<div class="checkbox">
-							<label class="manage_title">
-								<input type="checkbox" class="comboBox_checkType " >协作类型
+							<label class="filter_title">
+								<input type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
 							</label>
 						</div>
-						<div class="most_bj">
-							<div class="rela"><span>I</span></div>
-						</div>
-						<div class="most_bj">
-							<div class="rela"><span>II</span></div>
-						</div>
-						<div class="most_bj active">
-							<div class="rela"><span>III</span></div>
+						<div class="priority-check rela inline check-sub" ng-repeat="item in coPriority">
+							<label class="rela">
+								<span>{{item.name}}</span>
+								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2)">
+							</label>
 						</div>
 					</div>
 					<!--marking标识-->
 					<div class="marking">
 						<div class="tabs">
 							<div class="checkbox">
-								<label class="manage_title">
-									<input type="checkbox" class="comboBox_checkType">协作类型
+								<label class="filter_title">
+									<input type="checkbox" class="comboBox_checkType" ng-click="allMark()" ng-model="markCheck">标识
 								</label>
 							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
+							<div class="marklist">
+								<div class="mark-check rela inline check-sub" ng-repeat="item in coMark">
+									<label class="rela">
+										<span>{{item.name}}</span>
+										<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3)">
+									</label>
+								</div>
 							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-						</div>
-						<!--2F-->
-						<div class="tabs mark_mar">
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
-							<div class="most_bj">
-								<div class="rela"><span>质量安全</span></div>
-							</div>
+							
 						</div>
 					</div>
 				</form>
 			</div>
+			<div><div class="btn btn-default" ng-click="filterOk()">确定</div><div class="btn btn-default">取消</div></div>
 		</div>
 		</div>
 		<!---->

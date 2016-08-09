@@ -285,10 +285,10 @@ li {
 }
 .right-content .filter {
     background: #eee;
-    width: 100%;
     /*height: 20%;*/
     margin: 0;
     z-index:10;
+    width: 100%;
 
 }
 /* create */
@@ -461,9 +461,59 @@ li {
     border-bottom: 1px solid #ddd;
     padding: 0 20px;
 }
-.manage_proList:hover{
-    cursor: hand;
-}
+
 .panel-body{
     padding:0;
+}
+/*侧边栏菜单*/
+.panel-default{
+    border:none !important;
+
+}
+.panel-heading{
+    border-radius: 0;
+}
+.panel-group .panel+.panel{
+    margin-top:0;
+}
+.panel-heading{
+    background: #353944 !important;
+    padding: 16px 15px;
+}
+
+.manage_proList{
+    background:#24282f;
+    color:#fff;
+    border:none;
+    line-height:40px;
+    cursor:pointer;
+}
+.manage_proList span{
+    display:block;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+
+.panel-title a span .ng-binding{
+    display:inline-block;
+   width:150px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    color:#fff;
+}
+
+.panel-group .panel-heading+.panel-collapse>.panel-body {
+     border-top:none;
+}
+.menusActive {
+    color:#77d28f ;
+    /*background:#77d28f;*/
+}
+.font_radius{
+    font-size:49px;
+    margin-right:3px;
+    display:inline-block !important;
+    opacity:0;
 }

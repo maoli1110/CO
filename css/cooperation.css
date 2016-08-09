@@ -44,7 +44,24 @@
 .comboBox .filter-table .tabs .active{
 	background:#666;
 }
-
+.comboBox .tabs .check-sub label {
+	margin-right: 10px;
+	width: 90px;
+	background: green;
+	text-align: center;
+    padding: 10px;
+}
+.comboBox .tabs .check-sub input{
+	top: 18px;
+    left: 77px;
+}
+.comboBox .marking .marklist {
+	margin-left: 80px;
+	max-width: 80%;
+}
+.comboBox .filter-table .tabs .checkbox {
+	width: 78px;
+}
 /*data_count(数据统计页面)*/
 
 /*table-list*/

@@ -1,7 +1,7 @@
 <header ng-include="'template/core/header.html'"></header>
 
 <div class="main-container rela" >
-    <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'" ></div>
+    <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
         <div class="container-fluid rela">
@@ -188,17 +188,17 @@
                                             <div class="tools_bar"><img ng-src="{{items.downlodUrl}}"  ng-click = "lookSelector()" /></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" />
+                                                <img src="imgs/icon_down.png" ng-click="proDown()" />
                                                 <img src="imgs/icon_add.png" />
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                                 <!--记录时间-->
-                                <div class="pro_Time_surfed">
-                                    <h5>上次浏览时间：2016.8.8</h5>
-                                    <div class="pro_line"></div>
-                                </div>
+                                <!--<div class="pro_Time_surfed">-->
+                                    <!--<h5>上次浏览时间：2016.8.8</h5>-->
+                                    <!--<div class="pro_line"></div>-->
+                                <!--</div>-->
                             </ul>
                         </div>
                     </div>
