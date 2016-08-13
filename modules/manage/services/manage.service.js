@@ -4,7 +4,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
 
     //var trendUrl = ApplicationConfiguration.urls.trendUrl?ApplicationConfiguration.urls.trendUrl:"";
     var trendUrl = "/bimco";
-    trendUrl="http://172.16.21.69:8080/bimco";
+    //trendUrl="http://172.16.21.69:8080/bimco";
     /**
      *获取项目部列表
      */

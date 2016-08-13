@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
 	<script type="text/javascript"> 
 		var basePath = "http://192.168.13.222:8080/bimco";
-		alert("basePath:"+basePath);
+		//alert("basePath:"+basePath);
 	</script>
  
 </head>
@@ -50,6 +50,7 @@
 <script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
 <script type="text/javascript" src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="lib/echart/echarts.min.js"></script>
+<script src="./lib/nginfinite/ng-infinite-scroll.min.js"></script>
 <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script> -->
 <!-- select -->
 <script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
@@ -72,6 +73,7 @@
 <script type="text/javascript" src="./modules/core/directives/directive.js"></script>
 <script type="text/javascript" src="./modules/core/directives/directive1.js"></script>
 <script type="text/javascript" src="./modules/core/services/common.service.js"></script>
+
 
 <!-- manage -->
 <script type="text/javascript" src="./modules/manage/manage.module.js"></script>

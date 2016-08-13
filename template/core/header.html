@@ -3,14 +3,61 @@
 			<div class="navbar-header user">
 				<img src="./imgs/saber.jpg" alt="头像">
 				<div class="inline">
-					<div>贾吉祥</div>
-					<div>上海鲁班软件有限公司</div>
+					<div>贾吉祥&nbsp;&nbsp;施工员</div>
+					<div>鲁班建设集团有限公司</div>
 				</div>
-				<div class="inline"><span class="glyphicon glyphicon-chevron-down f-white ml-10"></span></div>
+				<div class="inline header-shape" ng-click="menus()">
+					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
+					<div class="header_trigon">
+
+					</div>
+				</div>
+				<div class="header_menus">
+					<ul>
+						<li>
+							鲁班软件研发中心(100)<span class="glyphicon glyphicon-chevron-right"></span>
+							<div class="child_items">
+								<ol >
+									<li>动态</li>
+									<li>协作</li>
+								</ol>
+							</div>
+						</li>
+						<li>
+							广运房地产公司(100)<span class="glyphicon glyphicon-chevron-right"></span>
+							<div class="child_items">
+								<ol >
+									<li>动态</li>
+									<li>协作</li>
+								</ol>
+							</div>
+						</li>
+						<li>
+							PSD测试企业(100)<span class="glyphicon glyphicon-chevron-right"></span>
+							<div class="child_items">
+								<ol >
+									<li>动态</li>
+									<li>协作</li>
+								</ol>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
-			<ul class="nav navbar-nav">
-				<li><a ui-sref="manage">动态</a></li>
-				<li><a ui-sref="cooperation">协作</a></li>
+			<ul class="nav navbar-nav" show-icon>
+				<li  class="navActive" ui-sref="manage">
+					<img src="imgs/icon01.png" alt="">
+					<a >动态</a>
+				</li>
+				<li ui-sref="cooperation">
+					<img src="imgs/icon02.png" alt="">
+					<a >协作</a>
+				</li>
 			</ul>
+			<div class="label_tools">
+				<img src="imgs/label_small.png" alt="">
+				<img src="imgs/label_big.png" alt="">
+				<img src="imgs/label_close.png" alt="">
+			</div>
 		</div>
 </nav>

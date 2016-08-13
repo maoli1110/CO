@@ -2,52 +2,43 @@
 <div class="container">
 	<div class="create">
 		<div class="row">
-			<div class="col-md-6 left">
-				<div class="row">
-					<label class="col-md-2" for="">协作名称：</label>
-			  		<div class="col-md-6 inline"><input type="text" class="form-control left-area" id="" placeholder="" ng-model="coopname"></div>
-				</div>
-				<div class="row">
-					<label for="" class="col-md-2">优先级：</label>
-				   	<select class="selectpicker col-md-6 priority" ng-model="priority">
-					  	<option value="1">Ⅰ</option>
-					  	<option value="2">Ⅱ</option>
-					  	<option value="3">Ⅲ</option>
-					</select>
-				</div>
-				<div class="row">
-					<label class="col-md-2">标识：</label>
-				  	<select class="identify col-md-6" ng-model="mark" ng-options="item.picMarker for item in markerList" ng-click="switchMark(mark)">
-					</select>
-				</div>
-			</div>
-			<div class="col-md-6 right">
-				<div class="row">
-					<label for="" class="col-md-2 align-right">负责人：</label>
-				    <div class="inline col-md-7">
-				    	<!-- <input type="text" class="col-md-3" id="" placeholder="" ng-model="responsiblePerson"> -->
-				    	<div ng-model="responsiblePerson" class="inline responsible">111</div>
-				    	<span class="plus-icon" ng-click="selectResponsible()">+</span>
-				    </div>
-				</div>
-				<div class="row">
-				    <label for="" class="col-md-2 align-right">限制期限：</label>
-				    <p class="input-group col-md-7">
-			          <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal"/>
-			          <span class="input-group-btn">
-			            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-			          </span>
-			          <input type="checkbox" ng-click="isChecked()">
-			        </p>
-				</div>
-			</div>
+		  	<label for="" class="col-md-1">协作名称：</label>
+		  	<div class="col-md-3 inline"><input type="text" class="form-control left-area" id="" placeholder="" ng-model="coopname"></div>
+		    <label for="" class="col-md-3 align-right">负责人：</label>
+		    <div class="inline col-md-3">
+		    	<!-- <input type="text" class="col-md-3" id="" placeholder="" ng-model="responsiblePerson"> -->
+		    	<div ng-model="responsiblePerson" class="inline responsible">111</div>
+		    	<span class="plus-icon" ng-click="selectResponsible()">+</span>
+		    </div>
+		    
 		</div>
-		
-		<div class="row link">
+			
+		<div class="row">
+		  	<label for="" class="col-md-1">优先级：</label>
+		   	<select class="selectpicker col-md-3 priority" ng-model="priority">
+			  	<option value="1">Ⅰ</option>
+			  	<option value="2">Ⅱ</option>
+			  	<option value="3">Ⅲ</option>
+			</select>
+		    <label for="" class="col-md-3 align-right">限制期限：</label>
+		    <p class="input-group col-md-3">
+	          <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal"/>
+	          <span class="input-group-btn">
+	            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+	          </span>
+	          <input type="checkbox" ng-click="isChecked()">
+	        </p>
+		</div>
+		<div class="row">
+			<label class="col-md-1">标识：</label>
+		  	<select class="identify col-md-3" ng-model="mark" ng-options="item.picMarker for item in markerList" ng-click="switchMark(mark)">
+			</select>
+		</div>
+		<div class="row">
 			<label for="" class="col-md-1">关联：</label>
 			<div class="list-inline col-md-8" ng-show="linkOpenSignal">
 				<!-- <button class="btn btn-default" popover-placement="right" popover-trigger="'focus'" uib-popover-template="dynamicPopover.templateUrl">与工程关联</button> -->
-				<button class="btn btn-default" ng-click="linkProject()" style="margin-left:3px;">工程</button>
+				<button class="btn btn-default" ng-click="linkProject()">工程</button>
 				<button class="btn btn-default" ng-click="linkComponent()">图上构建</button>
 				<button class="btn btn-default" ng-click="linkCategoty()">构建类别</button>
 			</div>
@@ -67,13 +58,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="row mt-15 mx">
+		<div class="row">
 			<label for="" class="col-md-1">描述：</label>
 			<div class="col-md-9">
 				<textarea rows="4" ng-model="desc" style="width:100%"></textarea>
 			</div>
+			
 		</div>
-		<div class="row mt-15">
+		<div class="row">
 			<label for="" class="col-md-1">相关人员：</label>
 			<div class="selected-list inline col-md-9">
 				<div class="inline" style="border-right:1px solid #ccc;">
@@ -88,13 +80,13 @@
 						<li>{{item.username}}</li>
 					</ul>
 				</div>
-				<button class="btn add-related" ng-click="selectRelated()"><span>+</span></button>
+				<button class="btn btn-default" ng-click="selectRelated()">添加</button>
 			</div>
 		</div>
 		<!-- upload -->
-		<div class="row upload">
+		<div class="row">
 			<label for="" class="col-md-1">照片：</label>
-			<div class="upload-img col-md-11">
+			<div class="upload-img">
 				<input class="upload-img" type="file" nv-file-select="" uploader="uploader" style="display:none;"/><br/>
 		        <ul class="list-inline inline">
 		            <li ng-repeat="item in uploader.queue">
@@ -104,7 +96,7 @@
 		                <button ng-click="item.upload()">upload</button>
 		            </li>
 		        </ul>
-		        <button class="btn  btn-add" ng-click="fileUpload()"><span>+</span></button>
+		        <button class="btn btn-default btn-add" ng-click="fileUpload()">+</button>
 		        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
 	                <span class="glyphicon glyphicon-upload"></span> Upload all
 	            </button>
@@ -149,14 +141,13 @@
 				<button class="btn btn-default" ng-click="uploadDocs()">上传资料</button>
 		</div>
 
-		
-	</div>
-</div>
-<div class="create-btn-submit">
-	<div class="text-center">
-		<button class="btn btn-default" ng-click="save()">存储</button>
-		<button class="btn btn-default">提交</button>
-		<button class="btn btn-default">取消</button>
+		<div class="btn-submit">
+			<div class="text-center">
+				<button class="btn btn-default" ng-click="save()">存储</button>
+				<button class="btn btn-default">提交</button>
+				<button class="btn btn-default">取消</button>
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">

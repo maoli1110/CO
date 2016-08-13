@@ -4,14 +4,14 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     
     var url = "/bimco";
  
-    url="http://172.16.21.69:8080/bimco";
+    //url="http://172.16.21.69:8080/bimco";
     /**
      *获取项目部列表
      */
     this.getDeptInfo = function () {
         var delay = $q.defer();
         var url_join= url+"/rs/co/deptInfoList";
-        $http.get(url_join)
+        $http.get(url_join,{cache:true})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
@@ -24,7 +24,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getUserList = function (params) {
         var delay = $q.defer();
         var url_join = url + '/rs/co/userList/' + params;
-        $http.get(url_join)
+        $http.get(url_join,{cache:true})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -37,7 +37,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getProjectList = function (params) {
         var delay = $q.defer();
         var url_join = url + '/rs/co/projectList/' + params;
-        $http.get(url_join)
+        $http.get(url_join,{cache:true})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {

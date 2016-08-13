@@ -1,30 +1,22 @@
 <header ng-include="'template/core/header.html'"></header>
 
-<div class="main-container rela" >
+<div class="main-container rela" scroll-directive >
     <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
         <div class="container-fluid rela">
-            <div class="operation clearfix">
-                <div class="left">
-                    <div class="manage_back" ng-click="listBack()">
-                        <span class="fa fa-reply back"></span>
-                        <b>返回</b>
+            <div class="operation clearfix goodlist_left">
+                <div class="clearfix goods_toolsBar">
+                    <div class="left good_L">
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                        <div class="good_search001" ng-click="getDeptId()"><img src="imgs/seache.png" alt=""></div>
                     </div>
-                    <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
-
-                    <select class="selectpicker" ng-model="doc_type" id="doc_type">
-                        <option value="0">Mustard</option>
-                        <option value="1">Ketchup</option>
-                        <option value="2">Relish</option>
-                    </select>
-                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                    <button type="button" class="btn btn-default" ng-click="manageSeacher(trentsLiInfo.ppid)">搜索</button>
+                    <div class="right ">
+                        <button type="button" class="btn  btn_count" style="margin-right:12px;">统计</button>
+                        <button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>
+                    </div>
                 </div>
-                <div class="right">
-                    <button type="button" class="btn btn-default">统计</button>
-                    <button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
-                </div>
+                <strong></strong>
             </div>
         </div>
         <!--筛选框-->
@@ -158,34 +150,60 @@
                     <!--<div class="tools"></div>-->
                     <div class="content clearfix">
                         <!--商品展示-->
-                        <div class="good_list clearfix" scroll-directive id="content-2" style="height:740px;overflow:auto;"  >
+                        <div class="good_list clearfix"  id="content-a2" style="height:740px;overflow:auto;"  >
                             <!--商品1F-->
-                            <dl ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage(trentsLiInfo.ppid)">
+                            <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click="updateNew($event)">
                                 <dt>
                                     <img src="imgs/icon_ion.png">
-                                <p>{{trentsLiInfo.projectType}}</p>
+                                <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
                                 </dt>
                                 <dd>
-                                    <div class="box"><img src="imgs/img_build.png"></div>
+                                    <div class="box" ng-click = "turnPage(trentsLiInfo.ppid)">
+                                        <!--<img src="imgs/img_build.png">-->
+                                        <img ng-src="{{trentsLiInfo.projectPicture}}" alt="">
+                                    </div>
                                     <div class=" data_update">
-                                        <p >资料更新</p>
-                                        <p><b>{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
+                                        <p class="updata_info">资料更新</p>
+                                        <p class="totle_count"><b class="updateNub">{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
                                     </div>
                                 </dd>
                             </dl>
+
                         </div>
 
                         <!--商品列表展示页面-->
-                        <div class="pro_list clearfix" ng-click ="letter()" scroll-directive id="content-4" style="height:800px;overflow:auto;" >
-                            <ul class="list" scroll-directive>
-                                <li ng-repeat="getTrents in trentsListInfo">
+                        <!--工具栏-->
+                        <div class="operation clearfix">
+                            <div class="left prolist_left">
+                                <div class="manage_back" ng-click="listBack()">
+                                    <span class="fa fa-reply back"></span>
+                                    <b>返回</b>
+                                </div>
+                                <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
+
+                                <select class="selectpicker" ng-model="doc_type" id="doc_type">
+                                    <option value="0">Mustard</option>
+                                    <option value="1">Ketchup</option>
+                                    <option value="2">Relish</option>
+                                </select>
+                                <input type="text" class="form-control" id="exampleInputName3" placeholder="Jane Doe">
+                                <button type="button" class="btn btn-default" ng-click="manageSeacher(trentsLiInfo.ppid)">搜索</button>
+                            </div>
+                            <div class="right">
+                                <button type="button" class="btn btn-default">统计</button>
+                                <button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
+                            </div>
+                        </div>
+                        <div class="pro_list clearfix" light-height id="content-a4" style="height:800px;overflow:auto;" >
+                            <ul class="list">
+                                <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
+                                <li ng-repeat="getTrents in trentsListInfo track by $index" profit>
                                     <!--icon_img-->
                                     <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
-                                    <!--工程师资料-->
-                                    <p><b>{{getTrents.username}}</b>&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs">&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;<span>{{getTrents.updateTime}}</span></p>
+                                    <p  class="menName">{{getTrents.username}}&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs" >&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;</p><b>{{getTrents.updateTime}}</b>
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs" ng-click="transformBig(items.uuid)">
-                                            <div class="tools_bar"><img ng-src="{{items.downlodUrl}}"  ng-click = "lookSelector()" /></div>
+                                            <div class="tools_bar"><img ng-src="{{items.downlodUrl}}"></div>
                                             <div class="bar">
                                                 <img src="imgs/iocn_search.png" />
                                                 <img src="imgs/icon_down.png" ng-click="proDown()" />
@@ -199,6 +217,8 @@
                                     <!--<h5>上次浏览时间：2016.8.8</h5>-->
                                     <!--<div class="pro_line"></div>-->
                                 <!--</div>-->
+
+
                             </ul>
                         </div>
                     </div>
@@ -207,30 +227,33 @@
         </div>
         </div>
     </div>
-    <!--图片选择器-->
-    <div class="top_slide_wrap">
-        <div class="bx-wrapper">
-            <div class="showImg">
-                <ul class="slide_box">
-                    <li>
-                        <a href="#"><img src="imgs/show/0/1.jpg" alt=""></a>
-                    </li>
-                    <li>
-                        <a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>
-                    </li>
-                    <li>
-                        <a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>
-                    </li>
-                    <li>
-                        <a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>
-                    </li>
-                </ul>
-                <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>
-                <a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>
-                <a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>
-            </div>
+
+</div>
+
+<!--图片选择器-->
+<div class="top_slide_wrap" >
+    <div class="bx-wrapper" >
+        <div class="showImg">
+            <ul class="slide_box">
+                <li>
+                    <a href="#"><img src="imgs/show/0/1.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>
+                </li>
+                <li>
+                    <a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>
+                </li>
+            </ul>
+            <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>
+            <a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>
+            <a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>
         </div>
     </div>
+</div>
 <div class="mask"></div>
 <!--<script src="js/goods.js"></script>-->
 <script type="text/javascript">
@@ -248,6 +271,8 @@
         })
     })
 </script>
+
+
 
 
 

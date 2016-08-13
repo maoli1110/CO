@@ -36,7 +36,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
     }
 
-    //获取项目部列表
+    //获取项目部列表3434
     Cooperation.getDeptInfo().then(function (data) {
     	//debugger;
     	$scope.deptInfoList = data;
@@ -70,6 +70,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		});
    	}
    	initCollaborationList();
+
+    $scope.addMoreData = function () {
+      console.log('222scroll');
+        initCollaborationList();
+    }
 
    	//点击工程获取协同列表
    	$scope.getCollaborationList = function ($event,ppid) {
@@ -109,7 +114,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     Cooperation.getCoQueryFilter().then(function (data) {
     	console.log(data);
     	$scope.coQueryFilterList = data;
-    	debugger;
+    	//debugger;
     	data[1].list.shift();
     	data[0].list.shift();
     	data[2].list.shift();

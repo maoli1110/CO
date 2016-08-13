@@ -14,7 +14,7 @@ angular.module('core').directive('niceScroll', function () {
     };
 });
 
-angular.module('core').directive('scrollcDirective', function () {
+angular.module('core').directive('scrollcDirective1', function () {
         return {
             restrict: 'AE',
             link: function (scope, ele, attr) {

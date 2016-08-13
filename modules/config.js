@@ -3,7 +3,7 @@
 var ApplicationConfiguration = (function(){
 	// 应用程序名和依赖
 	var applicationModuleName = 'appname';
-	var applicationModuleVendorDependencies = ['ui.router','ui.bootstrap', 'angularFileUpload', 'i18n', 'alert', 'z.breadcrumbs'];
+	var applicationModuleVendorDependencies = ['ui.router','ui.bootstrap', 'angularFileUpload', 'i18n', 'alert', 'z.breadcrumbs','infinite-scroll'];
 
 	// 添加新模块
 	var registerModule = function(moduleName, dependencies) {
@@ -12,8 +12,8 @@ var ApplicationConfiguration = (function(){
 	};
 
 	var urls = {
-        apiUrl: 'http://172.16.21.69:8080/bimco',
-        trendUrl: 'http://172.16.21.69:8080/bimco',
+        apiUrl: 'http://localhost:8080/bimco',
+        trendUrl: 'http://localhost:8080/bimco',
         //apiUrl: 'http://192.168.13.222:8080/bimco',
         //coUrl: 'http://172.16.21.69:8080/bimco/'
         // wwwUrl: 'https://www.suncloud.cn',

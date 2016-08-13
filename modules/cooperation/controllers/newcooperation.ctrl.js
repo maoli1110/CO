@@ -66,11 +66,21 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		});
     	});
     }
+
+    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+			$('.selectpicker').selectpicker({
+			  	style: 'btn-default',
+			  	size: 'auto'
+			});
+	});
     //获取标识
     Cooperation.getMarkerList().then(function (data) {
     	$scope.markerList = data;
     	console.log($scope.markerList);
     	$scope.mark = $scope.markerList[0];
+		$('.identify').addClass('selectpicker');
+		
+
     });
 
     $scope.switchMark = function() {
@@ -379,7 +389,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 		//获取项目部
 		Cooperation.getDeptInfo().then(function (data) {
-			//console.log(data);
 			$scope.deptInfo.availableOptions = data;
 			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
 		});

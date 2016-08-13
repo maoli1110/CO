@@ -98,7 +98,7 @@
 						<th>详情</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody infinite-scroll="addMoreData()" infinite-scroll-distance="3" infinite-scroll-disabled="false">
 					<tr ng-repeat="item in cooperationList">
 						<td><div style="background:{{item.type.color}}">{{item.type.name}}</div></td>
 						<td>{{item.name}}</td>
@@ -182,9 +182,9 @@
 <!--</div>-->
 <script type="text/javascript">
 	$('.selectpicker').selectpicker({
-  style: 'btn-default',
-  size: 'auto'
-});
+	  style: 'btn-default',
+	  size: 'auto'
+	});
 </script>
 
 
