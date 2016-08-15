@@ -8,7 +8,7 @@
             <div class="operation clearfix goodlist_left">
                 <div class="clearfix goods_toolsBar">
                     <div class="left good_L">
-                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="输入关键字">
                         <div class="good_search001" ng-click="getDeptId()"><img src="imgs/seache.png" alt=""></div>
                     </div>
                     <div class="right ">
@@ -21,7 +21,7 @@
         </div>
         <!--筛选框-->
         <div class="comboBox">
-            <div class="row absol filter" ng-show="isCollapsed">
+            <div class="row absol filter" style="top:51px;" ng-show="isCollapsed">
                 <div class="filter-table">
                     <form class="form-inline">
                         <div class="tabs">
@@ -173,25 +173,28 @@
 
                         <!--商品列表展示页面-->
                         <!--工具栏-->
-                        <div class="operation clearfix">
-                            <div class="left prolist_left">
+                        <div class="operation clearfix prolist_left">
+                            <div class="left ">
                                 <div class="manage_back" ng-click="listBack()">
-                                    <span class="fa fa-reply back"></span>
+                                    <span><img src="imgs/call_back.png" alt=""></span>
                                     <b>返回</b>
                                 </div>
                                 <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
 
-                                <select class="selectpicker" ng-model="doc_type" id="doc_type">
-                                    <option value="0">Mustard</option>
-                                    <option value="1">Ketchup</option>
-                                    <option value="2">Relish</option>
+                                <select class="selectpicker btn_white" ng-model="docType" id="doc_type">
+                                    <option value="1">全部类型</option>
+                                    <option value="2">文档</option>
+                                    <option value="4">图纸</option>
+                                    <option value="8">图片</option>
+                                    <option value="16">视频</option>
+                                    <option value="64">压缩文件</option>
+                                    <option value="128">其他</option>
                                 </select>
-                                <input type="text" class="form-control" id="exampleInputName3" placeholder="Jane Doe">
-                                <button type="button" class="btn btn-default" ng-click="manageSeacher(trentsLiInfo.ppid)">搜索</button>
-                            </div>
-                            <div class="right">
-                                <button type="button" class="btn btn-default">统计</button>
-                                <button type="button" class="btn btn-default" ng-click="openNew()">新建协作</button>
+                                    <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="联系人、资料">
+                                    <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
+                                </div>
+                            <div class="right ">
+                                <button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>
                             </div>
                         </div>
                         <div class="pro_list clearfix" light-height id="content-a4" style="height:800px;overflow:auto;" >
@@ -200,15 +203,21 @@
                                 <li ng-repeat="getTrents in trentsListInfo track by $index" profit>
                                     <!--icon_img-->
                                     <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
-                                    <p  class="menName">{{getTrents.username}}&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs" >&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;</p><b>{{getTrents.updateTime}}</b>
+                                    <p  class="menName">{{getTrents.username}}&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs" >&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
-                                        <div class="img_list actives" ng-repeat = "items in getTrents.docs" ng-click="transformBig(items.uuid)">
-                                            <div class="tools_bar"><img ng-src="{{items.downlodUrl}}"></div>
-                                            <div class="bar">
-                                                <img src="imgs/iocn_search.png" />
-                                                <img src="imgs/icon_down.png" ng-click="proDown()" />
-                                                <img src="imgs/icon_add.png" />
+                                        <div class="img_list actives" ng-repeat = "items in getTrents.docs" >
+                                            <div class="tools_bar">
+                                                <img ng-src="{{items.downlodUrl}}" class="bookSection">
+                                                <!--<img src="imgs/docType.png" alt="" ng-click="transformBig(items.uuid)">-->
+                                                <em></em>
+                                                <div class="bar" >
+                                                    <img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />
+                                                    <img src="imgs/icon_add.png"  class="pro-address"/>
+                                                    <em></em>
+                                                </div>
+                                                <div class="pro_mask"></div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </li>
@@ -271,6 +280,7 @@
         })
     })
 </script>
+
 
 
 

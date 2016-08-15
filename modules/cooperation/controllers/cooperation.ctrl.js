@@ -5,15 +5,20 @@
 angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state) {
     //查询列表初始值
+    $scope.cooperationList = [];
+    var tempCooperationList = [];
     var queryData = {};
-	queryData.count = 20;
-	queryData.deptId = '';
-	queryData.groups=[];
-	queryData.modifyTime = '';
-	queryData.ppid = 1000;
-	queryData.queryFromBV = true;
-	queryData.searchKey = '';
-	queryData.searchType = '';
+  	queryData.count = 20;
+  	queryData.deptId = '';
+  	queryData.groups=[];
+  	queryData.modifyTime = '';
+    queryData.modifyTimeCount = 0;
+  	queryData.ppid = 1000;
+  	queryData.queryFromBV = true;
+  	queryData.searchKey = '';
+  	queryData.searchType = '';
+
+    $scope.isTypeChecked = false;
 
     $scope.openSignal = false;
     $scope.projectInfoList = [];
@@ -64,16 +69,41 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		//4.以上备注后期实现
    		// queryData.deptId =1;
    		// queryData.ppid = 1000;
-   		var params= {deptId:1,ppid:1000,queryFromBV:true,count:20}
-   		Cooperation.getCollaborationList(params).then(function (data) {
+   		// var params= {deptId:1,ppid:1000,queryFromBV:true,count:20}
+   		Cooperation.getCollaborationList(queryData).then(function (data) {
    			$scope.cooperationList = data;
    		});
    	}
-   	initCollaborationList();
+   	//initCollaborationList();
 
+    //下拉获取更多协同列表数据
     $scope.addMoreData = function () {
-      console.log('222scroll');
-        initCollaborationList();
+        //debugger;
+        console.log('222scroll');
+        //默认获取第一个项目部列表的工程列表
+        if(!queryData.deptId) {
+            queryData.deptId = 1;
+            queryData.ppid = 1000;
+        }
+        //第一次queryData.modifyTime为空
+        //第二次modifyTime为最后一次的数据的时间值
+        if($scope.cooperationList.length) {
+            queryData.modifyTimeCount = 1;
+            queryData.modifyTime =  $scope.cooperationList[$scope.cooperationList.length - 1].updateTime;
+        }
+
+        Cooperation.getCollaborationList(queryData).then(function (data) {
+            // debugger;
+            if(!$scope.cooperationList.length) {
+                $scope.cooperationList = data;
+            } else {
+                if(data.length) {
+                    $scope.cooperationList.push(data);
+                }
+                return;
+            }
+            
+        });
     }
 
    	//点击工程获取协同列表
@@ -85,7 +115,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		});
    		$("span[class*=ng-binding]").removeClass("menusActive");
             //获取当前元素
-        $($event.target).children("span").hide()
+        $($event.target).children("span").hide();
         $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
 
         $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
@@ -126,18 +156,45 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var queryTypeSelected = [];
 	var queryPriorityselected = [];
 	var queryMarkSelected = [];
-    var updateSelected = function(action,id,type){
-        if(action == 'add' && queryTypeSelected.indexOf(id) == -1){
-           type.push(id);
-           console.log(type);
+    var updateSelected = function(action,id,type,index,signal){
+          //debugger;
+        if(action == 'add' && type.indexOf(id) == -1){
+          
+            //$scope.isTypeChecked = true;
+            type.push(id);
+            //console.log(type);
+            if(signal == 1) {
+                $('.bg' + index).removeClass('bg' + index).addClass('bgs' + index);
+            }
+            //debugger;
+            if(signal == 2) {
+                $('.priority-bg' + index).removeClass('priority-bg' + index).addClass('priority-bgs' + index);
+            }
+            
+            if(signal == 3) {
+                $('.mark-bg' + index).removeClass('mark-bg' + index).addClass('mark-bgs' + index);
+            }
        	}
-        if(action == 'remove' && queryTypeSelected.indexOf(id)!=-1){
+        if(action == 'remove' && type.indexOf(id)!=-1){
+            //$scope.isTypeChecked = false;
             var idx = queryTypeSelected.indexOf(id);
             type.splice(idx,1);
+            //debugger;
+            if(signal == 1) {
+                $('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
+            }
+            if(signal == 2) {
+                $('.priority-bgs' + index).removeClass('priority-bgs' + index).addClass('priority-bg' + index);
+            }
+            if(signal == 3) {
+                $('.mark-bgs' + index).removeClass('mark-bgs' + index).addClass('mark-bg' + index);
+            }
+            
         }
      }
 
-    $scope.updateSelection = function($event,id,signal){
+    $scope.updateSelection = function($event,id,signal,index){
+        //debugger;
         var checkbox = $event.target;
         var action = (checkbox.checked?'add':'remove');
         var type;
@@ -153,7 +210,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         		break;
         }
 
-        updateSelected(action,id,type);
+        updateSelected(action,id,type,index,signal);
     }
 
     $scope.isSelected = function(id){
@@ -163,7 +220,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //alltype全选
     $scope.allType = function () {
-    	debugger;
     	console.log($scope.typeCheck);
     	if($scope.typeCheck) {
     		$('.type-check').find('input').prop('checked',true);
@@ -204,6 +260,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //动态筛选-确定-按钮-搜索
     $scope.filterOk = function () {
+        $scope.isCollapsed = false;
     	var groups = [];
     	console.log(queryTypeSelected);
     	console.log(queryPriorityselected);
@@ -232,17 +289,20 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	});
     	//console.log(type603Selected);
     	groups = groups.concat(type601Selected,type602Selected,type603Selected);
-    	console.log(groups);
+    	console.log('groups',groups);
 
     	queryData.groups = groups;
 
     	Cooperation.getCollaborationList(queryData).then(function (data) {
-   			console.log(data);
+   			//console.log(data);
    			$scope.cooperationList = data;
 
    		});
     }
 
+    $scope.filterCancel = function () {
+        $scope.isCollapsed = false;
+    }
    	//根据属性筛选
    	$scope.changeAttr = function () {
    		queryData.searchType = $scope.coopAttr;

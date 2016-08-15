@@ -45,12 +45,7 @@ angular.module('core').directive('copyRadio', function ($timeout) {
             //项目列表的高度等于窗口的高度
             //$(".trends").height($("body").height()-150).css({"overflow":"auto"})
             //$(".panel-group").height($("body").height()-150).css({"overflow":"auto"})
-            $(".header_menus ul li").hover(function(){
-                //console.info(123)
-                $(this).css("background","#69C080").children().find("ol").show();
-            },function(){
-                $(this).css("background","#fff").children().find("ol").hide()
-            })
+            //        动态列表图片定位动画
 
 		}
 	};
@@ -240,6 +235,21 @@ angular.module('core').directive('boxShadow', function($timeout) {
             if (scope.$last === true) {
                 $timeout(function() {
                     scope.$emit('shadowFinsh');
+                });
+            }
+        }
+
+    };
+});
+angular.module('core').directive('detail', function($timeout) {
+    //debugger;
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+
+            if (scope.$last === true) {
+                $timeout(function() {
+                    scope.$emit('detailTools');
                 });
             }
         }

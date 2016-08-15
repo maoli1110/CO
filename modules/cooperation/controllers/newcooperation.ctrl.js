@@ -43,7 +43,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		controller:'selectpersonCtrl',
     		resolve:{
     			items: function () {
-    				return [];
+    				return $scope.related;
     			}
     		}
     	});
@@ -461,19 +461,22 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		}
 
 		//选中的相关人
-		// console.log(items);
-		// if(items.sign){
-		// 	var a = items.sign.concat(items.noSign);
-		// 	console.log('a',a);
-		// }
+		var temp = _.cloneDeep(items);
+		if(temp.sign){
+			var a = temp.sign.concat(temp.noSign);
+			//a = _.uniqBy(a, 'username');
+			console.log('a',a);
+		}
 		
-		$scope.relatedSelected = [];
+		$scope.relatedSelected = a ? a : [];
+
 		$scope.addRelated = function (id, pid, current) {
 			$scope.relatedSelected.push(current);
-			console.log($scope.relatedSelected);
+			
 			//数组去重
 			var unique = _.uniqBy($scope.relatedSelected, 'username');
 			$scope.relatedSelected = unique;
+			console.log($scope.relatedSelected);
 		}
 		
 		$scope.removeRelated = function (current) {
@@ -481,11 +484,15 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				return o.username != current.username;
 			})
 			$scope.relatedSelected = removeRelated;
+			var idx = signSelected.indexOf(current);
+			if(idx != -1) {
+				signSelected.splice(idx,1);
+			}
 		}
 
 		//选择需要签字的相关人
-		var signSelected = [];
-		var nosignSelected = [];
+		var signSelected = temp.sign ? temp.sign : [];
+		var nosignSelected = temp.noSign ? temp.noSign :[];
         var updateSelected = function(action,id,name){
             if(action == 'add' && signSelected.indexOf(id) == -1){
                signSelected.push(id);
@@ -502,20 +509,17 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
             updateSelected(action,id,checkbox.name);
         }
  
-        // $scope.isSelected = function(id){
-        // 	//debugger;
-        // 	console.log(signSelected.indexOf(id));
-        //     return signSelected.indexOf(id)>=0;
-        // }
+        $scope.isSelected = function(id){
+        	//debugger;
+        	//console.log(signSelected.indexOf(id));
+            return signSelected.indexOf(id)>=0;
+        }
 
         //选择不需要签字的相关人
         var noSign = function () {
         	if(signSelected.length) {
-        		angular.forEach(signSelected, function (value, key) {
-		        		nosignSelected = _.filter($scope.relatedSelected, function (o) {
-		        			return o.username != value.username
-		        		});
-		        });
+        		nosignSelected = [];
+		        nosignSelected =  _.difference($scope.relatedSelected, signSelected);
         	} else {
         		nosignSelected = $scope.relatedSelected;
         	}

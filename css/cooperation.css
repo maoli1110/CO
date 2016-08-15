@@ -6,6 +6,7 @@
 	float:left;
 	height:auto;
 }
+
 .comboBox .filter-table form .checkbox .manage_title .comboBox_checkType{
 	float: left;
 	margin-top: 2px;
@@ -24,6 +25,9 @@
 .comboBox .filter-table .tabs{
 	margin:20px 0;
 	clear:both;
+}
+.comboBox .filter-table .tabs div{
+	vertical-align: middle;
 }
 .comboBox .filter-table .marking{
 	clear:both;
@@ -47,20 +51,263 @@
 .comboBox .tabs .check-sub label {
 	margin-right: 10px;
 	width: 90px;
-	background: green;
+/*	background: green;*/
 	text-align: center;
     padding: 10px;
+    height: 36px;
+    width: 100px;
+    background: #fff;
+    border: 1px solid #ccc;
 }
+.comboBox .tabs .check-sub1 label {
+	margin-right: 10px;
+	width: 90px;
+/*	background: green;*/
+	text-align: center;
+    padding: 10px;
+    height: 36px;
+    width: 100px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+.comboBox .tabs .priority-check label {
+	margin-right: 10px;
+	width: 90px;
+/*	background: green;*/
+	text-align: center;
+    padding: 10px;
+    height: 36px;
+    width: 100px;
+    border: 1px solid #ccc;
+}
+.comboBox .tabs .check-sub label input {
+	opacity: 0.5;
+}
+/*type-check*/
+.comboBox .tabs .type-check .bg0 {
+	background: url('../imgs/dyfilter/co_1.png');
+}
+.comboBox .tabs .type-check .bg1 {
+	background: url('../imgs/dyfilter/co_2.png');
+}
+.comboBox .tabs .type-check .bg2 {
+	background: url('../imgs/dyfilter/co_3.png');
+}
+.comboBox .tabs .type-check .bg3 {
+	background: url('../imgs/dyfilter/co_4.png');
+}
+.comboBox .tabs .type-check .bg4 {
+	background: url('../imgs/dyfilter/co_5.png');
+}
+.comboBox .tabs .type-check .bg5 {
+	background: url('../imgs/dyfilter/co_6.png');
+}
+
+.comboBox .tabs .type-check .bgs0 {
+	background: url('../imgs/dyfilter/co_1_s.png');
+}
+.comboBox .tabs .type-check .bgs1 {
+	background: url('../imgs/dyfilter/co_2_s.png');
+}
+.comboBox .tabs .type-check .bgs2 {
+	background: url('../imgs/dyfilter/co_3_s.png');
+}
+.comboBox .tabs .type-check .bgs3 {
+	background: url('../imgs/dyfilter/co_4_s.png');
+}
+.comboBox .tabs .type-check .bgs4 {
+	background: url('../imgs/dyfilter/co_5_s.png');
+}
+.comboBox .tabs .type-check .bgs5 {
+	background: url('../imgs/dyfilter/co_6_s.png');
+}
+/*priority-check*/
+.comboBox .tabs .check-sub1 .priority-bg0 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .priority-bg1 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .priority-bg2 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .priority-bgs0 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .priority-bgs1 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .priority-bgs2 {
+	background: #979ba8;
+}
+/*mark-check*/
+.comboBox .tabs .check-sub1 .mark-bg0 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg1 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg2 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg3 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg4 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg5 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg6 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg7 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg8 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg9 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg10 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg11 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg12 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg13 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg14{
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg16 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg16 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg17 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg18 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg19 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg20 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg21 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg22 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg23 {
+	background: #fff;
+}
+.comboBox .tabs .check-sub1 .mark-bg24 {
+	background: #fff;
+}
+/*just-bei-bei*/
+.comboBox .tabs .check-sub1 .mark-bgs0 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs1 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs2 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs3 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs4 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs5 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs6 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs7 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs8 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs9 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs10 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs11 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs12 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs13 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs14{
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs16 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs16 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs17 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs18 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs19 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs20 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs21 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs22 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs23 {
+	background: #979ba8;
+}
+.comboBox .tabs .check-sub1 .mark-bgs24 {
+	background: #979ba8;
+}
+/*dy-check-end*/
 .comboBox .tabs .check-sub input{
 	top: 18px;
     left: 77px;
 }
 .comboBox .marking .marklist {
-	margin-left: 80px;
+	margin-left: 118px;
 	max-width: 80%;
+	margin-top: -34px;
 }
 .comboBox .filter-table .tabs .checkbox {
-	width: 78px;
+	width: 100px;
+    margin-left: 17px;
+}
+.comboBox .filter-button {
+	text-align: center;
 }
 /*data_count(数据统计页面)*/
 

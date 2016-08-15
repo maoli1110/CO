@@ -1,5 +1,5 @@
 <div style="width:250px;line-height:40px;background-color:#353943;color:#fff;">2016年7月20 星期三</div>
-<div scroll-directive id="content-b1" style="height:800px;overflow:auto" class="manage_bar" copy-radio>
+<div scroll-directive id="content-b1" style="max-height:calc(100vh - 115px); overflow:auto;" class="manage_bar" copy-radio>
 	<uib-accordion close-others="true" class="sider-bar">
 	    <div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="item in deptInfoList" ng-click="getprojectInfoList(item.deptId, status.open)">
 	      <uib-accordion-heading class="sideText">

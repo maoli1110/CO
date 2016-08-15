@@ -77,6 +77,17 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    	}
 
 		  });
+
+		$scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+			//    详情页面图片资料悬浮出现下载区域
+			$(".action .picInfo .data-list .deta-down ").hover(function () {
+				$(this).find(".show-icon").stop().animate({"bottom":"-1px"})
+			},function(){
+				$(".show-icon").stop().animate({"bottom":"-38px"})
+			});
+		    //	详情页面的照片悬浮出现预览功能
+
+		})
 	 
 }]).controller('addUpdateCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','FileUploader',
 	function ($scope, $http, $uibModalInstance, Cooperation, FileUploader){
@@ -113,5 +124,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
     	$scope.cancel = function () {
     		$uibModalInstance.dismiss();
     	}
+
 
 }]);

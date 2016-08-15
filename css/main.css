@@ -195,6 +195,15 @@ li {
 .right-content .table-list table th,.right-content .table-list table td{
     text-align: center;
 }
+.right-content .table-list td > div {
+    border-radius: 9px 0px 9px 3px;
+    height: 36px;
+    /* vertical-align: middle; */
+    line-height: 36px;
+    width: 80px;
+    text-align: center;
+    display: inline-block;
+}
 /*nav-bar*/
 .navbar .header {
     padding: 0px 10px;
@@ -379,9 +388,11 @@ li {
     text-align:center;
 }
 .filter-table .checkbox > label {
-    width:140px;
-    top: 14px;
-    right: 0;
+    width: 172px;
+    /* top: 14px; */
+    /* right: 0; */
+    /* line-height: 19px; */
+    height: 34px;
 }
 .addcoo {
     width: 300px;
@@ -420,6 +431,9 @@ li {
 
 }
 /* create */
+.create {
+    margin-bottom: 100px;
+}
 .create-title {
     height: 40px;
     line-height: 40px;
@@ -508,11 +522,11 @@ li {
 .create .input-group-btn button{
     margin:0 2px;
 }
-.create .link button {
+.create .btn-sm {
     width: 200px;
     height: 40px;
 }
-.create .upload-img .btn{
+.create .upload .btn-lg{
     width: 120px;
     height: 120px;
 }
@@ -527,6 +541,18 @@ li {
 .create .btn-default:hover {
     border-color: #ccc;
     color: #ccc;
+}
+.create .pop-title {
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    font-size: 16px;
+}
+.create .pop-content {
+    text-align: center;
+}
+.create .pop-content .btn {
+    margin-top: 10px;
+    background: #69c080;
 }
 /*select person*/
 .select-person-related .row {

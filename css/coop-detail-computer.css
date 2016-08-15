@@ -1,0 +1,427 @@
+@media screen and (min-width: 320px) and (max-width: 768px){
+    .main img{
+    width: 70px;
+    height: 70px;
+    }
+    .data-list dl, .data-list dt, .data-list dd{
+        width: 70px;
+        height: 70px;
+    }
+    .data-list .show-icon {
+        width: 70px;
+    }
+    .data-list .show-icon span {
+        margin:0 5px;
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1920px){
+    .main img{
+    width: 118px;
+    height: 118px;
+
+    }
+    .data-list dl, .data-list dt, .data-list dd{
+        width: 118px;
+        height: 118px;
+        overflow:hidden;
+    }
+    .data-list .show-icon {
+        width: 118px
+    }
+    .data-list .show-icon span {
+        margin: 10px 12px;
+    }
+    .data-list .show-icon span img{
+        width:20px;
+        height:20px;
+    }
+
+}
+
+
+header{
+    height:40px;
+    background:#ddd;
+    text-align:center;
+    position:relative;
+}
+header p{
+    line-height:40px;
+    /*color:#fff;*/
+}
+header .close{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+/*---------------------main--------------------*/
+.main{
+   position:relative;
+   overflow:hidden;
+}
+/*-------------------main_content---------------*/
+.main_content{
+    /*width:1200px;*/
+    margin:0 auto;
+}
+/*------------------content_left-----------------*/
+.content_left{
+    /*width:80%;*/
+    /*height:1000px;*/
+    /*display:inline-block;*/
+    /*background:rebeccapurple;*/
+}
+.content_left .proTitle{
+    width:70px;
+    /*height:1000px;*/
+    /*border:1px solid #0000ff;*/
+    display:inline-block;
+}
+.content_left .proTitle .message {
+    width:70px;
+    height:70px;
+    background:cornflowerblue;
+    text-align:center;
+    float:left;
+}
+.content_left .proTitle .message p{
+    width:40px;
+    font-size:16px;
+    font-weight:bold;
+    color:#fff;
+    margin: 13px;
+    float: left;
+}
+/*-------------proInfo-------------*/
+.proInfo{
+    width:100%;
+    float:right;
+}
+.proInfo .pro_man{
+    /*padding-bottom: 10px;*/
+    border-bottom:1px solid #ddd;
+    margin-top:36px;
+    padding-bottom: 2px;
+}
+.proInfo .pro_man div:nth-child(1){
+    margin-bottom:23px;
+}
+.proInfo .pro_man div:nth-child(2){
+    margin-bottom:23px;
+}
+.proInfo .pro_man .active{
+    margin-top:15px;
+    /*width: 32%;*/
+    /*height: 100px;*/
+    float: left;
+}
+.proInfo .pro_man  .btn-default{
+    background-color:#65c17d !important;
+    color:#fff;
+}
+.proInfo .pro_man  .btn.focus, .btn:focus, .btn:hover{
+    background:#65c17d !important;
+}
+.proInfo .pro_man .coop-name{
+    display: inline-block;
+    margin-left: 20px;
+}
+.row{
+    margin:0;
+}
+.proInfo .pad_clear{
+    padding:0;
+}
+.active span{
+    display:inline-block;
+    width:80px;
+    text-align:left;
+}
+.active p{
+    display:inline-block;
+}
+.active .btn{
+    margin-top:10px;
+}
+/*-------------detail(详情描述)--------------*/
+.textHeight{
+    height:130px;
+}
+.detail {
+    margin-top:30px;
+    border-bottom:1px solid #ddd;
+    padding:10px 0;
+}
+.detail .blank{
+    margin-bottom:20px;
+}
+.Avatar{
+    /*clear:both;*/
+    margin:40px 0;
+}
+.Avatar .photo dl{
+    height: 100px;
+    display: inline-block;
+    margin-right:38px;
+    text-align:center;
+    font-size:12px;
+    margin-left:-10px;
+}
+.Avatar .photo dl dt{
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+    border:1px solid #ddd;
+    margin-bottom:22px;
+}
+.Avatar .photo dl dt img{
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+    border:1px solid #ddd;
+}
+.Avatar .photo dl dd{
+    line-height:20px;
+    margin-bottom:25px;
+}
+
+/*-----------------------action--------------*/
+.action{
+    /*padding:40px 0;*/
+    padding-top:40px;
+    padding-bottom:20px;
+    border-bottom:1px solid #ddd;
+}
+.action dl{
+    display: inline-block;
+    text-align:center;
+    margin-right:40px;
+
+}
+.action dl dt{
+    border:1px solid #ddd;
+}
+
+.action dl dt img{
+    
+}
+.action dl dd{
+    line-height:40px;
+    margin-bottom:10px;
+}
+.action .show-icon .detail-down{
+    width:20px;
+    height:20px;
+    margin-top:7px;
+}
+/*-------------reply---------------------------*/
+.reply{
+margin:34px 0;
+}
+.reply .man_pic{
+    text-align:left;
+}
+.reply .man_pic p{
+    margin-top:10px;
+    margin-left: 8px;
+}
+.reply .man_pic img{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+}
+.reply .comment {
+    border: 1px solid #ccc;
+    height: 77px;
+    line-height: 75px;
+    border-radius: 23px;
+}
+.reply .say{
+    margin-bottom:40px;
+}
+.reply .comment{
+    border-radius:5px;
+}
+.reply .col-md-11,.col-xs-10,.col-md-12{
+    padding:0;
+}
+
+/*-----------principal(个人信息)-----------------------------*/
+.principal{
+    width:30%;
+    border:1px solid red;
+    margin-right:30px;
+    float:left;
+}
+/*--------------------content_right---------------*/
+.content_right{
+    min-width: 260px;
+    float:right;
+	position:absolute;
+    top: 40px;
+	right:0;
+	background:#fff;
+	bottom:0;
+
+}
+/*-------bttn(侧边栏样式)-----------------------------------*/
+ .btn_box{
+    width:43px;
+    height:74px;
+    background:#6495ED;
+    text-align:center;
+     /*display:inline-block;*/
+    position:absolute;
+    top: 40px;
+    right:16%;
+    float:left;
+    border-radius: 5px;
+    line-height: 74px;
+
+}
+ .btn_box span{
+     font-size: 30px;
+     color: #fff;
+     line-height:none;
+ }
+ /*-------------------aside--------------------------*/
+.aside{
+    width:100%;
+    /*border:1px solid red;*/
+    float:right;
+    /*position:absolute;*/
+    /*right:0;*/
+    /*top:0;*/
+
+    /*display:none;*/
+}
+.aside .side_title{
+    line-height:35px;
+    text-align:center;
+    background:#ddd;
+}
+
+/*----------------state-----------------------*/
+.state{
+    width: 82%;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+.state::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0;
+    width: 2px;
+    height: 94%;
+    background: #6495ed;
+}
+.state ul{
+    width: 100%;
+    position: relative;
+    left: -16px;
+    top: 0;
+    margin-left: 19px;
+
+}
+.state ul li{
+    list-style:none;
+    clear:both;
+    margin-bottom:20px;
+    position:relative;
+
+}
+.state ul li:last-child{
+	 margin-bottom:0;
+	 
+}
+.state ul li .step{
+    width:30px;
+    height:30px;
+    background:#6495ED;
+    border-radius: 50%;
+    display:inline-block;
+    position:absolute;
+    top:0;
+    left:-15px;
+
+}
+.state ul li .handle{
+    line-height: 30px;
+    border: 1px solid #ddd;
+    width: 82%;
+    display:inline-block;
+    border-radius: 5px;
+    margin-left: 30px;
+
+}
+.icon_man{
+    display:inline-block;
+}
+.state ul li .handle p{
+    display:inline-block;
+    font-size:12px;
+}
+
+.icon_man img{
+    width:24px;
+    height:24px;
+    border-radius: 50%;
+}
+/*------------------footer---------------------*/
+.footer{
+	width:100%;
+    height:50px;
+    text-align:center;
+    line-height:50px;
+    background:#ECEEF0;
+    clear:both;
+    position:fixed;
+    bottom:0;
+    left:0;
+}
+.footer .btn{
+     margin:0 10px;
+
+ }
+.footer .btn-default{
+   background:#65c17d;
+    color:#fff;
+
+}
+.show-icon {
+    bottom: -38px;
+    width: 100px;
+    background: #0a0909;
+    opacity: 0.5;
+    height:36px;
+}
+.show-icon span {
+    margin: 0 7px;
+    color: #fff;
+    /*line-height:36px;*/
+}
+.data-list :hover .show-icon{
+    display: block;
+}
+
+.data-list dd {
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+    white-space: nowrap;/*强制不换行*/
+    height: 30px;
+}
+/*问题整改*/
+.pro_solve{
+    position: absolute;
+    top: 40px;
+    left: 14.6%;
+    width: 100px;
+    height: 79px;
+}
+.pro_solve img{
+    width:100px;
+    height:79px;
+}

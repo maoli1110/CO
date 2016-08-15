@@ -169,7 +169,7 @@ body {
     overflow:auto;
     min-width:1200px;
     display:none;
-    background:#F4F2F2;
+    /*background:#F4F2F2;*/
 }
 
 .trends .pro_list .list{
@@ -184,7 +184,8 @@ body {
     margin-left:10px;
     margin-right:10px;
     padding-bottom:10px;
-    /*display:none;*/
+    border-bottom:1px solid #e9ecf4;
+
 }
 /*------------icon_img(工程师头像部分)--------------*/
 .trends .pro_list .list li .icon_img{
@@ -192,7 +193,7 @@ body {
     float:left;
     padding:10px;
     margin-bottom:15px;
-    width:50px;
+    width:40px;
     height: 100%;
     width: 70px;
     /*margin-right: 20px;*/
@@ -201,8 +202,8 @@ body {
     /*float:left;*/
 
     display:block;
-    width:50px;
-    height:50px;
+    width:40px;
+    height:40px;
     border-radius: 50%;
 
 }
@@ -211,46 +212,66 @@ body {
 }
 /*-------------------------*/
 .trends .pro_list .list li p{
-    width:88%;
+    width:94%;
     display:inline-block;
-    margin-top:10px;
-    margin-bottom:10px;
+    /*margin-top:10px;*/
+    margin-bottom:26px;
     -moz-float:none;
     /*float:Left;*/
+    margin-top:23px;
 }
 .trends .pro_list .list li p{
-   width:300px;
+   display:inline-block;
 }
 .trends .pro_list .list li b{
-    margin-top:10px;
-    width:135px;
     float:right;
     font-weight:normal;
 }
 
 .trends .pro_list .list li .img_list{
-    width:100px;
-    height:100px;
+    width:80px;
+    height:80px;
     display:inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     text-align: center;
     margin-right:10px;
+    border:1px solid #bbbcbf;
+    overflow:hidden;
 
 }
 .trends .pro_list .list li .tools_bar{
-    width:100px;
+    width:80px;
     height:80px;
-
+    position:relative;
 }
-.trends .pro_list .list li .tools_bar img{
-    width:100px;
-    height:80px;
-
+.trends .pro_list .list li .tools_bar>img{
+    width:54px;
+    height:65px;
 }
-.trends .pro_list .list li .bar{
-    width:100px;
-    height:20px;
-    background:#484848;
+
+.tools_bar{
+    vertical-align: middle;
+    position:relative;
+}
+.tools_bar em{
+    width:0%;
+    height:100%;
+    display:inline-block;
+    vertical-align: middle;
+}
+.tools_bar .bar img {
+    width:17px;
+    height:17px;
+    margin-left:10px;
+}
+.trends .pro_list .list li .tools_bar .bar{
+    width:80px;
+    height:28px;
+    background:#bbbcbf;
+    position:absolute;
+    bottom:-28px;
+    left:0;
+    text-align:center
 }
 /*-----------图片查看器遮罩--------------*/
 .mask{
@@ -292,10 +313,27 @@ body {
 .manage_back{
     display:inline-block;
     padding:0 10px;
-
+}
+.manage_back b{
+    font-weight:normal;
+    color:#68c280;
+    margin-top: 1px;
+    float: right;
+    margin-left: 2px;
 }
 .prolist_left{
     display:none;
+}
+/*pro_mask(下载遮罩)*/
+.pro_mask{
+    width:80px;
+    height:80px;
+    background:#c2c3c5;
+    position:absolute;
+    top:80px;
+    left:0;
+    opacity:0.6;
+
 }
 /*滚动条效果*/
 .mCSB_dragger_bar{

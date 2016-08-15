@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>Archetype Created Web Application</display-name>
+	
+	<listener>
+		<listener-class>
+			com.lubansoft.bimco.common.listener.LBContextLoadListener
+		</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:**/applicationContext*.xml,classpath:applicationContext-cxfbus.xml</param-value>
+	</context-param>
+
+	<!-- 配置日志：开始 -->
+	<!-- 说明：如果没有webAppRootKey这个设置，同一个tomcat下的多个项目要使用log4j就会导致WebApp.root冲突的错误 -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>lubanbimco</param-value>
+	</context-param>
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
+	</context-param>
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>6000</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.util.Log4jConfigListener
+		</listener-class>
+	</listener>
+
+	<!-- 配置日志：结束 -->
+
+	<!-- spring启动监听器 -->
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>com.lubansoft.bimco.common.listener.SessionListener</listener-class>
+	</listener>
+	
+	<!-- ========================单点登录开始 ======================== -->
+    <!--用于单点退出，该过滤器用于实现单点登出功能，可选配置 
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>ChangeEnterpriseFilter</filter-name>
+        <filter-class>com.lubansoft.pds.common.sso.filter.ClientChangeEnterpriseFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ChangeEnterpriseFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    -->
+    <!--该过滤器用于实现单点登出功能，可选配置。
+    <filter>
+        <filter-name>CASSingle Sign OutFilter</filter-name>
+        <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASSingle Sign OutFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>CASFilter</filter-name>
+        <filter-class>com.lubansoft.pds.common.sso.filter.CustomAuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASFilter</filter-name>
+        <url-pattern>/webservice/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CASFilter</filter-name>
+        <url-pattern>/rs/*</url-pattern>
+    </filter-mapping>
+     -->
+    <!--该过滤器负责对Ticket的校验工作，必须启用它 
+    <filter>
+        <filter-name>CASValidationFilter</filter-name>
+        <filter-class>com.lubansoft.pds.common.sso.filter.CustomCas20ProxyReceivingTicketValidationFilter</filter-class>
+        <init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASValidationFilter</filter-name>
+        <url-pattern>/webservice/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CASValidationFilter</filter-name>
+        <url-pattern>/rs/*</url-pattern>
+    </filter-mapping>
+    -->
+    <!-- 该过滤器负责实现HttpServletRequest请求的包裹， 比如允许开发者通过HttpServletRequest的getRemoteUser()方法获得SSO登录用户的登录名，可选配置。
+    <filter>
+        <filter-name>CASHttpServletRequest WrapperFilter</filter-name>
+        <filter-class>
+            org.jasig.cas.client.util.HttpServletRequestWrapperFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASHttpServletRequest WrapperFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+     -->
+    <!-- 该过滤器使得开发者可以通过org.jasig.cas.client.util.AssertionHolder来获取用户的登录名。 比如AssertionHolder.getAssertion().getPrincipal().getName()。
+    <filter>
+        <filter-name>CASAssertion Thread LocalFilter</filter-name>
+        <filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASAssertion Thread LocalFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+     -->
+    <!-- ========================单点登录结束 ======================== -->
+	
+
+	<!-- 字符编码过滤器 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>
+			org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 日志过滤器 -->
+	<filter>
+		<filter-name>Log4jFilter</filter-name>
+		<filter-class>
+			com.lubansoft.bimco.common.filter.Log4jFilter
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Log4jFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- 配置CXF：开始 -->
+	<servlet>
+		<servlet-name>CXF</servlet-name>
+		<servlet-class>
+			org.apache.cxf.transport.servlet.CXFServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+
+    <!-- 老的内部api访问地址，要保留且不能变 -->
+	<servlet-mapping>
+		<servlet-name>CXF</servlet-name>
+		<url-pattern>/webservice/*</url-pattern>
+	</servlet-mapping>
+	<!-- rest风格访问地址 -->
+	<servlet-mapping>
+		<servlet-name>CXF</servlet-name>
+		<url-pattern>/rs/*</url-pattern>
+	</servlet-mapping>
+	<!-- 配置CXF：结束 -->
+	
+	
+	<!-- session超时时间（分钟） -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>/index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

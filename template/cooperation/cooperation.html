@@ -25,18 +25,21 @@
 		<!--筛选框-->
 		<div class="comboBox rela">
 			<div class="row absol filter" ng-show="isCollapsed">
-			<div class="filter-table">
+			<div class="filter-table clearfix">
 				<form class="form-inline">
 					<div class="tabs">
 						<div class="checkbox">
 							<label class="filter_title">
-								<input type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型
+								<input type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型1111
 							</label>
 						</div>
-						<div class="type-check rela inline check-sub" ng-repeat="item in coQueryType">
-							<label class="rela">
+						<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index">
+							<!-- <label class="rela" ng-class="{false:'{{'bg'+ $index}}', true: '{{'bgs'+ $index}}'}[isTypeChecked]">
 								<span>{{item.name}}</span>
-								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1)">
+								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1, $index)">
+							</label> -->
+							<label class="rela {{'bg'+ $index}}">
+								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1, $index)">
 							</label>
 						</div>
 					</div>
@@ -47,10 +50,10 @@
 								<input type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
 							</label>
 						</div>
-						<div class="priority-check rela inline check-sub" ng-repeat="item in coPriority">
-							<label class="rela">
+						<div class="priority-check rela inline check-sub1" ng-repeat="item in coPriority track by $index">
+							<label class="rela {{'priority-bg' + $index}}">
 								<span>{{item.name}}</span>
-								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2)">
+								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2, $index)">
 							</label>
 						</div>
 					</div>
@@ -63,10 +66,10 @@
 								</label>
 							</div>
 							<div class="marklist">
-								<div class="mark-check rela inline check-sub" ng-repeat="item in coMark">
-									<label class="rela">
+								<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index">
+									<label class="rela {{'mark-bg' + $index}}">
 										<span>{{item.name}}</span>
-										<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3)">
+										<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3, $index)">
 									</label>
 								</div>
 							</div>
@@ -75,7 +78,7 @@
 					</div>
 				</form>
 			</div>
-			<div><div class="btn btn-default" ng-click="filterOk()">确定</div><div class="btn btn-default">取消</div></div>
+			<div class="filter-button"><div class="btn btn-default" ng-click="filterOk()">确定</div><div ng-click="filterCancel()" class="btn btn-default">取消</div></div>
 		</div>
 		</div>
 		<!---->
@@ -85,7 +88,7 @@
 				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>
 			</div>
 		</div>
-		<div class="table-list">
+		<div class="table-list" style="max-height:calc(100vh - 115px); overflow:auto;">
 			<table class="table" class="info_list">
 				<thead>
 					<tr>

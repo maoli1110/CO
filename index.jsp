@@ -42,7 +42,7 @@
 <div class="content-main" ui-view></div>
 
 <!-- vendor -->
-<script src="//cdn.bootcss.com/lodash.js/4.13.1/lodash.min.js"></script>
+<script src="./lib/lodash.min.js"></script>
 <script type="text/javascript" src="./lib/jquery/dist/jquery.js"></script>
 <!--<script src="js/jquery-1.9.0.js" type="text/javascript"></script>-->
 <script type="text/javascript" src="./lib/angular/angular.min.js"></script>

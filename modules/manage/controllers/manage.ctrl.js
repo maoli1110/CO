@@ -102,11 +102,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             }
             $(".list>li").click(function(){
                 var index = $(this).index();
-                console.info(index)
+                //console.info(index)
                 var $img = $(".slide_box img");
                 //获取一组数据中小图片的个数，来判断插入多少张大图；
                 var aLiChild = $(this).find(".bx-controls").children();
-                console.info(aLiChild);
+                //console.info(aLiChild);
                 //动态插入一组数据，通过索引值的方式插入指定文件夹下面的图片；
                 for(var i=0;i<aLiChild.length;i++){
                     //通过attr属性改变图片的src路径
@@ -139,7 +139,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 clearInterval(timer);
                 options(slideindex);
             });
-            $('ul > li >.bx-controls >.img_list').click(function(){
+            $('ul > li >.bx-controls >.img_list>.tools_bar>.bookSection').click(function(){
                 console.info(123)
                 slideindex = $(this).index();
                 clearInterval(timer);
@@ -152,6 +152,18 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $(this).hide();
                 $(".mask").hide();
                 $(".showImg").hide();
+            })
+
+            // 动态列表图片定位动画
+            $(".img_list").hover(function(){
+               $(this).children().find(".bar").stop().animate({"bottom":"0"})
+            },function(){
+                $(this).children().find(".bar").stop().animate({"bottom":"-28px"})
+            })
+        //    下载弹出遮罩层和下载进度
+            $(".pro-down").click(function(){
+                $(".tools_bar>.pro_mask").animate({top:0});
+                $(".bar").hide();
             })
         });
 
@@ -176,9 +188,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     //获取搜索类型关键字
                 $scope.seacherKey = $("#exampleInputName3").val();
     //$scope.doc_type?0:$scope.doc_type;
-                $scope.doc_type = 0;
-                Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:$scope.id,searchKey:$scope.seacherKey,searchType:$scope.doc_type}).then(function(data){
+              if($scope.docType==undefined){
+                  $scope.docType=1;
+              }else{
+                  $scope.docType=$scope.docType;
+              }
+                Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:$scope.id,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
                     $scope.trentsListInfo = data.data;
+                    //console.info($scope.docType)
                     console.info("我是搜索列表", $scope.trentsListInfo )
                 });
             }
@@ -248,6 +265,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".good_list").show();
             $(".pro_list").hide();
             $(".goodlist_left").show();
+            $(".prolist_left").hide();
         }
 //更新资料和选中模块加阴影效果
         $scope.$on('shadowFinsh', function (ngRepeatFinishedEvent) {
@@ -256,13 +274,21 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $(this).find(".updateNub").text("0")
                 $(this).addClass("dlActive").siblings().removeClass("dlActive")
             })
+
         })
 
         //   点击工具栏三角形出现耳机菜单
         //$(".header_menus").hide()
         $scope.menus = function(){
             $(".header_menus").slideToggle();
+            $(".header_menus ul li").hover(function(){
+                //console.info(123)
+                $(this).css("background","#69C080").children().find("ol").show();
+            },function(){
+                $(this).css("background","#fff").children().find("ol").hide()
+            })
         }
+
 
 
 }]);
