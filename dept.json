@@ -1,0 +1,517 @@
+[
+{
+deptId: 1,
+deptName: "初始项目部",
+count: 41
+},
+{
+deptId: 2,
+deptName: "钢筋项目部",
+count: 10
+},
+{
+deptId: 3,
+deptName: "土建项目部",
+count: 2
+},
+{
+deptId: 4,
+deptName: "nsj土建",
+count: 0
+},
+{
+deptId: 5,
+deptName: "安装项目部",
+count: 20
+},
+{
+deptId: 6,
+deptName: "大工程项目",
+count: 0
+},
+{
+deptId: 7,
+deptName: "测试大工程项目部",
+count: 0
+},
+{
+deptId: 9,
+deptName: "jsl测试项目",
+count: 0
+},
+{
+deptId: 11,
+deptName: "zhou",
+count: 0
+},
+{
+deptId: 15,
+deptName: "临时",
+count: 1
+},
+{
+deptId: 16,
+deptName: "PDF项目部",
+count: 0
+},
+{
+deptId: 17,
+deptName: "sqs项目部",
+count: 0
+},
+{
+deptId: 38,
+deptName: "东测试测试测试测试测试测试测试测试测试测试测试测试",
+count: 0
+},
+{
+deptId: 40,
+deptName: "PDF",
+count: 0
+},
+{
+deptId: 42,
+deptName: "土建、钢筋和安装全专业全构件工程",
+count: 0
+},
+{
+deptId: 43,
+deptName: "大工程（性能测试）",
+count: 0
+},
+{
+deptId: 44,
+deptName: "土建（功能测试、特殊构件测试）",
+count: 0
+},
+{
+deptId: 45,
+deptName: "钢筋（功能测试、特殊构件测试）",
+count: 0
+},
+{
+deptId: 46,
+deptName: "安装（功能测试和特殊构件）",
+count: 0
+},
+{
+deptId: 47,
+deptName: "造价工程",
+count: 0
+},
+{
+deptId: 49,
+deptName: "SS",
+count: 0
+},
+{
+deptId: 50,
+deptName: "进度计划",
+count: 0
+},
+{
+deptId: 53,
+deptName: "钢筋项目部",
+count: 0
+},
+{
+deptId: 54,
+deptName: "V4.3.0test",
+count: 0
+},
+{
+deptId: 55,
+deptName: "x64项目部",
+count: 0
+},
+{
+deptId: 56,
+deptName: "支持造价V7",
+count: 0
+},
+{
+deptId: 64,
+deptName: "JMeterCase专用",
+count: 0
+},
+{
+deptId: 68,
+deptName: "项目节点名称",
+count: 0
+},
+{
+deptId: 70,
+deptName: "6101",
+count: 0
+},
+{
+deptId: 77,
+deptName: "测试记录日志",
+count: 0
+},
+{
+deptId: 78,
+deptName: "项目部2015129rainyDay",
+count: 0
+},
+{
+deptId: 79,
+deptName: "新建项目部",
+count: 0
+},
+{
+deptId: 80,
+deptName: "中文名",
+count: 0
+},
+{
+deptId: 81,
+deptName: "测试项目",
+count: 0
+},
+{
+deptId: 82,
+deptName: "A项目部",
+count: 0
+},
+{
+deptId: 83,
+deptName: "111",
+count: 0
+},
+{
+deptId: 84,
+deptName: "whc测试项目",
+count: 0
+},
+{
+deptId: 85,
+deptName: "安装性能测试",
+count: 0
+},
+{
+deptId: 86,
+deptName: "施工段测试",
+count: 0
+},
+{
+deptId: 87,
+deptName: "更新工程测试",
+count: 0
+},
+{
+deptId: 88,
+deptName: "施工段",
+count: 0
+},
+{
+deptId: 90,
+deptName: "钢筋项目",
+count: 0
+},
+{
+deptId: 91,
+deptName: "安装项目",
+count: 0
+},
+{
+deptId: 92,
+deptName: "土建安装钢筋综合项目",
+count: 0
+},
+{
+deptId: 93,
+deptName: "plan",
+count: 0
+},
+{
+deptId: 94,
+deptName: "MC读取进度计划",
+count: 0
+},
+{
+deptId: 96,
+deptName: "测试数据公司",
+count: 0
+},
+{
+deptId: 98,
+deptName: "zcj",
+count: 0
+},
+{
+deptId: 99,
+deptName: "MC8.8.0造价",
+count: 0
+},
+{
+deptId: 100,
+deptName: "Revit项目部",
+count: 2
+},
+{
+deptId: 101,
+deptName: "7-21",
+count: 0
+},
+{
+deptId: 102,
+deptName: "7-22",
+count: 0
+},
+{
+deptId: 103,
+deptName: "修改bug",
+count: 0
+},
+{
+deptId: 104,
+deptName: "7-23",
+count: 0
+},
+{
+deptId: 105,
+deptName: "周",
+count: 0
+},
+{
+deptId: 106,
+deptName: "孙",
+count: 0
+},
+{
+deptId: 107,
+deptName: "李",
+count: 0
+},
+{
+deptId: 110,
+deptName: "Revit性能测试whc",
+count: 0
+},
+{
+deptId: 112,
+deptName: "test项目部",
+count: 0
+},
+{
+deptId: 114,
+deptName: "BE5.5",
+count: 0
+},
+{
+deptId: 115,
+deptName: "1112",
+count: 0
+},
+{
+deptId: 116,
+deptName: "LBG格式项目部",
+count: 0
+},
+{
+deptId: 117,
+deptName: "杨浦区超级长名字啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
+count: 0
+},
+{
+deptId: 199,
+deptName: "接口测试项目",
+count: 0
+},
+{
+deptId: 201,
+deptName: "PDF图纸",
+count: 0
+},
+{
+deptId: 206,
+deptName: "6.1接口测试",
+count: 0
+},
+{
+deptId: 207,
+deptName: "6.1显示控制",
+count: 0
+},
+{
+deptId: 209,
+deptName: "BW-BT1.0.0",
+count: 0
+},
+{
+deptId: 211,
+deptName: "案例工程",
+count: 1
+},
+{
+deptId: 212,
+deptName: "HY",
+count: 0
+},
+{
+deptId: 213,
+deptName: "BW接口用项目",
+count: 0
+},
+{
+deptId: 215,
+deptName: "戴理瑞的项目",
+count: 0
+},
+{
+deptId: 217,
+deptName: "JDK1.7",
+count: 0
+},
+{
+deptId: 218,
+deptName: "工程顾问",
+count: 0
+},
+{
+deptId: 219,
+deptName: "测试0505li",
+count: 0
+},
+{
+deptId: 220,
+deptName: "222",
+count: 0
+},
+{
+deptId: 221,
+deptName: "日照港第一生活区",
+count: 0
+},
+{
+deptId: 222,
+deptName: "日照",
+count: 0
+},
+{
+deptId: 224,
+deptName: "2016年5月24日-sjl",
+count: 0
+},
+{
+deptId: 226,
+deptName: "SSS",
+count: 0
+},
+{
+deptId: 230,
+deptName: "23232",
+count: 0
+},
+{
+deptId: 236,
+deptName: "BBB",
+count: 0
+},
+{
+deptId: 238,
+deptName: "fffefee",
+count: 0
+},
+{
+deptId: 242,
+deptName: " 项目部6f9da4840b",
+count: 0
+},
+{
+deptId: 243,
+deptName: "lalan",
+count: 0
+},
+{
+deptId: 244,
+deptName: "项目部6f9da4840b",
+count: 0
+},
+{
+deptId: 245,
+deptName: " 项目部cee6d4b18d",
+count: 0
+},
+{
+deptId: 246,
+deptName: "分公司f400258d6b",
+count: 0
+},
+{
+deptId: 247,
+deptName: "分公司f400258dcc",
+count: 0
+},
+{
+deptId: 248,
+deptName: " projecte1b60c414f",
+count: 0
+},
+{
+deptId: 256,
+deptName: "abcdef",
+count: 0
+},
+{
+deptId: 259,
+deptName: "工程顾问测试用",
+count: 0
+},
+{
+deptId: 261,
+deptName: "tekla测试",
+count: 0
+},
+{
+deptId: 262,
+deptName: "lym",
+count: 0
+},
+{
+deptId: 263,
+deptName: "新建0622",
+count: 0
+},
+{
+deptId: 264,
+deptName: "mc9.0",
+count: 1
+},
+{
+deptId: 283,
+deptName: "MC9.0.0",
+count: 2
+},
+{
+deptId: 284,
+deptName: "上海南翔污水处理厂",
+count: 0
+},
+{
+deptId: 285,
+deptName: "南京宜家",
+count: 0
+},
+{
+deptId: 296,
+deptName: "hao",
+count: 11
+},
+{
+deptId: 305,
+deptName: "测试",
+count: 0
+},
+{
+deptId: -1,
+deptName: "未关联工程",
+count: 120
+},
+{
+deptId: 0,
+deptName: "草稿箱",
+count: 0
+}
+]
