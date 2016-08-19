@@ -1,11 +1,13 @@
-<div  style="width:250px;line-height:50px;color:#b7ecc5;background-color:#434752;">2016年7月20 星期三</div>
-<div scroll-directive id="content-a3" style="height:800px;overflow:auto" class="manage_bar" copy-radio>
+<div  style="width:250px;line-height:50px;color:#b7ecc5;background-color:#434752;">
+    {{serviceTime.sysTime}}{{serviceTime.sysWeek}}
+</div>
+<div scroll-directive id="content-a3" style="overflow:auto" class="manage_bar" copy-radio>
     <uib-accordion close-others="true"   class="manage_title">
-        <div uib-accordion-group class="panel-default"  is-open="status.open" ng-repeat="deptInList in deptInfoList" ng-click="childItems(deptInList.deptId)" >
-          <uib-accordion-heading  class="sideText">
-           <span title="{{deptInList.deptName}}">{{deptInList.deptName}}<i style="margin-left:10px;font-style:normal">({{deptInList.count}})</i> </span>
+        <div uib-accordion-group class="panel-default"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index" >
+          <uib-accordion-heading  class="sideText" ng-click="" >
+           <span title="{{deptInList.deptName}}" ng-click="childItems(deptInList.deptId)" >{{deptInList.deptName}}<i style="margin-left:10px;font-style:normal">({{deptInList.count}})</i> </span>
           </uib-accordion-heading>
-          <div ng-repeat="getProList in projectInfoList" class="manage_proList" ng-click="trentsList($event,getProList.ppid)">
+          <div ng-repeat="getProList in projectInfoList track by $index" class="manage_proList" ng-click="trentsList($event,getProList.ppid)">
               <!--111111-->
               <span title="{{getProList.projectName}}"><span class="font_radius">.</span>{{getProList.projectName}}&nbsp;&nbsp;({{getProList.count}}) </span>
           </div>

@@ -8,129 +8,15 @@
             <div class="operation clearfix goodlist_left">
                 <div class="clearfix goods_toolsBar">
                     <div class="left good_L">
-                        <input type="text" class="form-control" id="exampleInputName2" placeholder="输入关键字">
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="搜索工程" ng-keyUp = "previewList($event)">
                         <div class="good_search001" ng-click="getDeptId()"><img src="imgs/seache.png" alt=""></div>
                     </div>
-                    <div class="right ">
+                   <!--  <div class="right ">
                         <button type="button" class="btn  btn_count" style="margin-right:12px;">统计</button>
                         <button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>
-                    </div>
+                    </div> -->
                 </div>
                 <strong></strong>
-            </div>
-        </div>
-        <!--筛选框-->
-        <div class="comboBox">
-            <div class="row absol filter" style="top:51px;" ng-show="isCollapsed">
-                <div class="filter-table">
-                    <form class="form-inline">
-                        <div class="tabs">
-                            <div class="checkbox">
-                                <label class="manage_title">
-                                    <input type="checkbox" class="comboBox_checkType">协作类型
-                                </label>
-                            </div>
-                            <div class="checkbox dis">
-                                <div class="rela">问题整改</div>
-                                <label class="absol">
-                                    <input type="checkbox" id="ComboBox_reform">
-                                </label>
-                            </div>
-                            <div class="checkbox dis">
-                                <div class="rela">阶段报告</div>
-                                <label class="absol">
-                                    <input type="checkbox">
-                                </label>
-                            </div>
-                            <div class="checkbox dis">
-                                <div class="checkbox">方案报审</div>
-                                <label class="absol">
-                                    <input type="checkbox">
-                                </label>
-                            </div>
-                            <div class="checkbox dis">
-                                <div class="rela">方案会签</div>
-                                <label class="absol">
-                                    <input type="checkbox">
-                                </label>
-                            </div>
-                            <div class="checkbox dis">
-                                <div class="rela">协作类型</div>
-                                <label class="absol">
-                                    <input type="checkbox">
-                                </label>
-                            </div>
-                        </div>
-                        <!--most(优先级)-->
-                        <div class="tabs">
-                            <div class="checkbox">
-                                <label class="manage_title">
-                                    <input type="checkbox" class="comboBox_checkType">协作类型
-                                </label>
-                            </div>
-                            <div class="most_bj">
-                                <div class="rela"><span>I</span></div>
-                            </div>
-                            <div class="most_bj">
-                                <div class="rela"><span>II</span></div>
-                            </div>
-                            <div class="most_bj active">
-                                <div class="rela"><span>III</span></div>
-                            </div>
-                        </div>
-                        <!--marking标识-->
-                        <div class="marking">
-                            <div class="tabs">
-                                <div class="checkbox">
-                                    <label class="manage_title">
-                                        <input type="checkbox" class="comboBox_checkType">协作类型
-                                    </label>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                            </div>
-                            <!--2F-->
-                            <div class="tabs mark_mar">
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                                <div class="most_bj">
-                                    <div class="rela"><span>质量安全</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
             </div>
         </div>
 
@@ -174,12 +60,12 @@
                         <!--商品列表展示页面-->
                         <!--工具栏-->
                         <div class="operation clearfix prolist_left">
-                            <div class="left ">
+                            <div class="left proLeft">
                                 <div class="manage_back" ng-click="listBack()">
                                     <span><img src="imgs/call_back.png" alt=""></span>
                                     <b>返回</b>
                                 </div>
-                                <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
+                                <!--<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>-->
 
                                 <select class="selectpicker btn_white" ng-model="docType" id="doc_type">
                                     <option value="1">全部类型</option>
@@ -190,12 +76,12 @@
                                     <option value="64">压缩文件</option>
                                     <option value="128">其他</option>
                                 </select>
-                                    <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="联系人、资料">
+                                    <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)">
                                     <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
                                 </div>
-                            <div class="right ">
-                                <button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>
-                            </div>
+                            <!--<div class="right ">-->
+                                <!--<button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>-->
+                            <!--</div>-->
                         </div>
                         <div class="pro_list clearfix" light-height id="content-a4" style="height:800px;overflow:auto;" >
                             <ul class="list">
@@ -203,15 +89,17 @@
                                 <li ng-repeat="getTrents in trentsListInfo track by $index" profit>
                                     <!--icon_img-->
                                     <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
-                                    <p  class="menName">{{getTrents.username}}&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs" >&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b></p>
+                                    <p  ><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs" class="menName">&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs" >
-                                            <div class="tools_bar">
-                                                <img ng-src="{{items.downlodUrl}}" class="bookSection">
-                                                <!--<img src="imgs/docType.png" alt="" ng-click="transformBig(items.uuid)">-->
+                                            <div class="tools_bar" >
+                                                <img ng-src="{{items.downlodUrl}}" class="bookSection" ng-click="transformBig(items.uuid,items.docName)">
+                                                <!--<img src="imgs/docType.png" alt="" >-->
                                                 <em></em>
                                                 <div class="bar" >
-                                                    <img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />
+                                                    <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />-->
+                                                    <a ng-href="{{previewimg}}"><img src="imgs/icon_down.png" class="pro-down"/></a>
+                                                    <a ng-href="{{previewimg}}" target="_blank">1321</a>
                                                     <img src="imgs/icon_add.png"  class="pro-address"/>
                                                     <em></em>
                                                 </div>
@@ -245,17 +133,19 @@
         <div class="showImg">
             <ul class="slide_box">
                 <li>
-                    <a href="#"><img src="imgs/show/0/1.jpg" alt=""></a>
+                    <a href="#"><img src="{{previewImg}}" alt="">
+
+                    </a>
                 </li>
-                <li>
-                    <a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>
-                </li>
-                <li>
-                    <a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>
-                </li>
-                <li>
-                    <a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>
-                </li>
+                <!--<li>-->
+                    <!--<a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>-->
+                <!--</li>-->
             </ul>
             <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>
             <a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>

@@ -53,7 +53,7 @@ header .close{
 .main{
     /*height:1000px;*/
     /*border:1px solid red;*/
-   position:relative;
+   /*position:relative;*/
    overflow:hidden;
 }
 /*-------------------main_content---------------*/
@@ -66,6 +66,7 @@ header .close{
     /*height:1000px;*/
     /*display:inline-block;*/
     /*background:rebeccapurple;*/
+    position:relative;
 }
 .content_left .proTitle{
     width:70px;
@@ -87,6 +88,9 @@ header .close{
     color:#fff;
     margin: 13px;
     float: left;
+}
+.main_content{
+    position:relative;
 }
 /*-------------proInfo-------------*/
 .proInfo{

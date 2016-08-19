@@ -34,7 +34,6 @@ angular.module('core').directive('copyRadio', function ($timeout) {
 			//})
             //点击新建协作把统计页面给关闭
             $(".new_cooper").click(function(){
-                alert(123)
                 $(".data_count").hide();
             })
             //点击返回按钮关闭当前对话框
@@ -42,10 +41,7 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(".data_count").hide();
                 $(".table-list").show();
             })
-            //项目列表的高度等于窗口的高度
-            //$(".trends").height($("body").height()-150).css({"overflow":"auto"})
-            //$(".panel-group").height($("body").height()-150).css({"overflow":"auto"})
-            //        动态列表图片定位动画
+                    //动态列表图片定位动画
 
 		}
 	};
@@ -115,24 +111,26 @@ angular.module('core').directive('scrollDirective', function () {
         return {
             restrict: 'AE',
             link: function (scope, ele, attr) {
-                //$(window).load(function(){
-                //    console.log('22222');
-
+                var sideHeight = $(window).height() - 115;
 
                $("#content-a2").mCustomScrollbar({
                     theme:"minimal"
                 });
                 $("#content-a3").mCustomScrollbar({
+                    setHeight:sideHeight,
                     theme:"minimal"
                 });
+                //$("#content-a3").mCustomScrollbar({
+                //    theme:"minimal"
+                //});
                 $("#content-a4").mCustomScrollbar({
                     theme:"minimal"
                 });
                 $("#content-b1").mCustomScrollbar({
+                    setHeight:sideHeight,
                     theme:"minimal"
                 });
                 //});
-
             }
         };
     });
@@ -256,5 +254,22 @@ angular.module('core').directive('detail', function($timeout) {
 
     };
 });
+
+angular.module('core').directive('showSelect', function($timeout) {
+    //debugger;
+    return {
+        restrict: 'AE',
+        link: function(scope, element, attr) {
+                $('.identify').addClass('selectpicker');
+                $timeout(function() {
+                    $('.selectpicker').selectpicker({
+                        style: 'btn-default',
+                        size: 'auto'
+                    });
+                }, 400);
+            }
+    };
+});
+
 
 

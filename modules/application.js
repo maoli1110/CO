@@ -49,13 +49,11 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
             ]);
         }
     ])
-    .run(['$http', 'i18n',
-        function($http, i18n) {
-            // i18n get message
-            // $http.get('lang.json').success(function(data) {
-            //     i18n.set(data);
-            // });
-        }
+    .run([
+      "$rootScope", "$state", "$stateParams", function($rootScope, $state, $stateParams) {
+        $rootScope.$state = $state;
+        return $rootScope.$stateParams = $stateParams;
+      }
     ]);
 
 angular.element(document).ready(function() {

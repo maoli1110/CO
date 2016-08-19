@@ -1,6 +1,9 @@
 <div class="select-project">
     <div class="modal-header">
         <h3 class="modal-title">选择工程</h3> 
+        <div class="inline close-sbtn" ng-click="cancel()">
+            <span class="close"></span>
+        </div>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -31,7 +34,7 @@
                     </select>
                 </div>
                 <div class="form-group col-xs-4">
-                    <input type="text" class="form-control" placeholder="搜索" ng-model="formText" ng-change="treeSearch(3)">
+                    <input type="text" class="form-control" placeholder="请输入关键字" ng-model="formText" ng-change="treeSearch(3)">
                 </div>
             </div>
         </div>
@@ -40,7 +43,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary confirm" type="button" ng-click="ok()">确定</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        <button class="btn btn-success confirm" type="button" ng-click="ok()">确定</button>
+        <button class="btn btn-cancel" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

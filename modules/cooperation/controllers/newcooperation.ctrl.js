@@ -39,6 +39,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.selectRelated = function () {
     	var modalInstance = $uibModal.open({
     		backdrop : 'static',
+			size:'lg',
     		templateUrl: 'template/cooperation/select_person_related.html',
     		controller:'selectpersonCtrl',
     		resolve:{
@@ -67,20 +68,28 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     	});
     }
 
-    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-			$('.selectpicker').selectpicker({
-			  	style: 'btn-default',
-			  	size: 'auto'
-			});
-	});
+ //    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+ //    	debugger;
+ //    	    $('.identify').addClass('selectpicker');
+	// 		$('.selectpicker').selectpicker({
+	// 		  	style: 'btn-default',
+	// 		  	size: 'auto'
+	// 		});
+	// });
+
     //获取标识
     Cooperation.getMarkerList().then(function (data) {
     	$scope.markerList = data;
     	console.log($scope.markerList);
     	$scope.mark = $scope.markerList[0];
-		$('.identify').addClass('selectpicker');
-		
-
+    	//debugger;
+		// if(data) {
+		// 	$('.identify').addClass('selectpicker');
+		// 	$('.selectpicker').selectpicker({
+		// 	  	style: 'btn-default',
+		// 	  	size: 'auto'
+		// 	});
+		// }
     });
 
     $scope.switchMark = function() {
@@ -248,9 +257,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	}
 	//上传照片
     var uploader = $scope.uploader = new FileUploader({
-            url: 'upload.php',
+            url: '/bimco/fileupload/upload.do',
    			queueLimit: 5
         });
+    
     // FILTERS
     uploader.filters.push({
         name: 'imageFilter',
@@ -367,13 +377,17 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    	typeId:$stateParams.typeid
 	    };
 	    console.log(JSON.stringify($scope.data));
-	    return;
+	    //return;
 		var obj = JSON.stringify($scope.data);
 		Cooperation.createCollaboration(obj).then(function (data) {
 			console.log(data);
 		});
 	}
-
+		//相关人员的操作
+		$scope.adminHandle = function(){
+			//$(".handle-state").toggleClass("handleActive");
+			//console.info(1231313)
+		}
       
 }]).controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items',
 	function ($scope, $http, $uibModalInstance,Cooperation,items) {
@@ -561,5 +575,5 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		}
-		
+
 }]);

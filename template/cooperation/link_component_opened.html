@@ -1,6 +1,9 @@
 <div class="select-project">
     <div class="modal-header">
         <h3 class="modal-title">选择构件类别</h3> 
+        <div class="inline close-sbtn" ng-click="cancel()">
+            <span class="close"></span>
+        </div>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -25,7 +28,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary confirm" type="button" ng-click="ok1()">确定</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        <button class="btn btn-success confirm" type="button" ng-click="ok1()">确定</button>
+        <button class="btn btn-cancel" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

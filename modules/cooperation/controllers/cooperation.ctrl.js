@@ -5,6 +5,7 @@
 angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state) {
     //查询列表初始值
+    $scope.currentDate =  Cooperation.getCurrentDate();
     $scope.cooperationList = [];
     var tempCooperationList = [];
     var queryData = {};
@@ -19,19 +20,46 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
   	queryData.searchType = '';
 
     $scope.isTypeChecked = false;
+    $scope.coopattr = '1';
 
     $scope.openSignal = false;
     $scope.projectInfoList = [];
     $scope.openNew = function () {
     	$scope.openSignal = true;
     	Cooperation.getTypeList().then(function (data) {
-    		console.log(data);
+        $('.overlay').css('top','0px');
+        $('.overlay').css('height','calc(100vh - 65px)');
+        $('.overlay').css('display','block');
     		$scope.typeList = data;
     	});
     }
 
-    $scope.closeNew = function () {
-    	$scope.openSignal = false;
+    // $scope.closeNew = function () {
+    // 	$scope.openSignal = false;
+    // }
+
+     //弹出筛选框
+    $scope.openfilter = function () {
+      $scope.isCollapsed = true;
+      $('.overlay').css('display','block');
+      $('.overlay').css('top','50px');
+      $('.overlay').css('height','calc(100vh - 115px)');
+    }
+    //点击蒙层隐藏筛选匡
+    $scope.clicklay = function () {
+      $scope.isCollapsed = false;
+      $scope.detailSignal = false;
+      $scope.openSignal = false;
+      $('.overlay').css('display','none');
+    }
+
+    //点击显示列表每条协作的详情
+    $scope.openDetail = function (item) {
+      $scope.detailSignal = true;
+      $('.overlay').css('top','0px');
+       $('.overlay').css('height','calc(100vh - 65px)');
+      $('.overlay').css('display','block');
+      $scope.everyDetail = item;
     }
 
     $scope.trans = function (typeId) {
@@ -84,6 +112,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         if(!queryData.deptId) {
             queryData.deptId = 1;
             queryData.ppid = 1000;
+            queryData.searchType = 1;
         }
         //第一次queryData.modifyTime为空
         //第二次modifyTime为最后一次的数据的时间值
@@ -166,30 +195,16 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
             if(signal == 1) {
                 $('.bg' + index).removeClass('bg' + index).addClass('bgs' + index);
             }
-            //debugger;
-            if(signal == 2) {
-                $('.priority-bg' + index).removeClass('priority-bg' + index).addClass('priority-bgs' + index);
-            }
-            
-            if(signal == 3) {
-                $('.mark-bg' + index).removeClass('mark-bg' + index).addClass('mark-bgs' + index);
-            }
        	}
         if(action == 'remove' && type.indexOf(id)!=-1){
+            //debugger;
             //$scope.isTypeChecked = false;
-            var idx = queryTypeSelected.indexOf(id);
+            var idx = type.indexOf(id);
             type.splice(idx,1);
             //debugger;
             if(signal == 1) {
                 $('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
             }
-            if(signal == 2) {
-                $('.priority-bgs' + index).removeClass('priority-bgs' + index).addClass('priority-bg' + index);
-            }
-            if(signal == 3) {
-                $('.mark-bgs' + index).removeClass('mark-bgs' + index).addClass('mark-bg' + index);
-            }
-            
         }
      }
 
@@ -233,7 +248,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //allPriority全选
     $scope.allPriority = function () {
-    	debugger;
+    	//debugger;
+        // $('.priority-check label').addClass('background','#979ba8');
+        $('.priority-check label').addClass('input-check');
     	console.log($scope.typeCheck);
     	if($scope.priorityCheck) {
     		$('.priority-check').find('input').prop('checked',true);
@@ -247,7 +264,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //marking标识全选
     $scope.allMark = function () {
-    	debugger;
     	console.log($scope.typeCheck);
     	if($scope.markCheck) {
     		$('.mark-check').find('input').prop('checked',true);
@@ -258,9 +274,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	}
     }
 
+
     //动态筛选-确定-按钮-搜索
     $scope.filterOk = function () {
         $scope.isCollapsed = false;
+        $('.overlay').css('display','none');
     	var groups = [];
     	console.log(queryTypeSelected);
     	console.log(queryPriorityselected);
@@ -292,6 +310,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	console.log('groups',groups);
 
     	queryData.groups = groups;
+      queryData.modifyTime = 0;
 
     	Cooperation.getCollaborationList(queryData).then(function (data) {
    			//console.log(data);
@@ -302,10 +321,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     $scope.filterCancel = function () {
         $scope.isCollapsed = false;
+        $('.overlay').css('display','none');
     }
    	//根据属性筛选
    	$scope.changeAttr = function () {
-   		queryData.searchType = $scope.coopAttr;
+   		queryData.searchType = parseInt($scope.coopattr);
+      queryData.modifyTime = 0;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
    			$scope.cooperationList = data;
@@ -319,6 +340,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    			queryData.deptId = 1;
    		}
    		queryData.searchKey = $scope.searchkey;
+      queryData.modifyTime = 0;
    		//debugger;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
@@ -327,6 +349,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    	}
 
 
+    
    	
 	//统计页面
 	var comboxCount = $("#comboBox_count");

@@ -205,5 +205,64 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
     
+    //编辑协作
+    this.updateCollaboration = function (params) {
+        var delay = $q.defer();
+        var params = JSON.stringify(params);
+        var url_join = url + '/rs/co/updateCollaboration';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+    //协作详情右侧动态列表
+    this.getOperationList = function (coid) {
+        var delay = $q.defer();
+        var url_join= url + '/rs/co/operation/' + coid;
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+
+    
+    //更新评论
+    this.commentToCollaboration = function (params) {
+        var delay = $q.defer();
+        var params = JSON.stringify(params);
+        debugger;
+        var url_join = url + '/rs/co/commentToCollaboration';
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise; 
+    }
+
+    //获取系统时间
+    this.getCurrentDate = function () {
+        var cDate = new Date();
+        //console.info($scope.date)
+        var cYear = cDate.getFullYear();
+        var cMouth = cDate.getMonth()+1;
+        var cDay = cDate.getDate();
+        var cWeekday=new Array(7);
+        cWeekday[0]="星期日";
+        cWeekday[1]="星期一";
+        cWeekday[2]="星期二";
+        cWeekday[3]="星期三";
+        cWeekday[4]="星期四";
+        cWeekday[5]="星期五";
+        cWeekday[6]="星期六";
+       var currentDate =  cYear+"年"+ cMouth+"月"+cDay+"日"+cWeekday[cDate.getDay()];
+       return currentDate;
+    }
+    
     
 });

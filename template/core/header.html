@@ -44,14 +44,14 @@
 					</ul>
 				</div>
 			</div>
-			<ul class="nav navbar-nav" show-icon>
-				<li  class="navActive" ui-sref="manage">
+			<ul class="nav navbar-nav">
+				<li  ui-sref="cooperation" ng-class="{navActive:$state.includes('cooperation')}">
 					<img src="imgs/icon01.png" alt="">
-					<a >动态</a>
+					<a>协作管理</a>
 				</li>
-				<li ui-sref="cooperation">
+				<li ui-sref="manage" ng-class="{navActive:$state.includes('manage')}">
 					<img src="imgs/icon02.png" alt="">
-					<a >协作</a>
+					<a>资料动态</a>
 				</li>
 			</ul>
 			<div class="label_tools">

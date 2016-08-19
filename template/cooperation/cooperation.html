@@ -1,94 +1,103 @@
 <header ng-include="'template/core/header.html'"></header>
 <div class="main-container rela">
 	<div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
-	<div class="right-content">
+	<div class="right-content rela">
 		<!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
 		<div class="container-fluid rela">
 			<div class="operation clearfix">
 				<div class="left">
-					<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>
-					<select class="selectpicker" ng-change="changeAttr()" ng-model="coopAttr">
+					<button style="margin-top:-2px;" type="button" class="btn btn-default" ng-click="openfilter()"><span class="glyphicon glyphicon-filter"></span>筛选</button>
+					<select class="selectpicker" ng-change="changeAttr()" ng-model="coopattr">
 					  <option value="1">我负责</option>
 					  <option value="2">我签署</option>
 					  <option value="3">我相关</option>
 					  <option value="4">已结束</option>
 					</select>
-					<input type="text" class="form-control" id="exampleInputName2" placeholder="搜索" ng-model="searchkey">
-					<button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button>
+					<div class="rela search inline">
+						<input type="text" class="form-control" id="exampleInputName2" placeholder="请输入关键字" ng-model="searchkey">
+						<img src="imgs/seache.png" alt="" ng-click="inputSearch()">
+					</div>
+					<!-- <button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button> -->
 				</div>
-				<div class="right">
-					<button type="button" class="btn btn-default" id="comboBox_count" >统计</button>
-					<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>
-				</div>
+				<div class="right ">
+                    <button type="button" id="comboBox_count"  class="btn  btn_count" style="margin-right:12px;">统计</button>
+                    <button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>
+                </div>
 			</div>
 		</div>
 		<!--筛选框-->
 		<div class="comboBox rela">
 			<div class="row absol filter" ng-show="isCollapsed">
-			<div class="filter-table clearfix">
-				<form class="form-inline">
-					<div class="tabs">
-						<div class="checkbox">
-							<label class="filter_title">
-								<input type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型1111
-							</label>
+				<div class="filter-table clearfix">
+					<form class="form-inline">
+						<div class="tabs">
+							<div class="checkbox">
+								<label class="filter_title rela">
+									<input type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型
+									<div class="absol"></div>
+								</label>
+							</div>
+							<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index">
+								<!-- <label class="rela" ng-class="{false:'{{'bg'+ $index}}', true: '{{'bgs'+ $index}}'}[isTypeChecked]">
+									<span>{{item.name}}</span>
+									<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1, $index)">
+								</label> -->
+								<label class="rela {{'bg'+ $index}}">
+									<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1, $index)">
+								</label>
+							</div>
 						</div>
-						<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index">
-							<!-- <label class="rela" ng-class="{false:'{{'bg'+ $index}}', true: '{{'bgs'+ $index}}'}[isTypeChecked]">
-								<span>{{item.name}}</span>
-								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1, $index)">
-							</label> -->
-							<label class="rela {{'bg'+ $index}}">
-								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 1, $index)">
-							</label>
-						</div>
-					</div>
-					<!--most(优先级)-->
-					<div class="tabs">
-						<div class="checkbox">
-							<label class="filter_title">
-								<input type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
-							</label>
-						</div>
-						<div class="priority-check rela inline check-sub1" ng-repeat="item in coPriority track by $index">
-							<label class="rela {{'priority-bg' + $index}}">
-								<span>{{item.name}}</span>
-								<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2, $index)">
-							</label>
-						</div>
-					</div>
-					<!--marking标识-->
-					<div class="marking">
+						<!--most(优先级)-->
 						<div class="tabs">
 							<div class="checkbox">
 								<label class="filter_title">
-									<input type="checkbox" class="comboBox_checkType" ng-click="allMark()" ng-model="markCheck">标识
+									<input type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
+									<div class="absol"></div>
 								</label>
 							</div>
-							<div class="marklist">
-								<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index">
-									<label class="rela {{'mark-bg' + $index}}">
-										<span>{{item.name}}</span>
-										<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3, $index)">
+							<div class="priority-check rela inline check-sub1" ng-repeat="item in coPriority track by $index">
+								<label class="rela">
+									<span>{{item.name}}</span>
+									<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2, $index)">
+									<div class="absol">{{item.name}}</div>
+								</label>
+							</div>
+						</div>
+						<!--marking标识-->
+						<div class="marking">
+							<div class="tabs">
+								<div class="checkbox">
+									<label class="filter_title">
+										<input type="checkbox" class="comboBox_checkType" ng-click="allMark()" ng-model="markCheck">标识
+										<div class="absol"></div>
 									</label>
 								</div>
+								<div class="marklist">
+									<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index">
+										<label class="rela">
+											<span>{{item.name}}</span>
+											<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3, $index)">
+											<div class="absol">{{item.name}}</div>
+										</label>
+									</div>
+								</div>
+								
 							</div>
-							
 						</div>
-					</div>
-				</form>
-			</div>
+					</form>
+				</div>
 			<div class="filter-button"><div class="btn btn-default" ng-click="filterOk()">确定</div><div ng-click="filterCancel()" class="btn btn-default">取消</div></div>
 		</div>
 		</div>
+		<div class="overlay" style="display:none" ng-click="clicklay()"></div>
 		<!---->
 		<div class="addcoo absol overflow" ng-show="openSignal">
-			<div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
+			<!-- <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div> -->
 			<div class="row">
-				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background-color:{{items.color}}">{{items.name}}</a></div>
+				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background:url('./imgs/dyfilter/co-type_{{items.typeId}}.png') no-repeat"></a></div>
 			</div>
 		</div>
-		<div class="table-list" style="max-height:calc(100vh - 115px); overflow:auto;">
+		<div class="table-list" style="max-height:calc(100vh - 117px); overflow:auto;">
 			<table class="table" class="info_list">
 				<thead>
 					<tr>
@@ -103,17 +112,44 @@
 				</thead>
 				<tbody infinite-scroll="addMoreData()" infinite-scroll-distance="3" infinite-scroll-disabled="false">
 					<tr ng-repeat="item in cooperationList">
-						<td><div style="background:{{item.type.color}}">{{item.type.name}}</div></td>
-						<td>{{item.name}}</td>
-						<td>{{item.collaborator}}</td>
-						<td>{{item.priority}}</td>
-						<td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						<td ui-sref="coopdetail({coid: item.coid})"><div style="background:{{item.type.color}}">{{item.type.name}}</div></td>
+						<td ui-sref="coopdetail({coid: item.coid})">{{item.name}}</td>
+						<td ui-sref="coopdetail({coid: item.coid})">{{item.collaborator}}</td>
+						<td ui-sref="coopdetail({coid: item.coid})">{{item.priority}}</td>
+						<td ui-sref="coopdetail({coid: item.coid})">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 						<td>{{item.updater}}</td>
-						<td ui-sref="coopdetail({coid:'57987f050cf26e81c1d837e5'})">详情</td>
+						<td ng-click="openDetail(item)">详情</td>
 					</tr>
 				</tbody>
 			</table>
 
+		</div>
+		<div class="coo-detail absol" ng-show="detailSignal">
+			<div class="title">协作详情</div>
+			<div class="row list">
+				 <div class="col-xs-5">
+				 	<div>类型：</div>
+				 	<div>主题：</div>
+				 	<div>负责人：</div>
+				 	<div>标识：</div>
+				 	<div>发起时间：</div>
+				 	<div>最后更新时间：</div>
+				 	<div>最后更新人：</div>
+				 	<div>当前状态：</div>
+				 	<div>期限：</div>
+				 </div>
+				 <div class="col-xs-7">
+				 	<div>{{everyDetail.type.name}}</div>
+				 	<div>{{everyDetail.name}}</div>
+				 	<div>{{everyDetail.collaborator}}</div>
+				 	<div><div class="mark" style="background:{{everyDetail.type.color}}"></div>{{everyDetail.markerName}}</div>
+				 	<div>-----</div>
+				 	<div>{{everyDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+				 	<div>{{everyDetail.updater}}</div>
+				 	<div>{{everyDetail.status}}</div>
+				 	<div>{{everyDetail.deadline}}</div>
+				 </div>
+			</div>
 		</div>
 		<!--data_count-->
 		<div class="data_count">

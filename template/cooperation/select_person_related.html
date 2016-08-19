@@ -1,45 +1,59 @@
+<!--<link rel="stylesheet" href="css/select-person-related.css">-->
 <div class="select-person-related">
     <div class="modal-header">
-        <h3 class="modal-title">选择相关人</h3> 
+        <h3 class="modal-title">选择相关人</h3>
+         <div class="inline close-sbtn" ng-click="cancel()">
+            <span class="close"></span>
+        </div>
     </div>
     <div class="modal-body" copy-radio>
         <div class="row">
             <div class="col-xs-6 left">
+
                 <div class="row">
                     <div class="col-xs-6 select">
                          <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                     </div>
-                    <div class="col-xs-6 search">
-                        <input type="text" class="form-control" placeholder="Text input" ng-keyup="responsibleSearch($event)" ng-model="queryForm">
+                    <div class="col-xs-6 search rela">
+                        <input type="text" class="form-control" placeholder="请输入关键字" ng-change="responsibleSearch($event)" ng-model="queryForm"><img src="imgs/seache.png" alt="">
                     </div>
                 </div>
-                <div class="person-list">
-                    <li ng-repeat="user in userList">
+                <div class="all-select clearfix">
+                    <!--<div >new-icon.png</div>-->
+                    <p class="modal-checked"><span style="display: inline-block;padding: 0 12px;">全选</span><input type="checkbox" style="display: inline-block; width: auto;" ng-click="allSelected()"></p>
+                </div>
+                <div class="person-list" >
+                    <div ng-repeat="user in userList" class="select-list">
                         <a class="first-title" ng-click="isCollapsed = !isCollapsed">
                             <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                         </a>
                         <ul class="sub-nav" uib-collapse="!isCollapsed">
                             <li ng-repeat="list in user.users" class="lili" ng-click="addRelated($index, $parent.$index,list)" ng-class="{true:'grey',false:'default'}[list.add]"><label><img src="{{list.avatar}}"><span>{{list.username}}</span></label></li>
                         </ul>
-                    </li>
+                    </div>
                 </div>
-                <div class="all-select">
-                    <span>全选</span><input type="checkbox" style="display: inline-block; width: auto;" ng-click="allSelected()">
-                </div>
+
                 
             </div>
             <div class="col-xs-6 right">
-                <div class="clearfix">
+                <div class="clearfix info-title" >
                    <!--  <div class="pull-left"><input type="checkbox"><span>全选</span></div> -->
-                    <div class="pull-right">已选择{{relatedSelected.length}}人，需要签字{{trans_selected.sign.length}}人</div>
+                    <div  style="float:left">已选择{{relatedSelected.length}}人，需要签字{{trans_selected.sign.length}}人</div>
+                    <!--全部删除-->
+                    <div class="remove-all" style="float:right;">全部删除</div>
                 </div>
+
                 <div>
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="row in relatedSelected">
-                                <td><input type="checkbox" ng-checked="isSelected" ng-click="updateSelection($event,row)"></td>
+                            <tr ng-repeat="row in relatedSelected"  align="center">
+                                <!--<td><input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"></td>-->
+                                <td class="clearfix">
+                                    <div class="handle-state" ng-click ="adminHandle()">需签字</div>
+                                    <div class="avatar-pic"><img ng-src="{{row.avatar}}" alt=""></div>
+                                </td>
                                 <td>{{row.username}}</td>
-                                <td ng-click="removeRelated(row)">删除</td>
+                                <td ng-click="removeRelated(row)" style="text-align:center;">删除</td>
                             </tr>
                         </tbody>
                     </table>
@@ -48,7 +62,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok1()" ng-disabled="form1.$invalid">确定</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        <button class="btn btn-success" type="button" ng-click="ok1()" ng-disabled="form1.$invalid">确定</button>
+        <button class="btn btn-cancel" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>
