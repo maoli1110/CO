@@ -302,12 +302,24 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 url: "rs/trends/viewUrl",
                 type: "POST",
                 data: data,
+                async: false,
                 success: function(result){
                     //console.info(result)
                     $scope.previewimg = result;
+                    layer.open({
+                        type: 2,
+                        //skin: 'layui-layer-lan',
+                        title: 'layer弹层组件',
+                        fix: false,
+                        shadeClose: true,
+                        maxmin: true,
+                        area: ['1000px', '500px'],
+                        content: $scope.previewimg
+                    });
                 }
 
             });
+            
         }
 
 

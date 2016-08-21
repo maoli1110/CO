@@ -74,37 +74,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	 		var r=confirm("当前协作已结束，不允许再操作");
 	   	 	}
 	   	 }
-	   	//预览功能
-	   	$scope.pcZoom = function (docName, uuid) {
-	   		debugger
-	            var data = JSON.stringify({fileName:docName,uuid:uuid});
-	            $.ajax({
-	                contentType: "application/json; charset=utf-8",
-	                //dataType : 'json',
-	                url: "rs/trends/viewUrl",
-	                type: "POST",
-	                data: data,
-	                success: function(result){
-	                    //console.info(result)
-	                    $scope.previewimg = result;
-	                }
-	            });
-
-	   		layer.open({
-			    type: 2,
-			    //skin: 'layui-layer-lan',
-			    title: 'layer弹层组件',
-			    fix: false,
-			    shadeClose: true,
-			    maxmin: true,
-			    area: ['1000px', '500px'],
-			    content: 'http://baidu.com',
-			    end: function(){
-			      layer.tips('试试相册模块？', '#photosDemo', {tips: 1})
-			    }
-			});
-	   		
-	   	}
 	   	//pc端交互
 	   	$scope.checkModelpc = function () {
 	   		BimCo.LocateComponent('1000','57a08312807c61243202512a');
@@ -197,11 +166,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                     }
                 }
             });
-            modalInstance.result.then(function (data) {
-            	debugger;
-            	Cooperation.commentToCollaboration(data).then(function (data) {
-    				console.log('1111');
-    			});
+            modalInstance.result.then(function () {
                 $state.reload();
             });
         }
@@ -232,10 +197,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			$(".detail-voice").slideToggle();
 		})
 	 
-}]).controller('updatecommentCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
-    function ($scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
-    	var onCompleteAllSignal = false;
-    	$scope.uploadBegin = false;
+}]).controller('updatecommentCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader',
+    function ($scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader) {
+    	$scope.onCompleteAllSignal = false;
     	//详情展示页添加更新
     	var coid = items;
     	var date = Common.dateFormat(new Date());
@@ -262,54 +226,67 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 
        	$scope.ok = function() {
-       		var data = {
-    	 	coid: items.coid,
-    	 	comment: {
-    	 		comment: $scope.comment, /*内容*/
-    	 		commentator:'', /*评论人后端接口没给*/
-    	 		date:date,	/*评论时间*/
-    	 		docs: [],	/*文件列表*/
-    	 		// coSpeech:'' /*整改录音*/
-	    	 	}
-	    	}
-
-	    	//0.全部上传
+	    	//全部上传
 	    	//1.上传回调给uploadList赋值
 	    	//2.每次上传回调给赋值
-	    	//点击确定保存图片和评论文字，去主页面调用更新评论reload详情页面
-	    
-		if(uploader1.queue.length) {
-			$scope.uploadBegin = true;
-   			uploader1.uploadAll();
-   		} else {
-   			$uibModalInstance.close(data);
-   		}
-   		//每个上传成功之后的回调函数
-   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
-	            console.info('onSuccessItem', fileItem, response, status, headers);
-	            var unit = {};
-	            unit.name = response[0].result.fileName;
-	            unit.md5 = response[0].result.fileMd5;
-	            unit.size = response[0].result.fileSize;
-	            unit.uuid = response[0].result.uuid;
-	            uploadList.push(unit);
-	            console.log(uploadList);
-		};
-		//全部成功的回调函数
-		uploader1.onCompleteAll = function() {
-            onCompleteAllSignal = true;
-            data.comment.docs = uploadList;
-            if(uploader1.progress == 100) {
-            	//debugger
-            	$uibModalInstance.close(data);
-            }
-            
-        };
+	    	//3.watch值是否变化 变化就去调用保存
+	    	//调用save方法
+	    	//
+    		if(uploader1.queue.length) {
+       			var uploadResult = uploader1.uploadAll();
+       		}
 
-    }
+       		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+		            console.info('onSuccessItem', fileItem, response, status, headers);
+		            uploadList = response[0].result;
+		            console.log(uploadList);
+			};
 
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    }
+    		uploader1.onCompleteAll = function() {
+	            $scope.onCompleteAllSignal = true;
+	            $scope.$apply();
+	            console.log('$scope.onCompleteAllSignal',$scope.onCompleteAllSignal );
+	        };
+    		
+    		$uibModalInstance.close($scope.onCompleteAllSignal);
+    	}
+
+    	$scope.$watch($scope.onCompleteAllSignal, function (newValue, oldValue) {
+    		debugger;
+    		if(newValue !== oldValue) {
+    			var data = {
+	    	 	coid: items.coid,
+	    	 	comment: {
+	    	 		comment: $scope.comment, /*内容*/
+	    	 		commentator:'', /*评论人后端接口没给*/
+	    	 		date:date,	/*评论时间*/
+	    	 		docs: uploadList,	/*文件列表*/
+	    	 		// coSpeech:'' /*整改录音*/
+		    	 	}
+		    	};
+		    	console.log(data);
+	    		Cooperation.commentToCollaboration(data).then(function (data) {
+					console.log('1111');
+				});
+    		}
+    		
+    	},true);
+
+  //   	uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+  //  			 	debugger;
+	 //            console.info('onSuccessItem', fileItem, response, status, headers);
+	 //            uploadList = response[0].result;
+	 //            console.log(uploadList);
+		// };
+
+		// uploader1.onCompleteAll = function() {
+  //           return onCompleteAllSignal = true;
+  //       };
+
+    	$scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+
+
 	    
 }]);

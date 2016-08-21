@@ -33,7 +33,7 @@
                         <!--detail(详情描述)-->
                         <div class="detail">
                            <div class="row " >
-                               <div class="blank col-xs-12 ">
+                               <div class="blank col-xs-12">
                                     <p>详情描述:</p>
                                 </div>
                                 <div class="col-xs-8 col-md-12">
@@ -63,7 +63,7 @@
                             <div class="col-xs-8 col-md-11 picInfo ">
                                 <dl class="data-list" ng-repeat="item in collaList.pictures">
                                     <dt class="rela detail-sear">
-                                        <img src="{{item.fileUrl}}" ng-click="zoom(item.uuid)"/>
+                                        <img src="{{item.fileUrl}}" ng-click="pcZoom(item.name,item.uuid)"/>
                                         <div class="detail-search">
                                              <img src="imgs/seache.png" alt="">
                                         </div>

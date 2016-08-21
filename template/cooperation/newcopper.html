@@ -20,7 +20,7 @@
 					  	<option value="3">Ⅲ</option>
 					</select>
 				</div>
-				<div class="row" show-select>
+				<div class="row coop-Levels" show-select>
 					<label class="col-xs-2">标识：</label>
 				  	<select class="identify col-xs-6" ng-model="mark" ng-options="item.picMarker for item in markerList" ng-click="switchMark(mark)">
 					</select>
@@ -41,9 +41,9 @@
 				<div class="row">
 				    <label for="" class="col-xs-3 align-right">限制期限：</label>
 				    <p class="input-group col-xs-7">
-			          <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal"/>
+			          <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
 			          <span class="input-group-btn">
-			            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+			            <button type="button" class="btn btn-default btn-calendar" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
 			          </span>
 						<input type="checkbox" ng-click="isChecked()">
 			        </p>
@@ -58,6 +58,10 @@
 				<button class="btn btn-link1" ng-click="linkProject()" style="margin-left:3px;">工程</button>
 				<button class="btn btn-link1" ng-click="linkComponent()">图上构建</button>
 				<button class="btn btn-link1" ng-click="linkCategoty()">构建类别</button>
+				<div class="coop-delete">
+					<input type="text">
+					<label for=""><img src="imgs/delete.png" alt=""></label>
+				</div>
 			</div>
 			<div ng-show="linkProject1">
 				<span>与工程相关, {{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}工程</span><span ng-click="removeLink()" style="margin-left:20px;">重新关联</span>
@@ -78,7 +82,7 @@
 		<div class="row mt-15 mx">
 			<label for="" class="col-xs-1">描述：</label>
 			<div class="col-xs-10">
-				<textarea rows="4" ng-model="desc" style="width:100%"></textarea>
+				<textarea rows="8" ng-model="desc" style="width:100%"></textarea>
 			</div>
 		</div>
 		<div class="row mt-15">

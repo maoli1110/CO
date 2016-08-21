@@ -11,7 +11,7 @@
             <div class="col-xs-6 left">
 
                 <div class="row">
-                    <div class="col-xs-6 select">
+                    <div class="col-xs-5 select">
                          <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                     </div>
                     <div class="col-xs-6 search rela">
@@ -28,7 +28,14 @@
                             <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                         </a>
                         <ul class="sub-nav" uib-collapse="!isCollapsed">
-                            <li ng-repeat="list in user.users" class="lili" ng-click="addRelated($index, $parent.$index,list)" ng-class="{true:'grey',false:'default'}[list.add]"><label><img src="{{list.avatar}}"><span>{{list.username}}</span></label></li>
+                            <li ng-repeat="list in user.users"  ng-click="addRelated($index, $parent.$index,list,$event)" ng-class="{true:'grey',false:'default'}[list.add]">
+                                <label >
+                                    <img src="{{list.avatar}}"><span>{{list.username}}</span>
+                                </label>
+                                <div class="user-chioce">
+
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -46,13 +53,18 @@
                 <div>
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="row in relatedSelected"  align="center">
-                                <!--<td><input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"></td>-->
-                                <td class="clearfix">
-                                    <div class="handle-state" ng-click ="adminHandle()">需签字</div>
-                                    <div class="avatar-pic"><img ng-src="{{row.avatar}}" alt=""></div>
+                            <tr ng-repeat="row in relatedSelected"  align="center" style="line-height:40px;">
+                                <td class="is-sign">
+                                    <label class="rela" style="">
+                                        <input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)" ng-model="typeCheck" style="opacity:0;" >
+                                        <div class="absol handle-state" ng-click ="adminHandle()">需签字</div>
+                                    </label>
+                                        <div class="avatar-pic"><img ng-src="{{row.avatar}}" alt=""></div>
+                                        <span>{{row.username}}</span>
+
+
                                 </td>
-                                <td>{{row.username}}</td>
+                                <!--<td></td>-->
                                 <td ng-click="removeRelated(row)" style="text-align:center;">删除</td>
                             </tr>
                         </tbody>

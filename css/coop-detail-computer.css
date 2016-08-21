@@ -127,7 +127,7 @@ header .close{
     color:#fff;
 }
 .proInfo .pro_man  .btn.focus, .btn:focus, .btn:hover{
-    background:#65c17d;
+   /* background:#65c17d;*/
 }
 .proInfo .pro_man .coop-name{
     display: inline-block;

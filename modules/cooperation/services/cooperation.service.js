@@ -235,7 +235,6 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.commentToCollaboration = function (params) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
-        debugger;
         var url_join = url + '/rs/co/commentToCollaboration';
         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);

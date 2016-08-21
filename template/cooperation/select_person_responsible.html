@@ -22,7 +22,15 @@
                         <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                     </a>
                     <ul class="sub-nav" uib-collapse="!isCollapsed">
-                        <li ng-repeat="list in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,list.username)" ng-class="{true:'grey',false:'default'}[list.add]"><label><img src="{{list.avatar}}"><span>{{list.username}}</span></label></li>
+                        <li ng-repeat="list in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,list.username)" ng-class="{true:'grey',false:'default'}[list.add]">
+                            <label>
+                                <img src="{{list.avatar}}">
+                                <span>{{list.username}}</span>
+                                <div class="user-chioce">
+
+                                </div>
+                            </label>
+                        </li>
                     </ul>
                 </li>
             </div>

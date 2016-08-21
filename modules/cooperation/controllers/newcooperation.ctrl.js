@@ -185,7 +185,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	$scope.formSelectedList = [];
 	//引用BE资料
 	$scope.linkBe = function () {
-		$scope.sourceType = 1;
+		$scope.beSourceType = 1;
 		var modalInstance = $uibModal.open({
 			backdrop : 'static',
     		templateUrl: 'template/cooperation/linkbe.html',
@@ -200,7 +200,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 	//选择表单
 	$scope.linkForm = function () {
-		$scope.sourceType = 2;
+		$scope.formSourceType = 2;
 		var modalInstance = $uibModal.open({
 			backdrop : 'static',
     		templateUrl: 'template/cooperation/linkform.html',
@@ -258,7 +258,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	//上传照片
     var uploader = $scope.uploader = new FileUploader({
             url: '/bimco/fileupload/upload.do',
-   			queueLimit: 5
+   			queueLimit: 10
         });
     
     // FILTERS
@@ -272,15 +272,15 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
     //上传资料
     var uploader1 = $scope.uploader1 = new FileUploader({
-    		url: 'upload.php',
-    		queueLimit:5
+    		url: '/bimco/fileupload/upload.do'
+    		// queueLimit:10
     });
 
     //FILTERS
     uploader1.filters.push({
     	name: 'customFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
-            return this.queue.length < 3;
+            return this.queue.length < 20;
         }
     });
     
@@ -292,10 +292,38 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
     //点击上传资料按钮
     $scope.docsUpload = function () {
+    	$scope.uploadSourceType = 3;
     	$('.upload-docs').attr('uploader', 'uploader1');
     	$('.upload-docs').attr('nv-file-select', '');
     	$('.upload-docs').click();
     }
+
+    if(uploader1.queue.length) {
+		var uploadResult = uploader1.uploadAll();
+	}
+
+	//每个上传成功之后的回调函数
+	uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+        console.info('onSuccessItem', fileItem, response, status, headers);
+        var unit = {};
+        unit.name = response[0].result.fileName;
+        unit.md5 = response[0].result.fileMd5;
+        unit.size = response[0].result.fileSize;
+        unit.uuid = response[0].result.uuid;
+        uploadList.push(unit);
+        console.log(uploadList);
+	};
+
+	//全部成功的回调函数
+	uploader1.onCompleteAll = function() {
+        onCompleteAllSignal = true;
+        data.comment.docs = uploadList;
+        if(uploader1.progress == 100) {
+        	//debugger
+        	$uibModalInstance.close(data);
+        }
+        
+    };
 
     //设置日期相关
     $scope.dateOptions = {
@@ -327,67 +355,167 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	}
 	//协作保存
 	$scope.save = function () {
-		if($scope.dt) {
-			var dt = Common.dateFormat($scope.dt);
-		} else {
-			dt = '';
-		}
-		//拼接资料数组
-		var docSelectedList1 = [];
-		var formSelectedList1 = [];
-		angular.forEach($scope.docSelectedList, function(value, key){
-			var a = {};
-			a.md5 = value.filemd5;
-			a.name = value.docName;
-			a.needSign = false;
-			a.originalUuid = value.uuid;
-			a.size = value.filesize;
-			a.sourceType = $scope.sourceType;
-			docSelectedList1.push(a);
-		});
-		angular.forEach($scope.formSelectedList, function(value, key){
-			var a = {};
-			a.md5 = value.md5;
-			a.name = value.name;
-			a.needSign = value.needSign;
-			a.originalUuid = value.uuid;
-			a.size = value.size;
-			formSelectedList1.push(a);
-		});
-		console.log('1111333',docSelectedList1, formSelectedList1);
-		var docsList = docSelectedList1.concat(formSelectedList1);
-		//debugger;
-		console.log(docsList);
-		$scope.data = {
-	    	binds:$scope.data.assembleLps?$scope.data.assembleLps:[],
-	    	bindType: $scope.data.bindType,
-	    	collaborator: $scope.responsiblePerson,
-	    	contracts: contracts,
-	    	deadline: dt,
-	    	deptId: $scope.data.deptId,
-	    	desc: $scope.desc,
-	    	docs: docsList,
-	    	markerid: $scope.mark.markerId,
-	    	name: $scope.coopname,
-	    	pictures:[{
-	    		name:'test'
-	    	}],
-	    	ppid:0,
-	    	priority: $scope.priority,
-	    	typeId:$stateParams.typeid
-	    };
-	    console.log(JSON.stringify($scope.data));
-	    //return;
-		var obj = JSON.stringify($scope.data);
-		Cooperation.createCollaboration(obj).then(function (data) {
-			console.log(data);
-		});
+
+		//上传图片和资料
+		//1.上传图片
+		//2.上传资料
+		//3.整合数据
+		//1.图片存在2.列表存在
+		//
+		var uploadPictureList = [];
+		var uploadDocList = [];
+		var onCompleteAllSignal = false;
+		//图片上传&资料上传都存在
+		if(uploader.queue.length && uploader1.queue.length) {
+   			var uploadResult = uploader.uploadAll();
+   		
+	   		//每个上传成功之后的回调函数
+	   		uploader.onSuccessItem = function(fileItem, response, status, headers) {
+		            console.info('onSuccessItem', fileItem, response, status, headers);
+		            var unit = {};
+		            unit.name = response[0].result.fileName;
+		            unit.md5 = response[0].result.fileMd5;
+		            unit.size = response[0].result.fileSize;
+		            unit.uuid = response[0].result.uuid;
+		            uploadPictureList.push(unit);
+			};
+			//全部成功的回调函数
+			uploader.onCompleteAll = function() {
+	            onCompleteAllSignal = true;
+	          
+		   	 	uploader1.uploadAll();
+		   	 	debugger
+		   	
+		   		//每个上传成功之后的回调函数
+		   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+			            console.info('onSuccessItem', fileItem, response, status, headers);
+			            var unit = {};
+			            unit.name = response[0].result.fileName;
+			            unit.md5 = response[0].result.fileMd5;
+			            unit.size = response[0].result.fileSize;
+			            unit.uuid = response[0].result.uuid;
+			            uploadDocList.push(unit);
+			            console.log('uploadDocList',uploadDocList);
+				};
+				//全部成功的回调函数
+				uploader1.onCompleteAll = function() {
+		            onCompleteAllSignal = true;
+		            saveCooperation();
+		        };
+	            
+	        };
+
+	    }
+
+	    if(uploader.queue.length && !uploader1.queue.length) {
+   			var uploadResult = uploader.uploadAll();
+   		
+	   		//每个上传成功之后的回调函数
+	   		uploader.onSuccessItem = function(fileItem, response, status, headers) {
+		            console.info('onSuccessItem', fileItem, response, status, headers);
+		            var unit = {};
+		            unit.name = response[0].result.fileName;
+		            unit.md5 = response[0].result.fileMd5;
+		            unit.size = response[0].result.fileSize;
+		            unit.uuid = response[0].result.uuid;
+		            uploadPictureList.push(unit);
+			};
+			//全部成功的回调函数
+			uploader.onCompleteAll = function() {
+	            onCompleteAllSignal = true;
+		            saveCooperation();
+	        };
+
+	    }
+
+	     if(!uploader.queue.length && uploader1.queue.length) {
+   			var uploadResult = uploader1.uploadAll();
+   		
+	   		//每个上传成功之后的回调函数
+	   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+		            console.info('onSuccessItem', fileItem, response, status, headers);
+		            var unit = {};
+		            unit.name = response[0].result.fileName;
+		            unit.md5 = response[0].result.fileMd5;
+		            unit.size = response[0].result.fileSize;
+		            unit.uuid = response[0].result.uuid;
+		            uploadDocList.push(unit);
+			};
+			//全部成功的回调函数
+			uploader1.onCompleteAll = function() {
+	            onCompleteAllSignal = true;
+		            saveCooperation();
+	        };
+
+	    }
+
+	    if(!uploader.queue.length && !uploader1.queue.length) {
+   			saveCooperation();
+	    }
+
+        function saveCooperation () {
+        	if($scope.dt) {
+				var dt = Common.dateFormat($scope.dt);
+			} else {
+				dt = '';
+			}
+			//拼接资料数组
+			var docSelectedList1 = [];
+			var formSelectedList1 = [];
+			angular.forEach($scope.docSelectedList, function(value, key){
+				var a = {};
+				a.md5 = value.filemd5;
+				a.name = value.docName;
+				a.needSign = false;
+				a.uuid = value.uuid;
+				a.size = value.filesize;
+				a.sourceType = $scope.beSourceType;
+				docSelectedList1.push(a);
+			});
+			angular.forEach($scope.formSelectedList, function(value, key){
+				var a = {};
+				a.md5 = value.md5;
+				a.name = value.name;
+				a.needSign = value.needSign;
+				a.uuid = value.uuid;
+				a.size = value.size;
+				a.sourceType = $scope.formSourceType;
+				formSelectedList1.push(a);
+			});
+			console.log('1111333',docSelectedList1, formSelectedList1);
+			var docsList = docSelectedList1.concat(formSelectedList1, uploadDocList);
+			//debugger;
+			console.log(docsList);
+			$scope.data = {
+		    	binds:$scope.data.assembleLps?$scope.data.assembleLps:[],
+		    	bindType: $scope.data.bindType,
+		    	collaborator: $scope.responsiblePerson,
+		    	contracts: contracts,
+		    	deadline: dt,
+		    	deptId: $scope.data.deptId,
+		    	desc: $scope.desc,
+		    	docs: docsList,
+		    	markerid: $scope.mark.markerId,
+		    	name: $scope.coopname,
+		    	pictures: uploadPictureList,
+		    	ppid:0,
+		    	priority: $scope.priority,
+		    	typeId:$stateParams.typeid
+		    };
+		    console.log(JSON.stringify($scope.data));
+		    return;
+			var obj = JSON.stringify($scope.data);
+			Cooperation.createCollaboration(obj).then(function (data) {
+				console.log(data);
+			});
+        }
+
 	}
-		//相关人员的操作
-		$scope.adminHandle = function(){
-			//$(".handle-state").toggleClass("handleActive");
-			//console.info(1231313)
-		}
+	//相关人员的操作
+	$scope.adminHandle = function(){
+		//$(".handle-state").toggleClass("handleActive");
+		//console.info(1231313)
+	}
       
 }]).controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items',
 	function ($scope, $http, $uibModalInstance,Cooperation,items) {
@@ -457,6 +585,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					}
 			});
 			$scope.responsiblePerson = user;
+
 		}
 
 		//联系人可以多选
@@ -472,6 +601,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			});
 			$scope.responsiblePerson = user;
 			//console.log();
+			$(".select-person-responsible .person-list li ul li label").click(function(){
+				$(".select-person-responsible .person-list li ul li label>.user-chioce").hide()
+				$(this).find(".user-chioce").show();
+			})
 		}
 
 		//选中的相关人
@@ -484,13 +617,24 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		
 		$scope.relatedSelected = a ? a : [];
 
-		$scope.addRelated = function (id, pid, current) {
+		$scope.addRelated = function (id, pid, current,$event) {
+			$(".select-person-related .modal-body .select-list ul li").click(function(){
+				//删除默认状态
+				$('li ').css("background",'#fff')
+				$(".user-chioce").hide();
+				//给当前获取焦点添加一个样式
+				//debugger;
+				$(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
+				$(this).css("background",'#eceef0').siblings().css("background","#fff")
+			})
 			$scope.relatedSelected.push(current);
-			
+
 			//数组去重
 			var unique = _.uniqBy($scope.relatedSelected, 'username');
 			$scope.relatedSelected = unique;
 			console.log($scope.relatedSelected);
+
+
 		}
 		
 		$scope.removeRelated = function (current) {

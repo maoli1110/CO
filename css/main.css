@@ -567,12 +567,15 @@ li {
     margin-bottom: 20px;
 }
 .create .responsible {
-    width: 90%;
+    width: 91%;
     border: 1px solid #ccc;
     line-height: 40px;
     height: 40px;
     margin-left: -5%;
     vertical-align: middle;
+}
+.create .responsible+span{
+    margin-left:7px;
 }
 .create .row label {
     line-height: 40px;
@@ -603,9 +606,10 @@ li {
     padding: 0 5px;
     vertical-align: baseline;
     margin-left: 4px;
-}
-.create .upload-img *{
-    vertical-align: middle;
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    text-align: center;
 }
 .create-btn-submit {
     bottom: 0px;
@@ -632,7 +636,6 @@ li {
     border-radius:24px;
 }
 .create .docs ul li {
-    display:block;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -653,7 +656,10 @@ li {
     width: 200px;
     height: 40px;
 }
-.create .upload .btn-lg{
+.upload-img *{
+    vertical-align: middle;
+}
+.upload .btn-lg{
     width: 120px;
     height: 120px;
 }
@@ -686,7 +692,17 @@ li {
     color:#fff;
 }
 /*select person*/
-
+.create .btn-calendar{
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    text-align: center;
+    margin-right:10px;
+}
+.create .glyphicon-calendar{
+    left:-5px;
+    top:-3px;
+}
 .select-person-related .row {
     margin: 0;
 }
@@ -708,13 +724,45 @@ li {
     padding-right: 10px;
     color: #c7c9d3;
 }
+.create .coop-delete{
+    margin-left:5px;margin-top:20px;margin-bottom:5px;
+}
+.create .coop-delete >input{
+    width:30% !important;
+}
+.create .coop-delete>label{
+    margin-left:10px;
+}
 .select-person-related .modal-body .select-list ul li{
-    background:#ddd;
+    /*background:#ddd;*/
 }
 .select-person-related .modal-body .select-list ul li label{
     margin-left: 9px;
     padding: 8px 0;
 
+}
+.select-person-related .modal-body .select-list ul li .is-choice input[type=checkbox]{
+    width:13px;
+    float:right;
+   margin-top:10px;
+}
+.select-person-related .related-men{
+    width: 51px;
+    background: red;
+    height: auto;
+    float: right;
+    height: 32px;
+    margin-top: 7px;
+    text-align: right;
+}
+.select-person-related .user-chioce{
+    background: url(../imgs/icon/new-icon.png) 176px -23px;
+    width: 22px;
+    height: 24px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 20px;
+    display:none;
 }
 .select-person-related  .select, .select-person-related .search {
     padding: 3px;
@@ -727,6 +775,21 @@ li {
 .select-person-related .left{
   border-right:none;
 }
+.select-person-related .search{
+    margin-left:20px;
+
+}
+.select-person-related .search>input{
+    padding-left:10px;
+}
+.select-person-related .search img{
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 12px;
+    right: 7px;
+}
+
 .select-person-related .search >div{
     line-height: 34px;
 }
@@ -743,17 +806,38 @@ li {
     margin-bottom:29px;
 }
 .select-person-related .right  .handle-state{
-    width:50px;height:20px;border:1px solid #ddd;border-radius:10px;float:left;
+    width: 52px;
+    height: 23px;
+    line-height: 23px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    float: left;
+    left: 0;
+    top: 0;
 }
-.handle-active{
-  background:red;
+
+.select-person-related table tr .is-sign label {
+    width:50px;
+    float:left;
 }
+.select-person-related table tr .is-sign span{
+    float:left;
+}
+.select-person-related table tr .is-sign label input[type=checkbox]+div{
+    /*background:red;*/
+}
+.select-person-related table tr .is-sign label input[type=checkbox]:checked+div{
+    background:#69c080;
+    color:#fff;
+}
+
 .select-person-related .right .avatar-pic{
     width:37px;
     height:37px;
     margin-top: -8px;
     float:left;
-    padding-left:10px;
+    margin-left:10px;
+    margin-rigth:10px;
 }
 .select-person-related .right .avatar-pic img{
     width:37px;
@@ -773,6 +857,10 @@ li {
 }
 .select-person-related .all-select .modal-checked{
     float:right;
+}
+.select-person-related .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    border:none;
+    padding: 15px 0;
 }
 .select-person-responsible .row {
     padding: 10px 20px;
@@ -795,11 +883,20 @@ li {
     padding:0;
 }
 .select-person-responsible .person-list li ul li{
-    background:#ddd;
+
 }
 .select-person-responsible .person-list li ul li label{
     margin-left: 9px;
     padding: 8px 0;
+}
+.select-person-responsible .user-chioce{
+    background: url(../imgs/icon/new-icon.png) 176px -23px;
+    width: 22px;
+    height: 24px;
+    float: right;
+    margin-right: 15px;
+    margin-top: 13px;
+    display:none;
 }
 .select-person-responsible .person-list li a span:nth-child(1){
     margin-left:10px;
@@ -867,6 +964,19 @@ li {
 .panel-body{
     padding:0;
 }
+/* upeate-comment */
+.update-comment .loading-progress {
+    padding: 10px 11px;
+    background: #000;
+    opacity: 0.5;
+    top: 39%;
+    position: absolute;
+    width: 100%;
+}
+.update-comment .progress {
+    margin-bottom: 0px;
+}
+
 /*侧边栏菜单*/
 .panel-default {
     border:none !important;
