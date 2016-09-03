@@ -3,11 +3,29 @@
 .detail-computer{
     /*display:none;*/
 }
+.detail-computer .select-list{
+    width:253px;
+}
+.detail-computer .foot-defult{
+    width: 143px;
+    height: 34px;
+    border-radius: 0;
+}
 header{
     height:60px;
     background:#ddd;
     text-align:center;
     position:relative;
+}
+.dropdown-menu{
+    border: 1px solid rgba(221,221,221,1);
+}
+.pro_man .coop-theme .dropdown-menu{
+    width:100%;
+    border: 1px solid rgba(221,221,221,1);
+}
+.edit-blank .dropdown-menu{
+    width:100%;
 }
 header p{
     line-height:60px;
@@ -17,6 +35,12 @@ header .close{
     position:absolute;
     top:10px;
     right:10px;
+}
+.col-xs-9{
+    padding:0;
+}
+.col-xs-12{
+    padding:7px;
 }
 /*---------------------main--------------------*/
 .main{
@@ -61,6 +85,13 @@ header .close{
     width:100%;
     float:right;
 }
+ .bootstrap-select.btn-group .dropdown-menu li a .glyphicon-stop + span{
+    word-break: normal;
+    width: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+}
 .proInfo .pro_man{
     /*padding-bottom: 10px;*/
     border-bottom:1px solid #ddd;
@@ -94,7 +125,7 @@ header .close{
 }
 .proInfo .pro_man .basicInfo div .identify{
     width:200px !important;
-    height:10px !important;
+    height:auto;
 }
 .proInfo .pro_man .coop-name{
     margin-left:0 !important;
@@ -228,10 +259,10 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     vertical-align: top;
 }
 .Avatar .photo dl dt{
-    width:50px;
-    height: 50px;
-    border-radius: 50%;
-    border:1px solid #ddd;
+    /*width:50px;*/
+    /*height: 50px;*/
+    /*border-radius: 50%;*/
+    /*border:1px solid #ddd;*/
     margin-bottom:22px;
 }
 .Avatar .photo dl dt img{
@@ -243,6 +274,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .Avatar .photo dl dd{
     line-height:20px;
     margin-bottom:25px;
+    font-size:14px;
 }
 .Avatar .photo .add-chioce ul{
     width: 50px;
@@ -271,7 +303,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     display: inline-block;
     text-align:center;
     margin-right:40px;
-
+    margin-bottom:15px;
 }
 .action dl dt{
     border:1px solid #ddd;
@@ -306,23 +338,35 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     bottom:-36px;
     left:0;
 }
+
 .action .picInfo  dl dt .detail-search img{
     width:15px;
     height:15px;
 }
 .action .picInfo  dl dt {
     width: 118px;
-    height: 118px;
+    height:118px;
     overflow: hidden;
 }
-.action .picInfo  dl dt>img{
+.action .picInfo  dl dd{
     width: 118px;
-    height: 118px;
+    white-space: nowrap;
+    /* text-align: center; */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.action .picInfo  dl .means-down>img{
+    width: 70px;
+    margin: 0 auto;
+    margin-top: 19px;
+}
+.action .picInfo  dl dt>img{
+   width:118px;
 }
 .action .picInfo  dl dt .deta-down{
     width: 118px;
     height: 118px;
-    overflow: hidden;
+    border:1px solid #ddd;
 }
 .action .picInfo  dl dt .deta-down img{
     width: 118px;
@@ -367,6 +411,12 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .reply .say .comment .say-content{
     padding-left:10px !important;
 }
+.reply .say .comment .say-content div{
+    width: 80px;
+}
+.reply .say .comment .say-content span img{
+    width: 70px;
+}
 /*.reply .say .comment .say-content >div:first-child{
     word-wrap: break-word;
 }*/
@@ -406,7 +456,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .btn_box span{
     font-size: 30px;
     color: #fff;
-    line-height:none;
+    line-height:0;
 }
 /*-------------------aside--------------------------*/
 .aside{
@@ -508,6 +558,13 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     margin:0 10px;
 
 }
+.footer .btn-default:focus ,.footer .btn-default:hover, .footer .btn-default:visited{
+    background:#65C17D;
+    color:#FFF;
+}
+.footer .btn:hover{
+    color:#fff !important;
+}
 .footer .btn-default{
     background:#65c17d;
     color:#fff;
@@ -525,6 +582,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     color: #fff;
     /*line-height:36px;*/
 }
+
 .data-list :hover .show-icon{
     display: block;
 }
@@ -551,6 +609,64 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 html,body{
     height:100%;
     overflow-x:hidden;
+    /*scroll:no;//*/
+}
+.F16{
+    font-size:16px;
+}
+.inline>input{
+    border:1px solid #ddd;width:100%;padding: 0 8px;
+}
+.calder{
+    height: 34px;
+    width: 100%;
+    border: 1px solid #ddd;
+    min-width: 100px;
+    padding: 0 8px;
+    line-height: 31px !important;
+}
+/*标识色块*/
+.chara{
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 6px;
+    margin-top: 4px;
+    float: left;
+    font-size:16px;
+    margin-top:1px;
+}
+.pull-left{
+    margin-top:0;
+}
+.line-height30{
+    line-height:30px;
+}
+/*协作主题*/
+.themer{
+    margin-left:0px;width:73.5%;
+    float: right;
+
+}
+.themer>input{
+
+}
+.mRight10{
+    margin-right:10px !important;
+}
+.basicInfo .bootstrap-select.btn-group:not(.input-group-btn), .bootstrap-select.btn-group[class*="col-"] {
+    float: none;
+    display: inline-block;
+    margin-left: 0;
+    width: 200px;
+}
+.pull-right.btn-success{
+    background: #979ba8;
+    border-radius: 5px;
+    border:#979ba8;
+}
+.edit-dis{
+    padding: 3px 10px !important;
 }
 .mobile-main .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
@@ -558,6 +674,14 @@ html,body{
 .mobile-devices{
     height:100%;
     overflow-x:hidden;
+    margin-bottom: 35px;
+}
+.mobile-devices input, textarea {
+    /*border: 0 ; !* 方法1 *!*/
+    -webkit-appearance: none ; /* 方法2 */
+}
+.mobile-devices input, button{
+    font-size:16px;
 }
 .mobile-header{
     line-height:40px;
@@ -565,36 +689,45 @@ html,body{
     text-align:center;
 }
 .mobile-main{
-    width: 95%;
-    padding:0;
+    width: 100%;
+    /*padding:0;*/
     position:relative;
     overflow:hidden;
+    padding: 0 7px;
 }
+.mobile-main .photo-list{
+    float:left;
+    margin-right:10px;
+    margin-bottom:20px;
+
+}
+.mobile-main .photo-list dt{
+    height: 70px;
+    width: 70px;
+}
+.mobile-distance{
+    height:34px;
+    margin-bottom:10px;
+}
+.F14{
+    font-size:16px;
+}
+.btn-info{
+    margin-right:10px;
+}
+
+.form-control{
+    padding:0 8px;
+    border:1px solid #ddd;
+}
+.btn-group button[type="button"]{
+}
+
 .mobile-main .int-styleMobile{
     border:1px solid #ddd;
-   /* border-radius:5px;*/
-   /* width: 80px;*/
-    height: 25px;
 }
 .mobile-main .sel-style .btn{
     padding:0 !important;
-}
-.mobile-main .userInfo{
-
-}
-.mobile-main .userInfo em{
-    width:40px;
-    display:inline-block;
-    font-style:normal;
-}
-.mobile-main .mobile-day{
-    position:relative;
-}
-.mobile-main .mobile-cal{
-    display:inline-block;
-    position:absolute;
-    top: 3px;
-    left: 128px;
 }
 .col-xs-1,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8, .col-xs-12{
     padding:0;,
@@ -610,6 +743,9 @@ html,body{
 .mobile-main .mobile-main-principal .float-rig{
     float:right;
 }
+.mobile-main .uib-datepicker-popup.dropdown-menu {
+    left: -42px !important;
+}
 .line-h22{
     margin-top:15px;
 }
@@ -623,26 +759,114 @@ html,body{
 .DIY-btn:hover{
     border:1px solid #65c17d;
 }
+.mobile-devices .mobile-main .mobile-main-principal .common-height > div{
+    height: 30px!important;
+    margin-bottom:10px;
+    line-height: 30px;
+}
+.mobile-devices .dropdown-toggle {
+    border: 1px solid #ddd;
+}
+.mobile-devices .bootstrap-select.btn-group[class*="col-"] .dropdown-toggle {
+    height: 32px !important;
+}
+/*.mobile-devices .bootstrap-select.btn-group .dropdown-menu li {
+    width: 276px !important;
+}*/
+.mobile-devices .break-word{
+    margin-bottom: 13px;
+    padding: 0 8px;
+}
+.mobile-devices .bootstrap-select.btn-group .dropdown-menu li a .glyphicon-stop + span{
+    word-break:normal;
+    width:auto;
+    white-space:pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+.mobile-devices .bootstrap-select.btn-group .dropdown-menu {
+    max-width: 100%;
+}
+/*重写ui select样式 */
+.btn-group.open .dropdown-toggle {
+     -webkit-box-shadow: none !important; 
+     box-shadow: none !important;
+}
+.mobile-main .btn-group>.btn.dropdown-toggle{
+    background: #fff;
+    height:34px;
+}
+.dropdown-menu>li>a {
+    padding: 7px 20px;
+}
 /*详情描述*/
 .mobile-main .mobile-job-descrition{
     margin-top:15px;
     padding:0px;
 }
 .mobile-main .mobile-job-descrition .mobile-title{
+    margin-top:20px;
     margin-bottom:10px !important;
     padding:0;
 }
 .mobile-main .mobile-job-descrition .mobile-textarea{
     float:right;
     padding:0;
+    /*border:1px solid #ddd;*/
+    border:none;
+    -webkit-appearance: none !important;
+}
+.mobile-devices .b-tilte{
+   width:80px;float:left
+}
+
+.mobile-main .mobile-job-descrition .mobile-textarea textarea{
+    font-size:16px;
+    border:1px solid #ddd;
+    padding:3px 8px;
+    text-indent: 32px;
 }
 /*相关人*/
 .mobile-main .mobile-relate{
     padding:20px 0px;
-    border-bottom:1px solid #ddd;
+    /*border-bottom:1px solid #ddd;*/
+}
+.btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info{
+    color: #fff;
+    background-color: #65C17D;
+    border-color: #65C17D;
+}
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle){
+    border-radius:5px;
+}
+.btn-group>.btn:last-child:not(:first-child), .btn-group>.dropdown-toggle:not(:first-child){
+    border-radius:5px;
+}
+.btn-info.btn-sm{
+     background:#65C17D;
+    border:0;
+}
+.btn-danger{
+    border:0;
+    background:#65C17D;
 }
 .mobile-main .mobile-relate .mobile-relate-title{
     padding:0;
+}
+.mobile-main .m-title{
+    float:left;
+    width:54px;
+    border:5px;
+}
+.caret{
+    color:#ddd;
+}
+.dropdown-menu{
+    border-radius:0;
+}
+.main-main .m-con{
+    float: right;
+    width: 82%;
 }
 .mobile-main  .mobile-relate .mobile-relate-con{
     padding:0;
@@ -651,11 +875,16 @@ html,body{
     width:45px;
     text-align:center;
     display:inline-block;
-    margin-right:20px;
+    margin-right:16px;
+    margin-bottom:20px;
+}
+
+.mobile-main  .mobile-relate .mobile-relate-con dl img{
+    border:1px solid #ddd;
 }
 .mobile-main  .mobile-relate .mobile-relate-con dl dd{
-    margin-top:10px;
-    font-size:12px;
+    margin-top:4px;
+    font-size:16px;
 }
 .mobile-main  .mobile-relate .mobile-relate-con dl dt{
     width:45px;
@@ -669,7 +898,7 @@ html,body{
 /*照片*/
 .mobile-main .mobile-photo{
     padding:0;
-    margin:20px 0;
+    margin-bottom:15px;
 }
 .mobile-main .mobile-photo .photo-title{
 
@@ -677,10 +906,17 @@ html,body{
 .mobile-main .mobile-photo .photo-con dl{
     width:70px;
     text-align:center;
+    font-size:16px;
+}
+.mobile-main .mobile-photo .photo-con .detail-sear{
+    width:70px;
+    height:70px;
+    border:1px solid #ddd;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear>img{
     width:70px;
-    height:70px;
+    height:auto;
+
 }
 .mobile-main .mobile-photo .photo-con .detail-sear .detail-search{
     width:100%;
@@ -712,7 +948,9 @@ html,body{
 .mobile-main .mobile-means .means-con dl{
     width:70px;
     display:inline-block;
-    margin-right: 14px;
+    margin-right: 11px;
+    font-size:16px;
+    margin-bottom:20px;
 }
 .mobile-main .mobile-means .means-con dl dd{
     width:70px;
@@ -725,11 +963,13 @@ html,body{
     height:70px;
     border:1px solid #ddd;
     position:relative;
+    overflow:hidden;
 }
 .mobile-main .mobile-means .means-con .means-list .means-down>img{
-    width:70px;
-    height:70px;
+    width: 56px;
     overflow:hidden;
+    margin-left:6px;
+    margin-top:6px;
 }
 .mobile-main .mobile-means .means-con .means-list .means-down .means-address{
     width: 70px;
@@ -741,9 +981,10 @@ html,body{
     background:#000;
 }
 .mobile-main .mobile-means .means-con .means-list .means-down .means-address img{
-    width:10px;
-    height:10px;
-    line-height:20px;
+    width: 13px;
+    height: 13px;
+    line-height: 20px;
+    margin-top: -1px;
 }
 .mobile-main .mobile-means .means-con .means-list dd{
     margin-top:10px;
@@ -754,9 +995,7 @@ html,body{
     margin-bottom: 70px;
 }
 .mobile-main .reply-con .reply-reply .reply-icon{
-    width:45px;
     text-align:center;
-    margin-right:20px;
 }
 .mobile-main .reply-con .reply-reply .reply-icon p{
     margin-top:10px;
@@ -770,11 +1009,24 @@ html,body{
     border:1px solid #ddd;
     min-height:60px;
     border-radius:5px;
+    float:right;
 }
 .mobile-main .reply-con .reply-reply .replys{
-    margin-top:20px;
+    margin-top:8px;
+}
+.mobile-main .reply-con .reply-reply .replys .say-content .comment >div > img{
+    width: 50px;
+}
+.mobile-devices .comment .inline{
+    display: inline-block;
+    padding: 0 8px;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
+.mobile-devices .comment .inline > span >img {
+    height:50px;
+}
 /*底部*/
 .mobile-footer{
     width:100%;
@@ -793,6 +1045,11 @@ html,body{
     text-align:center;
     margin-top:10px;
 
+}
+.mobile-footer>.mobile-btn-defult{
+    width: 143px;
+    height: 34px;
+    border-radius: 0;
 }
 /*侧边栏划出效果*/
 .mobile-main .content_right {
@@ -818,6 +1075,11 @@ html,body{
     position:absolute;
     right:0;
     top:40px;
+}
+.mobile-devices .foot-deful{
+    width: 143px;
+    height: 34px;
+    border-radius: 0;
 }
 
 /*html::-webkit-scrollbar,*/

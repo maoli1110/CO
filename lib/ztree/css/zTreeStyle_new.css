@@ -295,7 +295,7 @@ website:	http://code.google.com/p/jquerytree/
 }
 
 .ztree li span.button.roots_docu {
-	background-position: -56px 0
+	background-position: -4px -142px;
 }
 
 .ztree li span.button.center_docu {

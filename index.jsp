@@ -24,7 +24,16 @@
 		<!-- custom scrollbar stylesheet -->
 		<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
 		<script type="text/javascript">
-		var basePath = window.location.href;
+		<%@page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+		<%
+		    String path = request.getContextPath();
+		    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+		%>
+		</script>
+
+		<script>
+			var basePath = "<%=basePath %>";
+			//console.log(basePath);
 		</script>
 
 		</head>
@@ -48,12 +57,18 @@
 		<!--<script src="js/jquery-1.9.0.js" type="text/javascript"></script>-->
 		<script type="text/javascript" src="./lib/angular/angular.min.js"></script>
 		<script type="text/javascript" src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+		<script src="./lib/angular-i18n.js"></script>
 		<script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
 		<script type="text/javascript" src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="./lib/echart/echarts.min.js"></script>
 		<script src="./lib/nginfinite/ng-infinite-scroll.min.js"></script>
 		<script src="./lib/jquery.imgbox.pack.js"></script>
 		<script src="./lib/layer/layer.js"></script>
+		<script src="./lib/audio1/jquery.jplayer.js"></script>
+		<%--<script src="./lib/audio1/jquery.jplayerbv.min.js"></script>--%>
+
+		<!--<script src="./lib/audio/js/jquery.jplayer.js"></script>
+		<script src="./lib/audio/js/lrc.js"></script>-->
 		<!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script> -->
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
@@ -76,7 +91,8 @@
 		<script type="text/javascript" src="./modules/core/directives/directive.js"></script>
 		<script type="text/javascript" src="./modules/core/directives/directive1.js"></script>
 		<script type="text/javascript" src="./modules/core/services/common.service.js"></script>
-
+		<script	 type="text/javascript" src="./modules/core/controller/header.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/core/services/header.service.js"></script>
 		<!-- manage -->
 		<script type="text/javascript" src="./modules/manage/manage.module.js"></script>
 		<script type="text/javascript" src="./modules/manage/config/manage.routes.js"></script>

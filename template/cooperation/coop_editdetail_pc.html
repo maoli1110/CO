@@ -1,0 +1,272 @@
+<div class="edit-detailC" ng-show="!device">
+
+    <div class="main" style="margin-bottom:50px min-width:320px;">
+        <!--main_content-->
+        <div class="coop-detail">
+            <header >
+                <p class="F16">编辑协作</p>
+                <span class="glyphicon glyphicon-remove close"></span>
+            </header>
+            <div class="container">
+                <div class="main_content clearfix">
+                    <!--content_left(中间内容的左边)-->
+                    <div class="content_left clearfix">
+                        <div class="proInfo">
+                            <div class="pro_man clearfix row">
+                                <div class="coop-theme row clearfix col-md-12">
+                                    <span class="theme-title F16" style="width:80px;text-align:left;">主题：</span>
+                                    <input type="text" class="int-style" ng-model="collaList.coTypeVo.name">
+                                </div>
+                                <div class="col-xs-5 col-md-5 basicInfo">
+                                    <div>
+                                        <span class="F16" style="width:80px;text-align:left;">负责人：</span>
+                                        <input type="text" class="int-style" ng-model="collaList.collaborator">
+                                    </div>
+                                    <div>
+                                        <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
+                                        <div class="inline int-style" style="margin-left: 4px;">{{collaList.status}}</div>
+                                        <!-- <select class="identify col-xs-6" ng-model="status"  ng-show="zhenggai">
+                                            <option value="-1">空</option>
+                                            <option value="1">已整改</option>
+                                            <option value="2">整改中</option>
+                                            <option value="3">不整改</option>
+                                            <option value="4">待整改</option>
+                                            <option value="5">未整改</option>
+                                        </select>
+                                         <select class="identify col-xs-6" ng-model="status"  ng-show="!zhenggai">
+                                            <option value="6">待确认</option>
+                                            <option value="7">进行中</option>
+                                        </select> -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-5 col-md-4 pad_clear basicInfo" show-select>
+                                    <div style="margin-bottom:0">
+                                        <span class="edit-state F16" style="text-align:left;">优先级:</span>
+                                        <select class="selectpicker col-xs-6 priority" ng-model="priority">
+                                            <option value="1">Ⅰ</option>
+                                            <option value="2">Ⅱ</option>
+                                            <option value="3">Ⅲ</option>
+                                        </select>
+                                    </div>
+                                    <div style="margin-bottom:0;" class="edit-blank"> <span class="edit-state F16" style="text-align:left;">标识:</span>
+                                        <select class="identify col-xs-6" data-width="100%" ng-model="mark1">
+                                            <option value="{{item.markerId}}" data-content="<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span><span>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-md-3 pad_clear basicInfo" style="float:right">
+                                    <span class="edit-state edit-date F16" >期限:</span>
+                                    <div class="input-group col-md-9 row" style="display:inline-block;">
+                                        <input ng-click="open2()" type="text" class="int-style col-md-6"  uib-datepicker-popup style="width:155px;" ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天"/>
+                                              <!--<span class="input-group-btn col-md-4" style="margin-top:-25px;">-->
+                                                    <!--<button type="button" class="btn btn-default edit-calendar break-word" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                                              <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--detail(详情描述)-->
+                            <div class="detail">
+                                <div class="row pc-job-descrition" >
+                                    <div class="blank col-xs-12 ">
+                                        <p class="F16">详情描述:</p>
+                                    </div>
+                                    <div class="col-xs-8 col-md-12">
+                                        <textarea class="form-control edit-dis" rows="5" ng-model="collaList.desc"></textarea>
+                                    </div>
+                                </div>
+                                <div class="Avatar row pc-relate">
+                                    <div class="col-xs-3 col-md-1">
+                                        <p class="F16">相关人物:</p>
+                                    </div>
+                                    <div class="photo col-xs-8 col-md-10">
+                                        <dl class="photoImg" style="text-align:center;"  ng-repeat="item in collaList.relevants">
+                                            <dt><img ng-src="{{item.avatar}}"/></dt>
+                                            <dd>{{item.username}}</dd>
+                                            <dd ng-if="!item.isReaded">未读</dd>
+                                            <dd ng-if="item.isReaded">已读</dd>
+                                        </dl>
+                                        <div class="inline add-chioce">
+                                            <dl class="inline photoImg" ng-repeat="item in related.sign" style="text-align:center;">
+                                                <dt class="rela"><img src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:5px;top:28px;color:#1298DD"></span></dt>
+                                                <dd>{{item.username}}</dd>
+
+                                            </dl>
+                                        </div>
+                                        <div class="inline add-chioce">
+                                            <dl class="inline photoImg" ng-repeat="item in related.noSign ">
+                                                <dt><img src="{{item.avatar}}" alt=""></dt>
+                                                <dd>{{item.username}}</dd>
+                                            </dl>
+                                        </div>
+                                        <!--<div class="inline add-chioce" style="border-right:1px solid #ccc;">-->
+                                            <!--<dl class="inline rela add-img" ng-repeat="item in related.sign">-->
+                                                <!--<dt><img src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span></dt>-->
+                                               <!--<dd>{{item.username}}</dd>-->
+                                            <!--</dl>-->
+                                        <!--</div>-->
+                                        <!--<div class="inline add-chioce">-->
+                                            <!--<dl class="inline add-img" ng-repeat="item in related.noSign ">-->
+                                               <!--<dt><img src="{{item.avatar}}" alt=""></dt>-->
+                                                <!--<dd>{{item.username}}</dd>-->
+                                            <!--</dl>-->
+                                        <!--</div>-->
+                                        <button class="btn add-related " ng-click="selectRelated()"><span>+</span></button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--action(功能)-->
+                            <div class="action row pc-photo">
+                                <div class="col-xs-2 col-md-1">
+                                    <p class="F16">照片：</p>
+                                </div>
+                                <div class="col-xs-8 col-md-11 picInfo ">
+                                    <dl class="data-list" ng-repeat="item in collaList.pictures" >
+                                        <dt class="rela detail-sear" style="background:url({{item.thumbnailUrl}});background-size:cover">
+                                        <!--<img src="{{item.thumbnailUrl}}" ng-click="pcZoom(item.name,item.uuid)"/>-->
+                                        <div class="detail-search F14" ng-click="pcPreView(item.name, item.uuid)">
+                                             <img src="imgs/seache.png" alt="">
+                                        </div>
+                                        </dt>
+                                        <dd class="substr" style="width:118px;">{{name}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="action row pc-means">
+                                <div class="col-xs-2 col-md-1">
+                                    <p class="F16">资料：</p>
+                                </div>
+                                <div class="col-xs-8 col-md-11 picInfo">
+                                    <!-- <dl class="data-list">
+                                        <dt class="rela"><img src="imgs/saber.jpg" ng-click="zoom()"/><div class="absol show-icon"><span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-save"></span><span class="glyphicon glyphicon-map-marker"></span></div></dt>
+                                        <dd>打桩</dd>
+                                    </dl> -->
+                                    <dl class="means-list" ng-repeat="item in collaList.docs" profit>
+                                        <dt class="rela means-down">
+                                            <img src="./imgs/pro-icon/icon-7z.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='other'"/>
+                                            <img src="./imgs/pro-icon/icon-7z.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="!item.suffix"/>
+                                            <!--文件类型-->
+                                            <img src="imgs/pro-icon/icon-txt.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='txt'">
+                                            <img src="imgs/pro-icon/icon-doc.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix == 'doc' || item.suffix  == 'docx'">
+                                            <img src="imgs/pro-icon/icon-pdf.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='pdf'">
+                                            <img src="imgs/pro-icon/icon-xls.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='xls'">
+                                            <img src="imgs/pro-icon/icon-ppt.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='ppt'">
+                                            <img src="imgs/pro-icon/icon-docx.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='docx'">
+                                            <img src="imgs/pro-icon/icon-xlsx.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='xlsx'">
+                                            <img src="imgs/pro-icon/icon-pptx.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='pptx'">
+                                            <!--图片类型-->
+                                            <img src="imgs/pro-icon/icon-jpeg.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='jpeg'">
+                                            <img src="imgs/pro-icon/icon-bmp.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='bmp'">
+                                            <img src="imgs/pro-icon/icon-png.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='PNG'">
+                                            <img src="imgs/pro-icon/icon-gif.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='GIF'">
+                                            <img src="imgs/pro-icon/icon-jpg.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='JPG'">
+                                            <img src="imgs/pro-icon/icon-png.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='png'">
+                                            <img src="imgs/pro-icon/icon-jpg.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='jpg'">
+                                            <img src="imgs/pro-icon/icon-gif.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='gif'">
+
+                                            <img src="imgs/pro-icon/icon-dwg.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='dwg'">
+                                            <img src="imgs/pro-icon/icon-rar.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='rar'">
+                                            <img src="imgs/pro-icon/icon-zip.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='zip'">
+
+                                            <!--视频-->
+                                            <img src="imgs/pro-icon/icon-avi.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='avi'">
+                                            <img src="imgs/pro-icon/icon-mp4.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='mp4'">
+                                            <img src="imgs/pro-icon/icon-mov.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='mov'">
+                                            <img src="imgs/pro-icon/icon-flv.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='flv'">
+                                            <img src="imgs/pro-icon/icon-swf.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='swf'">
+                                            <img src="imgs/pro-icon/icon-wmv.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='wmv'">
+                                            <img src="imgs/pro-icon/icon-mpeg.png" ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='mpeg'">
+                                            <img src="imgs/pro-icon/icon-mpg.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='mpg'">
+                                            <!--音频-->
+                                            <img src="imgs/pro-icon/icon-mp3.png"  ng-click="pcPreView(item.name, item.uuid)" ng-if="item.suffix=='mp3'">
+                                            <!--<div class="means-address">(下载)-->
+                                            <!--<img class="detail-down" src="imgs/icon_down.png" class=" a-{{$index}}" ng-click="downDocs(item.uuid)"/>-->
+                                            <!--<img style="display:none" class="detail-view" src="imgs/seache.png" alt="" ng-click="docsOpen(item.uuid)">-->
+                                            <!--</div>-->
+                                        </dt>
+                                        <dd title="{{item.name}}">{{item.name}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <!--reply-->
+                            <div class="reply row pc-reply">
+                                <div class="col-md-1 col-xs-2">
+                                    <p class="F16">回复:</p>
+                                </div>
+                                <div class="col-md-11 col-xs-10">
+                                    <div class="say clearfix" ng-repeat="item in collaList.comments">
+                                        <div class="col-xs-4 col-md-1 man_pic">
+                                            <img src="{{item.avatar}}" alt="">
+                                            <p>{{item.commentator}}</p>
+                                        </div>
+                                        <div class="col-xs-8 col-md-11 comment" style="min-height:75px">
+                                            <div class="say-content" style="margin: 15px 0;">
+                                            <div>{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}&nbsp;&nbsp;{{item.comment}}</div>
+                                            <div class="inline" ng-repeat="doc in item.docs"  style="margin:10px 0;">
+                                                    
+                                                <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="pcPreView(doc.name, doc.uuid)" ></span>
+                                                <!--文件类型-->
+                                                <span><img src="imgs/pro-icon/icon-txt.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='txt'"></span>
+                                                <span><img src="imgs/pro-icon/icon-doc.png"  ng-click="pcPreView(doc.name, doc.uuid)"  ng-if="!doc.thumbnailUrl && doc.suffix == 'doc'"></span>
+                                                <span><img src="imgs/pro-icon/icon-doc.png"  ng-click="pcPreView(doc.name, doc.uuid)"  ng-if="!doc.thumbnailUrl && doc.suffix  == 'docx'"></span>
+                                                <span><img src="imgs/pro-icon/icon-pdf.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='pdf'"></span>
+                                                <span><img src="imgs/pro-icon/icon-xls.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='xls'"></span>
+                                                <span><img src="imgs/pro-icon/icon-ppt.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='ppt'"></span>
+                                                <span><img src="imgs/pro-icon/icon-docx.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='docx'"></span>
+                                                <span><img src="imgs/pro-icon/icon-xlsx.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='xlsx'"></span>
+                                                <span><img src="imgs/pro-icon/icon-pptx.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='pptx'"></span>
+                                                <!--图片类型-->
+                                                <span><img src="imgs/pro-icon/icon-jpeg.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='jpeg'"></span>
+                                                <span><img src="imgs/pro-icon/icon-bmp.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='bmp'"></span>
+                                                <span><img src="imgs/pro-icon/icon-png.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='PNG'"></span>
+                                                <span><img src="imgs/pro-icon/icon-gif.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='GIF'"></span>
+                                                <span><img src="imgs/pro-icon/icon-jpg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='JPG'"></span>
+                                                <span><img src="imgs/pro-icon/icon-png.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='png'"></span>
+                                                <span><img src="imgs/pro-icon/icon-jpg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='jpg'"></span>
+                                                <span><img src="imgs/pro-icon/icon-gif.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='gif'"></span>
+
+                                                <span><img src="imgs/pro-icon/icon-dwg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='dwg'"></span>
+                                                <span><img src="imgs/pro-icon/icon-rar.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='rar'"></span>
+                                                <span><img src="imgs/pro-icon/icon-zip.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='zip'"></span>
+
+                                                <!--视频-->
+                                                <span><img src="imgs/pro-icon/icon-avi.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='avi'"></span>
+                                                <span><img src="imgs/pro-icon/icon-mp4.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mp4'"></span>
+                                                <span><img src="imgs/pro-icon/icon-mov.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mov'"></span>
+                                                <span><img src="imgs/pro-icon/icon-flv.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='flv'"></span>
+                                                <span><img src="imgs/pro-icon/icon-swf.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='swf'"></span>
+                                                <span><img src="imgs/pro-icon/icon-wmv.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='wmv'"></span>
+                                                <span><img src="imgs/pro-icon/icon-mpeg.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mpeg'"></span>
+                                                <span><img src="imgs/pro-icon/icon-mpg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mpg'"></span>
+                                                <!--音频-->
+                                                <span><img src="imgs/pro-icon/icon-mp3.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mp3'"></span>
+                                                <!-- 其他类型 -->
+                                                <span><img src="./imgs/pro-icon/icon-other.png"  class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"  ng-if="!doc.thumbnailUrl && doc.suffix=='other'"/></span>
+                                                <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--reply-->
+                            <!--<div class="reply row">-->
+                            <!--<div class="col-md-1 col-xs-2">-->
+                            <!--<p>回复:</p>-->
+                            <!--</div>-->
+
+                            <!--</div>-->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <button type="button" class="btn btn-default" ng-click="ok()" style="width:143px;height:34px;">确定</button>
+        <button type="button" class="btn btn-default " ui-sref="coopdetail({coid: transcoid})" style="width:143px;height:34px;">取消</button>
+    </div>
+
+</div>

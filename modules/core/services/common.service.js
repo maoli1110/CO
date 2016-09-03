@@ -31,4 +31,8 @@ angular.module('core').service('Common', function () {
         return dateStr;
     };
 
+    this.dateFormat1 = function (date) {
+        var dateStr = date.getFullYear() + "-" + self.zero(date.getMonth() + 1) + "-" + self.zero(date.getDate());
+        return dateStr;
+    };
 });

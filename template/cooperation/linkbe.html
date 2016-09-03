@@ -5,32 +5,44 @@
             <span class="close"></span>
         </div>
     </div>
-    <div class="modal-body" copy-radio>
-        <div class="row">
+    <div class="modal-body" copy-radio scroll-directive >
+        <div class="row" >
             <div class="col-xs-6 left">
                 <div class="select">
                     <label for="">项目：</label>
-                    <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchDept(selectedOption)"></select>
+                    <select name="" class="be-project" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchDept(selectedOption)"></select>
                 </div>
                 <div class="select">
                     <label for="">工程：</label>
-                    <select name="" id="" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-click="switchDept(selectedOption)"></select>
+                    <select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-click="switchPpid(projectOption)"></select>
                 </div>
-                <div class="person-list" style="min-height:600px;overflow:auto;">
+                <div class="person-list clearfix" id="content-a6">
                     <ul id="tree" class="ztree"></ul>
                 </div>
             </div>
-            <div class="col-xs-6 right">
-                <div class="clearfix">
-                    <div class="pull-left"><input type="checkbox"><span>共{{docList.length}}份资料</span></div>
-                    <div class="pull-right"><input type="text" ng-model="searchname" palceholder="搜索" ng-change="docSearch(searchname)"></div>
+            <div class="col-xs-6 right" id="content-a7">
+                <div class="clearfix public-head">
+                    <div class="pull-left"><input type="checkbox"><span  class="book-style font16">共{{docList.length}}份资料</span></div>
+                    <div class="pull-right">
+                        <form>
+                            <input type="text" class="be-sear"  ng-model="searchname" placeholder="输入关键字" ng-change="docSearch(searchname)">
+                            <span  class="posi"><img  src="imgs/seache.png" alt=""></span>
+                        </form>
+                    </div>
                 </div>
                 <div>
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="row in docList">
-                                <td><input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"></td>
-                                <td>{{row.docName}}</td>
+                            <tr ng-repeat="row in docList" class="check-now" profit >
+                                <td><label class="be-check">
+                                        <input type="checkbox" style="opacity: 0" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)">
+                                        <span class="checkbox"></span>
+                                     </label>
+                                </td>
+                                <td><img src="imgs/pro-icon/icon-txt.png" alt=""></td>
+                                <td><p class="substr" title="{{row.docName}}">{{row.docName}}</p>
+                                    <span class="be-proview"></span>
+                                </td>
                                 <td>{{row.uploader}}</td>
                             </tr>
                         </tbody>

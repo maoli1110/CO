@@ -1,6 +1,6 @@
-'use strict';
+
 /**
- * 协作管理
+ * newcooperlink
  */
 angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
 	function ($scope, $http, $uibModalInstance,Cooperation) {
@@ -363,6 +363,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 
 }]).controller('linkcomponentCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
 	 function ($scope, $http, $uibModalInstance,Cooperation) {
+	 	var refreshID;
 	 	$scope.projtype = "0";
 		$scope.functionOption = "0";
 		var nodelist=[];//树dataArray
@@ -606,29 +607,66 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		}
 
 	 	$scope.ok = function () {
+	 		//console.log('dataList',dataList);
 	 		//debugger;
-	 		switch (projType) {
-	 			case "1":
-	 			projType = '土建预算';
-	 			break;
-	 			case "2":
-	 			projType = '钢筋预算';
-	 			break;
-	 			case "3":
-	 			projType = '安装预算';
-	 			break;
-	 			case "4":
-	 			projType = 'Revit';
-	 			break;
-	 			case "5":
-	 			projType = 'Tekla';
-	 			break;
-	 		}
+	 		// switch (projType) {
+	 		// 	case "1":
+	 		// 	projType = '土建预算';
+	 		// 	break;
+	 		// 	case "2":
+	 		// 	projType = '钢筋预算';
+	 		// 	break;
+	 		// 	case "3":
+	 		// 	projType = '安装预算';
+	 		// 	break;
+	 		// 	case "4":
+	 		// 	projType = 'Revit';
+	 		// 	break;
+	 		// 	case "5":
+	 		// 	projType = 'Tekla';
+	 		// 	break;
+	 		// }
 	 		dataList.assembleLps =[{ppid:ppid, projType:projType}];
-	 		$uibModalInstance.close(dataList);
+	 		//通知pc端执行选择构件的方法
+	 		BimCo.SelectComponent(ppid);
+	 		//1.轮询2.获取状态
+	 		// 001 - 完成
+	 		// 002 - 取消选择
+	 		setRefreshInterval();
+
+	 		function refreshState() {
+
+	 			var reCode = BimCo.GetSelectComponentStatus(ppid);
+
+	 			switch (reCode) {
+	 				case '001':
+	 				//将当前选择的工程显示到页面
+	 				$uibModalInstance.close(dataList);
+	 				clearRefreshInterval();
+	 				break;
+	 				case '002':
+	 				//用户什么操作都没做，结束轮询
+	 				clearRefreshInterval();
+	 				break;
+	 			}
+	 		}
+	 		
+	 		// 设置间隔获取状态
+	        function setRefreshInterval() {
+	            //if (refreshID) return false;
+	            refreshID = setInterval(refreshState, 1000);
+	            console.log('我是轮询');
+	        }
+
+	        // 清除间隔获取状态
+	        function clearRefreshInterval() {
+	            clearInterval(refreshID);
+	        }
+
 	 	}
 
 	 	$scope.cancel = function () {
+	 		//if已经选择了构件，通知pc端
 	 		$uibModalInstance.dismiss('cancel');
 	 	}
 
@@ -667,6 +705,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			var unit = _.filter(nodes, function(o){
 				return o.type === 2
 			});
+			console.log(unit)
 			angular.forEach(unit, function(value,key) {
 				var selectList = [];
 				selectedItem.push(value.value);
@@ -690,6 +729,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
         var updateSelected = function(action,id,name){
             if(action == 'add' && docSelected.indexOf(id) == -1){
                docSelected.push(id);
+				$()
            	}
              if(action == 'remove' && docSelected.indexOf(id)!=-1){
                 var idx = docSelected.indexOf(id);
@@ -756,19 +796,35 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			});
 	 	}
 
+
+
 	 	//选择BE资料-工程所属资料标签树
 	 	var getDocTagList = function (params) {
 	 		Cooperation.getDocTagList(params).then(function (data) {
 	 			console.log('data',data);
 	 			var treeObj = $.fn.zTree.init($("#tree"), setting, data);
 				//全部打开
-				treeObj.expandAll(true);
+				treeObj.expandAll(false);
 	 		});
 	 	}
+
+	 	$scope.switchPpid = function (projectOption) {
+	 		ppid = projectOption.ppid;
+	 		getDocTagList(ppid);
+
+	 	}
+
+
 
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss();
 		}
+
+		 $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+			 $('.check-now').click(function(){
+				$(this).css('background',"#eceef0").siblings().css("background",'#fff')
+			 })
+		 });
 
 }]).controller('linkformCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items) {
@@ -776,6 +832,17 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	Cooperation.getTemplateNode(items).then(function (data) {
 	 		$scope.templateNode = data;
 	 	});
+	 	Cooperation.getTypeList().then(function (data) {
+	 		$scope.typeList = data;
+	 		$scope.selectedTypeId = items;
+
+	 	});
+
+	 	$scope.switchType = function (selectedTypeId) {
+	 		Cooperation.getTemplateNode(selectedTypeId).then(function (data) {
+	 		$scope.templateNode = data;
+	 	});
+	 	}
 
 	 	//选中表单中需要上传的资料
 	 	var docSelected = [];
@@ -809,5 +876,9 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss();
 		}
-
+		$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
+			$(".tab-tr").on("click",function(){
+				$(this).css('background',"#eceef0").siblings().css("background",'#fff')
+			})
+		})
 }]);

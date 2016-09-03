@@ -1,0 +1,19 @@
+<head>
+    <meta charset="UTF-8">
+    <title>编辑协作</title>
+    <!--<link rel="stylesheet" href="css/coop-detail-computer.css">-->
+    <link rel="stylesheet" href="css/coopeditdetial.css">
+</head>
+<body>
+<!--电脑端-->
+<div ng-include="'template/cooperation/coop_editdetail_pc.html'" scope="" onload=""></div>
+<!--手机端-->
+<div ng-include="'template/cooperation/coop_editdetail_bv.html'" scope="" onload=""></div>
+<script>
+    //手机端协作编辑调用
+    function coEditSave () {
+        $('#editSave').click();
+    }
+</script>
+</body>
+</html>

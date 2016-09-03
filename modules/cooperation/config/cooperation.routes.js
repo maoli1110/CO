@@ -2,7 +2,7 @@
 
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise('/manage');
+		$urlRouterProvider.otherwise('/cooperation');
 
 		$stateProvider.
 		 state('cooperation', {
@@ -11,6 +11,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			controller: 'coopreationCtrl',
 			data: {
 				displayName: 'cooperation'
+			},
+			params: {
+				'deptId': null,
+				'ppid': null,
+				'transignal': null
 			}
 		})
 		.state('newcopper', {
@@ -20,17 +25,18 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			data: {
 				displayName: 'newcopper'
 			}
+			
 		})
 		.state('coopdetail', {
 			'url':"/coopdetail/?coid",
-			templateUrl: 'template/cooperation/coop-detail.html',
+			templateUrl: 'template/cooperation/coop_detail.html',
 			controller: 'coopdetailCtrl',
 			data: {
 				displayName: 'coopdetail'
 			}
 		}).state("editDetail",{
 			'url':"/editdetail/?coid",
-			templateUrl:"template/cooperation/coopeditdetail.html",
+			templateUrl:"template/cooperation/coop_editdetail.html",
 			controller:"editdetailCtrl"
 		});
 

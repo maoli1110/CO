@@ -22,7 +22,7 @@
     height: 100px;
     }
     .data-list dl, .data-list dt, .data-list dd{
-        width: 100px;
+        width: 100px; 
         height: 100px;
     }
     .data-list .show-icon {
@@ -222,7 +222,7 @@ margin:10px 0;
     top: 40px;
 	right:0;
 	background:#fff;
-	bottom:0;
+	bottom:0 ;
 
 }
 /*-------bttn(侧边栏样式)-----------------------------------*/
@@ -243,7 +243,7 @@ margin:10px 0;
  .btn_box span{
      font-size: 30px;
      color: #fff;
-     line-height:none;
+     line-height:0;
  }
  /*-------------------aside--------------------------*/
 .aside{
@@ -257,7 +257,7 @@ margin:10px 0;
     /*display:none;*/
 }
 .aside .side_title{
-    line-height:35px;
+    line-height:40px;
     text-align:center;
     background:#ddd;
 }

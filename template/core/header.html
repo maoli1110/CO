@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl">
 		<div class="header clearfix">
 			<div class="navbar-header user">
 				<img src="./imgs/saber.jpg" alt="头像">
@@ -14,30 +14,12 @@
 				</div>
 				<div class="header_menus">
 					<ul>
-						<li>
-							鲁班软件研发中心(100)<span class="glyphicon glyphicon-chevron-right"></span>
+						<li ng-repeat="menus in headerMenus track by $index">
+							<p><b>{{menus.enterpriseName}}</b><span class="glyphicon glyphicon-chevron-right"></span></p>
 							<div class="child_items">
 								<ol >
-									<li>动态</li>
-									<li>协作</li>
-								</ol>
-							</div>
-						</li>
-						<li>
-							广运房地产公司(100)<span class="glyphicon glyphicon-chevron-right"></span>
-							<div class="child_items">
-								<ol >
-									<li>动态</li>
-									<li>协作</li>
-								</ol>
-							</div>
-						</li>
-						<li>
-							PSD测试企业(100)<span class="glyphicon glyphicon-chevron-right"></span>
-							<div class="child_items">
-								<ol >
-									<li>动态</li>
-									<li>协作</li>
+									<li>动态({{menus.trendsCount}})</li>
+									<li>协作({{menus.coCount}})</li>
 								</ol>
 							</div>
 						</li>
@@ -55,9 +37,13 @@
 				</li>
 			</ul>
 			<div class="label_tools">
-				<img src="imgs/label_small.png" alt="">
-				<img src="imgs/label_big.png" alt="">
-				<img src="imgs/label_close.png" alt="">
+				<img src="imgs/label_small.png" alt="" ng-click="minimize()">
+				<div  ng-click="maxRestore($event)" class="inline">
+					<img src="http://placehold.it/10x10" class="max-restore" ng-show="max">
+					<img src="imgs/label_big.png" class="max-restore" ng-show="restore">
+				</div>
+				
+				<img src="imgs/label_close.png" alt="" ng-click="close()">
 			</div>
 		</div>
 </nav>

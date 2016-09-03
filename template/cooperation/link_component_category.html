@@ -1,9 +1,12 @@
-<div class="select-project" ng-show="openSignal">
+<div class="select-project" ng-show="openSignal" scroll-directive>
     <div class="modal-header">
-        <h3 class="modal-title">选择构件类别</h3> 
+        <h3 class="modal-title">选择构件类别</h3>
+        <div class="inline close-sbtn" ng-click="cancel()">
+            <span class="close"></span>
+        </div>
     </div>
     <div class="modal-body">
-        <div class="row">
+        <div class="row left">
             <div class="form-inline">
                 <div class="form-group col-xs-3">
                     <select class="form-control" ng-change="treeSearch(1)" ng-model="projtype">
@@ -30,13 +33,16 @@
                         <option value="9">BV问题</option>
                     </select>
                 </div>
-                <div class="form-group col-xs-6" style="padding-left:0;">
-                    <input type="text" class="form-control" placeholder="搜索" ng-model="formText" ng-keyup="treeSearch(3)">
+                <div class="form-group col-xs-6 link-inputSear" style="padding-left:0;">
+                    <input type="text" class="form-control" placeholder="输入关键字搜索" ng-model="formText" ng-keyup="treeSearch(3)">
+                    <div class="link-search"><img src="imgs/seache.png" alt="" style="width:20px;"></div>
                 </div>
             </div>
         </div>
-        <div class="row" style="max-height:600px;overflow:auto;">
-            <ul id="tree" class="ztree"></ul>
+        <div class="row right">
+            <div class="link-scroll" id="content-a13">
+                <ul id="tree" class="ztree ztree-1"></ul>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
@@ -49,7 +55,7 @@
         <h3 class="modal-title">选择构件类别</h3> 
     </div>
     <div class="modal-body">
-        <div class="row">
+        <div class="row left">
             <div class="form-inline">
                 <div class="form-group col-xs-4">
                     <select class="form-control">
@@ -66,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="max-height:600px;overflow:auto;">
+        <div class="row right">
             <ul id="tree1" class="ztree"></ul>
         </div>
     </div>

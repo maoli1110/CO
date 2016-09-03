@@ -40,7 +40,11 @@
                             <!--商品1F-->
                             <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click="updateNew($event)">
                                 <dt>
-                                    <img src="imgs/icon_ion.png">
+                                    <img src="imgs/icon/1.png" alt="" ng-if="trentsLiInfo.projectType == '土建预算'">
+                                    <img src="imgs/icon/2.png" alt="" ng-if="trentsLiInfo.projectType == '钢筋预算'">
+                                    <img src="imgs/icon/3.png" alt="" ng-if="trentsLiInfo.projectType == '安装预算'">
+                                    <img src="imgs/icon/4.png" alt="" ng-if="trentsLiInfo.projectType == 'Revit'">
+                                    <img src="imgs/icon/5.png" alt="" ng-if="trentsLiInfo.projectType == 'Tekla'">
                                 <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
                                 </dt>
                                 <dd>
@@ -93,14 +97,50 @@
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs" >
                                             <div class="tools_bar" >
-                                                <img ng-src="{{items.downlodUrl}}" class="bookSection" ng-click="transformBig(items.uuid,items.docName)">
+                                                <!--文件类型-->
+                                                <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='txt'">
+                                                <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='doc'">
+                                                <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pdf'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
+                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='ppt'">
+                                                <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='docx'">
+                                                <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xlsx'">
+                                                <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pptx'">
+                                                <!--图片类型-->
+                                                <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='jpeg'">
+                                                <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='bmp'">
+                                                <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='PNG'">
+                                                <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='GIF'">
+                                                <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='JPG'">
+                                                <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='png'">
+                                                <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='jpg'">
+                                                <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='gif'">
+
+                                                <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='dwg'">
+                                                <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='rar'">
+                                                <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='zip'">
+
+                                                <!--视频-->
+                                                <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='avi'">
+                                                <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mp4'">
+                                                <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mov'">
+                                                <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='flv'">
+                                                <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='swf'">
+                                                <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='wmv'">
+                                                <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mpeg'">
+                                                <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mpg'">
+                                                <!--音频-->
+                                                <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mp3'">
+
+
+                                                <!--显示其他页面-->
+                                                <img src="imgs/pro-icon/icon-xz.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'
+                                                ||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar'">
                                                 <!--<img src="imgs/docType.png" alt="" >-->
                                                 <em></em>
                                                 <div class="bar" >
-                                                    <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />-->
-                                                    <a ng-href="{{previewimg}}"><img src="imgs/icon_down.png" class="pro-down"/></a>
-                                                    <a ng-href="{{previewimg}}" target="_blank">1321</a>
-                                                    <img src="imgs/icon_add.png"  class="pro-address"/>
+                                                    <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
+                                                    <a ng-href="{{items.downlodUrl}}"><img src="imgs/icon_down.png"/></a>
+                                                    <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
                                                     <em></em>
                                                 </div>
                                                 <div class="pro_mask"></div>
@@ -126,34 +166,35 @@
     </div>
 
 </div>
+<input type="hidden" value="" ng-click="transCooperation()">
 
 <!--图片选择器-->
-<div class="top_slide_wrap" >
-    <div class="bx-wrapper" >
-        <div class="showImg">
-            <ul class="slide_box">
-                <li>
-                    <a href="#"><img src="{{previewImg}}" alt="">
+<!--<div class="top_slide_wrap" >-->
+    <!--<div class="bx-wrapper" >-->
+        <!--<div class="showImg">-->
+            <!--<ul class="slide_box">-->
+                <!--<li>-->
+                    <!--<a href="#"><img src="{{previewImg}}" alt="">-->
 
-                    </a>
-                </li>
-                <!--<li>-->
-                    <!--<a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>-->
+                    <!--</a>-->
                 <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>-->
-                <!--</li>-->
-            </ul>
-            <span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>
-            <a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>
-            <a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>
-        </div>
-    </div>
-</div>
-<div class="mask"></div>
+                <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+            <!--</ul>-->
+            <!--<span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>-->
+            <!--<a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>-->
+            <!--<a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="mask"></div>-->
 <!--<script src="js/goods.js"></script>-->
 <script type="text/javascript">
 
@@ -162,6 +203,7 @@
         size: 'auto'
 
     });
+    
     $(function(){
         $(".good_list").on("click",".good_list>dl",function(){
             alert(123)
@@ -169,6 +211,14 @@
             $(".pro_list").show();
         })
     })
+
+    //调出新建
+    function transCreateCooperation () {
+        $state.go('cooperation',{})
+        $('.new_cooper').click();
+    }
+
+
 </script>
 
 

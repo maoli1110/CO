@@ -1,6 +1,5 @@
 'use strict';
 angular.module('core').directive('profit', function($timeout) {
-    //debugger;
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -10,16 +9,12 @@ angular.module('core').directive('profit', function($timeout) {
                 });
             }
 
-            //save
-            //保存信息
-
         }
 
     };
 });
 
 angular.module('core').directive('copyRadio', function ($timeout) {
-    //debugger;
     return {
 		restrict: 'AE',
 		link: function (scope, ele, attr) {
@@ -49,7 +44,6 @@ angular.module('core').directive('copyRadio', function ($timeout) {
 
 
 angular.module('core').directive('showIcon', function () {
-    //debugger;
     return {
         restrict: 'AE',
         link: function (scope, ele, attr) {
@@ -111,7 +105,7 @@ angular.module('core').directive('scrollDirective', function () {
         return {
             restrict: 'AE',
             link: function (scope, ele, attr) {
-                var sideHeight = $(window).height() - 115;
+                var sideHeight = $(window).height()-124;
 
                $("#content-a2").mCustomScrollbar({
                     theme:"minimal"
@@ -120,13 +114,58 @@ angular.module('core').directive('scrollDirective', function () {
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
+                $("#content-a4").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a5").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a6").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a7").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a8").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a9").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a10").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a11").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a12").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a13").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-a14").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
                 //$("#content-a3").mCustomScrollbar({
                 //    theme:"minimal"
                 //});
-                $("#content-a4").mCustomScrollbar({
+                $("#content-b1").mCustomScrollbar({
+                    setHeight:sideHeight,
                     theme:"minimal"
                 });
-                $("#content-b1").mCustomScrollbar({
+                $("#content-b2").mCustomScrollbar({
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
@@ -225,7 +264,6 @@ angular.module('core').directive('lightHeight', function () {
 });
 //选中阴影
 angular.module('core').directive('boxShadow', function($timeout) {
-    //debugger;
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -240,7 +278,6 @@ angular.module('core').directive('boxShadow', function($timeout) {
     };
 });
 angular.module('core').directive('detail', function($timeout) {
-    //debugger;
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -256,20 +293,75 @@ angular.module('core').directive('detail', function($timeout) {
 });
 
 angular.module('core').directive('showSelect', function($timeout) {
-    //debugger;
     return {
         restrict: 'AE',
         link: function(scope, element, attr) {
                 $('.identify').addClass('selectpicker');
                 $timeout(function() {
                     $('.selectpicker').selectpicker({
-                        style: 'btn-default',
+                        style: '',
                         size: 'auto'
                     });
-                }, 400);
+                }, 800);
             }
     };
 });
 
+angular.module('core').directive('pcOperation', function() {
+    return {
+        restrict: 'AE',
+        link: function(scope, element, attr) {
+            $(".btn_box_pc").click(function(){
+                $(".show_btn").toggleClass("glyphicon-menu-left")
+                //toggleClass增加一个class      
+                //通过判断这个class的状态来决定是开操作还是关操作
+                $(".content_right_pc").toggleClass("menus");
+                if($(".content_right_pc").hasClass("menus")){
+                    $(".btn_box_pc").animate({right:"260px"})
+                    $(".content_right_pc").animate({right:"0"})
+                    $(".glyphicon-menu-right").css("display",'inline-block');
+                    $(".mobile-mark").show();
 
+                }else{
+                     $(".btn_box_pc").animate({"right":"0"});
+                     $(".content_right_pc").animate({"right":"-260px"});
+                    $(".glyphicon-menu-right").css('display','none');
+                    $(".mobile-mark").hide();
+                }
+              });
+        }
+    };
+});
+
+angular.module('core').directive('bvOperation', function($document) {
+    return {
+        restrict: 'AE',
+        link: function(scope, element, attr) {
+           
+            $(".btn_box_bv").click(function(){
+
+            var rightDistance = document.getElementsByClassName('content_right_bv')[0].offsetWidth;
+            var rightDistance1 = document.getElementsByClassName('paly-model')[0].offsetWidth;
+            console.log('rightDistance1', rightDistance);
+                $(".show_btn").toggleClass("glyphicon-menu-left")
+                //toggleClass增加一个class      
+                        //通过判断这个class的状态来决定是开操作还是关操作
+                        $(".content_right_bv").toggleClass("menus");
+                if($(".content_right_bv").hasClass("menus")){
+
+                    $(".btn_box_bv").animate({right:rightDistance})
+                    $(".content_right_bv").animate({right:"0"})
+                    $(".glyphicon-menu-right").css("display",'inline-block');
+                    $(".mobile-mark").show();
+
+                }else{
+                     $(".btn_box_bv").animate({"right":"0"});
+                     $(".content_right_bv").animate({"right": -rightDistance});
+                    $(".glyphicon-menu-right").css('display','none');
+                    $(".mobile-mark").hide();
+                }
+              });
+        }
+    };
+});
 

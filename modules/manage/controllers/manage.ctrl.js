@@ -37,7 +37,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             //console.info("我是项目统计列表信息11111",data)
             $scope.trentsCount = data.data;
         });
-
     }
     $scope.init();
 
@@ -58,13 +57,10 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             var params = {deptId:id,searchText:""}
             var obj = JSON.stringify(params)
             Manage.getProjectTrends(obj).then(function(data){
-                console.info("我是项目统计列表信息",data)
+                //console.info("我是项目统计列表信息",data)
                 $scope.trentsCount = data.data.slice(0,6);
             });
-
     }
-
-
         //    项目统计列表搜索功能
         $scope.getDeptId = function(){
             //console.info(123)
@@ -74,19 +70,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                  deptId = deptId;
             }
             var searchBox = $("#exampleInputName2").val();
-            console.info(searchBox)
+            //console.info(searchBox)
             var params = {deptId:deptId,searchText:searchBox};
             var obj = JSON.stringify(params);
             Manage.getProjectTrends(obj).then(function(data){
-                console.info("我是项目统计搜索列表信息",data)
+                //console.info("我是项目统计搜索列表信息",data)
                 $scope.trentsCount = data.data;
             });
         }
-
-
-
-
-
         //图片预览效果
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
             var slid = $('ul.slide_box li')
@@ -147,7 +138,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 options(slideindex);
             });
             $('ul > li >.bx-controls >.img_list>.tools_bar>.bookSection').click(function(){
-                console.info(123)
+                //console.info(123)
                 slideindex = $(this).index();
                 clearInterval(timer);
                 options(slideindex);
@@ -192,7 +183,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 //console.info("详情列表",$scope.trentsListInfo)
             });
             //searchId
-           console.info("跳转页面的id",id)
+           //console.info("跳转页面的id",id)
 
         }
         //动态列表搜索关键字
@@ -225,14 +216,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     deptId = deptId;
                 }
                 var searchBox = $("#exampleInputName2").val();
-                console.info(searchBox)
+                //console.info(searchBox)
                 var params = {deptId:deptId,searchText:searchBox};
                 var obj = JSON.stringify(params);
                 Manage.getProjectTrends(obj).then(function(data){
-                    console.info("我是项目统计搜索列表信息",data)
+                    //console.info("我是项目统计搜索列表信息",data)
                     $scope.trentsCount = data.data;
                 });
-                console.info("鲁班软件222")
+                //console.info("鲁班软件222")
             }
         }
 
@@ -262,7 +253,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $scope.trentsList = function($event,id) {
             searchId = id;
             //alert(id);
-            console.info(12131313)
+            //console.info(12131313)
             $(".good_list").hide();
             $(".pro_list").show();
             $(".goodlist_left").hide();
@@ -275,7 +266,29 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 searchType: ""
             }).then(function (data) {
                 $scope.trentsListInfo = data.data;
-                //console.info("侧边栏的动态列表", $scope.trentsListInfo)
+                //console.info("侧边栏的动态列表", $scope.trentsListInfo);
+            //    angular.forEach($scope.trentsListInfo, function(value, key) {
+            //        //如果存在后缀名
+            //        // debugger;
+            //        angular.forEach(value.docs,function(value1, key1){
+            //            console.log(value);
+            //            if(value1.docName.indexOf('.') !== -1) {
+            //                var unit = value1.docName.split('.')[value1.docName.split('.').length - 1];
+            //                $scope.trentsListInfo[key].docs[key1].suffix = unit;
+            //            }
+            //        });
+            //        //if(value.name.indexOf('.') !== -1){
+            //        //    var unit = value.name.split('.')[value.name.split('.').length - 1];
+            //        //    //1.获取后缀 把后缀你push到数组
+            //        //    $scope.collaList.docs[key].suffix = unit;
+            //        //    console.log($scope.collaList.docs);
+            //        //}
+            //        console.info("侧边栏的动态列表2222222222", $scope.trentsListInfo);
+            //});
+
+
+
+
             });
 
             $scope.id = id;
@@ -295,36 +308,50 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     }
         //通过动态列表的图片获取大图的资源路径
         $scope.transformBig = function(uuid,docName){
-            var data = JSON.stringify({fileName:docName,uuid:uuid});
-            $.ajax({
-                contentType: "application/json; charset=utf-8",
-                //dataType : 'json',
-                url: "rs/trends/viewUrl",
-                type: "POST",
-                data: data,
-                async: false,
-                success: function(result){
-                    //console.info(result)
-                    $scope.previewimg = result;
-                    layer.open({
+            var data ={fileName:docName,uuid:uuid};
+            // $.ajax({
+            //     contentType: "application/json; charset=utf-8",
+            //     //dataType : 'json',
+            //     url: "rs/trends/viewUrl",
+            //     type: "POST",
+            //     data: data,
+            //     async: false,
+            //     success: function(result){
+            //         //console.info(result)
+            //         $scope.previewimg = result;
+            //         layer.open({
+            //             type: 2,
+            //             //skin: 'layui-layer-lan',
+            //             title: 'layer弹层组件',
+            //             fix: false,
+            //             shadeClose: true,
+            //             maxmin: true,
+            //             area: ['1000px', '500px'],
+            //             content: $scope.previewimg
+            //         });
+            //     }
+
+            // });
+
+            Manage.getTrendsFileViewUrl(data).then(function (result) {
+                $scope.previewimg = result;
+                layer.open({
                         type: 2,
                         //skin: 'layui-layer-lan',
-                        title: 'layer弹层组件',
+                        title: '预览',
                         fix: false,
                         shadeClose: true,
                         maxmin: true,
                         area: ['1000px', '500px'],
                         content: $scope.previewimg
                     });
-                }
-
+            },function (data) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                alert(obj.message);
             });
             
         }
-
-
-
-
 //        回退按钮关闭列表页面
         $scope.listBack = function(){
             $(".good_list").show();
@@ -341,18 +368,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             })
 
         })
-
-        //   点击工具栏三角形出现二级菜单
-        //$(".header_menus").hide()
-        $scope.menus = function(){
-            $(".header_menus").slideToggle();
-            $(".header_menus ul li").hover(function(){
-                //console.info(123)
-                $(this).css("background","#69C080").children().find("ol").show();
-            },function(){
-                $(this).css("background","#fff").children().find("ol").hide()
-            })
-        }
         //系统时间
        //$scope.currentDate =  Manage.getCurrentDate();
 //        服务器时间
@@ -363,5 +378,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
         $scope.currentTime();
 
-
+        $scope.transCooperation = function () {
+            $state.go('cooperation', {'transignal':'be'});
+        }
 }]);

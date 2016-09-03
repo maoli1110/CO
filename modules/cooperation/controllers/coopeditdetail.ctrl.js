@@ -1,8 +1,8 @@
 /**
  * Created by sdergt on 2016/8/16.
  */
-angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common',
-    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common) {
+angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage',
+    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage) {
         $scope.device = false;
         //判断pc or bv
         if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
@@ -17,12 +17,21 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.dateOptions = {
             formatYear: 'yy',
             maxDate: new Date(2020, 5, 22),
-            startingDay: 1
+            startingDay: 1,
+            showWeeks: false,
+            minDate: new Date()
         };
+
+         $scope.toggleMin = function() {
+            $scope.minDate = $scope.minDate ? null : new Date();
+          };
+
+          $scope.toggleMin();
 
         $scope.open2 = function () {
             //console.info(123123131)
             $scope.popup2.opened = true;
+            $scope.isDeadlineNull = false;
 
         };
 
@@ -46,6 +55,11 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             }
             $scope.dt = data.deadline;
             $scope.desc = data.desc;
+
+            if(!data.deadline) {
+                $scope.isDeadlineNull = true;
+            }
+
             angular.forEach(data.relevants, function (value, key) {
                 var unit = {};
                 unit.username = value.username;
@@ -57,15 +71,15 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             if(data){
                 Cooperation.getMarkerList().then(function (data) {
                     $scope.markerList1 = data;
-                    console.log($scope.markerList1);
+                    console.log('marklist',$scope.markerList1);
                     console.log($scope.collaList);
-                     //debugger;
+
                      //$scope.mark1 = $scope.markerList1[0];
                     var unit = _.filter($scope.markerList1, function(o) {
 
                         return o.picMarker == $scope.collaList.markerInfo.name;
                     });
-                    $scope.mark1 = unit[0];
+                    $scope.mark1 = unit[0].markerId + '';
                     console.log('mark1', $scope.mark1[0]);
                 });
 
@@ -76,6 +90,60 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                      $scope.status = "1";
                 }
             }
+            //详情描述
+            if($scope.collaList.desc ==null || $scope.collaList.desc==''){
+                $('.mobile-job-descrition,.pc-job-descrition').css("display",'none')
+            }else{
+                $('.mobile-job-descrition,.pc-job-descrition').css("display",'block')
+            }
+            //详情联系人
+            if($scope.collaList.relevants.length==0){
+                $(".mobile-relate,.pc-relate").css('display','none')
+            }else{
+                $(".mobile-relate,.pc-relate").css('display','block')
+            }
+            //详情照片
+            if($scope.collaList.pictures.length==0){
+                $(".mobile-photo,.pc-photo").css('display','none')
+            }else{
+                $(".mobile-photo,.pc-photo").css('display','block')
+            }
+            //详情资料
+            if($scope.collaList.docs.length==0){
+                $(".mobile-means,.pc-means").css('display','none')
+            }else{
+                $(".mobile-means,.pc-means").css('display','block')
+            }
+            //详情回复
+            if($scope.collaList.comments.length==0){
+                $(".mobile-reply,.pc-reply").css('display','none')
+            }else{
+                $(".mobile-reply,pc-reply").css('display','block')
+            }
+
+            angular.forEach($scope.collaList.docs, function(value, key) {
+                //如果存在后缀名
+                if(value.name.indexOf('.') !== -1){
+                    var unit = value.name.split('.')[value.name.split('.').length - 1];
+                    //1.获取后缀 把后缀你push到数组
+                    $scope.collaList.docs[key].suffix = unit;
+                    console.log($scope.collaList.docs);
+                }
+            });
+            var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+
+            angular.forEach($scope.collaList.comments, function(value, key) {
+                if(value.docs) {
+                    angular.forEach(value.docs, function(value1, key1) {
+                        if(typeArr.indexOf(value1.suffix) == -1 || value1.suffix == null) {
+                            $scope.collaList.comments[key].docs[key1].suffix = 'other';
+                        }
+                    })
+                    console.log('rtrtrt',$scope.collaList.comments);
+                }
+                console.info("12313131",$scope.typeArr)
+            });
+
 
         });
         
@@ -126,9 +194,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 coid: coid,
                 contracts: contracts,
                 deadline: $scope.dt,
-                desc:'',
-                markerid: parseInt($scope.mark1.markerId),
-                name: $scope.collaList.coTypeVo.name,
+                desc: $scope.collaList.desc,
+                markerid: parseInt($scope.mark1),
+                name: $scope.collaList.name,
                 priority: $scope.priority,
                 status: parseInt($scope.status)
             };
@@ -136,6 +204,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             console.log(data);
             Cooperation.updateCollaboration(data).then(function (data) {
                 console.log('updateCollaboration', data)
+                $state.go('coopdetail', {coid:coid});
             });
           
         }
@@ -178,11 +247,12 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //选择相关人
         $scope.related = {
             sign:[],
-            noSign:[]
+            noSign:[],
         };
         
         $scope.selectRelated = function () {
             var modalInstance = $uibModal.open({
+                size:'lg',
                 backdrop : 'static',
                 templateUrl: 'template/cooperation/select_person_related.html',
                 controller:'selectpersonCtrl',
@@ -211,6 +281,37 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 });
             });
         }
+        //点击蒙层出现关闭按钮
+        $scope.onTurn = function(){
+            //console.info("小白兔")
+        }
+
+        //预览功能
+        $scope.pcPreView = function (docName, uuid) {
+            debugger
+                var data = {fileName:docName,uuid:uuid};
+                Manage.getTrendsFileViewUrl(data).then(function (result) {
+                console.log(typeof result)
+                $scope.isPreview = true;
+                $scope.previewUrl =result;
+                layer.open({
+                        type: 2,
+                        //skin: 'layui-layer-lan',
+                        title: '预览',
+                        fix: false,
+                        shadeClose: true,
+                        maxmin: true,
+                        area: ['1000px', '500px'],
+                        content: $scope.previewUrl
+                    });
+            },function (data) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                alert(obj.message);
+            });
+            
+        }
+
 
 
 

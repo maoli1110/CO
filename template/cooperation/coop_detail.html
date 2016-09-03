@@ -1,0 +1,154 @@
+<style>
+    body{
+        position:relative;
+    }
+    .detail-voice{
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+    }
+    .jp-audio .jp-time-holder {
+    top: 30px !important;
+    right: 67px !important;
+    left: 300px !important;
+}
+.jp-audio .jp-type-single .jp-time-holder {
+    left: 110px;
+    width: 40px!important;
+}
+ .jp-duration {
+    color: #fff;
+}
+.jp-interface {
+    background-color: transparent!important
+}
+ .jp-audio, .jp-audio-stream, .jp-video {
+    border: none !important;
+    background-color:transparent!important;
+}
+.jp-audio .jp-type-single .jp-progress {
+    left: 101px!important;
+    width: 186px;
+    height: 10px;
+    border-radius: 10px;
+    top: 32px;
+
+}
+img{
+    vertical-align:0;
+}
+.btn-fix {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -64px;
+}
+
+</style>
+<link href="./lib/audio1/css/jplayer.blue.monday.css" rel="stylesheet" type="text/css"/>
+<!--header-->
+<link rel="stylesheet" href="css/coop-detail-computer.css">
+<!--<div class="mobile-mark"></div>-->
+<!--顶部播放声音的插件-->
+<div style="position:relative;top:0;left:0;"  class="detail-voice">
+    <div class="play-audio-mask"></div>
+    <div>
+    <div class="palys">
+        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+        <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+            <div class="jp-type-single">
+                <div class="jp-gui jp-interface">
+                    <div class="jp-controls">
+                        <button class="jp-play" role="button" tabindex="0">play</button>
+                        <!--<img src="imgs/play-paly.png" alt="" class="jp-play" role="button" tabindex="0">-->
+                        <!--<button class="jp-stop" role="button" tabindex="0">stop</button> -->
+                    </div>
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar" style="background:#fff;border-radius:5px;width:100%!important">
+                            <div class="jp-play-bar" style="background:#65c17d;border-radius:5px;"></div>
+                        </div>
+                    </div>
+                    <!--  <div class="jp-volume-controls">
+                       <button class="jp-mute" role="button" tabindex="0">mute</button>
+                       <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                       <div class="jp-volume-bar">
+                         <div class="jp-volume-bar-value"></div>
+                       </div>
+                     </div> -->
+                    <div class="jp-time-holder">
+                        <!--  <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div> -->
+                        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                        <!--  <div class="jp-toggles">
+                           <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                         </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="audio-close detail-close"><span class="glyphicon glyphicon-remove" style="top:-55px;right: 23px;font-size: 22px" ng-click="audioClose()"></span></div>
+
+</div>
+<!--电脑端-->
+<div ng-include="'template/cooperation/coop_detail_pc.html'" scope="" onload=""></div>
+<!--手机端-->
+<div ng-include="'template/cooperation/coop_detail_bv.html'" scope="" onload=""></div>
+
+<div ng-if="isPreview">
+    <div class="container">
+        <header>
+            <div class="pull-left" ng-click="backDetail()"><a><--返回</a></div>
+           <!--  <div class="pull-right" style="text-align:right" ng-show="isDoc" ng-click="editOffice()">编辑资料</div> -->
+        </header>
+        <!-- 编辑部分 -->
+        <div class="doc-edit btn-fix">
+            <div class="text-center">
+                <button class="btn btn-default" ng-click="signComment()">签署意见</button>
+                <button class="btn btn-default" ng-click="signElectron()">电子签名</button>
+            </div>
+             <div ng-show="isEdit">pdfSign</div><div class="text-center">
+                <button class="btn btn-default" ng-click="signSubmit()">提交</button>
+                <button class="btn btn-default" ng-click="signCancel()">取消</button>
+                <button class="btn btn-default" ng-click="signEmpty()">清空</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="{{transcoid}}" class="trancoid">
+<!--<input type="hidden" value="http://192.168.13.222:8081/doc/downloadSystemFile/63c2db8b2dae1386e47351fe0183be559666b445c3132cd1310aaa986cec0baf2a896203101dfa79263e978317ea7d670e45eca137e8bea629abfee5dfb9d56ba0638315ed112ad6d21903ae0bd1b9f2bf901cfba5fbc47649ef58ed566a33c508cb9b96f374f28ecad791f5759b4953265f7cffcaccb01ae0c709acb2638ca6/6a33b91ca06d7e8beb6fb558b7f7e47899d2f82e0c9bd87f62b79c49172bcd18602b8674739fd91458c3e29c445c281a29bb2356532ca79144cdbf3c73ac6843c8a4226666bd7aaac3e3042a1cdd1b27c6bbb466a35a15b6734a830664d34f6572f7d12d00653ec2f0ce687ccf021820c2cd3abca0a1d8f892079efb83619cfd" class="speach-url">-->
+<!--<input type="hidden" value="https://raw.githubusercontent.com/ws00801526/XMNAudio/master/XMNAudioExample/XMNAudioExample/letitgo_v.mp3" class="speach-url1">-->
+<input type="hidden" value="" class="speach-url">
+<script>
+
+    function changeDocPreview (index) {
+        $('.a-'+index+'').removeClass('glyphicon-save').addClass('glyphicon-open-file');
+    }
+    function animate(){
+        $(".charts").each(function(i,item){
+            var a=parseInt($(item).attr("w"));
+            $(item).animate({
+                width: a+"%"
+            },1000);
+        });
+    }
+    animate();
+
+    function bvcoEditDetail() {
+        var coid = $('.trancoid').val();
+        // document.location = 'http://192.168.13.222:8080/bimco/#!/editdetail/?coid='+ coid;
+        document.location = '#!/editdetail/?coid='+ coid;
+    }
+
+    function changeDocsStatus (id) {
+        // debugger;
+        // console.log( $('.mobile-means').find('.show-icon').eq(0));
+        $('.means-list').eq(0).find('.detail-down').css('display','none');
+        $('.means-list').eq(0).find('.detail-view').css('display','inline-block');
+        //document.location = 'http://192.168.13.222:8080/bimco/#!/editdetail/?testid='+ id;
+    }
+
+</script>
+

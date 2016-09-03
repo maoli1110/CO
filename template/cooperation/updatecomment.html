@@ -5,14 +5,31 @@
             <span class="close"></span>
         </div>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="min-height:330px;">
         <div class="row">
             <div class="col-xs-1">描述：</div>
             <div class="col-xs-10">
                 <textarea name="" id="" cols="30" rows="6" ng-model="comment" style="width:100%"></textarea>
             </div>
         </div>
-        <div class="row upload">
+        <div class="row">
+            <div class="col-xs-1">状态</div>
+            <div class="col-xs-10">
+                <select class="identify col-xs-6" ng-model="status"  ng-show="zhenggai" show-select>
+                    <option value="-1">空</option>
+                    <option value="1">已整改</option>
+                    <option value="2">整改中</option>
+                    <option value="3">不整改</option>
+                    <option value="4">待整改</option>
+                    <option value="5">未整改</option>
+                </select>
+                <!--  <select class="identify col-xs-6" ng-model="status"  ng-show="!zhenggai">      
+                    <option value="6">待确认</option>
+                    <option value="7">进行中</option>
+                </select> -->
+            </div>
+        </div>
+        <div class="row upload" style="margin-top:10px;">
             <div class="col-xs-1">资料：</div>
             <div class="upload-docs col-xs-10">
                 <input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
@@ -51,6 +68,4 @@
             </div>
         </div>
     </div>
-    
-   
 </div>

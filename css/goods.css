@@ -93,6 +93,8 @@ body {
     font-weight:normal;
 }
 .trends .good_list dl dt img{
+    width: 35px;
+    /*margin-top: 2px;*/
     float:left;
     margin-top: 2px;
     margin-right: 4px;
@@ -245,7 +247,7 @@ body {
     position:relative;
 }
 .trends .pro_list .list li .tools_bar>img{
-    width:54px;
+    /*width:54px;*/
     height:65px;
 }
 
@@ -262,7 +264,7 @@ body {
 .tools_bar .bar img {
     width:17px;
     height:17px;
-    margin-left:10px;
+    /*margin-left:10px;*/
 }
 .trends .pro_list .list li .tools_bar .bar{
     width:80px;

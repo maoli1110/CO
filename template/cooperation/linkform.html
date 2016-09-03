@@ -1,4 +1,4 @@
-<div class="linkform">
+<div class="linkform" scroll-directive>
     <div class="modal-header">
         <h3 class="modal-title">选择表单</h3>
         <div class="inline close-sbtn" ng-click="cancel()">
@@ -6,12 +6,21 @@
         </div>
     </div>
     <div class="modal-body" copy-radio>
-        <div class="row">
-            <table class="table form-list">
+        <div class="row left">
+            <select name="" id="" ng-model="selectedTypeId" ng-change="switchType(selectedTypeId)">
+                <option value="{{item.typeId}}" ng-repeat="item in typeList">{{item.name}}</option>
+            </select>
+        </div>
+        <div class="row right" id="content-a14">
+            <table class="table form-list" >
                 <tbody>
-                    <tr ng-repeat="row in templateNode">
-                        <td><input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"></td>
-                        <td>{{row.name}}</td>
+                    <tr ng-repeat="row in templateNode" class="tab-tr" profit>
+                        <td>
+                            <label>
+                                <input style="vertical-align:middle" type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"><span style="display:inline-block;margin-top:11px;">{{row.name}}</span>
+                                <span class="link-check-state"></span>
+                            </label>
+                        </td>
                     </tr>
                 </tbody>
             </table>

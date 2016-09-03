@@ -2,9 +2,11 @@
 /**
  * 协作管理
  */
-angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state',
-    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state) {
+angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams',
+    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams) {
     //查询列表初始值
+    console.log('deptId', $stateParams.deptId);
+    console.log('ppid',$stateParams);
     $scope.currentDate =  Cooperation.getCurrentDate();
     $scope.cooperationList = [];
     var tempCooperationList = [];
@@ -20,7 +22,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
   	queryData.searchType = '';
 
     $scope.isTypeChecked = false;
-    $scope.coopattr = '1';
+    $scope.coopattr = '0';
 
     $scope.openSignal = false;
     $scope.projectInfoList = [];
@@ -34,6 +36,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	});
     }
 
+
     // $scope.closeNew = function () {
     // 	$scope.openSignal = false;
     // }
@@ -42,7 +45,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.openfilter = function () {
       $scope.isCollapsed = true;
       $('.overlay').css('display','block');
-      $('.overlay').css('top','50px');
+      $('.overlay').css('top','59px');
       $('.overlay').css('height','calc(100vh - 115px)');
     }
     //点击蒙层隐藏筛选匡
@@ -72,22 +75,371 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     //获取项目部列表3434
     Cooperation.getDeptInfo().then(function (data) {
     	//debugger;
-    	$scope.deptInfoList = data;
+    	$scope.deptInfoList = data.slice(0,8);
+		console.info("一级菜单",$scope.deptInfoList)
+
+		//定位到当前工程
+		if($stateParams) {
+			var deptId = $stateParams.deptId;
+			var ppid = $stateParams.ppid;
+			angular.forEach(data, function (value, key) {
+				if(value === deptId) {
+					$('.panel-heading').eq(0).click();
+				}
+			})
+		}
+		//debugger
+		$('.panel-heading').eq(0).click();
     });
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
-   		//debugger;
+      //debugger;
    		//$scope.projectInfoList = [];
-		if(deptId != queryData.deptId){
+		if(deptId != queryData.deptId || deptId == 1){
 			Cooperation.getProjectList(deptId).then(function (data) {
-	   			console.log(data);
-	   			$scope.projectInfoList = data.slice(0,10);
+	   			//console.log(data);
+	   			$scope.projectInfoList = data.slice(0,6);
 	   			queryData.deptId = deptId;
-	   			console.log(queryData.deptId);
+				console.info("二级菜单",$scope.projectInfoList)
+	   			//console.log('queryData.deptId',queryData.deptId);
    			});
    		}
-   		
-   		
+		priorityArr = [];
+		timeLim =[];
+		blankId = [];
+		coTypeObj = [];
+		$scope.arrString =[];
+		$scope.deadlineStr =[];
+		$scope.makerStatStr=[];
+		$scope.typeStatStr=[];
+		Cooperation.getCoStatisticsInfo({deptId:deptId,ppid:""}).then(function(data){
+
+			$scope.getCoCountInfo =data.data;
+			console.info('项目统计6666',$scope.getCoCountInfo)
+			//console.info("统计页面数据",$scope.getCoCountInfo)
+			//console.info($scope.getCoCountInfo)
+			//优先级
+			$scope.priorityStat = data.data.priorityStat;
+
+			//期限
+			$scope.deadLineStat = data.data.deadLineStat;
+			//标识
+			$scope.makerStat = data.data.makerStat;
+			//协作类型
+			$scope.typeStat = data.data.typeStat;
+			//	判断返回的数据类型是空或者是NaN,如果是把对应的div给移除掉
+			//console.info("数据类型",$scope.priorityStat);
+			//判断返回数据是否为空
+			function isEmpty(obj){
+				for(var key in obj){
+					return false
+				}
+				return true
+			}
+			//判断数组的值是否为空
+			function isEmptyArr(array){
+				var count = 0;
+				for(var i = 0;i<array.length;i++){
+					return  count +=array[i]
+				}
+
+			}
+
+			var isPriorityStat = isEmpty($scope.priorityStat);
+			var isDeadLineStat = isEmpty($scope.deadLineStat);
+			var isMakerStat = isEmpty($scope.makerStat);
+			var istypeStat = isEmpty($scope.typeStat);
+			if(isPriorityStat){
+				$("#data_graph").parent().hide();
+			}else{
+				$("#data_graph").parent().show();
+			}
+			if(isDeadLineStat){
+				$("#data_graph2").parent().hide();
+			}else{
+				$("#data_graph2").parent().show();
+			}
+			if(isMakerStat){
+				$("#data_graph3").parent().hide();
+			}else{
+				$("#data_graph3").parent().show();
+			}
+			if(istypeStat){
+				$("#data_graph4").parent().hide();
+			}else{
+				$("#data_graph4").parent().show();
+			}
+
+
+
+			var colorStyle1= ["#E6D055","#73CC6C","#5887FD"]
+			var colorStyle2 = ["#E6D055",'#FC688A',"#73CC6C","#5887FD","#8F6DF2","#A0A8C1"];
+			//优先级别
+			angular.forEach( $scope.priorityStat, function (value, key) {
+				arr.push(value);
+				//页面优先级展示数据
+				$scope.arrString.push(key);
+
+			})
+
+			for(var n in arr){
+				arrCount += arr[n];
+
+			}
+			angular.forEach( $scope.priorityStat, function (value, key) {
+				var unit = {
+					value:'',
+					name:'',
+					itemStyle:{
+						normal:{
+							color:''
+						}
+					}
+				};
+				unit.value = value;
+				if(isEmptyArr(arr)==0){
+					//unit.name=value.toString();
+					$("#data_graph").parent().hide()
+				}else{
+					$("#data_graph").parent().show()
+					unit.name = parseInt((value/arrCount)*100)+"%";
+				}
+
+				unit.itemStyle.normal.color = '';
+				priorityArr.push(unit);
+
+
+			});
+			//循环数组给他添加颜色属性
+			for(var t= 0;t<priorityArr.length;t++){
+				priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
+			}
+
+			//期限
+			angular.forEach($scope.deadLineStat,function(val,key){
+				deadline.push(val);
+				$scope.deadlineStr.push(key)
+			})
+			for(var m in deadline){
+				deadlineCount += deadline[m]
+			}
+			angular.forEach($scope.deadLineStat,function(val,key){
+				var dataTime = {
+					value:"",
+					name:"",
+					itemStyle:{
+						normal:{
+							color:""
+						}
+					}
+				};
+				dataTime.value= val;
+				if(isEmptyArr(deadline)==0){
+					//dataTime.name =val.toString()
+					$("#data_graph2").parent().hide();
+				}else{
+					$("#data_graph2").parent().show();
+					dataTime.name=parseInt((val/deadlineCount)*100)+"%";
+				}
+
+				timeLim.push(dataTime);
+
+			});
+			for(var a = 0;a<timeLim.length;a++){
+				timeLim[a].itemStyle.normal.color= colorStyle1[a]
+			}
+			//标识
+			angular.forEach($scope.makerStat,function(val,key){
+				maker.push(val);
+				$scope.makerStatStr.push(key);
+
+			})
+			for(var i in maker){
+				makerCount += maker[i];
+			}
+			angular.forEach($scope.makerStat,function(val,key){
+				var blank = {
+					value:"",
+					name:"",
+					itemStyle:{
+						normal:{
+							color:""
+						}
+					}
+				};
+				blank.value =val;
+				if(isEmptyArr(maker)==0){
+					//blank.name = val.toString();
+					$("#data_graph3").parent().hide()
+				}else{
+					$("#data_graph3").parent().show()
+					blank.name =parseInt((val/makerCount)*100)+"%";
+				}
+
+				blankId.push(blank);
+			})
+			for(var b = 0;b<blankId.length;b++){
+				blankId[b].itemStyle.normal.color = colorStyle2[b];
+			}
+			//console.info("fhsofweow",blankId)
+			//协作类型
+			//debugger;
+			angular.forEach($scope.typeStat,function(val,key){
+				typeStatNub.push(val);
+				$scope.typeStatStr.push(key)
+			});
+			for(var k in typeStatNub){
+				typeCount += typeStatNub[k]
+			}
+			angular.forEach($scope.typeStat,function(val,key){
+				var coType ={
+					value:"",
+					name:"",
+					itemStyle:{
+						normal:{
+							color:""
+						}
+					}
+				};
+				coType.value = val;
+				if(isEmptyArr(typeStatNub)==0){
+					//coType.name =val.toString();
+					$("#data_graph4").parent().hide()
+				}else{
+					$("#data_graph4").parent().show()
+					coType.name = parseInt((val/typeCount)*100)+"%";
+				}
+				//coType.name = parseInt((val/typeCount)*100)+"%";
+				coTypeObj.push(coType);
+
+			});
+			for(var c= 0;c<coTypeObj.length;c++){
+				coTypeObj[c].itemStyle.normal.color = colorStyle2[c]
+			}
+			//console.info(typeCount)
+			var myChart1 = echarts.init(document.getElementById('data_graph'));
+			//标识统计
+			var option1 = {
+				series: [{
+					name: '优先级',
+					type: 'pie',
+					//饼型图的宽度
+					radius: ['50%', '80%'],
+					//中间文字位置和动画效果
+					avoidLabelOverlap: false,
+					label: {
+						normal: {
+							position: 'inner'
+						}
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b}: {c} ({d}%)"
+					},
+					//labelLine: {
+					//	normal: {
+					//		show: false
+					//	}
+					//},
+					//是否显示线
+					//饼型图的显示比例
+					data: priorityArr
+
+				}]
+			};
+			myChart1.setOption(option1);
+			//	第二部分
+			//图形绘制
+			var myChart2 = echarts.init(document.getElementById('data_graph2'));
+
+			// 指定图表的配置项和数据
+			//			app.title = '环形图';
+
+			var option2 = {
+				series: [{
+					name: '访问来源',
+					type: 'pie',
+					//饼型图的宽度
+					radius: ['50%', '80%'],
+					//中间文字位置和动画效果
+					avoidLabelOverlap: false,
+					label: {
+						normal: {
+							position: 'inner'
+						}
+					},
+					//是否显示线
+					//饼型图的显示比例
+					data:timeLim
+
+				}]
+			};
+
+			// 使用刚指定的配置项和数据显示图表。
+			myChart2.setOption(option2);
+			//图形绘制
+			var myChart3 = echarts.init(document.getElementById('data_graph3'));
+
+			// 指定图表的配置项和数据
+			//			app.title = '环形图';
+
+			var option3 = {
+				series: [{
+					name: '访问来源',
+					type: 'pie',
+					//饼型图的宽度
+					radius: ['50%', '80%'],
+					//中间文字位置和动画效果
+					avoidLabelOverlap: false,
+					label: {
+						normal: {
+							position: 'inner'
+						}
+					},
+					//是否显示线
+					//饼型图的显示比例
+					data:blankId
+
+				}]
+			};
+
+			// 使用刚指定的配置项和数据显示图表。
+			myChart3.setOption(option3);
+
+			//图形绘制
+			var myChart4 = echarts.init(document.getElementById('data_graph4'));
+
+			// 指定图表的配置项和数据
+			//			app.title = '环形图';
+
+			var option4 = {
+				series: [{
+					name: '访问来源',
+					type: 'pie',
+					//饼型图的宽度
+					radius: ['50%', '80%'],
+					//中间文字位置和动画效果
+					avoidLabelOverlap: false,
+					label: {
+						normal: {
+							position: 'inner'
+						}
+					},
+					//是否显示线
+					//饼型图的显示比例
+					data:coTypeObj,
+
+
+
+				}]
+			};
+
+			// 使用刚指定的配置项和数据显示图表。
+			myChart4.setOption(option4);
+
+		})
+		$(".table-list ").show();
+		$(" .data_count").hide();
    	}
    	//默认的协同列表
    	var initCollaborationList = function () {
@@ -107,7 +459,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     //下拉获取更多协同列表数据
     $scope.addMoreData = function () {
         //debugger;
-        console.log('222scroll');
+        //console.log('222scroll');
         //默认获取第一个项目部列表的工程列表
         if(!queryData.deptId) {
             queryData.deptId = 1;
@@ -138,6 +490,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    	//点击工程获取协同列表
    	$scope.getCollaborationList = function ($event,ppid) {
    		queryData.ppid = ppid;
+		//priorityArr = [];
+		//timeLim =[];
+		//maker = [];
+		//coTypeObj = [];
+		//$scope.arrString =[];
+		//$scope.deadlineStr =[];
+		//$scope.makerStatStr=[];
+		$scope.typeStatStr=[];
+		console.log('queryData.ppid',queryData.ppid);
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
    			$scope.cooperationList = data;
@@ -148,6 +509,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
 
         $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
+		$scope.getCoTotal();
+		$(".table-list ").show();
+		$(" .data_count").hide();
 
    	}
 
@@ -177,9 +541,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	data[1].list.shift();
     	data[0].list.shift();
     	data[2].list.shift();
-    	$scope.coQueryType = data[1].list;
-    	$scope.coPriority = data[0].list;
-    	$scope.coMark = data[2].list;
+    	$scope.coQueryType = data[0].list;
+      console.log('$scope.coQueryType',$scope.coQueryType);
+    	$scope.coPriority = data[2].list;
+    	$scope.coMark = data[1].list;
     });
 
 	var queryTypeSelected = [];
@@ -348,185 +713,395 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		});
    	}
 
+	$scope.getCoCountInfo=[];
+	var arr = [];
+	$scope.arrString=[];
+	var priorityArr = [];
+	var arrCount =0;
 
-    
-   	
+	var deadline = [];
+	$scope.deadlineStr = [];
+	var timeLim =[];
+	var deadlineCount = 0;
+
+	var maker =[];
+	$scope.makerStatStr = [];
+	var blankId = [];
+	var makerCount =0;
+
+	var typeStatNub = [];
+	$scope.typeStatStr=[];
+	var coTypeObj = [];
+	var typeCount =0;
+
+
+	//console.info("百分比数据",$scope.arr)
+
 	//统计页面
 	var comboxCount = $("#comboBox_count");
-	comboxCount.on("click",function(){
+	$scope.comboxCount = function(){
+
 		$(".table-list ").hide();
 		$(" .data_count").show();
-	})
-	//图形绘制
-	var myChart = echarts.init(document.getElementById('data_graph'));
+		//if($(".data-every").length==0){
+		//	$(".data_every").hide();
+		//}
+	}
+			//统计页面数据
+			//$scope.getCoTotal();
 
-	// 指定图表的配置项和数据
-	//			app.title = '环形图';
+		$scope.getCoTotal = function(){
+			priorityArr = [];
+			timeLim =[];
+			blankId = [];
+			coTypeObj = [];
+			$scope.arrString =[];
+			$scope.deadlineStr =[];
+			$scope.makerStatStr=[];
+			$scope.typeStatStr=[];
+			//$(".data_count").children().hide();
+			Cooperation.getCoStatisticsInfo({deptId :queryData.deptId,ppid:queryData.ppid}).then(function(data){
+				//console.info("1313131",queryData.deptId,queryData.ppid)
+				$scope.getCoCountInfo =data.data;
+				console.info("统计页面数据",$scope.getCoCountInfo)
+				//console.info($scope.getCoCountInfo)
+				//优先级
+				$scope.priorityStat = data.data.priorityStat;
 
-	var option = {
-		series: [{
-			name: '访问来源',
-			type: 'pie',
-			//饼型图的宽度
-			radius: ['50%', '80%'],
-			//中间文字位置和动画效果
-			avoidLabelOverlap: false,
-			label: {
-				normal: {
-					position: 'inner'
-				}
-			},
-			//是否显示线
-			//饼型图的显示比例
-			data: [{
-				value: 332,
-				name: '15%'
-			}, {
-				value: 310,
-				name: '12%'
-			}, {
-				value: 234,
-				name: '10%'
-			}, {
-				value: 135,
-				name: '3%'
-			}, {
-				value: 1548,
-				name: '65%'
-			}]
-
-		}]
-	};
-
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option);
-	//图形绘制
-	var myChart = echarts.init(document.getElementById('data_graph2'));
-
-	// 指定图表的配置项和数据
-	//			app.title = '环形图';
-
-	var option = {
-		series: [{
-			name: '访问来源',
-			type: 'pie',
-			//饼型图的宽度
-			radius: ['50%', '80%'],
-			//中间文字位置和动画效果
-			avoidLabelOverlap: false,
-			label: {
-				normal: {
-					position: 'inner'
-				}
-			},
-			//是否显示线
-			//饼型图的显示比例
-			data: [{
-				value: 332,
-				name: '15%'
-			}, {
-				value: 310,
-				name: '12%'
-			}, {
-				value: 234,
-				name: '10%'
-			}, {
-				value: 135,
-				name: '3%'
-			}, {
-				value: 1548,
-				name: '65%'
-			}]
-
-		}]
-	};
-
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option);
-		//图形绘制
-		var myChart = echarts.init(document.getElementById('data_graph3'));
-
-		// 指定图表的配置项和数据
-		//			app.title = '环形图';
-
-		var option = {
-			series: [{
-				name: '访问来源',
-				type: 'pie',
-				//饼型图的宽度
-				radius: ['50%', '80%'],
-				//中间文字位置和动画效果
-				avoidLabelOverlap: false,
-				label: {
-					normal: {
-						position: 'inner'
+				//期限
+				$scope.deadLineStat = data.data.deadLineStat;
+				//标识
+				$scope.makerStat = data.data.makerStat;
+				//协作类型
+				$scope.typeStat = data.data.typeStat;
+				//	判断返回的数据类型是空或者是NaN,如果是把对应的div给移除掉
+				//console.info("数据类型",$scope.priorityStat);
+				//判断返回数据是否为空
+				function isEmpty(obj){
+					for(var key in obj){
+						return false
 					}
-				},
-				//是否显示线
-				//饼型图的显示比例
-				data: [{
-					value: 332,
-					name: '15%'
-				}, {
-					value: 310,
-					name: '12%'
-				}, {
-					value: 234,
-					name: '10%'
-				}, {
-					value: 135,
-					name: '3%'
-				}, {
-					value: 1548,
-					name: '65%'
-				}]
-
-			}]
-		};
-
-		// 使用刚指定的配置项和数据显示图表。
-		myChart.setOption(option);
-		//图形绘制
-		var myChart = echarts.init(document.getElementById('data_graph4'));
-
-		// 指定图表的配置项和数据
-		//			app.title = '环形图';
-
-		var option = {
-			series: [{
-				name: '访问来源',
-				type: 'pie',
-				//饼型图的宽度
-				radius: ['50%', '80%'],
-				//中间文字位置和动画效果
-				avoidLabelOverlap: false,
-				label: {
-					normal: {
-						position: 'inner'
+					return true
+				}
+				//判断数组的值是否为空
+				function isEmptyArr(array){
+					var count = 0;
+					for(var i = 0;i<array.length;i++){
+						return  count +=array[i]
 					}
-				},
-				//是否显示线
-				//饼型图的显示比例
-				data: [{
-					value: 332,
-					name: '15%'
-				}, {
-					value: 310,
-					name: '12%'
-				}, {
-					value: 234,
-					name: '10%'
-				}, {
-					value: 135,
-					name: '3%'
-				}, {
-					value: 1548,
-					name: '65%'
-				}]
 
-			}]
-		};
+				}
 
-		// 使用刚指定的配置项和数据显示图表。
-		myChart.setOption(option);
-}]);
+				var isPriorityStat = isEmpty($scope.priorityStat);
+				var isDeadLineStat = isEmpty($scope.deadLineStat);
+				var isMakerStat = isEmpty($scope.makerStat);
+				var istypeStat = isEmpty($scope.typeStat);
+				if(isPriorityStat){
+					$("#data_graph").parent().hide();
+				}else{
+					$("#data_graph").parent().show();
+				}
+				if(isDeadLineStat){
+					$("#data_graph2").parent().hide();
+				}else{
+					$("#data_graph2").parent().show();
+				}
+				if(isMakerStat){
+					$("#data_graph3").parent().hide();
+				}else{
+					$("#data_graph3").parent().show();
+				}
+				if(istypeStat){
+					$("#data_graph4").parent().hide();
+				}else{
+					$("#data_graph4").parent().show();
+				}
+
+
+
+				var colorStyle1= ["#E6D055","#73CC6C","#5887FD"]
+				var colorStyle2 = ["#E6D055",'#FC688A',"#73CC6C","#5887FD","#8F6DF2","#A0A8C1"];
+				//优先级别
+				angular.forEach( $scope.priorityStat, function (value, key) {
+					arr.push(value);
+					//页面优先级展示数据
+					$scope.arrString.push(key);
+
+				})
+
+				for(var n in arr){
+					arrCount += arr[n];
+
+				}
+				angular.forEach( $scope.priorityStat, function (value, key) {
+					var unit = {
+						value:'',
+						name:'',
+						itemStyle:{
+							normal:{
+								color:''
+							}
+						}
+					};
+					unit.value = value;
+					if(isEmptyArr(arr)==0){
+						//unit.name=value.toString();
+						$("#data_graph").parent().hide()
+					}else{
+						$("#data_graph").parent().show()
+						unit.name = parseInt((value/arrCount)*100)+"%";
+					}
+
+					unit.itemStyle.normal.color = '';
+					priorityArr.push(unit);
+
+
+				});
+				//循环数组给他添加颜色属性
+				for(var t= 0;t<priorityArr.length;t++){
+					priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
+				}
+
+				//期限
+				angular.forEach($scope.deadLineStat,function(val,key){
+					deadline.push(val);
+					$scope.deadlineStr.push(key)
+				})
+				for(var m in deadline){
+					deadlineCount += deadline[m]
+				}
+				angular.forEach($scope.deadLineStat,function(val,key){
+					var dataTime = {
+						value:"",
+						name:"",
+						itemStyle:{
+							normal:{
+								color:""
+							}
+						}
+					};
+					dataTime.value= val;
+					if(isEmptyArr(deadline)==0){
+						 //dataTime.name =val.toString()
+						$("#data_graph2").parent().hide();
+					}else{
+						$("#data_graph2").parent().show();
+						 dataTime.name=parseInt((val/deadlineCount)*100)+"%";
+					}
+
+					timeLim.push(dataTime);
+
+				});
+				for(var a = 0;a<timeLim.length;a++){
+					timeLim[a].itemStyle.normal.color= colorStyle1[a]
+				}
+				//标识
+				angular.forEach($scope.makerStat,function(val,key){
+					maker.push(val);
+					$scope.makerStatStr.push(key);
+
+				})
+				for(var i in maker){
+					makerCount += maker[i];
+				}
+				angular.forEach($scope.makerStat,function(val,key){
+					var blank = {
+						value:"",
+						name:"",
+						itemStyle:{
+							normal:{
+								color:""
+							}
+						}
+					};
+					blank.value =val;
+					if(isEmptyArr(maker)==0){
+						//blank.name = val.toString();
+						$("#data_graph3").parent().hide()
+					}else{
+						$("#data_graph3").parent().show()
+						blank.name =parseInt((val/makerCount)*100)+"%";
+					}
+
+					blankId.push(blank);
+				})
+				for(var b = 0;b<blankId.length;b++){
+					blankId[b].itemStyle.normal.color = colorStyle2[b];
+				}
+				//console.info("fhsofweow",blankId)
+				//协作类型
+				//debugger;
+				angular.forEach($scope.typeStat,function(val,key){
+					typeStatNub.push(val);
+					$scope.typeStatStr.push(key)
+				});
+				for(var k in typeStatNub){
+					typeCount += typeStatNub[k]
+				}
+				angular.forEach($scope.typeStat,function(val,key){
+					var coType ={
+						value:"",
+						name:"",
+						itemStyle:{
+							normal:{
+								color:""
+							}
+						}
+					};
+					coType.value = val;
+					if(isEmptyArr(typeStatNub)==0){
+						//coType.name =val.toString();
+						$("#data_graph4").parent().hide()
+					}else{
+						$("#data_graph4").parent().show()
+						coType.name = parseInt((val/typeCount)*100)+"%";
+					}
+					//coType.name = parseInt((val/typeCount)*100)+"%";
+					coTypeObj.push(coType);
+
+				});
+				for(var c= 0;c<coTypeObj.length;c++){
+					coTypeObj[c].itemStyle.normal.color = colorStyle2[c]
+				}
+				//console.info(typeCount)
+				var myChart1 = echarts.init(document.getElementById('data_graph'));
+				//标识统计
+				var option1 = {
+					series: [{
+						name: '优先级',
+						type: 'pie',
+						//饼型图的宽度
+						radius: ['50%', '80%'],
+						//中间文字位置和动画效果
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								position: 'inner'
+							}
+						},
+						tooltip: {
+							trigger: 'item',
+							formatter: "{a} <br/>{b}: {c} ({d}%)"
+						},
+						//labelLine: {
+						//	normal: {
+						//		show: false
+						//	}
+						//},
+						//是否显示线
+						//饼型图的显示比例
+						data: priorityArr
+
+					}]
+				};
+				myChart1.setOption(option1);
+				//	第二部分
+				//图形绘制
+				var myChart2 = echarts.init(document.getElementById('data_graph2'));
+
+				// 指定图表的配置项和数据
+				//			app.title = '环形图';
+
+				var option2 = {
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						//饼型图的宽度
+						radius: ['50%', '80%'],
+						//中间文字位置和动画效果
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								position: 'inner'
+							}
+						},
+						//是否显示线
+						//饼型图的显示比例
+						data:timeLim
+
+					}]
+				};
+
+				// 使用刚指定的配置项和数据显示图表。
+				myChart2.setOption(option2);
+				//图形绘制
+				var myChart3 = echarts.init(document.getElementById('data_graph3'));
+
+				// 指定图表的配置项和数据
+				//			app.title = '环形图';
+
+				var option3 = {
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						//饼型图的宽度
+						radius: ['50%', '80%'],
+						//中间文字位置和动画效果
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								position: 'inner'
+							}
+						},
+						//是否显示线
+						//饼型图的显示比例
+						data:blankId
+
+					}]
+				};
+
+				// 使用刚指定的配置项和数据显示图表。
+				myChart3.setOption(option3);
+
+				//图形绘制
+				var myChart4 = echarts.init(document.getElementById('data_graph4'));
+
+				// 指定图表的配置项和数据
+				//			app.title = '环形图';
+
+				var option4 = {
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						//饼型图的宽度
+						radius: ['50%', '80%'],
+						//中间文字位置和动画效果
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								position: 'inner'
+							}
+						},
+						//是否显示线
+						//饼型图的显示比例
+						data:coTypeObj,
+
+
+
+					}]
+				};
+
+				// 使用刚指定的配置项和数据显示图表。
+				myChart4.setOption(option4);
+
+			})
+		}
+
+		//服务器时间
+		$scope.currentTime= function(){
+			Cooperation.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
+				$scope.serviceTime = data.data;
+			})
+		}
+		$scope.currentTime();
+
+
+		if($stateParams.transignal == 'be') {
+	    	$scope.openNew();
+	    }
+
+
+
+
+
+	}]);

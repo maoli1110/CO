@@ -1,4 +1,4 @@
-<div class="select-person-responsible">
+<div class="select-person-responsible" scroll-directive>
     <div class="modal-header rela">
         <h3 class="modal-title inline">选择负责人</h3>
         <div class="inline close-sbtn" ng-click="cancel()">
@@ -9,14 +9,14 @@
     <div class="modal-body">
         <div class="row left">
             <div class="row">
-                <div class="col-xs-6 select">
+                <div class="col-xs-4 select">
                     <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                 </div>
-                <div class="col-xs-6 search rela">
+                <div class="col-xs-8 search rela">
                     <input type="text" class="form-control" ng-model="queryForm" placeholder="请输入关键字" ng-change="responsibleSearch($event)"><img src="imgs/seache.png" alt="">
                 </div>
             </div>
-            <div class="row person-list">
+            <div class="row person-list" id="content-a9">
                 <li ng-repeat="user in userList">
                     <a class="first-title" ng-click="isCollapsed = !isCollapsed">
                         <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
