@@ -5,6 +5,7 @@
 		<meta name="renderer" content="webkit">
 		<!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<title></title>
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
@@ -36,6 +37,9 @@
 			//console.log(basePath);
 		</script>
 
+		<!-- <base href="<%=basePath %>"> -->
+		<!-- <base href="/bimco/"> -->
+
 		</head>
 		<body>
 		<!-- <header ng-include="'core/header.html'"></header>
@@ -48,7 +52,7 @@
 		</div>
 		</div>
 		</div> -->
-		<div class="content-main" ui-view></div>
+		<div class="content-main" ui-view></div> 
 
 		<!-- vendor -->
 		<script src="./lib/lodash.min.js"></script>
@@ -65,7 +69,6 @@
 		<script src="./lib/jquery.imgbox.pack.js"></script>
 		<script src="./lib/layer/layer.js"></script>
 		<script src="./lib/audio1/jquery.jplayer.js"></script>
-		<%--<script src="./lib/audio1/jquery.jplayerbv.min.js"></script>--%>
 
 		<!--<script src="./lib/audio/js/jquery.jplayer.js"></script>
 		<script src="./lib/audio/js/lrc.js"></script>-->

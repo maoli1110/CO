@@ -52,7 +52,7 @@ body {
     border: 1px solid #C6C6C6;
     height: 589px;
     margin:10px;
-    overflow:hidden;
+    /*overflow:hidden;*/
 }
 /*--------------good_list------------------*/
 .trends .good_list{
@@ -62,12 +62,12 @@ body {
 .trends .good_list dl{
     /*width:32%;*/
     /*height:150px;*/
-    width:260px;
-    height:176px;
-    border:2px solid #DFDFDE;
+    width:258px;
+    height:174px;
+    border:1px solid #DFDFDE;
     float:left;
-    margin-right: 7px;
-    margin-bottom:30px;
+    margin-right: 14px;
+    margin-bottom:24px;
 }
 /*选中的dl 做出来阴影描边效果*/
 /*.trends .good_list dl:hover{*/
@@ -89,7 +89,7 @@ body {
     text-overflow:ellipsis;
     overflow:hidden;
     cursor:pointer;
-    font-size: 15px;
+    font-size: 16px;
     font-weight:normal;
 }
 .trends .good_list dl dt img{
@@ -119,10 +119,11 @@ body {
     overflow:hidden;
     cursor:pointer;
 }
-.trends .good_list dl dd .box img{
-    width: 100px;
-    height: 100px;
-}
+/*===========================================================*/
+/*.trends .good_list dl dd .box img{*/
+    /*width: 100px;*/
+    /*height: 100px;*/
+/*}*/
 .trends .good_list dl dd p{
     line-height: 40px;
 
@@ -144,7 +145,7 @@ body {
     text-overflow:ellipsis;
 }
 .totle_count{
-    font-size:26px;
+    font-size:28px;
     color:#808080;
 }
 /*资料更新*/
@@ -185,7 +186,6 @@ body {
     margin-bottom:10px;
     margin-left:10px;
     margin-right:10px;
-    padding-bottom:10px;
     border-bottom:1px solid #e9ecf4;
 
 }
@@ -220,7 +220,7 @@ body {
     margin-bottom:26px;
     -moz-float:none;
     /*float:Left;*/
-    margin-top:23px;
+    margin-top:16px;
 }
 .trends .pro_list .list li p{
    display:inline-block;
@@ -232,12 +232,12 @@ body {
 
 .trends .pro_list .list li .img_list{
     width:80px;
-    height:80px;
+    /*height:80px;*/
     display:inline-block;
     margin-bottom: 30px;
     text-align: center;
-    margin-right:10px;
-    border:1px solid #bbbcbf;
+    margin-right:20px;
+    /*border:1px solid #bbbcbf;*/
     overflow:hidden;
 
 }
@@ -245,10 +245,13 @@ body {
     width:80px;
     height:80px;
     position:relative;
+    border:1px solid #ddd;
+    overflow:hidden;
 }
 .trends .pro_list .list li .tools_bar>img{
     /*width:54px;*/
     height:65px;
+    margin-left:5px;
 }
 
 .tools_bar{
@@ -323,6 +326,7 @@ body {
     float: right;
     margin-left: 2px;
 }
+
 .prolist_left{
     display:none;
 }

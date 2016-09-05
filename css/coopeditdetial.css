@@ -829,7 +829,7 @@ html,body{
 /*相关人*/
 .mobile-main .mobile-relate{
     padding:20px 0px;
-    /*border-bottom:1px solid #ddd;*/
+    border-bottom:1px solid #ddd;
 }
 .btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info{
     color: #fff;
@@ -876,7 +876,6 @@ html,body{
     text-align:center;
     display:inline-block;
     margin-right:16px;
-    margin-bottom:20px;
 }
 
 .mobile-main  .mobile-relate .mobile-relate-con dl img{
@@ -897,8 +896,8 @@ html,body{
 }
 /*照片*/
 .mobile-main .mobile-photo{
-    padding:0;
-    margin-bottom:15px;
+    padding:20px 0;
+    border-bottom: 1px solid #ddd;
 }
 .mobile-main .mobile-photo .photo-title{
 
@@ -942,15 +941,14 @@ html,body{
 }
 /*移动端资料*/
 .mobile-main .mobile-means{
-    padding:0;
-    margin-bottom:20px;
+    padding: 20px 0px;
+    border-bottom: 1px solid #ddd;
 }
 .mobile-main .mobile-means .means-con dl{
     width:70px;
     display:inline-block;
     margin-right: 11px;
     font-size:16px;
-    margin-bottom:20px;
 }
 .mobile-main .mobile-means .means-con dl dd{
     width:70px;

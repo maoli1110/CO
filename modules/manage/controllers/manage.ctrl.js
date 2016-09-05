@@ -64,19 +64,24 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //    项目统计列表搜索功能
         $scope.getDeptId = function(){
             //console.info(123)
-            if(!deptId){
-                 deptId = 1;
-            }else{
-                 deptId = deptId;
-            }
+            //if(!deptId){
+            //     deptId = 1;
+            //}else{
+            //     deptId = deptId;
+            //}
+
             var searchBox = $("#exampleInputName2").val();
-            //console.info(searchBox)
-            var params = {deptId:deptId,searchText:searchBox};
-            var obj = JSON.stringify(params);
-            Manage.getProjectTrends(obj).then(function(data){
-                //console.info("我是项目统计搜索列表信息",data)
-                $scope.trentsCount = data.data;
-            });
+            if(searchBox.length>0){
+                //console.info(searchBox)
+                var params = {deptId:deptId,searchText:searchBox};
+                var obj = JSON.stringify(params);
+                Manage.getProjectTrends(obj).then(function(data){
+                    //console.info("我是项目统计搜索列表信息",data)
+                    $scope.trentsCount = data.data;
+                });
+            }
+
+
         }
         //图片预览效果
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
@@ -153,11 +158,17 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             })
 
             // 动态列表图片定位动画
-            $(".img_list").hover(function(){
-               $(this).children().find(".bar").stop().animate({"bottom":"0"})
-            },function(){
-                $(this).children().find(".bar").stop().animate({"bottom":"-28px"})
-            })
+            //$(".tools_bar").hover(function(){
+            //   $(this).find(".bar").stop().animate({"bottom":"0"})
+            //},function(){
+            //    $(this).find(".bar").stop().animate({"bottom":"-28px"})
+            //})
+            //$(".tools_bar").hover(function(){
+            //   //alert(1313)
+            //    $(this).find(".bar").stop().animate({"bottom":"0"})
+            //},function(){
+            //    $(this).find(".bar").stop().animate({"bottom":"-28px"})
+            //})
         //    下载弹出遮罩层和下载进度
             $(".pro-down").click(function(){
                 $(".tools_bar>.pro_mask").animate({top:0});
@@ -180,7 +191,17 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".prolist_left").show();
             Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:id,searchKey:"",searchType:""}).then(function(data){
                 $scope.trentsListInfo = data.data;
-                //console.info("详情列表",$scope.trentsListInfo)
+                console.info("详情列表",$scope.trentsListInfo)
+                var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+                angular.forEach(data.data, function (value, key) {
+                    angular.forEach(value.docs, function (value1, key1) {
+                        if(typeArr.indexOf(value1.fileType) == -1) {
+                            $scope.trentsListInfo[key].docs[key1].fileType = 'other';
+                            console.log( $scope.trentsListInfo[key].docs[key1].fileType );
+                        }
+                    });
+                });
+
             });
             //searchId
            //console.info("跳转页面的id",id)
@@ -222,8 +243,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 Manage.getProjectTrends(obj).then(function(data){
                     //console.info("我是项目统计搜索列表信息",data)
                     $scope.trentsCount = data.data;
+                    //console.info(' $scope.trentsCount', $scope.trentsCount)
                 });
-                //console.info("鲁班软件222")
             }
         }
 
@@ -244,7 +265,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
                     $scope.trentsListInfo = data.data;
                     //console.info($scope.docType)
-                    //console.info("我是搜索列表", $scope.trentsListInfo )
+                    //debugger
+                    console.info("我是搜索列表", $scope.trentsListInfo )
+
                 });
 
             }
@@ -266,33 +289,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 searchType: ""
             }).then(function (data) {
                 $scope.trentsListInfo = data.data;
-                //console.info("侧边栏的动态列表", $scope.trentsListInfo);
-            //    angular.forEach($scope.trentsListInfo, function(value, key) {
-            //        //如果存在后缀名
-            //        // debugger;
-            //        angular.forEach(value.docs,function(value1, key1){
-            //            console.log(value);
-            //            if(value1.docName.indexOf('.') !== -1) {
-            //                var unit = value1.docName.split('.')[value1.docName.split('.').length - 1];
-            //                $scope.trentsListInfo[key].docs[key1].suffix = unit;
-            //            }
-            //        });
-            //        //if(value.name.indexOf('.') !== -1){
-            //        //    var unit = value.name.split('.')[value.name.split('.').length - 1];
-            //        //    //1.获取后缀 把后缀你push到数组
-            //        //    $scope.collaList.docs[key].suffix = unit;
-            //        //    console.log($scope.collaList.docs);
-            //        //}
-            //        console.info("侧边栏的动态列表2222222222", $scope.trentsListInfo);
-            //});
-
-
-
-
             });
-
             $scope.id = id;
-
             //$("span.ng-binding").removeClass("active");
             //获取所有span下面的class名为ng-binding并且移除所有active;
             $("span[class*=ng-binding]").removeClass("menusActive");
@@ -300,7 +298,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $($event.target).children("span").hide()
             $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
             $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
-        } 
+        }
 
 
     $scope.getProjectList = function (index) {
@@ -332,7 +330,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             //     }
 
             // });
-
             Manage.getTrendsFileViewUrl(data).then(function (result) {
                 $scope.previewimg = result;
                 layer.open({
@@ -356,18 +353,26 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $scope.listBack = function(){
             $(".good_list").show();
             $(".pro_list").hide();
+            //location.reload()
             $(".goodlist_left").show();
             $(".prolist_left").hide();
         }
+
 //更新资料和选中模块加阴影效果
         $scope.$on('shadowFinsh', function (ngRepeatFinishedEvent) {
             //$($event.target).find(".updateNub").text("1111");
-            $(".good_list dl").click(function(){
-                $(this).find(".updateNub").text("0")
-                $(this).addClass("dlActive").siblings().removeClass("dlActive")
-            })
-
+            $scope.updataBook = function(adds){
+                adds = adds;
+                if(adds>0){
+                    adds--
+                }
+                $(".good_list dl").click(function(){
+                    $(this).find(".updateNub").text(adds);
+                    $(this).addClass("dlActive").siblings().removeClass("dlActive")
+                })
+            }
         })
+
         //系统时间
        //$scope.currentDate =  Manage.getCurrentDate();
 //        服务器时间

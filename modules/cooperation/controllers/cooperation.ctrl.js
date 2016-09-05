@@ -181,6 +181,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				$scope.arrString.push(key);
 
 			})
+			console.info('$scope.arrString',$scope.arrString)
 
 			for(var n in arr){
 				arrCount += arr[n];

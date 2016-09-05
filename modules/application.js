@@ -13,7 +13,7 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
     })
     .config(['$locationProvider',
         function($locationProvider) {
-            $locationProvider.hashPrefix('!');
+            $locationProvider.hashPrefix('');
         }
     ])
     .config(['$httpProvider',
@@ -34,8 +34,9 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
                         responseError: function(rejection) {
                             switch (rejection.status) {
                                 // 401 Unauthorized: jump to login page
-                                case 401:
-                                    location.pathname = membersysConfig.loginPage;
+                                case 404:
+                                debugger
+                                    location.pathname = 'http://baidu.com';
                                     break;
                                     // other Error
                                 default:
@@ -57,6 +58,6 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
     ]);
 
 angular.element(document).ready(function() {
-    if (window.location.hash === '#_=_') window.location.hash = '#!';
+    // if (window.location.hash === '#_=_') window.location.hash = '#!';
     angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });

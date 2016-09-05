@@ -1,6 +1,6 @@
 <header ng-include="'template/core/header.html'"></header>
 
-<div class="main-container rela" scroll-directive >
+<div class="main-container rela" scroll-directive>
     <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
@@ -48,12 +48,12 @@
                                 <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
                                 </dt>
                                 <dd>
-                                    <div class="box" ng-click = "turnPage(trentsLiInfo.ppid)">
+                                    <div class="box" ng-click = "turnPage(trentsLiInfo.ppid)" style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:cover">
                                         <!--<img src="imgs/img_build.png">-->
-                                        <img ng-src="{{trentsLiInfo.projectPicture}}" alt="">
+                                        <!--<img ng-src="{{trentsLiInfo.projectPicture}}" alt="">-->
                                     </div>
                                     <div class=" data_update">
-                                        <p class="updata_info">资料更新</p>
+                                        <p class="updata_info" ng-click="updataBook(trentsLiInfo.adds)">资料更新</p>
                                         <p class="totle_count"><b class="updateNub">{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
                                     </div>
                                 </dd>
@@ -87,27 +87,29 @@
                                 <!--<button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>-->
                             <!--</div>-->
                         </div>
-                        <div class="pro_list clearfix" light-height id="content-a4" style="height:800px;overflow:auto;" >
-                            <ul class="list">
+                        <div class="pro_list clearfix" light-height id="content-a4" style="height:800px;overflow:auto;" copy-radio>
+                            <ul class="list" >
                                 <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
-                                <li ng-repeat="getTrents in trentsListInfo track by $index" profit>
+                                <li ng-repeat="getTrents in trentsListInfo track by $index" >
                                     <!--icon_img-->
                                     <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
-                                    <p  ><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了 <i ng-repeat="trentsType in getTrents.docs" class="menName">&nbsp;&nbsp;{{trentsType.docName}}</i>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b></p>
+                                    <p><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了资料<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs" >
                                             <div class="tools_bar" >
                                                 <!--文件类型-->
-                                                <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='txt'">
-                                                <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='doc'">
-                                                <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pdf'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
-                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='ppt'">
-                                                <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='docx'">
-                                                <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xlsx'">
-                                                <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pptx'">
+                                                <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
+                                                <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
+                                                <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
+                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='ppt'||itmes.fileType=='PPT'">
+                                                <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
+                                                <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
+                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='XLS'" >
+                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='JPEG'" >
+                                                <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pptx'||items.fileType=='PPTX'">
                                                 <!--图片类型-->
                                                 <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='jpeg'">
-                                                <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='bmp'">
+                                                <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='bmp'||items.fileType=='BMP'">
                                                 <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='PNG'">
                                                 <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='GIF'">
                                                 <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='JPG'">
@@ -133,19 +135,19 @@
 
 
                                                 <!--显示其他页面-->
-                                                <img src="imgs/pro-icon/icon-xz.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'
-                                                ||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar'">
+                                                <img src="imgs/pro-icon/icon-other.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'
+                                                ||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar' || items.fileType=='sql'||items.fileType=='kmz'||items.fileType=='stz'||items.fileType=='ndg'">
                                                 <!--<img src="imgs/docType.png" alt="" >-->
                                                 <em></em>
                                                 <div class="bar" >
                                                     <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
-                                                    <a ng-href="{{items.downlodUrl}}"><img src="imgs/icon_down.png"/></a>
+                                                    <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123"><img src="imgs/icon_down.png"/></a>
                                                     <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
                                                     <em></em>
                                                 </div>
-                                                <div class="pro_mask"></div>
+                                                <!--<div class="pro_mask"></div>-->
                                             </div>
-
+                                            <i  class="substr margin20" title="{{items.docName}}" style="text-align:left;" >&nbsp;&nbsp;{{items.docName}}</i>
                                         </div>
                                     </div>
                                 </li>
@@ -154,7 +156,42 @@
                                     <!--<h5>上次浏览时间：2016.8.8</h5>-->
                                     <!--<div class="pro_line"></div>-->
                                 <!--</div>-->
+                                <!--<li>-->
+                                    <!--&lt;!&ndash;icon_img&ndash;&gt;-->
+                                    <!--<div class="icon_img"><img src="img/icon_img.png"></div>-->
+                                    <!--&lt;!&ndash;工程师资料&ndash;&gt;-->
+                                    <!--<p>胡彪 上传了资料<span>2015-06-03 13:16</span></p>-->
+                                    <!--<div class="bx-controls">-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar">-->
+                                                <!--<img src="img/img002.png" style="" />-->
+                                                <!--<div class="bar" style="background:#ddd;">-->
+                                                    <!--<img src="img/iocn_search.png" />-->
+                                                    <!--<img src="img/icon_down.png" />-->
+                                                    <!--<img src="img/icon_add.png" />-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
+                                            <!--<span>变更图纸</span>-->
+                                        <!--</div>-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="img/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="img/iocn_search.png" />-->
+                                                <!--<img src="img/icon_down.png" />-->
+                                                <!--<img src="img/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="img_list actives">-->
+                                            <!--<div class="tools_bar"><img src="img/img002.png" style="" /></div>-->
+                                            <!--<div class="bar">-->
+                                                <!--<img src="img/iocn_search.png" />-->
+                                                <!--<img src="img/icon_down.png" />-->
+                                                <!--<img src="img/icon_add.png" />-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
 
                             </ul>
                         </div>

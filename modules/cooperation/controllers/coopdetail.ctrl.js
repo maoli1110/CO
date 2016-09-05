@@ -25,9 +25,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
 			$scope.device = true;
 		}
-		
-
-		
 		//根据ui-sref路由拿到对应的coid
 	   	var coid = $stateParams.coid;
 	   	var ppid = 0;
@@ -70,52 +67,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.collaList.deadline = '不限期';
 			}
 
-			$(document).ready(function() {
-				var flashHtml = '';
-				if($scope.device) {
-					// flashHtml = 'html,flash'; 
-					flashHtml = 'html,flash'; 
-				} else {
-					flashHtml = 'flash,html'; 
-				}
-
-				var id = "#jquery_jplayer_1";
-
-				var bubble = {
-					title:"Bubble",
-					// mp3:$('.speach-url').val()
-					mp3:'./lib/audio/yangcong.mp3'
-				};
-
-				var options = {
-					solution: flashHtml,
-					swfPath: "./lib/audio1",
-					supplied: "mp3",
-					wmode: "window",
-					useStateClassSkin: true,
-					autoBlur: false,
-					smoothPlayBar: true,
-					keyEnabled: true,
-					remainingDuration: true,
-					toggleDuration: true
-				};
-
-				var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
-
-			});
-
-			$scope.play = function(){
-				$('.jp-play').click();
-				$(".detail-voice").css('display','block');
-				$(".detail-close").css("display",'block');
-			}
-
-			//play-audio(播放声音的显示播放窗口事件)
-			$scope.audioClose = function () {
-				$('.jp-play').click();
-				$(".detail-voice").hide();
-				$(".detail-close").hide();
-			}
 
 			console.log('$scope.collaList.docs.length',$scope.collaList.docs.length);
 
@@ -226,6 +177,55 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			signature = data.uuid;
 		});
 
+
+			$(document).ready(function() {
+				var flashHtml = '';
+				if($scope.device) {
+					// flashHtml = 'html,flash'; 
+					flashHtml = 'html,flash'; 
+				} else {
+					flashHtml = 'flash,html'; 
+				}
+
+				var id = "#jquery_jplayer_1";
+
+				var bubble = {
+					title:"Bubble",
+					mp3:$('.speach-url').val()
+					// mp3:'./lib/audio/yangcong.mp3'
+					// mp3:'http://172.16.21.174:8080/pdsdoc/downloadSystemFile/51cb87768a263ff3324922b0c78052f47a1b1f8315777a9fa3cab1bc17a5825fc94768e5ae3322ad6308ae53893af613375b6159379ca975a52b935118732777a22e659a0be24e9d67c8525d81cc0df342a1a62aeaeb7b702ddf8a6d8d5d406e9f705c738d47b78c3f899609c034380e4e988b5ad09a589b7f8febf48b1e5849/4802df83744d5567e1e5c65889aa94d84789c2f9f77941f3bc7fb01857c994b904e57c0f5e7b1519ca2ecc665832b62d9f427a68dfc6016ecbd228c21d90f7f8b1261a071a3380d0fd4dd6cf95ac2b72a0bdb3a2753e77c7f9a97097ccd0d4223b5acb88aaf8121087c74adc19eef24e72033ebd7b84b79861038ce6a8a12ea9?fileType=mp3'
+				};
+
+				var options = {
+					solution: flashHtml,
+					swfPath: "./lib/audio1",
+					supplied: "mp3",
+					wmode: "window",
+					useStateClassSkin: true,
+					autoBlur: false,
+					smoothPlayBar: true,
+					keyEnabled: true,
+					remainingDuration: true,
+					toggleDuration: true
+				};
+
+				var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
+
+			});
+
+			$scope.play = function(){
+				//debugger
+				$('.jp-play').click();
+				$(".detail-voice").css('display','block');
+				$(".detail-close").css("display",'block');
+			}
+
+			//play-audio(播放声音的显示播放窗口事件)
+			$scope.audioClose = function () {
+				$('.jp-play').click();
+				$(".detail-voice").hide();
+				$(".detail-close").hide();
+			}
 
 	   	//编辑协作跳转
 	   	 $scope.allowEditTrans = function () {
@@ -366,7 +366,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$(this).find(".detail-search").stop().animate({"bottom":"-1px"})
 			},function(){
 				$(this).find(".detail-search").stop().animate({"bottom":"-38px"})
-			})
+			});
+
 		////	手机端照片搜索按钮的显示
 		//	$(".means-down").click(function(){
 		//		console.info(123)
@@ -404,7 +405,10 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             currentEditOfficeUuid = uuid;
             currentSuffix = 'doc';
             //console.log(currentEditOfficeUuid, currentSuffix,currentReact);
-			BimCo.CommentSign(currentEditOfficeUuid,currentSuffix,currentReact);
+			var pdfSign = BimCo.CommentSign(currentEditOfficeUuid,currentSuffix,currentReact);
+			if(!pdfSign) {
+				alert('下载文件失败！');
+			}
 
     	}
 
@@ -423,8 +427,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    //提交
 	    $scope.signSubmit = function () {
 	    	var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
+	    	var isSignSubmit;
 	    	if(r){
-	    		BimCo.SignSubmit();
+	    		 isSignSubmit = BimCo.SignSubmit();
+	    	}
+	    	if(!isSignSubmit) {
+	    		alert('提交电子签名失败！');
+	    	} else {
+	    		alert('提交电子签名成功！');
 	    	}
 	    }
 

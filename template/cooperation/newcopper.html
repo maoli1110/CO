@@ -152,43 +152,43 @@ header{
 			<div class="row docs upload" style="margin-top:10px;">
 				<label for="" class="col-xs-1">资料：</label>
 				<div class="col-xs-11 look-book">
-					<ul ng-repeat="items in docSelectedList" class="select-docs rela read-book" style="border:0;vertical-align:top" >
+					<ul ng-repeat="items in docSelectedList track by $index" class="select-docs rela read-book" style="border:0;vertical-align:top">
 						<!--文件类型-->
-						<li style="border:1px solid #ddd;"><img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='txt'">
-	                    <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='doc'">
-	                    <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='pdf'"> 
-	                    <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='xls'">
-	                    <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='ppt'">
-	                    <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='docx'">
-	                    <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='xlsx'">
-	                    <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='pptx'">
+						<li style="border:1px solid #ddd;"><img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='txt'">
+	                    <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='doc'">
+	                    <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='pdf'"> 
+	                    <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='xls'">
+	                    <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='ppt'">
+	                    <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='docx'">
+	                    <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='xlsx'">
+	                    <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='pptx'">
 	                    <!--图片类型-->
-	                    <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='jpeg'">
-	                    <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='bmp'">
-	                    <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='PNG'">
-	                    <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='GIF'">
-	                    <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='JPG'">
-	                    <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='png'">
-	                    <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='jpg'">
-	                    <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='gif'">
+	                    <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='jpeg'">
+	                    <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='bmp'">
+	                    <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='PNG'">
+	                    <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='GIF'">
+	                    <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='JPG'">
+	                    <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='png'">
+	                    <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='jpg'">
+	                    <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='gif'">
 
-	                    <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='dwg'">
-	                    <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='rar'">
-	                    <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='zip'">
+	                    <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='dwg'">
+	                    <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='rar'">
+	                    <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='zip'">
 
 	                    <!--视频-->
-	                    <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='avi'">
-	                    <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='mp4'">
-	                    <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='mov'">
-	                    <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='flv'">
-	                    <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='swf'">
-	                    <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='wmv'">
-	                    <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='mpeg'">
-	                    <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='mpg'">
+	                    <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='avi'">
+	                    <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='mp4'">
+	                    <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='mov'">
+	                    <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='flv'">
+	                    <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='swf'">
+	                    <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='wmv'">
+	                    <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='mpeg'">
+	                    <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='mpg'">
 	                    <!--音频-->
-	                    <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='mp3'">
+	                    <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='mp3'">
 	                    <!--显示其他页面-->
-	                    <img src="imgs/pro-icon/icon-xz.png" class="bookSection" ng-click="preView(items.uuid,items.docName,item.fileType)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'
+	                    <img src="imgs/pro-icon/icon-xz.png" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'
 	                    ||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar'">
 
 							<!-- 根据filetype判断文件类型end -->
@@ -197,7 +197,7 @@ header{
 						<p title="{{items.docName}}" class="substr" style="width:100px;">{{items.docName}}</p>
 					</ul>
 					<ul ng-repeat="items in formSelectedList" class="select-form rela read-book" style="border:0;vertical-align:top">
-						<li style="border:1px solid #ddd;"><img src="imgs/pro-icon/icon-doc.png" alt="" ng-click="preView(items.uuid,items.name,item.suffix)">
+						<li style="border:1px solid #ddd;"><img src="imgs/pro-icon/icon-doc.png" alt="" ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">
 						<span class="absol glyphicon glyphicon-remove" ng-click="removeForm(items)"></span>
 						</li>
 						<!-- <input type="checkbox" class="absol" ng-checked="isSelected" ng-click="updateSelection($event,items)"> -->
@@ -238,8 +238,8 @@ header{
 			<iframe src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
 		</div>
 		<!-- 编辑部分 -->
-		<div class="doc-edit">
-			<div ng-show="isEdit" id="edit-office" style="min-height:300px">editOffice</div>
+		<div class="doc-edit" ng-show="isEdit">
+			<div id="edit-office" style="min-height:300px">editOffice</div>
 			<div class="text-center footer">
 				<button class="btn btn-default foot-btn" type="button" ng-click="saveOffice()">保存</button>
 				<button class="btn btn-default foot-btn" type="button" ng-click="cancelEditOffice()">取消</button>

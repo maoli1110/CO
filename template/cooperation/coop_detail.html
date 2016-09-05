@@ -33,7 +33,6 @@
     height: 10px;
     border-radius: 10px;
     top: 32px;
-
 }
 img{
     vertical-align:0;
@@ -60,7 +59,7 @@ img{
             <div class="jp-type-single">
                 <div class="jp-gui jp-interface">
                     <div class="jp-controls">
-                        <button class="jp-play" role="button" tabindex="0">play</button>
+                        <button class="jp-play" role="button" tabindex="0"></button>
                         <!--<img src="imgs/play-paly.png" alt="" class="jp-play" role="button" tabindex="0">-->
                         <!--<button class="jp-stop" role="button" tabindex="0">stop</button> -->
                     </div>
@@ -105,13 +104,13 @@ img{
         <!-- 编辑部分 -->
         <div class="doc-edit btn-fix">
             <div class="text-center">
-                <button class="btn btn-default" ng-click="signComment()">签署意见</button>
-                <button class="btn btn-default" ng-click="signElectron()">电子签名</button>
+                <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
+                <button class="btn btn-default foot-btn" ng-click="signElectron()">电子签名</button>
             </div>
-             <div ng-show="isEdit">pdfSign</div><div class="text-center">
-                <button class="btn btn-default" ng-click="signSubmit()">提交</button>
-                <button class="btn btn-default" ng-click="signCancel()">取消</button>
-                <button class="btn btn-default" ng-click="signEmpty()">清空</button>
+             <div ng-show="isEdit" class="text-center footer">
+                <button class="btn btn-default foot-btn" ng-click="signSubmit()">提交</button>
+                <button class="btn btn-default foot-btn" ng-click="signCancel()">取消</button>
+                <button class="btn btn-default foot-btn" ng-click="signEmpty()">清空</button>
             </div>
         </div>
     </div>
@@ -139,7 +138,7 @@ img{
     function bvcoEditDetail() {
         var coid = $('.trancoid').val();
         // document.location = 'http://192.168.13.222:8080/bimco/#!/editdetail/?coid='+ coid;
-        document.location = '#!/editdetail/?coid='+ coid;
+        document.location = '#/editdetail/?coid='+ coid;
     }
 
     function changeDocsStatus (id) {

@@ -11,6 +11,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			data: {
 				displayName: 'login'
 			}
-		});
+		}); 
 	}
 ]);

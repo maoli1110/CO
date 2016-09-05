@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('core').config(['$stateProvider', '$urlRouterProvider',
-	function($stateProvider, $urlRouterProvider) {
+angular.module('core').config(['$stateProvider', '$urlRouterProvider','$locationProvider',
+	function($stateProvider, $urlRouterProvider,$locationProvider) {
+		
 		$urlRouterProvider.otherwise('/cooperation');
 
 		$stateProvider.
@@ -48,5 +49,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		// 		displayName: 'all'
 		// 	}
 		// });
+
+		//$locationProvider.html5Mode(true);
+
 	}
 ]);

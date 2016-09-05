@@ -12,14 +12,13 @@
             <p class=""><span  class="F14 oSpan">状态：</span><span class="F14">{{collaList.status}}</span></p>
             <p ><span class="F14 oSpan">限期：</span><span  class="F14" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</span></p>
             <p class=""><span class="F14 oSpan">标识：</span><span class="substr F14" style=" display:inline-block;position: absolute;max-width: 104px;"><i class="chara" style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></p>
-        <div style="text-align:center;margin:20px 0">
+            <div style="text-align:center;margin:20px 0">
             <!---->
-                <button class="DIY-btn paly-model F14" ng-show="link" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
-                <!-- <button type="button " class="play-audio DIY-btn F14" ng-show="speachShow" ng-click="play()"><img src="imgs/play.png">播放录音</button> -->
-                <!-- <button type="button " class="play-audio DIY-btn F14" ng-click="play()"><img src="imgs/play.png">播放录音</button> -->
-                <!--<div class="col-xs-6 mb-10" style="padding:0">-->
-                <button type="button " class="play-audio DIY-btn" ng-show="speachShow" ng-click="play()">播放录音</button>
-                <!--</div>-->
+               <!--  <button class="DIY-btn paly-model F14"  ng-show="link" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
+                <button type="button " class="play-audio DIY-btn F14" ng-show="speachShow" ng-click="play()"><img src="imgs/play.png">播放录音</button> -->
+
+                <button class="DIY-btn paly-model F14" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
+                <button type="button " class="play-audio DIY-btn F14" ng-click="play()"><img src="imgs/play.png">播放录音</button>
             </div>
         </div>
 

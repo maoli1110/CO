@@ -37,7 +37,12 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(".table-list").show();
             })
                     //动态列表图片定位动画
-
+            $(".list").on("mouseenter",".tools_bar",function(){
+            	$(this).children(".bar").animate({"bottom":'0'})
+            });
+            $(".list").on("mouseleave",".tools_bar",function(){
+                $(this).children(".bar").animate({"bottom":'-28px'})
+            });
 		}
 	};
 });

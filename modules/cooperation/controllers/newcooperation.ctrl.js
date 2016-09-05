@@ -543,18 +543,25 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 	}
     // var currentEditOfficeUuid = '8C08CC5F55F74A9CB04261750BC60EF6';
+    var currentDocSource = '';
+    var currentDocIndex = 0;
     var currentEditOfficeUuid = '';
     var currentSuffix = '';
     var currentDocname = '';
     var currentReact = '0,60,1200,720';
     var newUuid = '';
     var handle = '';
-	$scope.preView = function (uuid,docName,fileType) {
-			// if(fileType == 'doc') {
-			// 	$scope.isDoc = true;
-			// }
+	$scope.preView = function (uuid,docName,fileType,index,docSource) {
 
-            $scope.isDoc = true;
+			//可编辑表单当前index & uuid
+			currentDocSource = docSource;
+			currentDocIndex = index;
+
+			if(fileType == 'doc' || fileType == 'docx') {
+				$scope.isDoc = true;
+			}
+
+            //$scope.isDoc = true;
             $scope.isEdit = false;
             currentEditOfficeUuid = uuid;
             currentSuffix = docName.split('.')[docName.split('.').length -1];
@@ -600,13 +607,38 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.editOffice = function () {
         $scope.isEdit = true;
        	console.log('currentReact',currentReact);
-        var handle = BimCo.EditOffice(currentEditOfficeUuid,currentSuffix,currentReact);
+        var editResult = BimCo.EditOffice(currentEditOfficeUuid,currentSuffix,currentReact);
+        //编辑失败返回预览界面
+        if(!editResult){
+        	alert('下载文档失败');
+        	$scope.isEdit = false;
+        	$scope.isPreview = true;
+        }
+
     }
 
     $scope.saveOffice = function () {
         $scope.isPreview =false;
         //获取新的uuid
-        newUuid =  BimCo.SaveOffice(currentEditOfficeUuid,currentSuffix,currentDocname);
+        //newUuid =  BimCo.SaveOffice(currentEditOfficeUuid,currentSuffix,currentDocname);
+        newUuid =  'maolili'
+        //判断pc时候保存成功，success -> newUuid,false -> ''
+
+        if(!newUuid){
+        	alert('编辑文件保存失败');
+        	$scope.isEdit = false;
+        	$scope.isPreview = true;
+        } else {
+        	alert('编辑文件保存成功');
+        	//返回协作创建页面
+        	$scope.isPreview = false;
+        	if(currentDocSource == 'docSelectedList') {
+        		$scope.docSelectedList[currentDocIndex].uuid = newUuid;
+        	} else if (currentDocSource == 'formSelectedList') {
+        		$scope.formSelectedList[currentDocIndex].uuid = newUuid;
+        	}
+
+        }
 
     }
     $scope.cancelEditOffice = function () {

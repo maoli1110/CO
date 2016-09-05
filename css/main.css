@@ -464,6 +464,7 @@ padding: 5px 25px;
     margin-top: 4px;
 }
  .system-time{
+     font-size:16px;
     width: 250px;
     line-height: 59px;
     color: #b7ecc5;
@@ -523,12 +524,12 @@ padding: 5px 25px;
 .navbar .navbar-nav li img{
     width:26px;
     height:26px;
-    margin-top:5px;
+    margin-top:6px;
 }
 .navbar-default .navbar-nav>li>a {
-    font-size:12px;
+    font-size:14px;
     color: #fff;
-    padding:8px;
+    padding:6px;
 }
 .navbar-default .navbar-nav>li>a:hover{
     color:#fff;
@@ -539,7 +540,7 @@ padding: 5px 25px;
 }
 /*工具栏标签（关闭，放大，缩小）*/
 .label_tools{
-    width:88px;
+    width:97px;
     float:right;
     line-height:61px;
 }
@@ -547,6 +548,16 @@ padding: 5px 25px;
     width:15px;
     height:12px;
     margin-right:14px;
+}
+.change-window{
+    display: inline-block;
+    width: 25px;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 5px;
+}
+.change-window:hover{
+    background: #499d5f;
 }
 .label_tools img:nth-child(1){
 
@@ -557,6 +568,7 @@ padding: 5px 25px;
 }
 .label_tools img:nth-child(3){
     margin-right:0;
+    background:#499d5f;
 }
 /*manage*/
 .main-container {
@@ -581,6 +593,7 @@ padding: 5px 25px;
 }
 .operation .left .btn, .operation .left input {
     border-radius: 0;
+    margin-top:1px;
 }
 .operation .right {
     float: right;
@@ -1554,7 +1567,7 @@ textarea{
     overflow:hidden;
     white-space: nowrap;
     text-overflow:ellipsis;
-    font-size:13px;
+    font-size:12px;
     padding-top:20px;
 }
 .manage_proList span >img{
@@ -1605,11 +1618,17 @@ textarea{
     margin:0 -4px;
 }
 .menName{
-    display:inline;
+    display:inline-block;
     float:none !important;
     margin-top:0;
+    font-size:12px;
 }
-
+.margin20{
+    margin-top:15px;
+    width:80px;
+    display:inline-block;
+    font-size:12px;
+}
 .operation .left{
     line-height:48px;
     font-size:14px;
