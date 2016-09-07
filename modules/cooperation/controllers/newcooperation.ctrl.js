@@ -29,7 +29,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		}
     	});
     	modalInstance.result.then(function (selectedItem) {
-    		$scope.responsiblePerson = selectedItem;
+
+			$scope.responsiblePerson = selectedItem;
     	});
     }
     //选择相关人
@@ -70,6 +71,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		});
     	});
     }
+		if(!$scope.responsiblePerson){
+			$scope.responsiblePerson='创建人';
+		}
 
  //    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
  //    	debugger;
@@ -111,9 +115,12 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     	});
     	modalInstance.result.then(function (dataList) {
     		//关联工程页面显示的值
-    		console.log(dataList);
+    		console.log('datalist33333333333',dataList);
     		$scope.data.linkProjectName = dataList.linkProjectSelected.name;
     		$scope.data.linkProjectDptName = dataList.parentNode.name;
+			if($scope.data.linkProjectDptName ){
+				$(".new-del").show();
+			}
     		//传给服务器的两个值
     		$scope.data.assembleLps = dataList.assembleLps;
     		$scope.data.ppid = dataList.assembleLps[0].ppid;
@@ -146,6 +153,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		$scope.data.assembleLps = dataList.assembleLps;
     		$scope.data.deptId = dataList.parentNode.value;
     		$scope.data.ppid = dataList.assembleLps[0].ppid;
+			if($scope.data.linkProjectDptName ){
+				$(".new-del").show();
+			}
     		//console.log('$scope.data.ppid-----',$scope.data.ppid);
     		//console.log(deptId);
     		// if(deptId){
@@ -176,6 +186,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		$scope.data.deptId = dataList.parentNode.value;
     		$scope.data.ppid = dataList.assembleLps.ppid;
     		console.log(deptId);
+			if($scope.data.linkProjectDptName ){
+				$(".new-del").show();
+			}
     		if(dataList.selectedCategory.length){
     			$scope.linkOpenSignal = false;
     			$scope.linkProject1 = false;
@@ -184,20 +197,28 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		}
     	});
     }
+		//判断新建关联工程为空删除按钮禁用
+		if($scope.data.linkProjectName){
+
+		}
+
     //删除关联
     $scope.removeLink = function () {
-    	var mes = confirm("您已近关联工程，是否重新关联？");
-    	if(mes) {
-			$scope.linkOpenSignal = true;
-			$scope.linkProject1 = false;
-			$scope.linkComponent1 = false;
-			$scope.linkCategoty1 =false;
-			$scope.data = {};
-			$scope.data.bindType = 0;
-    	}
-    	
+		if($scope.data.linkProjectName) {
+			var mes = confirm("您已关联工程，是否重新关联？");
+			if(mes) {
+				$scope.linkOpenSignal = true;
+				$scope.linkProject1 = false;
+				$scope.linkComponent1 = false;
+				$scope.linkCategoty1 =false;
+				$scope.data = {};
+				$scope.data.bindType = 0;
+			}
+		}
+
+
     }
-   
+
 	$scope.docSelectedList =[];
 	$scope.formSelectedList = [];
 	//引用BE资料
@@ -329,13 +350,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
         unit.md5 = response[0].result.fileMd5;
         unit.size = response[0].result.fileSize;
         unit.uuid = response[0].result.uuid;
+		unit.sourceType = 3;
         uploadList.push(unit);
         console.log(uploadList);
 	};
 
 	//全部成功的回调函数
 	uploader1.onCompleteAll = function() {
-        onCompleteAllSignal = true;
+        //onCompleteAllSignal = true;
         data.comment.docs = uploadList;
         if(uploader1.progress == 100) {
         	//debugger
@@ -373,10 +395,15 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	$scope.dynamicPopover = {
 		templateUrl: 'template/cooperation/mypopovertemplate.html'
 	}
+	//	监听新建文本框的状态
+	$scope.changeTopic = function(){
+		$scope.topic = $(".new-name").val();
+	}
 	//协作保存
 	$scope.save = function (status) {
 
 		//上传图片和资料
+		//主题不能为空
 		//1.上传图片
 		//2.上传资料
 		//3.整合数据
@@ -385,7 +412,11 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		var uploadDocList = [];
 		var onCompleteAllSignal = false;
 		//图片上传&资料上传都存在
-		if(uploader.queue.length && uploader1.queue.length) {
+		//$scope.topic = $(".new-name").attr('value',"xiasofjowe")
+
+
+
+		if( $scope.topic && uploader.queue.length && uploader1.queue.length) {
    			var uploadResult = uploader.uploadAll();
    		
 	   		//每个上传成功之后的回调函数
@@ -413,6 +444,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			            unit.md5 = response[0].result.fileMd5;
 			            unit.size = response[0].result.fileSize;
 			            unit.uuid = response[0].result.uuid;
+						unit.sourceType = 3;
 			            uploadDocList.push(unit);
 			            console.log('uploadDocList',uploadDocList);
 				};
@@ -426,7 +458,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 	    }
 
-	    if(uploader.queue.length && !uploader1.queue.length) {
+	    if( uploader.queue.length && !uploader1.queue.length) {
    			var uploadResult = uploader.uploadAll();
    		
 	   		//每个上传成功之后的回调函数
@@ -447,7 +479,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 	    }
 
-	     if(!uploader.queue.length && uploader1.queue.length) {
+	     if( !uploader.queue.length && uploader1.queue.length) {
    			var uploadResult = uploader1.uploadAll();
    		
 	   		//每个上传成功之后的回调函数
@@ -458,6 +490,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		            unit.md5 = response[0].result.fileMd5;
 		            unit.size = response[0].result.fileSize;
 		            unit.uuid = response[0].result.uuid;
+					unit.sourceType = 3;
 		            uploadDocList.push(unit);
 			};
 			//全部成功的回调函数
@@ -468,12 +501,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 	    }
 
-	    if(!uploader.queue.length && !uploader1.queue.length) {
+	    if( !uploader.queue.length && !uploader1.queue.length) {
    			saveCooperation();
 	    }
 
         function saveCooperation () {
         	if($scope.dt) {
+        		// console.log($scope.dt);
 				var dt = Common.dateFormat($scope.dt);
 			} else {
 				dt = '';
@@ -525,6 +559,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		    console.log(JSON.stringify($scope.data));
 		    //return;
 			var obj = JSON.stringify($scope.data);
+
 			Cooperation.createCollaboration(obj).then(function (data) {
 				var coid = data;
 				alert('创建协作成功');
@@ -535,9 +570,17 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				//上传之后将coid传给客户端
 				
 			},function(data) {
-				obj =  JSON.parse(data)
-				alert(obj.message);
+				obj =  JSON.parse(data);
+				if(!$scope.topic &&(uploader.queue.length==0 || uploader1.queue.length==0)){
+					alert('请填写主题')
+				}else if(uploader.queue.length==0 && uploader1.queue.length==0){
+					alert("请至少上传一张照片或者一份资料")
+				}else if(!$scope.topic &&uploader.queue.length || uploader1.queue.length){
+					alert("协作主题不能为空")
+				}
+				//alert(obj.message);
 				//$state.go('cooperation')
+
 			});
         }
 
@@ -649,6 +692,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.backDetail = function () {
     	$scope.isPreview = false;
     }
+
+
+
       
 }]).controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items',
 	function ($scope, $http, $uibModalInstance,Cooperation,items) {
@@ -669,7 +715,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		});
 
 		//默认联系人列表 deptId = 1
-		Cooperation.getUserList(1).then(function (data) {
+		Cooperation.getUserList({'deptId':1,'searchText':''}).then(function (data) {
 			$scope.userList = data;
 			console.log('346',data);
 		});
@@ -677,7 +723,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		//切换项目部切换联系人
 		$scope.switchUsers = function (params) {
 			var deptId = params.deptId;
-			Cooperation.getUserList(deptId).then(function (data) {
+			Cooperation.getUserList({'deptId':deptId,'searchText':''}).then(function (data) {
 				$scope.userList = data;
 			});
 		}
@@ -686,7 +732,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		$scope.responsibleSearch = function (e) {
 			if($scope.queryForm) {
 				var deptId = $scope.selectedOption.deptId;
-				Cooperation.getUserList(deptId).then(function (data) {
+				Cooperation.getUserList({'deptId':deptId,'searchText':''}).then(function (data) {
 					$scope.userList = data;
 
 					angular.forEach($scope.userList, function (value, key) {
@@ -700,9 +746,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				});
 			} else if (!$scope.queryForm) {
 				var deptId = $scope.selectedOption.deptId;
-				Cooperation.getUserList(deptId).then(function (data) {
+				Cooperation.getUserList({'deptId':deptId,'searchText':''}).then(function (data) {
 					$scope.userList = data;
 				});
+				$(".every-list").find(".sub-nav").css("display",'none');
 			}
 		}
 		
@@ -733,11 +780,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					}
 			});
 			$scope.responsiblePerson = user;
-			//console.log();
-			$(".select-person-responsible .person-list li ul li label").click(function(){
-				$(".select-person-responsible .person-list li ul li label>.user-chioce").hide()
-				$(this).find(".user-chioce").show();
-			})
 		}
 
 		//选中的相关人
@@ -751,15 +793,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		$scope.relatedSelected = a ? a : [];
 
 		$scope.addRelated = function (id, pid, current,$event) {
-			$(".select-person-related .modal-body .select-list ul li").click(function(){
-				//删除默认状态
-				$('li ').css("background",'#fff')
-				$(".user-chioce").hide();
-				//给当前获取焦点添加一个样式
-				//debugger;
-				$(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
-				$(this).css("background",'#eceef0').siblings().css("background","#fff")
-			})
 			$scope.relatedSelected.push(current);
 
 			//数组去重
@@ -854,15 +887,15 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				})
 			})
 		}
-		$scope.del = function(){
-			$(".remove-all").toggleClass("del");
-			if($(".del")){
-				$(".error-del").css("background",'url(imgs/icon/error-del.png) no-repeat 0 -18px')
-			}else{
-				$(".error-del").css("background",'url(imgs/icon/error-del.png) no-repeat 0 0')
-
-			}
-		}
+		//$scope.del = function(){
+		//	$(".remove-all").toggleClass("del");
+		//	if($(".del")){
+		//		$(".error-del").css("background",'url(imgs/icon/error-del.png) no-repeat 0 -18px')
+		//	}else{
+		//		$(".error-del").css("background",'url(imgs/icon/error-del.png) no-repeat 0 0')
+        //
+		//	}
+		//}
 
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');

@@ -23,13 +23,14 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取项目部下对应的联系人列表€
     this.getUserList = function (params) {
         var delay = $q.defer();
-        var url_join = url + 'rs/co/userList/' + params;
-        $http.get(url_join,{cache:true})
+        var url_join = url + 'rs/co/pcUserList';
+        var params = JSON.stringify(params);
+        $http.post(url_join,params,{transformRequest:angular.identity})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
                 delay.reject(data);
-            });
+        });
         return delay.promise;
     }
 
@@ -172,7 +173,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取优先级列表
     this.getPriorityList = function () {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/markers';
+        var url_join= url + 'rs/co/priorityList';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -317,5 +318,34 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 
+    //签入
+    this.checkIn = function(coid){
+        var delay = $q.defer();
+        var url_join = url + "rs/co/checkIn/"+coid;
+        var params = JSON.stringify(params);
+        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data);
+            //console.info("统计页面",data)
+        },function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
+
+    //签出
+    this.checkOut = function(coid){
+        var delay = $q.defer();
+        var url_join = url + "rs/co/checkOut/"+coid;
+        var params;
+        // var params={"coid":coid}
+        // var params = JSON.stringify(params);
+        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data);
+            //console.info("统计页面",data)
+        },function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
     
 });

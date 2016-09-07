@@ -4,7 +4,7 @@
  */
 angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal', '$state','FileUploader','Manage',
     function ($scope, $http, $uibModal, $state, FileUploader,Manage) {
-
+    $scope.docType = "1";
     $scope.deptInfoList = [];
     $scope.projectInfoList = [];
 
@@ -213,13 +213,29 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             //获取搜索类型关键字
             $scope.seacherKey = $("#exampleInputName3").val();
             //$scope.doc_type?0:$scope.doc_type;
-            if($scope.docType==undefined){
-                $scope.docType=1;
+            if(!$scope.docType){
+                $scope.docType="1";
             }else{
                 $scope.docType=$scope.docType;
             }
 
 
+            Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+                $scope.trentsListInfo = data.data;
+                //console.info($scope.docType)
+                //console.info("我是搜索列表", $scope.trentsListInfo )
+            });
+        }
+
+        $scope.changeAttr = function () {
+            //debugger
+            $scope.seacherKey = $("#exampleInputName3").val();
+            //$scope.doc_type?0:$scope.doc_type;
+            if(!$scope.docType){
+                $scope.docType=1;
+            }else{
+                $scope.docType=$scope.docType;
+            }
             Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
                 $scope.trentsListInfo = data.data;
                 //console.info($scope.docType)

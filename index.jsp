@@ -36,9 +36,8 @@
 			var basePath = "<%=basePath %>";
 			//console.log(basePath);
 		</script>
-
+		
 		<!-- <base href="<%=basePath %>"> -->
-		<!-- <base href="/bimco/"> -->
 
 		</head>
 		<body>

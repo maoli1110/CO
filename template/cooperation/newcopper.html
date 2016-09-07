@@ -17,8 +17,8 @@ header{
 			<div class="row">
 				<div class="col-xs-6 left">
 					<div class="row">
-						<label for="" class="col-xs-2">协作名称：</label>
-				  		<div class="inline col-xs-6"><input type="text" class="form-control left-area new-name" id="" placeholder="" ng-model="coopname"></div>
+						<label for="" class="col-xs-2">主题：</label>
+				  		<div class="inline col-xs-6"><input type="text" class="form-control left-area new-name" id="" placeholder="" ng-model="coopname" ng-change="changeTopic()"></div>
 					</div>
 					<div class="row">
 						<label for="" class="col-xs-2">优先级：</label>
@@ -40,9 +40,13 @@ header{
 				<div class="col-xs-6 right">
 					<div class="row">
 						<label for="" class="col-xs-3 align-right">负责人：</label>
+						<dl ng-repeat="item in collaList.relevants" class="photoImg">
+							<dt><img src="{{item.avatar}}"/></dt>
+							<dd class="substr" style="width:100px;">{{item.username}}</dd>
+						</dl>
 					    <div class="inline col-xs-7">
 					    	<!-- <input type="text" class="col-xs-3" id="" placeholder="" ng-model="responsiblePerson"> -->
-					    	<div ng-model="responsiblePerson" class="inline responsible new-man">{{responsiblePerson}}</div>
+					    	<div class="relate-people inline responsible new-man" >{{responsiblePerson}}</div>
 					    	<span class="plus-icon" ng-click="selectResponsible()">+</span>
 					    </div>
 					</div>
@@ -72,7 +76,7 @@ header{
 				<label for="" class="col-xs-1">&nbsp;</label>
 				<div class="col-xs-11" >
 					<div class="coop-delete">
-						<div class="inline new-pro">
+						<div class="inline new-pro relate-pro">
 							<div ng-show="linkProject1" style="line-height:37px">
 								<span class="substr" width="285px">与工程相关： {{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}工程</span><!-- <span ng-click="removeLink()" style="margin-left:20px;">重新关联</span> -->
 							</div>
@@ -82,7 +86,7 @@ header{
 							<div ng-show="linkCategoty1" style="line-height:37px;">
 								<span>与构件类别相关：{{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}工程</span>
 							</div>
-							<label style="display:inline-block"><img src="imgs/delete.png" alt="" ng-click="removeLink()"></label>
+							<label style="display:inline-block"><img src="imgs/delete.png" alt="" class="new-del" ng-click="removeLink()"></label>
 						</div>
 
 					</div>
@@ -100,7 +104,7 @@ header{
 					<!-- <div class="inline" style="border-right:1px solid #ccc;"> -->
 						<ul class="inline rela relative-ion" ng-repeat="item in related.sign track by $index">
 							<img src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span>
-							<li class="substr" style="line-height:30px;width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
+							<li class="substr" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
 						</ul>
 					<!-- </div> -->
 					<!-- <div class="inline"> -->

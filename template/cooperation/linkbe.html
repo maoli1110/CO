@@ -1,4 +1,4 @@
-<div class="linkbe">
+<div class="linkbe" light-height>
     <div class="modal-header">
         <h3 class="modal-title">选择BE资料</h3>
         <div class="inline close-sbtn" ng-click="cancel()">
@@ -22,10 +22,17 @@
             </div>
             <div class="col-xs-6 right" id="content-a7">
                 <div class="clearfix public-head">
-                    <div class="pull-left"><input type="checkbox"><span  class="book-style font16">共{{docList.length}}份资料</span></div>
+                    <div class="pull-left">
+                        <label>
+                            <input type="checkbox" style="display:none;">
+                            <span  class="book-style font16">共{{docList.length}}份资料</span>
+                            <div class="linkbe-check"></div>
+                        </label>
+                    </div>
+                    <!--<div class="pull-left"><label ><input type="checkbox"><span  class="book-style font16">共{{docList.length}}份资料</span></label></div>-->
                     <div class="pull-right">
                         <form>
-                            <input type="text" class="be-sear"  ng-model="searchname" placeholder="输入关键字" ng-change="docSearch(searchname)">
+                            <input type="text" class="be-sear" id="linkbeSear" ng-model="searchname" placeholder="搜索资料名称、上传人" ng-change="docSearch(searchname)">
                             <span  class="posi"><img  src="imgs/seache.png" alt=""></span>
                         </form>
                     </div>
@@ -40,10 +47,10 @@
                                      </label>
                                 </td>
                                 <td><img src="imgs/pro-icon/icon-txt.png" alt=""></td>
-                                <td><p class="substr" title="{{row.docName}}">{{row.docName}}</p>
+                                <td><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
                                     <span class="be-proview"></span>
                                 </td>
-                                <td>{{row.uploader}}</td>
+                                <td ><p class="substr linkbeMatter" style="width:57px" title="{{row.uploader}}">{{row.uploader}}</p></td>
                             </tr>
                         </tbody>
                     </table>

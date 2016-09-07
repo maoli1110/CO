@@ -47,7 +47,7 @@ img{
 </style>
 <link href="./lib/audio1/css/jplayer.blue.monday.css" rel="stylesheet" type="text/css"/>
 <!--header-->
-<link rel="stylesheet" href="css/coop-detail-computer.css">
+<link rel="stylesheet" href="css/coop-detail.css">
 <!--<div class="mobile-mark"></div>-->
 <!--顶部播放声音的插件-->
 <div style="position:relative;top:0;left:0;"  class="detail-voice">
@@ -102,12 +102,13 @@ img{
            <!--  <div class="pull-right" style="text-align:right" ng-show="isDoc" ng-click="editOffice()">编辑资料</div> -->
         </header>
         <!-- 编辑部分 -->
+        <div id="edit-office" style="min-height:300px">editOffice</div>
         <div class="doc-edit btn-fix">
-            <div class="text-center">
+            <div class="text-center"  style="position:fixed;bottom:50px;">
                 <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
-                <button class="btn btn-default foot-btn" ng-click="signElectron()">电子签名</button>
+                <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
             </div>
-             <div ng-show="isEdit" class="text-center footer">
+            <div class="text-center footer">
                 <button class="btn btn-default foot-btn" ng-click="signSubmit()">提交</button>
                 <button class="btn btn-default foot-btn" ng-click="signCancel()">取消</button>
                 <button class="btn btn-default foot-btn" ng-click="signEmpty()">清空</button>
@@ -125,6 +126,7 @@ img{
     function changeDocPreview (index) {
         $('.a-'+index+'').removeClass('glyphicon-save').addClass('glyphicon-open-file');
     }
+    
     function animate(){
         $(".charts").each(function(i,item){
             var a=parseInt($(item).attr("w"));

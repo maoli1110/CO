@@ -50,14 +50,15 @@ body {
 .trends .main .right_Content .content{
     width: 98.5%;
     border: 1px solid #C6C6C6;
-    height: 589px;
     margin:10px;
+    border-bottom:1px solid #ddd !important;
     /*overflow:hidden;*/
 }
 /*--------------good_list------------------*/
 .trends .good_list{
     width: 99%;
     margin: 18px;
+    margin-bottom:0;
 }
 .trends .good_list dl{
     /*width:32%;*/

@@ -36,9 +36,6 @@ header .close{
     top:10px;
     right:10px;
 }
-.col-xs-9{
-    padding:0;
-}
 .col-xs-12{
     padding:7px;
 }
@@ -770,19 +767,16 @@ html,body{
 .mobile-devices .bootstrap-select.btn-group[class*="col-"] .dropdown-toggle {
     height: 32px !important;
 }
-/*.mobile-devices .bootstrap-select.btn-group .dropdown-menu li {
-    width: 276px !important;
-}*/
-.mobile-devices .break-word{
-    margin-bottom: 13px;
-    padding: 0 8px;
-}
 .mobile-devices .bootstrap-select.btn-group .dropdown-menu li a .glyphicon-stop + span{
     word-break:normal;
     width:auto;
     white-space:pre-wrap;
     word-wrap: break-word;
     overflow: hidden;
+}
+.mobile-main .mobile-reply .say-content .dashed {
+    border-bottom: 0.1rem dashed #ddd;
+    padding: 10px 0;
 }
 .mobile-devices .bootstrap-select.btn-group .dropdown-menu {
     max-width: 100%;
@@ -824,7 +818,7 @@ html,body{
     font-size:16px;
     border:1px solid #ddd;
     padding:3px 8px;
-    text-indent: 32px;
+/*    text-indent: 32px;*/
 }
 /*相关人*/
 .mobile-main .mobile-relate{
@@ -991,6 +985,9 @@ html,body{
 .mobile-main .mobile-reply{
     padding:0;
     margin-bottom: 70px;
+}
+.mobile-main .say-content .dashed {
+    border-bottom: 0.1em dashed #ddd;
 }
 .mobile-main .reply-con .reply-reply .reply-icon{
     text-align:center;

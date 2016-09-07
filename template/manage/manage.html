@@ -1,5 +1,4 @@
 <header ng-include="'template/core/header.html'"></header>
-
 <div class="main-container rela" scroll-directive>
     <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
@@ -34,9 +33,9 @@
 
                 <div class="right_Content clearfix">
                     <!--<div class="tools"></div>-->
-                    <div class="content clearfix">
+                    <div class="content clearfix" style="border-bottom:1px solid #ddd;">
                         <!--商品展示-->
-                        <div class="good_list clearfix"  id="content-a2" style="height:740px;overflow:auto;"  >
+                        <div class="good_list clearfix"  id="content-a2" style="height:calc(100vh - 143px);overflow:auto;"  >
                             <!--商品1F-->
                             <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click="updateNew($event)">
                                 <dt>
@@ -71,7 +70,7 @@
                                 </div>
                                 <!--<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>-->
 
-                                <select class="selectpicker btn_white" ng-model="docType" id="doc_type">
+                                <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr(docType)">
                                     <option value="1">全部类型</option>
                                     <option value="2">文档</option>
                                     <option value="4">图纸</option>
@@ -80,6 +79,13 @@
                                     <option value="64">压缩文件</option>
                                     <option value="128">其他</option>
                                 </select>
+                                <!--<select class="selectpicker" >-->
+                                    <!--<option value="0">全部</option>-->
+                                    <!--<option value="1">我负责</option>-->
+                                    <!--<option value="2">我签署</option>-->
+                                    <!--<option value="3">我相关</option>-->
+                                    <!--<option value="4">已结束</option>-->
+                                <!--</select>-->
                                     <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)">
                                     <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
                                 </div>

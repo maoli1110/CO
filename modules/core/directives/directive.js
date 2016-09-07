@@ -43,6 +43,30 @@ angular.module('core').directive('copyRadio', function ($timeout) {
             $(".list").on("mouseleave",".tools_bar",function(){
                 $(this).children(".bar").animate({"bottom":'-28px'})
             });
+         //   协作首页点击表格编辑状态
+         //   $(".table-list>table").on('click','edit-click',function(){
+         //       alert(123)
+         //       $(this).find(".cop-edit").hide();
+         //   })
+         //   新建负责人点击选中状态时间委托
+            $(".select-person-responsible-modal .person-list").on("click",".checkA",function(){
+                $(".user-chioce").hide();
+                $(this).find(".user-chioce").show();
+            })
+         //   新建相关人点击选中事件委托
+            $(".select-person-related-modal .left .person-list").on("click",".select-check",function(){
+
+                //删除默认状态
+                $('li ').css("background",'#fff')
+                $(".user-chioce").hide();
+                //给当前获取焦点添加一个样式
+                //debugger;
+                $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
+                $(this).css("background",'#eceef0').siblings().css("background","#fff");
+
+            })
+
+
 		}
 	};
 });
@@ -262,6 +286,18 @@ angular.module('core').directive('lightHeight', function () {
                 if ( searchTerm ) {
                     // highlight the new term
                     $('.menName').highlight( searchTerm );
+                }
+            });
+        //    be高亮搜索
+            $('#linkbeSear').bind('keyup change', function(ev) {
+                // pull in the new value
+                var searchTerm = $(this).val();
+                // remove any old highlighted terms
+                $('.linkbeMatter').removeHighlight();
+//            // disable highlighting if empty
+                if ( searchTerm ) {
+                    // highlight the new term
+                    $('.linkbeMatter').highlight( searchTerm );
                 }
             });
         }

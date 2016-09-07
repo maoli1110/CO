@@ -35,7 +35,30 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		$scope.typeList = data;
     	});
     }
+	$scope.draftsLink = function(id){
+		if($(".panel-collapse").text==""){
+			//$(".panel-body").css("padding-bottom",'0')
+			alert(123)
+		}
+		queryData.groups = [];
+		if(id==-1){
+			queryData.deptId = '';
+			queryData.ppid = '';
+		}else if(id==0){
+			var group = {
+				type:605,
+				value:{
+					key:"0"
+				}
+			};
+			queryData.groups.push(group);
+		}
 
+		Cooperation.getCollaborationList(queryData).then(function (data) {
+			$scope.cooperationList = data;
+			console.info("$scope.cooperationList",$scope.cooperationList)
+		});
+	}
 
     // $scope.closeNew = function () {
     // 	$scope.openSignal = false;
@@ -75,7 +98,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     //获取项目部列表3434
     Cooperation.getDeptInfo().then(function (data) {
     	//debugger;
-    	$scope.deptInfoList = data.slice(0,8);
+    	$scope.deptInfoList = data;
 		console.info("一级菜单",$scope.deptInfoList)
 
 		//定位到当前工程
@@ -91,357 +114,41 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		//debugger
 		$('.panel-heading').eq(0).click();
     });
+    
+    function getimgurl(treeItems,deptId){
+		for(var i = 0 ; i< treeItems.length;i++){
+			if(treeItems[i].projectType=="土建预算"){
+				treeItems[i].imgsrc="imgs/icon/1.png";
+			}else if(treeItems[i].projectType=="钢筋预算"){
+				treeItems[i].imgsrc="imgs/icon/2.png";
+			}else if(treeItems[i].projectType=="安装预算"){
+				treeItems[i].imgsrc="imgs/icon/3.png";
+			}else if(treeItems[i].projectType=="Revit"){
+				treeItems[i].imgsrc="imgs/icon/4.png";
+			}else if(treeItems[i].projectType=="Tekla"){
+				treeItems[i].imgsrc="imgs/icon/5.png";
+			};
+			$("#dept_"+deptId).append("<span title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'>"+treeItems[i].projectName+"&nbsp;("+treeItems[i].count+")</span>")
+		}
+	}
+    
+	var id=0;
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
-      //debugger;
-   		//$scope.projectInfoList = [];
+		queryData.ppid = '';
 		if(deptId != queryData.deptId || deptId == 1){
 			Cooperation.getProjectList(deptId).then(function (data) {
-	   			//console.log(data);
-	   			$scope.projectInfoList = data.slice(0,6);
+				getimgurl(data,deptId);
+				$scope.projectInfoList = data;
 	   			queryData.deptId = deptId;
-				console.info("二级菜单",$scope.projectInfoList)
-	   			//console.log('queryData.deptId',queryData.deptId);
    			});
+			id=deptId;
    		}
-		priorityArr = [];
-		timeLim =[];
-		blankId = [];
-		coTypeObj = [];
-		$scope.arrString =[];
-		$scope.deadlineStr =[];
-		$scope.makerStatStr=[];
-		$scope.typeStatStr=[];
-		Cooperation.getCoStatisticsInfo({deptId:deptId,ppid:""}).then(function(data){
-
-			$scope.getCoCountInfo =data.data;
-			console.info('项目统计6666',$scope.getCoCountInfo)
-			//console.info("统计页面数据",$scope.getCoCountInfo)
-			//console.info($scope.getCoCountInfo)
-			//优先级
-			$scope.priorityStat = data.data.priorityStat;
-
-			//期限
-			$scope.deadLineStat = data.data.deadLineStat;
-			//标识
-			$scope.makerStat = data.data.makerStat;
-			//协作类型
-			$scope.typeStat = data.data.typeStat;
-			//	判断返回的数据类型是空或者是NaN,如果是把对应的div给移除掉
-			//console.info("数据类型",$scope.priorityStat);
-			//判断返回数据是否为空
-			function isEmpty(obj){
-				for(var key in obj){
-					return false
-				}
-				return true
-			}
-			//判断数组的值是否为空
-			function isEmptyArr(array){
-				var count = 0;
-				for(var i = 0;i<array.length;i++){
-					return  count +=array[i]
-				}
-
-			}
-
-			var isPriorityStat = isEmpty($scope.priorityStat);
-			var isDeadLineStat = isEmpty($scope.deadLineStat);
-			var isMakerStat = isEmpty($scope.makerStat);
-			var istypeStat = isEmpty($scope.typeStat);
-			if(isPriorityStat){
-				$("#data_graph").parent().hide();
-			}else{
-				$("#data_graph").parent().show();
-			}
-			if(isDeadLineStat){
-				$("#data_graph2").parent().hide();
-			}else{
-				$("#data_graph2").parent().show();
-			}
-			if(isMakerStat){
-				$("#data_graph3").parent().hide();
-			}else{
-				$("#data_graph3").parent().show();
-			}
-			if(istypeStat){
-				$("#data_graph4").parent().hide();
-			}else{
-				$("#data_graph4").parent().show();
-			}
-
-
-
-			var colorStyle1= ["#E6D055","#73CC6C","#5887FD"]
-			var colorStyle2 = ["#E6D055",'#FC688A',"#73CC6C","#5887FD","#8F6DF2","#A0A8C1"];
-			//优先级别
-			angular.forEach( $scope.priorityStat, function (value, key) {
-				arr.push(value);
-				//页面优先级展示数据
-				$scope.arrString.push(key);
-
-			})
-			console.info('$scope.arrString',$scope.arrString)
-
-			for(var n in arr){
-				arrCount += arr[n];
-
-			}
-			angular.forEach( $scope.priorityStat, function (value, key) {
-				var unit = {
-					value:'',
-					name:'',
-					itemStyle:{
-						normal:{
-							color:''
-						}
-					}
-				};
-				unit.value = value;
-				if(isEmptyArr(arr)==0){
-					//unit.name=value.toString();
-					$("#data_graph").parent().hide()
-				}else{
-					$("#data_graph").parent().show()
-					unit.name = parseInt((value/arrCount)*100)+"%";
-				}
-
-				unit.itemStyle.normal.color = '';
-				priorityArr.push(unit);
-
-
-			});
-			//循环数组给他添加颜色属性
-			for(var t= 0;t<priorityArr.length;t++){
-				priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
-			}
-
-			//期限
-			angular.forEach($scope.deadLineStat,function(val,key){
-				deadline.push(val);
-				$scope.deadlineStr.push(key)
-			})
-			for(var m in deadline){
-				deadlineCount += deadline[m]
-			}
-			angular.forEach($scope.deadLineStat,function(val,key){
-				var dataTime = {
-					value:"",
-					name:"",
-					itemStyle:{
-						normal:{
-							color:""
-						}
-					}
-				};
-				dataTime.value= val;
-				if(isEmptyArr(deadline)==0){
-					//dataTime.name =val.toString()
-					$("#data_graph2").parent().hide();
-				}else{
-					$("#data_graph2").parent().show();
-					dataTime.name=parseInt((val/deadlineCount)*100)+"%";
-				}
-
-				timeLim.push(dataTime);
-
-			});
-			for(var a = 0;a<timeLim.length;a++){
-				timeLim[a].itemStyle.normal.color= colorStyle1[a]
-			}
-			//标识
-			angular.forEach($scope.makerStat,function(val,key){
-				maker.push(val);
-				$scope.makerStatStr.push(key);
-
-			})
-			for(var i in maker){
-				makerCount += maker[i];
-			}
-			angular.forEach($scope.makerStat,function(val,key){
-				var blank = {
-					value:"",
-					name:"",
-					itemStyle:{
-						normal:{
-							color:""
-						}
-					}
-				};
-				blank.value =val;
-				if(isEmptyArr(maker)==0){
-					//blank.name = val.toString();
-					$("#data_graph3").parent().hide()
-				}else{
-					$("#data_graph3").parent().show()
-					blank.name =parseInt((val/makerCount)*100)+"%";
-				}
-
-				blankId.push(blank);
-			})
-			for(var b = 0;b<blankId.length;b++){
-				blankId[b].itemStyle.normal.color = colorStyle2[b];
-			}
-			//console.info("fhsofweow",blankId)
-			//协作类型
-			//debugger;
-			angular.forEach($scope.typeStat,function(val,key){
-				typeStatNub.push(val);
-				$scope.typeStatStr.push(key)
-			});
-			for(var k in typeStatNub){
-				typeCount += typeStatNub[k]
-			}
-			angular.forEach($scope.typeStat,function(val,key){
-				var coType ={
-					value:"",
-					name:"",
-					itemStyle:{
-						normal:{
-							color:""
-						}
-					}
-				};
-				coType.value = val;
-				if(isEmptyArr(typeStatNub)==0){
-					//coType.name =val.toString();
-					$("#data_graph4").parent().hide()
-				}else{
-					$("#data_graph4").parent().show()
-					coType.name = parseInt((val/typeCount)*100)+"%";
-				}
-				//coType.name = parseInt((val/typeCount)*100)+"%";
-				coTypeObj.push(coType);
-
-			});
-			for(var c= 0;c<coTypeObj.length;c++){
-				coTypeObj[c].itemStyle.normal.color = colorStyle2[c]
-			}
-			//console.info(typeCount)
-			var myChart1 = echarts.init(document.getElementById('data_graph'));
-			//标识统计
-			var option1 = {
-				series: [{
-					name: '优先级',
-					type: 'pie',
-					//饼型图的宽度
-					radius: ['50%', '80%'],
-					//中间文字位置和动画效果
-					avoidLabelOverlap: false,
-					label: {
-						normal: {
-							position: 'inner'
-						}
-					},
-					tooltip: {
-						trigger: 'item',
-						formatter: "{a} <br/>{b}: {c} ({d}%)"
-					},
-					//labelLine: {
-					//	normal: {
-					//		show: false
-					//	}
-					//},
-					//是否显示线
-					//饼型图的显示比例
-					data: priorityArr
-
-				}]
-			};
-			myChart1.setOption(option1);
-			//	第二部分
-			//图形绘制
-			var myChart2 = echarts.init(document.getElementById('data_graph2'));
-
-			// 指定图表的配置项和数据
-			//			app.title = '环形图';
-
-			var option2 = {
-				series: [{
-					name: '访问来源',
-					type: 'pie',
-					//饼型图的宽度
-					radius: ['50%', '80%'],
-					//中间文字位置和动画效果
-					avoidLabelOverlap: false,
-					label: {
-						normal: {
-							position: 'inner'
-						}
-					},
-					//是否显示线
-					//饼型图的显示比例
-					data:timeLim
-
-				}]
-			};
-
-			// 使用刚指定的配置项和数据显示图表。
-			myChart2.setOption(option2);
-			//图形绘制
-			var myChart3 = echarts.init(document.getElementById('data_graph3'));
-
-			// 指定图表的配置项和数据
-			//			app.title = '环形图';
-
-			var option3 = {
-				series: [{
-					name: '访问来源',
-					type: 'pie',
-					//饼型图的宽度
-					radius: ['50%', '80%'],
-					//中间文字位置和动画效果
-					avoidLabelOverlap: false,
-					label: {
-						normal: {
-							position: 'inner'
-						}
-					},
-					//是否显示线
-					//饼型图的显示比例
-					data:blankId
-
-				}]
-			};
-
-			// 使用刚指定的配置项和数据显示图表。
-			myChart3.setOption(option3);
-
-			//图形绘制
-			var myChart4 = echarts.init(document.getElementById('data_graph4'));
-
-			// 指定图表的配置项和数据
-			//			app.title = '环形图';
-
-			var option4 = {
-				series: [{
-					name: '访问来源',
-					type: 'pie',
-					//饼型图的宽度
-					radius: ['50%', '80%'],
-					//中间文字位置和动画效果
-					avoidLabelOverlap: false,
-					label: {
-						normal: {
-							position: 'inner'
-						}
-					},
-					//是否显示线
-					//饼型图的显示比例
-					data:coTypeObj,
-
-
-
-				}]
-			};
-
-			// 使用刚指定的配置项和数据显示图表。
-			myChart4.setOption(option4);
-
-		})
 		$(".table-list ").show();
 		$(" .data_count").hide();
+
    	}
+   	
    	//默认的协同列表
    	var initCollaborationList = function () {
    		//1.获取默认的项目部列表
@@ -453,6 +160,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		// var params= {deptId:1,ppid:1000,queryFromBV:true,count:20}
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			$scope.cooperationList = data;
+			console.info("$scope.cooperationList",$scope.cooperationList)
    		});
    	}
    	//initCollaborationList();
@@ -465,7 +173,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         if(!queryData.deptId) {
             queryData.deptId = 1;
             queryData.ppid = 1000;
-            queryData.searchType = 1;
+            queryData.searchType = 0;
         }
         //第一次queryData.modifyTime为空
         //第二次modifyTime为最后一次的数据的时间值
@@ -487,35 +195,32 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
             
         });
     }
+    
+	$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
+		$('.table-list table tbody tr').click(function(){
+			$(this).find(".cop-edit").show();
+			$(this).siblings().find(".cop-edit").hide();
+		})
+	})
 
    	//点击工程获取协同列表
    	$scope.getCollaborationList = function ($event,ppid) {
    		queryData.ppid = ppid;
-		//priorityArr = [];
-		//timeLim =[];
-		//maker = [];
-		//coTypeObj = [];
-		//$scope.arrString =[];
-		//$scope.deadlineStr =[];
-		//$scope.makerStatStr=[];
 		$scope.typeStatStr=[];
-		console.log('queryData.ppid',queryData.ppid);
    		Cooperation.getCollaborationList(queryData).then(function (data) {
-   			console.log(data);
    			$scope.cooperationList = data;
    		});
    		$("span[class*=ng-binding]").removeClass("menusActive");
-            //获取当前元素
-        $($event.target).children("span").hide();
-        $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
+        //获取当前元素
+//        $($event.target).children("span").hide();
+        $($event.target).addClass("menusActive").siblings().removeClass("menusActive");
 
-        $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
-		$scope.getCoTotal();
+//        $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
+//		$event.stopPropagation();
 		$(".table-list ").show();
 		$(" .data_count").hide();
-
    	}
-
+	
    	//获取协作类型
    	// Cooperation.getTypeList().then(function (data) {
     // 		console.log(data);
@@ -552,7 +257,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var queryPriorityselected = [];
 	var queryMarkSelected = [];
     var updateSelected = function(action,id,type,index,signal){
-          //debugger;
+		//debugger;
         if(action == 'add' && type.indexOf(id) == -1){
           
             //$scope.isTypeChecked = true;
@@ -575,7 +280,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
      }
 
     $scope.updateSelection = function($event,id,signal,index){
-        //debugger;
         var checkbox = $event.target;
         var action = (checkbox.checked?'add':'remove');
         var type;
@@ -590,7 +294,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         		type = queryMarkSelected;
         		break;
         }
-
         updateSelected(action,id,type,index,signal);
     }
 
@@ -600,24 +303,26 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
 
     //alltype全选
-    $scope.allType = function () {
-    	console.log($scope.typeCheck);
-    	if($scope.typeCheck) {
-    		$('.type-check').find('input').prop('checked',true);
-    		queryTypeSelected = _.cloneDeep($scope.coQueryType);
-    	} else {
-    		$('.type-check').find('input').prop('checked',false);
-    		queryTypeSelected = [];
-    	}
-    	console.log(queryTypeSelected);
-    }
+		$scope.allType = function () {
+			if($scope.typeCheck) {
+				$('.type-check').find('input').prop('checked',true);
+				queryTypeSelected = _.cloneDeep($scope.coQueryType);
+				$scope.isTypeChecked = true;
+			} else {
+				$scope.isTypeChecked = false;
+				$('.type-check').find('input').prop('checked',false);
+				queryTypeSelected = [];
+			}
+			console.log(queryTypeSelected);
+		}
 
-    //allPriority全选
+
+
+		//allPriority全选
     $scope.allPriority = function () {
-    	//debugger;
-        // $('.priority-check label').addClass('background','#979ba8');
+    	
         $('.priority-check label').addClass('input-check');
-    	console.log($scope.typeCheck);
+ 
     	if($scope.priorityCheck) {
     		$('.priority-check').find('input').prop('checked',true);
     		queryPriorityselected = _.cloneDeep($scope.coQueryType);
@@ -625,7 +330,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		$('.priority-check').find('input').prop('checked',false);
     		queryPriorityselected = [];
     	}
-    	console.log(queryTypeSelected);
     }
 
     //marking标识全选
@@ -707,7 +411,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		}
    		queryData.searchKey = $scope.searchkey;
       queryData.modifyTime = 0;
-   		//debugger;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			console.log(data);
    			$scope.cooperationList = data;
@@ -747,9 +450,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		//if($(".data-every").length==0){
 		//	$(".data_every").hide();
 		//}
+		$scope.getCoTotal();
 	}
 			//统计页面数据
-			//$scope.getCoTotal();
 
 		$scope.getCoTotal = function(){
 			priorityArr = [];
@@ -761,6 +464,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			$scope.makerStatStr=[];
 			$scope.typeStatStr=[];
 			//$(".data_count").children().hide();
+			if(!queryData.ppid){
+				queryData.ppid ='';
+			}
 			Cooperation.getCoStatisticsInfo({deptId :queryData.deptId,ppid:queryData.ppid}).then(function(data){
 				//console.info("1313131",queryData.deptId,queryData.ppid)
 				$scope.getCoCountInfo =data.data;

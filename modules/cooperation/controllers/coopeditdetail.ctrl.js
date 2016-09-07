@@ -1,8 +1,9 @@
 /**
  * Created by sdergt on 2016/8/16.
  */
-angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage',
-    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage) {
+angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage','$timeout',
+
+    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage,$timeout) {
         $scope.device = false;
         //判断pc or bv
         if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
@@ -22,12 +23,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             minDate: new Date()
         };
 
-         $scope.toggleMin = function() {
-            $scope.minDate = $scope.minDate ? null : new Date();
-          };
-
-          $scope.toggleMin();
-
         $scope.open2 = function () {
             //console.info(123123131)
             $scope.popup2.opened = true;
@@ -38,11 +33,14 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.popup2 = {
             opened: false
         };
+
         $scope.checksignal = false;
         //协作详情数据
         var coid = $stateParams.coid;
         Cooperation.getCollaboration(coid).then(function (data) {
+
             //console.log(data);
+            var currentMarkInfo = data.markerInfo.id;
             $scope.collaList = data;
             console.info("编辑协作数据",data);
             $scope.priority =  data.priority;
@@ -60,41 +58,48 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $scope.isDeadlineNull = true;
             }
 
+
+            if( data.deadline && data.isDeadline==3){
+                $scope.deadlineStyle = 'red';
+            }
+
             angular.forEach(data.relevants, function (value, key) {
                 var unit = {};
                 unit.username = value.username;
                 unit.needSign = value.needSign;
-               // debugger;
                 contracts.push(unit);
             });
-            //获取标识
+            
             if(data){
+                //获取标识
                 Cooperation.getMarkerList().then(function (data) {
                     $scope.markerList1 = data;
-                    console.log('marklist',$scope.markerList1);
-                    console.log($scope.collaList);
-
-                     //$scope.mark1 = $scope.markerList1[0];
-                    var unit = _.filter($scope.markerList1, function(o) {
-
-                        return o.picMarker == $scope.collaList.markerInfo.name;
-                    });
-                    $scope.mark1 = unit[0].markerId + '';
-                    console.log('mark1', $scope.mark1[0]);
+                    $scope.mark1 = currentMarkInfo + '';
+                     if(data[0].markerId){
+                        $timeout(function() {
+                            $('.selectpicker1').selectpicker({
+                                style: '',
+                                size: 'auto'
+                            });
+                        },0);
+                     }
                 });
-
+                //获取优先级
+                Cooperation.getPriorityList().then(function(data) {
+                    $scope.priorityList = data;
+                    $timeout(function() {
+                            $('.selectpicker').selectpicker({
+                                style: '',
+                                size: 'auto'
+                            });
+                    },0);
+                });
                 //type = 0 问题整改
-                if(data.coTypeVo.type == 0) {
+                if(data.coTypeVo.type == 1) {
                     $scope.zhenggai = true;
                      //根据详情返回的status来定值，这里后端有问题（）
-                     $scope.status = "1";
+                     //$scope.status = "1";
                 }
-            }
-            //详情描述
-            if($scope.collaList.desc ==null || $scope.collaList.desc==''){
-                $('.mobile-job-descrition,.pc-job-descrition').css("display",'none')
-            }else{
-                $('.mobile-job-descrition,.pc-job-descrition').css("display",'block')
             }
             //详情联系人
             if($scope.collaList.relevants.length==0){
@@ -121,31 +126,65 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $(".mobile-reply,pc-reply").css('display','block')
             }
 
+            
+            var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3']; 
             angular.forEach($scope.collaList.docs, function(value, key) {
-                //如果存在后缀名
+                var imgsrc = "imgs/pro-icon/icon-";
+				//如果存在后缀名
                 if(value.name.indexOf('.') !== -1){
                     var unit = value.name.split('.')[value.name.split('.').length - 1];
+                    unit = unit.toLowerCase();
+					if(typeArr.indexOf(unit) == -1 || unit == null || unit == "" || unit == "undefined") {
+						unit = 'other';
+					}else if(unit == "docx"){
+						unit = 'doc'
+					}
+					imgsrc = imgsrc+unit+".png";
                     //1.获取后缀 把后缀你push到数组
-                    $scope.collaList.docs[key].suffix = unit;
-                    console.log($scope.collaList.docs);
+                    $scope.collaList.docs[key].imgsrc = imgsrc;
+                }else{
+                	unit = 'other';
+                	imgsrc = imgsrc+unit+".png";
+                	$scope.collaList.docs[key].imgsrc = imgsrc;
                 }
             });
-            var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 
             angular.forEach($scope.collaList.comments, function(value, key) {
                 if(value.docs) {
                     angular.forEach(value.docs, function(value1, key1) {
-                        if(typeArr.indexOf(value1.suffix) == -1 || value1.suffix == null) {
+                    	var imgsrc = "imgs/pro-icon/icon-";
+                    	var unit = value1.suffix;
+                    	    unit = unit.toLowerCase();
+                        if(typeArr.indexOf(unit) == -1 || unit == null || unit == "" || unit == "undefined") {
                             $scope.collaList.comments[key].docs[key1].suffix = 'other';
+                            imgsrc = imgsrc+"other.png";
+							$scope.collaList.comments[key].docs[key1].imgsrc = imgsrc;
+						}else if(unit == "docx"){
+							imgsrc = imgsrc+"doc.png";
+							$scope.collaList.comments[key].docs[key1].imgsrc = imgsrc;
+						}else{
+							imgsrc = imgsrc+unit+".png";
+							$scope.collaList.comments[key].docs[key1].imgsrc = imgsrc;
+						}
+                        if(value1.thumbnailUrl){
+                        	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
                         }
                     })
-                    console.log('rtrtrt',$scope.collaList.comments);
                 }
-                console.info("12313131",$scope.typeArr)
             });
 
 
         });
+        
+        //更改标识
+        $scope.switchMark = function (mark1) {
+            $scope.mark1 = mark1;
+        }
+
+        //更改优先级
+        $scope.switchPriority = function (priority) {
+            $scope.priority = priority;
+        }
         
         //移动端交互
         $scope.checkModel = function () {
@@ -167,9 +206,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.downDocs = function (uuid) {
             sendCommand(3,coid,uuid);
         }
-        $scope.switchStatus = function () {
-            console.log($scope.zgStatus);
-        }
+
 
         function sendCommand(optType,id,uuid){
 
@@ -184,9 +221,12 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             document.location = 'http://localhost:8080/bv/?param='+param;
         }
 
+
         $scope.ok = function () {
+            $scope.dt = $('.date-value').html();
+            console.log($scope.dt);
             if($scope.dt) {
-                $scope.dt = Common.dateFormat($scope.dt);
+                $scope.dt =  $scope.dt;
             } else {
                 $scope.dt = '';
             }
@@ -198,13 +238,16 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 markerid: parseInt($scope.mark1),
                 name: $scope.collaList.name,
                 priority: $scope.priority,
-                status: parseInt($scope.status)
+                status: $scope.collaList.statusId
             };
 
             console.log(data);
             Cooperation.updateCollaboration(data).then(function (data) {
-                console.log('updateCollaboration', data)
+                 // //签入(后端接口无需调用)
+                 // Cooperation.checkIn(coid).then(function(data) {
+                 // });
                 $state.go('coopdetail', {coid:coid});
+               
             });
           
         }
@@ -288,7 +331,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 
         //预览功能
         $scope.pcPreView = function (docName, uuid) {
-            debugger
                 var data = {fileName:docName,uuid:uuid};
                 Manage.getTrendsFileViewUrl(data).then(function (result) {
                 console.log(typeof result)

@@ -199,7 +199,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 				a.compClass= compClass ? compClass : '';
 	 				a.spec = spec ? spec : '';
 	 				a.subClass= value.value ? value.value : '';
-	 				a.name = value.name;
+	 				//a.name = value.name;
 	 				dataList.selectedCategory.push(a);
 	 			})
 	 		dataList.assembleLps = dataList.selectedCategory;

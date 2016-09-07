@@ -1,5 +1,5 @@
 <!--<link rel="stylesheet" href="css/select-person-related.css">-->
-<div class="select-person-related" scroll-directive >
+<div class="select-person-related" scroll-directive copy-radio>
     <div class="modal-header">
         <h3 class="modal-title">选择相关人</h3>
          <div class="inline close-sbtn" ng-click="cancel()">
@@ -15,7 +15,7 @@
                          <select  name=""  ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                     </div>
                     <div class="col-xs-7 search rela" >
-                        <input type="text" class="form-control" placeholder="请输入关键字" ng-change="responsibleSearch($event)" ng-model="queryForm"><img src="imgs/seache.png" alt="">
+                        <input type="text" class="form-control" placeholder="搜索联系人" ng-change="responsibleSearch($event)" ng-model="queryForm"><img src="imgs/seache.png" alt="">
                     </div>
                 </div>
                 <div class="all-select clearfix">
@@ -35,7 +35,7 @@
                             <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                         </a>
                         <ul class="sub-nav" uib-collapse="!isCollapsed">
-                            <li ng-repeat="list in user.users"  ng-click="addRelated($index, $parent.$index,list,$event)" ng-class="{true:'grey',false:'default'}[list.add]">
+                            <li ng-repeat="list in user.users" class="select-check" ng-click="addRelated($index, $parent.$index,list,$event)" ng-class="{true:'grey',false:'default'}[list.add]" >
                                 <label >
                                     <img src="{{list.avatar}}"><span>{{list.username}}</span>
                                 </label>

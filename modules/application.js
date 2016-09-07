@@ -34,9 +34,8 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
                         responseError: function(rejection) {
                             switch (rejection.status) {
                                 // 401 Unauthorized: jump to login page
-                                case 404:
-                                debugger
-                                    location.pathname = 'http://baidu.com';
+                                case 401:
+                                    location.pathname = membersysConfig.loginPage;
                                     break;
                                     // other Error
                                 default:

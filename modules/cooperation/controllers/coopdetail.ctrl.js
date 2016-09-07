@@ -35,6 +35,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
 	   		//console.log(data);
+
 	   		$scope.collaList = data;
 			console.info("线是否",$scope.collaList)
 			//console.info(data)
@@ -57,9 +58,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 			}
 
-			if( data.deadline && ( (currentTimestamp >data.deadline))){
+			if( data.deadline && data.isDeadline==3){
 				$scope.deadlineStyle = 'red';
-				console.info('时间过期了?',currentTimestamp > data.deadline)
 			}
 			//console.info("明天的日期",(new Date().date("Y-m-d",strtotime("+1 day"))).getData())
 
@@ -135,31 +135,51 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			}
 			var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 			angular.forEach($scope.collaList.docs, function(value, key) {
-                //如果存在后缀名
+                var imgsrc = "imgs/pro-icon/icon-";
+                console.log("资料名称"+value.name);
+				//如果存在后缀名
                 if(value.name.indexOf('.') !== -1){
                     var unit = value.name.split('.')[value.name.split('.').length - 1];
-					if(typeArr.indexOf(unit) == -1) {
+                    unit = unit.toLowerCase();
+					if(typeArr.indexOf(unit) == -1 || unit == null || unit == "" || unit == "undefined") {
 						unit = 'other';
+					}else if(unit == "docx"){
+						unit = 'doc'
 					}
+					imgsrc = imgsrc+unit+".png";
                     //1.获取后缀 把后缀你push到数组
-                    $scope.collaList.docs[key].suffix = unit;
-                    console.log('887878',$scope.collaList.docs);
-
+                    $scope.collaList.docs[key].imgsrc = imgsrc;
+                }else{
+                	unit = 'other';
+                	imgsrc = imgsrc+unit+".png";
+                	$scope.collaList.docs[key].imgsrc = imgsrc;
                 }
-				console.info("12313131",$scope.typeArr)
+                console.log("图片src"+imgsrc);
             });
 
 			angular.forEach($scope.collaList.comments, function(value, key) {
 				//如果存在后缀名
 				if(value.docs) {
 					angular.forEach(value.docs, function(value1, key1) {
-						if(typeArr.indexOf(value1.suffix) == -1 || value1.suffix == null) {
+						var imgsrc = "imgs/pro-icon/icon-";
+						var unit = value1.suffix;
+						unit = unit.toLowerCase();
+						if(typeArr.indexOf(unit) == -1 || unit == null || unit == "" ||  unit == "undefined" ) {
 							$scope.collaList.comments[key].docs[key1].suffix = 'other';
+							imgsrc = imgsrc+"other.png";
+							$scope.collaList.comments[key].docs[key1].imgsrc = imgsrc;
+						}else if(unit == "docx"){
+							imgsrc = imgsrc+"doc.png";
+							$scope.collaList.comments[key].docs[key1].imgsrc = imgsrc;
+						}else{
+							imgsrc = imgsrc+unit+".png";
+							$scope.collaList.comments[key].docs[key1].imgsrc = imgsrc;
 						}
+						 if(value1.thumbnailUrl){
+                        	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
+                        }
 					})
-					console.log('rtrtrt',$scope.collaList.comments);
 				}
-				console.info("12313131",$scope.typeArr)
 			});
 
 			//判断两个按钮是否都存在，如果存在显示两个，否则显示全屏
@@ -172,68 +192,71 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			}
 	   	});
 	   	//获取电子签名uuid
-		Cooperation.getSignature().then(function (data) {
-			console.log('igfisghslighdsglh',data);
-			signature = data.uuid;
+	   	if(!$scope.device) {
+	   		Cooperation.getSignature().then(function (data) {
+				console.log('igfisghslighdsglh',data);
+				signature = data.uuid;
+			});
+	   	}
+		
+		$(document).ready(function() {
+			var flashHtml = '';
+			if($scope.device) {
+				// flashHtml = 'html,flash'; 
+				flashHtml = 'html,flash'; 
+			} else {
+				flashHtml = 'flash,html'; 
+			}
+
+			var id = "#jquery_jplayer_1";
+
+			var bubble = {
+				title:"Bubble",
+				// mp3:$('.speach-url').val(),
+				// mp3:'./lib/audio/yangcong.mp3',
+				mp3:'http://192.168.13.222:8081/pdsdoc/downloadSystemFile/51cb87768a263ff3324922b0c78052f47a1b1f8315777a9fa3cab1bc17a5825fc94768e5ae3322ad6308ae53893af613375b6159379ca975a52b935118732777a22e659a0be24e9d67c8525d81cc0df342a1a62aeaeb7b702ddf8a6d8d5d406e9f705c738d47b78c3f899609c034380e4e988b5ad09a589b7f8febf48b1e5849/4802df83744d5567e1e5c65889aa94d84789c2f9f77941f3bc7fb01857c994b904e57c0f5e7b1519ca2ecc665832b62d9f427a68dfc6016ecbd228c21d90f7f8b1261a071a3380d0fd4dd6cf95ac2b72a0bdb3a2753e77c7f9a97097ccd0d4223b5acb88aaf8121087c74adc19eef24e72033ebd7b84b79861038ce6a8a12ea9?fileType=mp3'
+			};
+
+			var options = {
+				solution: flashHtml,
+				swfPath: "./lib/audio1",
+				supplied: "mp3",
+				wmode: "window",
+				useStateClassSkin: true,
+				autoBlur: false,
+				smoothPlayBar: true,
+				keyEnabled: true,
+				remainingDuration: true,
+				preload:'none'
+			};
+
+			var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
 		});
 
+		$scope.play = function(){
+			//
+			$('.jp-play').click();
+			$(".detail-voice").css('display','block');
+			$(".detail-close").css("display",'block');
+		}
 
-			$(document).ready(function() {
-				var flashHtml = '';
-				if($scope.device) {
-					// flashHtml = 'html,flash'; 
-					flashHtml = 'html,flash'; 
-				} else {
-					flashHtml = 'flash,html'; 
-				}
-
-				var id = "#jquery_jplayer_1";
-
-				var bubble = {
-					title:"Bubble",
-					mp3:$('.speach-url').val()
-					// mp3:'./lib/audio/yangcong.mp3'
-					// mp3:'http://172.16.21.174:8080/pdsdoc/downloadSystemFile/51cb87768a263ff3324922b0c78052f47a1b1f8315777a9fa3cab1bc17a5825fc94768e5ae3322ad6308ae53893af613375b6159379ca975a52b935118732777a22e659a0be24e9d67c8525d81cc0df342a1a62aeaeb7b702ddf8a6d8d5d406e9f705c738d47b78c3f899609c034380e4e988b5ad09a589b7f8febf48b1e5849/4802df83744d5567e1e5c65889aa94d84789c2f9f77941f3bc7fb01857c994b904e57c0f5e7b1519ca2ecc665832b62d9f427a68dfc6016ecbd228c21d90f7f8b1261a071a3380d0fd4dd6cf95ac2b72a0bdb3a2753e77c7f9a97097ccd0d4223b5acb88aaf8121087c74adc19eef24e72033ebd7b84b79861038ce6a8a12ea9?fileType=mp3'
-				};
-
-				var options = {
-					solution: flashHtml,
-					swfPath: "./lib/audio1",
-					supplied: "mp3",
-					wmode: "window",
-					useStateClassSkin: true,
-					autoBlur: false,
-					smoothPlayBar: true,
-					keyEnabled: true,
-					remainingDuration: true,
-					toggleDuration: true
-				};
-
-				var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
-
-			});
-
-			$scope.play = function(){
-				//debugger
-				$('.jp-play').click();
-				$(".detail-voice").css('display','block');
-				$(".detail-close").css("display",'block');
-			}
-
-			//play-audio(播放声音的显示播放窗口事件)
-			$scope.audioClose = function () {
-				$('.jp-play').click();
-				$(".detail-voice").hide();
-				$(".detail-close").hide();
-			}
+		//play-audio(播放声音的显示播放窗口事件)
+		$scope.audioClose = function () {
+			$('.jp-play').click();
+			$(".detail-voice").hide();
+			$(".detail-close").hide();
+		}
 
 	   	//编辑协作跳转
 	   	 $scope.allowEditTrans = function () {
 	   	 	if($scope.allowEdit) {
+	   	 		Cooperation.checkOut(coid).then(function(data) {	
+	   	 		});
 	   	 		$state.go('editDetail', {coid: coid});
 	   	 	} else {
 	   	 		var r=confirm("当前协作已结束，不允许再操作");
 	   	 	}
+
 	   	 }
 	   	//预览功能
 	   	$scope.pcPreView = function (docName, uuid) { 
@@ -275,8 +298,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   		sendCommand(6,coid,uuid);
 	   	}
 
-	   	$scope.previewComment = function (index,uuid) {
+	   	$scope.previewComment = function (index,uuid){
 	   		sendCommand(7,index,uuid);
+	   	}
+
+	   	$scope.transTitle = function (title) {
+	   		sendCommand(8,title);
 	   	}
 
 	   	$scope.docsOpen = function (uuid) {
@@ -306,6 +333,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		    }
 		    if(optType==7){
 		    	param = '{"optType":'+optType+',"index":"'+id+'","fileUUID":"'+ uuid +'","isPreview":true'+'}';
+		    }
+		    if(optType==8){
+		    	param = '{"title":'+title+'}'
 		    }
 		    //document.location = "http://bv.local?param=" + param;
 		    //var a  = "http://bv.local?param=" + param;
@@ -400,27 +430,43 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 		//pc对接
 		//进入页面
+		//窗口发生变化传给pc对应的边距及高度
+	    $(window).resize(function(){
+		    //alert(('.edit-office').innerWidth);
+		  	var editLeft = document.getElementById("edit-office").offsetLeft;
+		  	var editHeight = $(document.body).height() - 60 - 60;
+		  	//分别对应edit-office div 对应的 left top width height
+		  	currentReact = editLeft + ',60,1200,' + editHeight;
+
+		  	$scope.pdfSign();
+
+		    $scope.$apply(function(){
+		       //do something to update current scope based on the new innerWidth and let angular update the view.
+		    });
+
+
+		});
+
 		$scope.pdfSign = function (uuid,docName,fileType) {
 			$scope.isPreview = true;
             currentEditOfficeUuid = uuid;
             currentSuffix = 'doc';
+            console.log('currentReact',currentReact)
             //console.log(currentEditOfficeUuid, currentSuffix,currentReact);
-			var pdfSign = BimCo.CommentSign(currentEditOfficeUuid,currentSuffix,currentReact);
+			var pdfSign = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact);
 			if(!pdfSign) {
 				alert('下载文件失败！');
 			}
-
     	}
 
 		//签署意见
-		$scope.commentSign = function () {
-
+		$scope.signComment = function () {
+			$scope.isSign = true;
 	        BimCo.CommentSign(currentEditOfficeUuid,currentSuffix);
-	      	
 	    }
 	    //电子签名
-	    $scope.electronicSign = function () {
-	    	
+	    $scope.signElectronic = function () {
+	    	$scope.isEleSign = true;
 	       	BimCo.ElectronicSign(signature);
 
 	    }
@@ -523,7 +569,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
    			$uibModalInstance.close(data);
    		}
    		//每个上传成功之后的回调函数
-   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+   		uploader1.onSuccessItem = function(fileItem, response, status, headers) { 
 	            console.info('onSuccessItem', fileItem, response, status, headers);
 	            var unit = {};
 	            unit.name = response[0].result.fileName;

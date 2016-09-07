@@ -30,10 +30,17 @@
                         </div>
                         <div class="row">
                             <!---->
-                            <div class="pro_man col-xs-5" ng-if="link">
+                            <!-- <div class="pro_man col-xs-5" ng-if="link">
                                  <button  type="button" class="btn btn-default look-model" ng-click="checkModelpc()"><img src="imgs/show_model.png">查看模型关联</button>
                             </div>
                             <div class="pro_man col-xs-7" ng-if="speachShow">
+                               <button  type="button" class="btn btn-default play-audio" ng-click="play()"><img src="imgs/play.png"/>播放录音</button>
+                            </div> -->
+
+                             <div class="pro_man col-xs-5">
+                                 <button  type="button" class="btn btn-default look-model" ng-click="checkModelpc()"><img src="imgs/show_model.png">查看模型关联</button>
+                            </div>
+                            <div class="pro_man col-xs-7" >
                                <button  type="button" class="btn btn-default play-audio" ng-click="play()"><img src="imgs/play.png"/>播放录音</button>
                             </div>
                             
@@ -54,7 +61,7 @@
                                 </div>
                                 <div class="photo col-xs-8 col-md-10">
                                     <dl ng-repeat="item in collaList.relevants" class="photoImg">
-                                        <dt><img src="{{item.avatar}}"/></dt>
+                                        <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                                         <dd class="substr" style="width:100px;">{{item.username}}</dd>
                                         <dd ng-if="!item.isReaded">未读</dd>
                                         <dd ng-if="item.isReaded">已读</dd>
@@ -88,42 +95,7 @@
                                 <div class="col-xs-8 col-md-11 picInfo">
                                     <dl class="data-list" ng-repeat="item in collaList.docs" profit>
                                         <dt class="rela deta-down">
-                                            <img src="./imgs/pro-icon/icon-7z.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='other'"/>
-                                            <img src="./imgs/pro-icon/icon-7z.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="!item.suffix"/>
-                                            <!--文件类型-->
-                                            <img src="imgs/pro-icon/icon-txt.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='txt'">
-                                            <img src="imgs/pro-icon/icon-doc.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix == 'doc' || item.suffix  == 'docx'">
-                                            <img src="imgs/pro-icon/icon-pdf.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='pdf'">
-                                            <img src="imgs/pro-icon/icon-xls.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='xls'">
-                                            <img src="imgs/pro-icon/icon-ppt.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='ppt'">
-                                            <img src="imgs/pro-icon/icon-docx.png"  ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='docx'">
-                                            <img src="imgs/pro-icon/icon-xlsx.png"  ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='xlsx'">
-                                            <img src="imgs/pro-icon/icon-pptx.png"  ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='pptx'">
-                                            <!--图片类型-->
-                                            <img src="imgs/pro-icon/icon-jpeg.png"  ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='jpeg'">
-                                            <img src="imgs/pro-icon/icon-bmp.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='bmp'">
-                                            <img src="imgs/pro-icon/icon-png.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='PNG'">
-                                            <img src="imgs/pro-icon/icon-gif.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='GIF'">
-                                            <img src="imgs/pro-icon/icon-jpg.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='JPG'">
-                                            <img src="imgs/pro-icon/icon-png.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='png'">
-                                            <img src="imgs/pro-icon/icon-jpg.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='jpg'">
-                                            <img src="imgs/pro-icon/icon-gif.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='gif'">
-
-                                            <img src="imgs/pro-icon/icon-dwg.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='dwg'">
-                                            <img src="imgs/pro-icon/icon-rar.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='rar'">
-                                            <img src="imgs/pro-icon/icon-zip.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='zip'">
-
-                                            <!--视频-->
-                                            <img src="imgs/pro-icon/icon-avi.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='avi'">
-                                            <img src="imgs/pro-icon/icon-mp4.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='mp4'">
-                                            <img src="imgs/pro-icon/icon-mov.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='mov'">
-                                            <img src="imgs/pro-icon/icon-flv.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='flv'">
-                                            <img src="imgs/pro-icon/icon-swf.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='swf'">
-                                            <img src="imgs/pro-icon/icon-wmv.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='wmv'">
-                                            <img src="imgs/pro-icon/icon-mpeg.png"  ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='mpeg'">
-                                            <img src="imgs/pro-icon/icon-mpg.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='mpg'">
-                                            <!--音频-->
-                                            <img src="imgs/pro-icon/icon-mp3.png"   ng-click="pdfSign(item.uuid,item.name,item.fileType)" ng-if="item.suffix=='mp3'">
+                                            <img ng-src="{{item.imgsrc}}"   ng-click="pdfSign(item.uuid,item.name,item.fileType)">
                                             <div class="absol show-icon">
                                                 <a ng-href="{{item.fileUrl}}"><img class="detail-down" src="imgs/icon_down.png" class=" a-{{$index}}" ng-click="downDocs(item.uuid)"/></a>
                                             </div>
@@ -140,7 +112,7 @@
                             <div class="col-md-11 col-xs-10">
                                 <div class="say clearfix" ng-repeat="item in collaList.comments">
                                     <div class="col-xs-4 col-md-1 man_pic">
-                                        <img src="{{item.avatar}}" alt="">
+                                        <img ng-src="{{item.avatar}}" alt="">
                                         <p>{{item.commentator}}</p>
                                     </div>
                                     <div class="col-xs-8 col-md-11 comment">
@@ -148,55 +120,8 @@
                                             <div class="break-word text-format" >{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}&nbsp;&nbsp;{{item.comment}}</div>
                                             <div style=" margin:10px;margin-right:20px;">
                                                 <div class="inline look-return"  ng-repeat="doc in item.docs"  >
-                                                    <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
-                                                    <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="pcPreView(doc.name, doc.uuid)" ></span>
-                                                    <!--文件类型-->
-                                                    <span><img src="imgs/pro-icon/icon-txt.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='txt'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-doc.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix == 'doc'")></span>
-                                                    <span><img src="imgs/pro-icon/icon-doc.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix == 'docx'")></span>
-                                                    <span><img src="imgs/pro-icon/icon-pdf.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='pdf'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-xls.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='xls'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-ppt.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='ppt'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-docx.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='docx'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-xlsx.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='xlsx'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-pptx.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='pptx'"></span>
-                                                    <!--图片类型-->
-                                                    <span><img src="imgs/pro-icon/icon-jpeg.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='jpeg'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-bmp.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='bmp'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-png.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='PNG'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-gif.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='GIF'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-jpg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='JPG'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-png.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='png'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-jpg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='jpg'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-gif.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='gif'"></span>
-
-                                                    <span><img src="imgs/pro-icon/icon-dwg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='dwg'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-rar.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='rar'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-zip.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='zip'"></span>
-
-                                                    <!--视频-->
-                                                    <span><img src="imgs/pro-icon/icon-avi.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='avi'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-mp4.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mp4'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-mov.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mov'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-flv.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='flv'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-swf.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='swf'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-wmv.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='wmv'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-mpeg.png" ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mpeg'"></span>
-                                                    <span><img src="imgs/pro-icon/icon-mpg.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mpg'"></span>
-                                                    <!--音频-->
-                                                    <span><img src="imgs/pro-icon/icon-mp3.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="!doc.thumbnailUrl && doc.suffix=='mp3'"></span>
-                                                    <!-- 其他类型 -->
-                                                    <span><img src="./imgs/pro-icon/icon-other.png"  class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"  ng-if="!doc.thumbnailUrl && doc.suffix=='other'"/></span>
+                                                    <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
                                                     <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
-
-                                                    <!-- <span style="width:100px;height:80px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != ''"  ng-click="pcPreView(doc.name, doc.uuid)"></span>
-                                                    <span><img src="./imgs/icon/icon-doc.png" alt="" style="width:50px" ng-if="doc.thumbnailUrl == ''"></span>
-                                                    <span><img src="./imgs/pro-icon/icon-doc.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="doc.thumbnailUrl == '' && (doc.suffix == 'doc' || doc.suffix  == 'docx') "/></span>
-                                                    <span><img src="./imgs/pro-icon/icon-ppt.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="doc.thumbnailUrl == '' && doc.suffix == 'ppt'"/></span>
-                                                    <span><img src="./imgs/pro-icon/icon-pdf.png"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="doc.thumbnailUrl == '' && doc.suffix == 'pdf'"/></span>
-                                                    <span><img src="./imgs/pro-icon/icon-7z.png"  class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="doc.thumbnailUrl == '' && doc.suffix=='other'"/></span>
-                                                    <span><img src="./imgs/pro-icon/icon-7z.png"  class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)" ng-if="doc.thumbnailUrl == '' && !doc.suffix"/></span>
-                                                    <div>{{doc.name}}</div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -238,7 +163,7 @@
                                     <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" style="padding:4px;">
                                 </div>
                                 <div class="handle">
-                                    <div class="icon_man"><img src="{{item.avatar}}"/></div>
+                                    <div class="icon_man"><img ng-src="{{item.avatar}}"/></div>
                                     <p>{{item.username}}{{item.operation}}<span>本次协作</span></p>
                                 </div>
                             </li>
