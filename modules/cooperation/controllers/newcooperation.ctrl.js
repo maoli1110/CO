@@ -202,10 +202,11 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 		}
 
+
     //删除关联
     $scope.removeLink = function () {
 		if($scope.data.linkProjectName) {
-			var mes = confirm("您已关联工程，是否重新关联？");
+			var mes = confirm("您已关联了模型，是否删除关联？");
 			if(mes) {
 				$scope.linkOpenSignal = true;
 				$scope.linkProject1 = false;
@@ -371,11 +372,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    formatYear: 'yy',
 	    maxDate: new Date(2020, 5, 22),
 	    startingDay: 1,
-	    showWeeks: false
+	    showWeeks: false,
+		minDate: new Date()
 	};
 
 	$scope.open2 = function() {
 	    $scope.popup2.opened = true;
+		$scope.isDeadlineNull = false;
 	};
 
 	$scope.popup2 = {
@@ -650,6 +653,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.editOffice = function () {
         $scope.isEdit = true;
        	console.log('currentReact',currentReact);
+       	debugger
         var editResult = BimCo.EditOffice(currentEditOfficeUuid,currentSuffix,currentReact);
         //编辑失败返回预览界面
         if(!editResult){
@@ -709,7 +713,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		$scope.responsiblePerson = '';
 
 		//获取项目部
-		Cooperation.getDeptInfo().then(function (data) {
+		Cooperation.getDeptList().then(function (data) {
 			$scope.deptInfo.availableOptions = data;
 			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
 		});

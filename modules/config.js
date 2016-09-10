@@ -300,7 +300,12 @@ var jPlayerAndroidFix = (function($) {
                 this.resetAndroid();
 
                 // Set the media
-                this.player.jPlayer("setMedia", this.media);
+//               this.player.jPlayer("setMedia", this.media.mp3);
+                
+                $("#jquery_jplayer_1").jPlayer("setMedia",{
+    			    mp3:this.media.mp3
+    			});
+                
                 return this;
             },
             play: function() {

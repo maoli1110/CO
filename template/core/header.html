@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl">
+<nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl" >
 		<div class="header clearfix">
 			<div class="navbar-header user">
 				<img src="./imgs/saber.jpg" alt="头像">
@@ -14,7 +14,7 @@
 				</div>
 				<div class="header_menus">
 					<ul>
-						<li ng-repeat="menus in headerMenus track by $index">
+						<li ng-repeat="menus in headerMenus track by $index" profit>
 							<p><b>{{menus.enterpriseName}}</b><span class="glyphicon glyphicon-chevron-right"></span></p>
 							<div class="child_items">
 								<ol >

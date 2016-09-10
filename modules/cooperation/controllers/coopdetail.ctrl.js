@@ -25,6 +25,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
 			$scope.device = true;
 		}
+
+		//bv播放按钮显示不同颜色
+		if($scope.device) {
+			$('.palys').addClass('play-bv');
+		} else {
+			$('.palys').addClass('play-pc');
+		}
 		//根据ui-sref路由拿到对应的coid
 	   	var coid = $stateParams.coid;
 	   	var ppid = 0;
@@ -34,11 +41,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	$scope.transcoid = coid;
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
-	   		//console.log(data);
 
 	   		$scope.collaList = data;
 			console.info("线是否",$scope.collaList)
-			//console.info(data)
 			if(data.coTypeVo) {
 				coTypeVo = data.coTypeVo.type;
 			}
@@ -49,15 +54,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.link = true;
 				ppid = data.binds[0].ppid;
 			}
-
+			
 			if(data.speach) {
 				$scope.speachShow = true;
-				$scope.speachUrl = data.speach.speechUrl;
-				//console.log('$scope.speachUrl',$scope.speachUrl);
-				$('.speach-url').val(data.speach.speechUrl);
-
+				alert("塞值:"+data.speach.speechUrl);
+				$scope.speachUrl = data.speach.speechUrl
 			}
-
+			
 			if( data.deadline && data.isDeadline==3){
 				$scope.deadlineStyle = 'red';
 			}
@@ -66,10 +69,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			if(data.deadline == null) {
 				$scope.collaList.deadline = '不限期';
 			}
-
-
-			console.log('$scope.collaList.docs.length',$scope.collaList.docs.length);
-
 			//详情描述
             if($scope.collaList.desc ==null || $scope.collaList.desc==''){
                 $('.mobile-job-descrition,.pc-job-descrition').css("display",'none')
@@ -136,7 +135,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 			angular.forEach($scope.collaList.docs, function(value, key) {
                 var imgsrc = "imgs/pro-icon/icon-";
-                console.log("资料名称"+value.name);
 				//如果存在后缀名
                 if(value.name.indexOf('.') !== -1){
                     var unit = value.name.split('.')[value.name.split('.').length - 1];
@@ -154,7 +152,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                 	imgsrc = imgsrc+unit+".png";
                 	$scope.collaList.docs[key].imgsrc = imgsrc;
                 }
-                console.log("图片src"+imgsrc);
             });
 
 			angular.forEach($scope.collaList.comments, function(value, key) {
@@ -187,39 +184,16 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$(".mobile-devices .paly-model").css({"width":'100%'})
 			}else if(!$scope.link && $scope.speachShow){
 				$(".mobile-devices .play-audio").css({"width":'100%'})
-			}else if($scope.link && $scope.speachShow){
-				$(".mobile-devices .paly-model , .mobile-devices .paly-model").css("width",'143px')
 			}
-	   	});
-	   	//获取电子签名uuid
-	   	if(!$scope.device) {
-	   		Cooperation.getSignature().then(function (data) {
-				console.log('igfisghslighdsglh',data);
-				signature = data.uuid;
-			});
-	   	}
-		
-		$(document).ready(function() {
-			var flashHtml = '';
-			if($scope.device) {
-				// flashHtml = 'html,flash'; 
-				flashHtml = 'html,flash'; 
-			} else {
-				flashHtml = 'flash,html'; 
-			}
-
-			var id = "#jquery_jplayer_1";
-
-			var bubble = {
-				title:"Bubble",
-				// mp3:$('.speach-url').val(),
-				// mp3:'./lib/audio/yangcong.mp3',
-				mp3:'http://192.168.13.222:8081/pdsdoc/downloadSystemFile/51cb87768a263ff3324922b0c78052f47a1b1f8315777a9fa3cab1bc17a5825fc94768e5ae3322ad6308ae53893af613375b6159379ca975a52b935118732777a22e659a0be24e9d67c8525d81cc0df342a1a62aeaeb7b702ddf8a6d8d5d406e9f705c738d47b78c3f899609c034380e4e988b5ad09a589b7f8febf48b1e5849/4802df83744d5567e1e5c65889aa94d84789c2f9f77941f3bc7fb01857c994b904e57c0f5e7b1519ca2ecc665832b62d9f427a68dfc6016ecbd228c21d90f7f8b1261a071a3380d0fd4dd6cf95ac2b72a0bdb3a2753e77c7f9a97097ccd0d4223b5acb88aaf8121087c74adc19eef24e72033ebd7b84b79861038ce6a8a12ea9?fileType=mp3'
-			};
-
-			var options = {
-				solution: flashHtml,
-				swfPath: "./lib/audio1",
+			
+			
+			$("#jquery_jplayer_1").jPlayer({
+				ready: function () {
+				$(this).jPlayer("setMedia", {
+					mp3:""
+				});
+				},
+				solution: "html,falsh",
 				supplied: "mp3",
 				wmode: "window",
 				useStateClassSkin: true,
@@ -227,22 +201,83 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				smoothPlayBar: true,
 				keyEnabled: true,
 				remainingDuration: true,
-				preload:'none'
-			};
+				preload:"auto",
+			});
+			
+	   	});
 
-			var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
-		});
+	   	//获取电子签名uuid
+	   	if(!$scope.device) {
+	   		Cooperation.getSignature().then(function (data) {
+				signature = data.uuid;
+			});
+	   	}
 
-		$scope.play = function(){
-			//
-			$('.jp-play').click();
+		$scope.play = function(speechUrl){
+			alert("datamp3url: "+speechUrl);
+			var datamp3url;
+			$.ajax({
+	              type: "post",
+	              url: basePath+'rs/co/getMP3URL',
+	              data:speechUrl,
+	              async:false,
+	              contentType:'text/HTML',
+	              success: function(mp3url){
+	            	  alert("$scope.speachUrl: "+mp3url);
+	            	  datamp3url = mp3url;
+	              }
+	          });
+			
+//			var id = "#jquery_jplayer_1";
+//			var flashHtml = '';
+//			if($scope.device) {
+//				flashHtml = 'html,falsh'; 
+//			} else {
+//				flashHtml = 'flash,html'; 
+//			}
+			
+//			var bubble = {
+//					title:"Bubble",
+//					mp3:datamp3url
+//				};
+				
+//			var options = {
+//				solution: flashHtml,
+//				swfPath: "./lib/audio1",
+//				supplied: "mp3",
+//				wmode: "window",
+//				useStateClassSkin: true,
+//				autoBlur: false,
+//				smoothPlayBar: true,
+//				keyEnabled: true,
+//				remainingDuration: true,
+//				preload:"auto",
+//				autoPlay:true
+//			};
+
+//			var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
+			
+			alert("播放地址32："+datamp3url);
+			$("#jquery_jplayer_1").jPlayer("setMedia",{
+			    mp3:datamp3url
+			});
+			
+			$("#jquery_jplayer_1").jPlayer("play");
+			
+//			
+//			$("#jquery_jplayer_1").jPlayer("setMedia",{
+//				mp3:datamp3url
+//		    });
+//		    //开始播放
+//		    $("#jquery_jplayer_1").jPlayer("play");
+			
 			$(".detail-voice").css('display','block');
 			$(".detail-close").css("display",'block');
 		}
 
 		//play-audio(播放声音的显示播放窗口事件)
 		$scope.audioClose = function () {
-			$('.jp-play').click();
+			$('.jp-stop').click();
 			$(".detail-voice").hide();
 			$(".detail-close").hide();
 		}
@@ -262,7 +297,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	$scope.pcPreView = function (docName, uuid) { 
 	            var data = {fileName:docName,uuid:uuid};
 	            Manage.getTrendsFileViewUrl(data).then(function (result) {
-        		console.log(typeof result)
         		$scope.isPreview = true;
         		$scope.previewUrl =result;
                 layer.open({
@@ -277,7 +311,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                     });
             },function (data) {
                 var obj = JSON.parse(data);
-                console.log(obj);
                 alert(obj.message);
             });
 	   		
@@ -301,11 +334,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	$scope.previewComment = function (index,uuid){
 	   		sendCommand(7,index,uuid);
 	   	}
-
-	   	$scope.transTitle = function (title) {
-	   		sendCommand(8,title);
-	   	}
-
+	   	
 	   	$scope.docsOpen = function (uuid) {
 	   		sendCommand(5,coid,uuid);
 	   	}
@@ -347,7 +376,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		//侧边栏获取动态列表
 		var getOperationList = function () {
 			Cooperation.getOperationList(coid).then(function (data) {
-				console.log('right222',data)
 				$scope.operationList = data;
 			});
 		}
@@ -356,13 +384,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 
 		//更新评论
+
         $scope.updateComment = function () {
-            console.log('coid', coid);
             var trans = {};
             trans.coid = coid;
             trans.coTypeVo = coTypeVo; 
             trans.status = status;
             var modalInstance = $uibModal.open({
+				windowClass:'update-comment',
             	size: 'lg',
                 backdrop : 'static',
                 templateUrl: 'template/cooperation/updatecomment.html',
@@ -375,11 +404,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             });
             modalInstance.result.then(function (data) {
             	Cooperation.commentToCollaboration(data).then(function (data) {
-    				console.log('1111');
+					$state.go($state.current, {}, {reload: true});
     			},function(data) {
-    				console.log(data);
-    			});
-                $state.reload();
+					//$state.go();
+
+				});
+
             });
         }
 
@@ -417,9 +447,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				operationType:statusCode
 			}
 			Cooperation.doCollaboration(params).then(function (data) {
-				console.log('success');
 			},function (data) {
-				console.log(data);
 				alert(data.data.message);
 			});
 		}
@@ -451,8 +479,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			$scope.isPreview = true;
             currentEditOfficeUuid = uuid;
             currentSuffix = 'doc';
-            console.log('currentReact',currentReact)
-            //console.log(currentEditOfficeUuid, currentSuffix,currentReact);
 			var pdfSign = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact);
 			if(!pdfSign) {
 				alert('下载文件失败！');
@@ -475,7 +501,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    	var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
 	    	var isSignSubmit;
 	    	if(r){
-	    		 isSignSubmit = BimCo.SignSubmit();
+	    		 isSignSubmit = BimCo.SignSubmit(currentEditOfficeUuid,currentSuffix);
 	    	}
 	    	if(!isSignSubmit) {
 	    		alert('提交电子签名失败！');
@@ -488,13 +514,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    $scope.signCancel = function () {
 	    	var r = confirm ("放弃编辑？");
 	    	if(r) {
-	    		BimCo.SignCancel();
+	    		BimCo.SignCancel(currentEditOfficeUuid,currentSuffix);
 	    	} 
 	    }
 
 	    //清空
 	    $scope.signEmpty = function () {
-	    	BimCo.SignEmpty();
+	    	BimCo.SignEmpty(currentEditOfficeUuid,currentSuffix);
 	    }
 
 	    //侧边栏划出效果
@@ -506,24 +532,66 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		//}
 
 
-
+		console.info("13131",$scope.status)
 	 
-}]).controller('updatecommentCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
-    function ($scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
+}]).controller('updatecommentCtrl',['$rootScope','$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
+    function ($rootScope,$scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
     	var onCompleteAllSignal = false;
     	$scope.uploadBegin = false;
     	$scope.zhenggai = false;
-    	// $scope.status = items.status;
-    	$scope.status = '1';
+    	$scope.status = items.status;
+		switch ($scope.status) {
+			case '空':
+				$scope.status = '11';
+				break;
+			case '已整改':
+				$scope.status ='1' ;
+				break;
+			case '整改中':
+				$scope.status = '2';
+				break;
+			case '不整改':
+				$scope.status = '3';
+				break;
+			case '待整改':
+				$scope.status = '4';
+				break;
+			case '未整改':
+				$scope.status = '5';
+				break;
+
+		}
+
+		//如果是问题整改则显示状态
+		var isShowArr = ["已结束","已通过","已通过","进行中"];
+		//debugger
+		if(isShowArr.indexOf($scope.status) == -1) {
+			$scope.zhenggai = true;
+			$(".detail-state").show();
+		} else if( coTypeVo === 1) {
+			$scope.zhenggai = true;
+			$(".detail-state").show();
+		}else{
+			$(".detail-state").hide();
+		}
+		//switch($scope.status){
+		//	case "已结束":
+		//		$scope.zhenggai = false;
+		//		break;
+		//	case "已通过":
+		//		$scope.zhenggai = false;
+		//		break;
+		//	case "已拒绝":
+		//		$scope.zhenggai = false;
+		//		break;
+		//}
     	//详情展示页添加更新
     	var coTypeVo = items.coTypeVo;
     	var date = Common.dateFormat1(new Date());
     	var uploadList = [];
 
-    	//如果是问题整改则显示状态
-    	if(coTypeVo === 0) {
-    		$scope.zhenggai = true;
-    	}
+
+
     	//上传资料
 	    var uploader1 = $scope.uploader1 = new FileUploader({
 	    		url: '/bimco/fileupload/upload.do'
@@ -578,7 +646,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	            unit.uuid = response[0].result.uuid;
 	            unit.suffix = response[0].result.suffix;
 	            uploadList.push(unit);
-	            console.log(uploadList);
 		};
 		//全部成功的回调函数
 		uploader1.onCompleteAll = function() {

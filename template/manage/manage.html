@@ -101,49 +101,50 @@
                                     <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
                                     <p><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了资料<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
-                                        <div class="img_list actives" ng-repeat = "items in getTrents.docs" >
+                                        <div class="img_list actives" ng-repeat = "items in getTrents.docs">
                                             <div class="tools_bar" >
                                                 <!--文件类型-->
-                                                <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
-                                                <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
-                                                <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
-                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='ppt'||itmes.fileType=='PPT'">
-                                                <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
-                                                <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
-                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='XLS'" >
-                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='JPEG'" >
-                                                <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='pptx'||items.fileType=='PPTX'">
+                                                <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
+                                                <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
+                                                <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
+                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='ppt'||itmes.fileType=='PPT'">
+                                                <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
+                                                <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
+                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='XLS'" >
+                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPEG'" >
+                                                <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pptx'||items.fileType=='PPTX'">
                                                 <!--图片类型-->
-                                                <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='jpeg'">
-                                                <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='bmp'||items.fileType=='BMP'">
-                                                <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='PNG'">
-                                                <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='GIF'">
-                                                <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='JPG'">
-                                                <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='png'">
-                                                <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='jpg'">
-                                                <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='gif'">
+                                                <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpeg'">
+                                                <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='bmp'||items.fileType=='BMP'">
+                                                <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='PNG'">
+                                                <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='GIF'">
+                                                <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPG'">
+                                                <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='png'">
+                                                <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpg'">
+                                                <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='gif'">
 
-                                                <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='dwg'">
-                                                <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='rar'">
-                                                <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='zip'">
+                                                <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='dwg'">
+                                                <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='rar'">
+                                                <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='zip'">
 
                                                 <!--视频-->
-                                                <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='avi'">
-                                                <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mp4'">
-                                                <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mov'">
-                                                <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='flv'">
-                                                <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='swf'">
-                                                <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='wmv'">
-                                                <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mpeg'">
-                                                <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mpg'">
+                                                <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='avi'">
+                                                <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mp4'">
+                                                <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mov'">
+                                                <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='flv'">
+                                                <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='swf'">
+                                                <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='wmv'">
+                                                <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mpeg'">
+                                                <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mpg'">
                                                 <!--音频-->
-                                                <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='mp3'">
+                                                <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mp3'">
 
 
                                                 <!--显示其他页面-->
-                                                <img src="imgs/pro-icon/icon-other.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'
-                                                ||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar' || items.fileType=='sql'||items.fileType=='kmz'||items.fileType=='stz'||items.fileType=='ndg'">
+                                                <!--<img src="imgs/pro-icon/icon-other.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'-->
+                                                <!--||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar' ||items.filtType=='stz'||items.fileType=='hds'|| items.fileType=='sql'||items.fileType=='kmz'||items.fileType=='stz'||items.fileType=='ndg'">-->
                                                 <!--<img src="imgs/docType.png" alt="" >-->
+                                                <img src="imgs/pro-icon/icon-other.png" alt="" ng-if="items.fileType=='other'" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
                                                 <em></em>
                                                 <div class="bar" >
                                                     <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
@@ -157,48 +158,6 @@
                                         </div>
                                     </div>
                                 </li>
-                                <!--记录时间-->
-                                <!--<div class="pro_Time_surfed">-->
-                                    <!--<h5>上次浏览时间：2016.8.8</h5>-->
-                                    <!--<div class="pro_line"></div>-->
-                                <!--</div>-->
-                                <!--<li>-->
-                                    <!--&lt;!&ndash;icon_img&ndash;&gt;-->
-                                    <!--<div class="icon_img"><img src="img/icon_img.png"></div>-->
-                                    <!--&lt;!&ndash;工程师资料&ndash;&gt;-->
-                                    <!--<p>胡彪 上传了资料<span>2015-06-03 13:16</span></p>-->
-                                    <!--<div class="bx-controls">-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar">-->
-                                                <!--<img src="img/img002.png" style="" />-->
-                                                <!--<div class="bar" style="background:#ddd;">-->
-                                                    <!--<img src="img/iocn_search.png" />-->
-                                                    <!--<img src="img/icon_down.png" />-->
-                                                    <!--<img src="img/icon_add.png" />-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-
-                                            <!--<span>变更图纸</span>-->
-                                        <!--</div>-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="img/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="img/iocn_search.png" />-->
-                                                <!--<img src="img/icon_down.png" />-->
-                                                <!--<img src="img/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="img_list actives">-->
-                                            <!--<div class="tools_bar"><img src="img/img002.png" style="" /></div>-->
-                                            <!--<div class="bar">-->
-                                                <!--<img src="img/iocn_search.png" />-->
-                                                <!--<img src="img/icon_down.png" />-->
-                                                <!--<img src="img/icon_add.png" />-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</li>-->
-
                             </ul>
                         </div>
                     </div>

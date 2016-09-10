@@ -7,7 +7,7 @@
         <!--main_content-->
         <div class="coop-detail">
             <header >
-                <p class="F16">{{collaList.coTypeVo.name}}通知单</p>
+                <p class="F16 header-title" ><span class="substr" title="{{collaList.coTypeVo.name+'通知单'}}">{{collaList.coTypeVo.name+'通知单'}}</span></p>
                 <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span>
             </header>
             <div class="container coop-detail-con">
@@ -16,13 +16,13 @@
                 <div class="content_left clearfix">
                     <div class="proInfo">
                         <div class="pro_man clearfix row">
-                            <div class="col-xs-5 col-md-5 ">
-                               <div class="F16"> <span>负责人:</span><span class="coop-name">{{collaList.collaborator}}</span></div>
-                               <div  class="F16"> <span>状态:</span><span class="coop-name">{{collaList.status}}</span></div>
+                            <div class="col-xs-5 col-md-5">
+                               <div class="F16"> <span>负责人:</span><span class="coop-name" >{{collaList.collaborator}}</span></div>
+                               <div  class="F16"> <span>状态:</span><span class="coop-name" ng-model="status">{{collaList.status}}</span></div>
                             </div>
                             <div class="col-xs-5 col-md-5 pad_clear">
                                 <div  class="F16"> <span>优先级:</span><span class="coop-name">{{collaList.priority}}</span></div>
-                                <div  class="F16"> <span>标识:</span><span class="coop-name substr" style="max-width:100px;position:absolute"><i class ="chara"style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></div>
+                                <div  class="F16"> <span>标识:</span><span class="coop-name substr" title="{{collaList.markerInfo.name}}" style="max-width:100px;position:absolute"><i class ="chara"style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></div>
                             </div>
                             <div class="col-xs-2 col-md-2 pad_clear">
                                 <span  class="F16">限期:</span><p class="coop-name" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</p>
@@ -37,11 +37,11 @@
                                <button  type="button" class="btn btn-default play-audio" ng-click="play()"><img src="imgs/play.png"/>播放录音</button>
                             </div> -->
 
-                             <div class="pro_man col-xs-5">
+                             <div class="pro_man col-xs-5" ng-if="link">
                                  <button  type="button" class="btn btn-default look-model" ng-click="checkModelpc()"><img src="imgs/show_model.png">查看模型关联</button>
                             </div>
-                            <div class="pro_man col-xs-7" >
-                               <button  type="button" class="btn btn-default play-audio" ng-click="play()"><img src="imgs/play.png"/>播放录音</button>
+                            <div class="pro_man col-xs-7" ng-if="speachShow">
+                               <button type="button" class="btn btn-default play-audio"  ng-click="play(speachUrl)"><input type="hidden" ng-model="speachUrl"><img src="imgs/play.png">播放录音</button>
                             </div>
                             
                         </div>
@@ -57,12 +57,12 @@
                            </div>
                             <div class="Avatar row mobile-relate">
                                 <div class="col-xs-3 col-md-1">
-                                    <p class="F16">相关人物:</p>
+                                    <p class="F16">相关人:</p>
                                 </div>
                                 <div class="photo col-xs-8 col-md-10">
                                     <dl ng-repeat="item in collaList.relevants" class="photoImg">
                                         <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                                        <dd class="substr" style="width:100px;">{{item.username}}</dd>
+                                        <dd class="substr" title="{{item.username}}" style="width:100px;">{{item.username}}</dd>
                                         <dd ng-if="!item.isReaded">未读</dd>
                                         <dd ng-if="item.isReaded">已读</dd>
                                     </dl>
@@ -84,7 +84,7 @@
                                              <img src="imgs/seache.png" alt="">
                                         </div>
                                     </dt>
-                                    <dd class="substr" style="width:118px;">{{item.name}}</dd>
+                                    <dd class="substr" title="{{item.name}}" style="width:118px;">{{item.name}}</dd>
                                 </dl>
                             </div>
                             </div>
@@ -110,23 +110,24 @@
                                 <p class="F16">回复:</p>
                             </div>
                             <div class="col-md-11 col-xs-10">
-                                <div class="say clearfix" ng-repeat="item in collaList.comments">
+                                <div class="say clearfix col-xs-12" ng-repeat="item in collaList.comments">
                                     <div class="col-xs-4 col-md-1 man_pic">
                                         <img ng-src="{{item.avatar}}" alt="">
                                         <p>{{item.commentator}}</p>
                                     </div>
-                                    <div class="col-xs-8 col-md-11 comment">
-                                        <div class="say-content">
-                                            <div class="break-word text-format" >{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}&nbsp;&nbsp;{{item.comment}}</div>
-                                            <div style=" margin:10px;margin-right:20px;">
-                                                <div class="inline look-return"  ng-repeat="doc in item.docs"  >
-                                                    <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
-                                                    <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
+                                        <div class="col-xs-8 col-md-11 comment">
+                                            <div class="say-content">
+                                                <div>{{item.comment}}</div>
+                                                <div class="say-pic">
+                                                    <div class="inline look-return"  ng-repeat="doc in item.docs"  >
+                                                        <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
+                                                        <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                    </div>
+
+                                        <div class="break-word text-format say-time" style="clear:both;">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                                 </div>
                             </div>
                         </div>

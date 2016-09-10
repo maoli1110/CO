@@ -770,7 +770,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		};
 
 		//获取项目部
-		Cooperation.getDeptInfo().then(function (data) {
+		Cooperation.getDeptList().then(function (data) {
 			$scope.deptInfo.availableOptions = data;
 			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
 			//默认工程列表

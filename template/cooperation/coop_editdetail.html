@@ -9,11 +9,26 @@
 <div ng-include="'template/cooperation/coop_editdetail_pc.html'" scope="" onload=""></div>
 <!--手机端-->
 <div ng-include="'template/cooperation/coop_editdetail_bv.html'" scope="" onload=""></div>
+<!-- <div id="test">test44444</div> -->
 <script>
-    //手机端协作编辑调用
+    //手机端协作编辑调用确定按钮
     function coEditSave () {
         $('#editSave').click();
     }
+
+    //bv编辑协作确定传主题
+    function coEditTitle() {
+    	var title = $('#title-bv').val();
+        var param = '{"optType":'+8+',"title":"'+title+'"}';
+        document.location = 'http://localhost:8080/bv/?param='+param;
+    }
+
+    // $(function() {
+    //     $("#test").click(function() {
+    //         coEditTitle();
+    //     })
+    // })
+
 </script>
 </body>
 </html>

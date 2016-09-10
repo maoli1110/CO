@@ -4,6 +4,10 @@
     /*display:none;*/
     position:relative;
 }
+.detail-computer .header-title span{
+    width:300px;
+    display:inline-block;
+}
 .detail-computer .F16{
     font-size:16px;
 }
@@ -13,6 +17,7 @@
 .detail-computer .detail-dir{
     border:1px solid #ddd;min-height:80px;padding: 3px 8px;
 }
+
 header{
     height:60px;
     background:#ddd;
@@ -144,6 +149,14 @@ header .close{
 .proInfo .pro_man  .look-model img{
     float:left;
     margin-right:2px;
+}
+.say-time{
+    margin-left: 89px;
+    margin-bottom:10px;
+    clear:both;
+}
+.say-pic{
+    margin:10px 0;margin-right:20px;
 }
 /*.proInfo .pro_man  .look-model:focus, .look-model:hover{*/
     /*!*background: url(../imgs/show_model.png) 13px center no-repeat;*!*/
@@ -366,6 +379,7 @@ margin:34px 0;
 .reply .man_pic p{
     margin-top:10px;
     margin-left: 8px;
+    margin-left:18px;
 }
 .reply .man_pic img{
     width:50px;
@@ -373,21 +387,25 @@ margin:34px 0;
     border-radius: 50%;
 }
 .reply .comment {
-    border: 1px solid #ccc;
+    /*border: 1px solid #ddd;*/
     min-height: 70px;
+    margin-bottom:10px;
+    border-radius:5px;
+    width:auto !important;
 }
 .reply .say{
     margin-bottom:40px;
+    border-bottom:1px solid #ddd;
 }
-.reply .comment{
-    border-radius:5px;
-}
+
 .reply .col-md-11,.col-xs-10,.col-md-12{
     padding:0;
 }
 .reply .say .comment .say-content{
     padding-left:10px !important;
+    width:auto;border:1px solid #ddd;
 }
+
 .reply .reply-state{
     margin-bottom:10px;float:left;margin-right:20px;
 

@@ -287,7 +287,19 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     border-radius: 50%;
     margin-top: -169px;
 }
-
+.edit-raltive-person .modal-dialog{
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left:-501px;
+    margin-top:-351px;
+}
+.edit-raltive-person .modal-body{
+    height:597px !important;
+}
+.edit-raltive-person .modal-body .right{
+    height:563px !important;
+}
 
 /*-----------------------action--------------*/
 .action{
@@ -408,11 +420,30 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .reply .say .comment .say-content{
     padding-left:10px !important;
 }
-.reply .say .comment .say-content div{
-    width: 80px;
-}
+/*.reply .say .comment .say-content div{*/
+    /*width: 80px;*/
+/*}*/
 .reply .say .comment .say-content span img{
     width: 70px;
+}
+.say-time{
+    margin-left: 89px;
+    margin-bottom:10px;
+    clear:both;
+}
+.say-pic{
+    margin:10px 0;margin-right:20px;
+}
+.reply .comment {
+    /*border: 1px solid #ddd;*/
+    min-height: 70px;
+    margin-bottom:10px;
+    border-radius:5px;
+    width:auto !important;
+}
+.reply .say .comment .say-content{
+    padding-left:10px !important;
+    /*width:auto;border:1px solid #ddd;*/
 }
 /*.reply .say .comment .say-content >div:first-child{
     word-wrap: break-word;
@@ -1018,7 +1049,9 @@ html,body{
     margin-bottom: 10px;
     margin-right: 10px;
 }
-
+.inline1{
+    display:inline-block;
+}
 .mobile-devices .comment .inline > span >img {
     height:50px;
 }

@@ -41,7 +41,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.init();
 
         var deptId = '';
-    $scope.childItems = function(id){
+    $scope.childItems = function(id,$event){
         $(".good_list").show();
         $(".pro_list").hide();
         $(".goodlist_left").show();
@@ -174,6 +174,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $(".tools_bar>.pro_mask").animate({top:0});
                 $(".bar").hide();
             })
+            $(".proName").click(function(){
+                if($(this).find(".panel-body").height()<=20){
+                    //alert("子元素为空，没有子元素");
+                    $(this).find(".panel-body").css("padding-bottom",'0px')
+                }
+            })
+
         });
 
     //获取动态列表
@@ -181,6 +188,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     //跳转页面
 
     //    $(".manage_back").hide();
+
         var searchId ;
         $scope.turnPage = function(id){
             //debugger;
@@ -192,7 +200,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:id,searchKey:"",searchType:""}).then(function(data){
                 $scope.trentsListInfo = data.data;
                 console.info("详情列表",$scope.trentsListInfo)
-                var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+                var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
                     angular.forEach(value.docs, function (value1, key1) {
                         if(typeArr.indexOf(value1.fileType) == -1) {
@@ -305,6 +313,15 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 searchType: ""
             }).then(function (data) {
                 $scope.trentsListInfo = data.data;
+                var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+                angular.forEach(data.data, function (value, key) {
+                    angular.forEach(value.docs, function (value1, key1) {
+                        if(typeArr.indexOf(value1.fileType) == -1) {
+                            $scope.trentsListInfo[key].docs[key1].fileType = 'other';
+                            console.log( $scope.trentsListInfo[key].docs[key1].fileType );
+                        }
+                    });
+                });
             });
             $scope.id = id;
             //$("span.ng-binding").removeClass("active");
@@ -321,31 +338,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $scope.isOpen = !$scope.isOpen;
     }
         //通过动态列表的图片获取大图的资源路径
-        $scope.transformBig = function(uuid,docName){
+        $scope.transformBig = function(uuid,docName,isPreview){
             var data ={fileName:docName,uuid:uuid};
-            // $.ajax({
-            //     contentType: "application/json; charset=utf-8",
-            //     //dataType : 'json',
-            //     url: "rs/trends/viewUrl",
-            //     type: "POST",
-            //     data: data,
-            //     async: false,
-            //     success: function(result){
-            //         //console.info(result)
-            //         $scope.previewimg = result;
-            //         layer.open({
-            //             type: 2,
-            //             //skin: 'layui-layer-lan',
-            //             title: 'layer弹层组件',
-            //             fix: false,
-            //             shadeClose: true,
-            //             maxmin: true,
-            //             area: ['1000px', '500px'],
-            //             content: $scope.previewimg
-            //         });
-            //     }
-
-            // });
+            //debugger
+            if(isPreview == false){
+                alert('该文件暂不支持预览')
+                return;
+            }
             Manage.getTrendsFileViewUrl(data).then(function (result) {
                 $scope.previewimg = result;
                 layer.open({

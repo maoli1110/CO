@@ -150,21 +150,40 @@
 .jp-play {
   width: 45px;
   height: 44px; }
-.jp-play {
+
+.play-pc .jp-play {
   background: url("../image/stop.png") 0px -44px no-repeat;background-size:44px;
 }
-.jp-state-playing .jp-play:focus {
+.play-pc .jp-state-playing .jp-play:focus {
   background: url("../image/stop.png") 0 0 no-repeat;background-size:44px; }
 
-/*.jp-play {*/
-  /*background: url("../image/jplayer.blue.monday.jpg") 0 0 no-repeat; }*/
-
-.jp-play:focus {
+.play-pc .jp-play:focus {
   background: url("../image/stop.png") 0px -44px no-repeat;background-size:44px; }
 
-.jp-state-playing .jp-play {
+.play-pc .jp-state-playing .jp-play {
   background: url("../image/stop.png")  0px 0px  no-repeat; background-size:44px;}
 
+
+.play-bv .jp-play {
+  background: url("../image/stop-bv.png") 0px -44px no-repeat;background-size:44px;
+}
+.play-bv .jp-state-playing .jp-play:focus {
+  background: url("../image/stop-bv.png") 0 0 no-repeat;background-size:44px; }
+
+.play-bv .jp-play:focus {
+  background: url("../image/stop-bv.png") 0px -44px no-repeat;background-size:44px; }
+
+.play-bv .jp-state-playing .jp-play {
+  background: url("../image/stop-bv.png")  0px 0px  no-repeat; background-size:44px;}
+
+
+.play-pc .jp-play-bar {
+  background:#65c17d;border-radius:5px;
+}
+
+.play-bv .jp-play-bar {
+  background:#5c58f9;border-radius:5px;
+}
 /*.jp-state-playing .jp-play:focus {*/
   /*background: url("../image/jplayer.blue.monday.jpg") -41px -42px no-repeat; }*/
 

@@ -7,16 +7,16 @@
     </div>
     <div class="modal-body" style="min-height:330px;">
         <div class="row">
-            <div class="col-xs-1">描述：</div>
+            <div class="col-xs-2">描述：</div>
             <div class="col-xs-10">
-                <textarea name="" id="" cols="30" rows="6" ng-model="comment" style="width:100%"></textarea>
+                <textarea class="com-padding7" name="" id="" cols="30" rows="6" ng-model="comment" style="width:100%"></textarea>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-1">状态</div>
+        <div class="row detail-state" style="margin:15px 0" ng-show="zhenggai">
+            <div class="col-xs-2">状态</div>
             <div class="col-xs-10">
-                <select class="identify col-xs-6" ng-model="status"  ng-show="zhenggai" show-select>
-                    <option value="-1">空</option>
+                <select class="identify col-xs-6" ng-model="status"  show-select>
+                    <option value="11">空</option>
                     <option value="1">已整改</option>
                     <option value="2">整改中</option>
                     <option value="3">不整改</option>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="row upload" style="margin-top:10px;">
-            <div class="col-xs-1">资料：</div>
+            <div class="col-xs-2">资料：</div>
             <div class="upload-docs col-xs-10">
                 <input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
                 <ul class="list-inline">
@@ -39,20 +39,22 @@
                        
                         <div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) === 'image'" ng-thumb="{ file: item._file, height: 100 }"></div>
                         <div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) !== 'image'" style="width:72px;">
-                            <img src="./imgs/icon/icon-doc.png" alt=""><br/>
-                            <div class="substr">{{item.file.name}}</div>
+                            <img src="./imgs/icon/icon-doc.png" alt=""><br/><br/>
+                            <div class="substr" title="{{item.file.name}}">{{item.file.name}}</div>
 
                         </div>
-                        <button ng-click="item.upload()">upload{{item.file.type.substr(0,5)}}</button>
+                        <!--<button ng-click="item.upload()">upload{{item.file.type.substr(0,5)}}</button>-->
                     </li>
+                    <button class="btn  btn-add btn-lg" ng-click="docsUpload()"><span>+</span></button>
+
                 </ul>
-                <button class="btn  btn-add btn-lg" ng-click="docsUpload()"><span>+</span></button>
-                <button type="button" class="btn btn-success btn-s" ng-click="uploader1.uploadAll()" ng-disabled="!uploader1.getNotUploadedItems().length">
-                    <span class="glyphicon glyphicon-upload"></span> Upload all
-                </button>
-                <button type="button" class="btn btn-warning btn-s" ng-click="uploader1.cancelAll()" ng-disabled="!uploader1.isUploading" disabled="disabled">
-                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                </button>
+                <!--<button class="btn  btn-add btn-lg" ng-click="docsUpload()"><span>+</span></button>-->
+                <!--<button type="button" class="btn btn-success btn-s" ng-click="uploader1.uploadAll()" ng-disabled="!uploader1.getNotUploadedItems().length">-->
+                    <!--<span class="glyphicon glyphicon-upload"></span> Upload all-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-warning btn-s btn-success" ng-click="uploader1.cancelAll()" ng-disabled="!uploader1.isUploading" disabled="disabled">-->
+                    <!--<span class="glyphicon glyphicon-ban-circle "></span> Cancel all-->
+                <!--</button>-->
             </div>
         </div>
     </div>

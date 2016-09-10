@@ -20,6 +20,19 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     };
 
+    //获取新建页面项目部列表
+    this.getDeptList = function () {
+        var delay = $q.defer();
+        var url_join= url+"rs/co/deptList";
+        $http.get(url_join,{cache:true})
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    };
+
     //获取项目部下对应的联系人列表€
     this.getUserList = function (params) {
         var delay = $q.defer();
@@ -35,15 +48,39 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     }
 
     //获取项目部下工程列表（BE）
+
     this.getProjectList = function (params) {
         var delay = $q.defer();
-        var url_join = url + 'rs/co/projectInfoList/' + params;
+        var url_join = url +'rs/co/projectList/'+ params;
         $http.get(url_join,{cache:true})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+    //获取项目下工程
+    //this.getProjectList = function(params){
+    //    var delay = $q.defer();
+    //    var url_join = url+'rs/co/getProjectList/'+params;
+    //    $http.get(url_join,{cache:true}).success(function(data){
+    //        delay.resolve(data)
+    //    }).error(function(err){
+    //        delay.reject(err)
+    //    })
+    //    return delay.promise;
+    //}
+
+    //获取bv
+    this.getBVRectifyStatus = function(){
+        var delay = $q.defer();
+        var url_join = url+'rs/co/getBVRectifyStatus';
+        $http.get(url_join,{cache:true}).success(function(data){
+            delay.resolve(data)
+        }).error(function(err){
+            delay.reject(err)
+        })
         return delay.promise;
     }
     //获取协同列表

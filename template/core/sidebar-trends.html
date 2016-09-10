@@ -3,13 +3,13 @@
 </div>
 <div scroll-directive id="content-a3" style="overflow:auto" class="manage_bar" copy-radio>
     <uib-accordion close-others="true"   class="manage_title">
-        <div uib-accordion-group class="panel-default"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index" >
-          <uib-accordion-heading  class="sideText" ng-click="" >
-           <span title="{{deptInList.deptName}}" class="substr" ng-click="childItems(deptInList.deptId)" >{{deptInList.deptName}}<i style="display:inline;margin-left:10px;font-style:normal">({{deptInList.count}})</i>
+        <div uib-accordion-group class="panel-default pro-list-name"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index">
+          <uib-accordion-heading  class="sideText" >
+           <span  title="{{deptInList.deptName}}" class="substr" ng-click="childItems(deptInList.deptId,$event)" >{{deptInList.deptName}}<i style="display:inline;margin-left:10px;font-style:normal">({{deptInList.count}})</i>
 
            </span> <b class="menus-icon"></b>
           </uib-accordion-heading>
-          <div ng-repeat="getProList in projectInfoList track by $index" class="manage_proList" ng-click="trentsList($event,getProList.ppid)">
+          <div ng-repeat="getProList in projectInfoList track by $index" class="manage_proList" ng-click="trentsList($event,getProList.ppid)" profit>
               <!--111111--><!--选中之前地圆圈<span class="font_radius">.</span>-->
               <span title="{{getProList.projectName}}">
                   <img src="imgs/icon/1.png" alt="" ng-if="getProList.projectType == '土建预算'">

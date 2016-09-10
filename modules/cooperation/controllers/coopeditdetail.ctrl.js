@@ -87,12 +87,15 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 //获取优先级
                 Cooperation.getPriorityList().then(function(data) {
                     $scope.priorityList = data;
-                    $timeout(function() {
+                    if(data[0].code){
+                        $timeout(function() {
                             $('.selectpicker').selectpicker({
                                 style: '',
                                 size: 'auto'
                             });
-                    },0);
+                        },0);
+                    }
+                   
                 });
                 //type = 0 问题整改
                 if(data.coTypeVo.type == 1) {
@@ -123,7 +126,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             if($scope.collaList.comments.length==0){
                 $(".mobile-reply,.pc-reply").css('display','none')
             }else{
-                $(".mobile-reply,pc-reply").css('display','block')
+                $(".mobile-reply,.pc-reply").css('display','block')
             }
 
             
@@ -223,7 +226,23 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 
 
         $scope.ok = function () {
-            $scope.dt = $('.date-value').html();
+            if(!$scope.collaList.name) {
+                var index = layer.open({
+                  type: 1,
+                  title: false,
+                  closeBtn: 0,
+                  shadeClose: true,
+                  skin: 'yourclass',
+                  content: '<div style="width:200px;height:80px;line-height:80px;border-bottom:1px solid #ddd;text-align:center;">当前协作主题不能为空</div><div style="text-align:center;padding:10px 0;color:#4280EC" onclick="layer.closeAll();">好</div>'
+                });
+            }
+
+            if($scope.device){
+                $scope.dt = $('.date-value-bv').html();
+            } else {
+                $scope.dt = $('.data-value').html();
+            }
+            
             console.log($scope.dt);
             if($scope.dt) {
                 $scope.dt =  $scope.dt;
@@ -246,7 +265,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                  // //签入(后端接口无需调用)
                  // Cooperation.checkIn(coid).then(function(data) {
                  // });
-                $state.go('coopdetail', {coid:coid});
+                // $state.go('coopdetail', {coid:coid});
+                document.location = 'co_detail.jsp?coid='+ coid;
                
             });
           
@@ -295,6 +315,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         
         $scope.selectRelated = function () {
             var modalInstance = $uibModal.open({
+                windowClass:'edit-raltive-person',
                 size:'lg',
                 backdrop : 'static',
                 templateUrl: 'template/cooperation/select_person_related.html',
