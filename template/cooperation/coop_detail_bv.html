@@ -8,16 +8,17 @@
         <div class="mobile-main-principal col-xs-12 clearfix">
             <p ><span class="F14 oSpan">负责人：</span><span class="F14">{{collaList.collaborator}}</span></p>
             <p><span class="F14 oSpan">优先级：</span><span class="F14">{{collaList.priority}}</span></p>
-            <p class=""><span  class="F14 oSpan">状态：</span><span class="F14">{{collaList.status}}</span></p>
-            <p ><span class="F14 oSpan">限期：</span><span  class="F14" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</span></p>
-            <p class=""><span class="F14 oSpan">标识：</span><span class="substr F14" style=" display:inline-block;position: absolute;max-width: 104px;"><i class="chara" style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></p>
+            <p class=""><span  class="F14 oSpan">状&nbsp;&nbsp;&nbsp;态：</span><span class="F14">{{collaList.status}}</span></p>
+            <p ><span class="F14 oSpan">限&nbsp;&nbsp;&nbsp;期：</span><span  class="F14" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</span></p>
+            <p class=""><span class="F14 oSpan">标&nbsp;&nbsp;&nbsp;识：</span><span class="substr F14" style=" display:inline-block;position: absolute;max-width: 104px;"><i class="chara" style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></p>
             <div style="text-align:center;margin:20px 0">
-            <!---->
-               <!--  <button class="DIY-btn paly-model F14"  ng-show="link" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
-                <button type="button " class="play-audio DIY-btn F14" ng-show="speachShow" ng-click="play()"><img src="imgs/play.png">播放录音</button> -->
+                <div style="text-align:center;margin:20px 0">
+                    <button class="DIY-btn paly-model F14"  ng-show="link" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
+                    <button type="button " class="play-audio DIY-btn F14" ng-show="speachShow"  ng-click="play(speachUrl)"><input type="hidden" ng-model="speachUrl"/><img src="imgs/play.png">播放录音</button>
 
-                <button class="DIY-btn paly-model F14" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
-                <button type="button " class="play-audio DIY-btn F14" ng-click="play()"><img src="imgs/play.png">播放录音</button>
+                    <!--  <button class="DIY-btn paly-model F14"  ng-show="link" ng-click="checkModel()" ><img src="imgs/show_model.png">查看模型关联</button>
+                    <button type="button " class="play-audio DIY-btn F14"  ng-click="play(speachUrl)"><input type="hidden" ng-model="speachUrl"/><img src="imgs/play.png">播放录音</button> -->
+                </div>
             </div>
         </div>
 
@@ -27,7 +28,7 @@
                 详情描述:
             </div>
             <div>
-               <div class="mobile-textarea text-format" >{{collaList.desc}}</div>
+               <div class="mobile-textarea text-format break-word" >{{collaList.desc}}</div>
             </div>
         </div>
         <!--相关人-->
@@ -79,7 +80,7 @@
                 <div class="reply-reply clearfix">
                     <div class="replys clearfix" ng-repeat="item in collaList.comments track by $index">
                         <div class="reply-icon col-xs-2 " style="float:left;padding:0;">
-                            <img ng-src="{{item.avatar}}" alt="">
+                            <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar">
                             <p class="substr" style="width:55px;">{{item.commentator}}</p>
                         </div>
                         <div class="col-xs-9 reply-box"style="width:80%">
@@ -99,7 +100,7 @@
                                 </div>
                                 <!-- 录音 -->
                                 <div class="dashed" ng-if="item.speech.speechUrl">
-                                    <div><button type="button " class="play-audio DIY-btn F14"><img src="imgs/play.png">播放录音</button></div>
+                                    <div><button type="button " class="play-audio DIY-btn F14" ng-click="play(item.speech.speechUrl)"><input type="hidden" ng-model="item.speech.speechUrl"/><img src="imgs/play.png">播放录音</button></div>
                                 </div>
                                 <!-- 时间 -->
                                 <div style="text-align:right;padding:10px 0" ng-if="item.commentTime">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
@@ -142,7 +143,7 @@
                             </div>
                             <div class="handle">
                                 <div class="menus-head">
-                                    <div class="icon_man"><img ng-src="{{item.avatar}}"/></div>
+                                    <div class="icon_man"><img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/></div>
                                     <p class="substr menus-name">{{item.username}}</p>
                                 </div>
                                 <p class="substr" style="width:100px;">{{item.operation}}<span>本次协作</span></p>

@@ -60,27 +60,14 @@ img{
                 <div class="jp-gui jp-interface">
                     <div class="jp-controls">
                         <button class="jp-play" role="button" tabindex="0"></button>
-                        <!--<img src="imgs/play-paly.png" alt="" class="jp-play" role="button" tabindex="0">-->
-                        <!--<button class="jp-stop" role="button" tabindex="0">stop</button> -->
                     </div>
                     <div class="jp-progress">
                         <div class="jp-seek-bar" style="background:#fff;border-radius:5px;width:100%!important">
-                            <div class="jp-play-bar" style="background:#65c17d;border-radius:5px;"></div>
+                            <div class="jp-play-bar" style=""></div>
                         </div>
                     </div>
-                    <!--  <div class="jp-volume-controls">
-                       <button class="jp-mute" role="button" tabindex="0">mute</button>
-                       <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-                       <div class="jp-volume-bar">
-                         <div class="jp-volume-bar-value"></div>
-                       </div>
-                     </div> -->
                     <div class="jp-time-holder">
-                        <!--  <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div> -->
                         <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-                        <!--  <div class="jp-toggles">
-                           <button class="jp-repeat" role="button" tabindex="0">repeat</button>
-                         </div> -->
                     </div>
                 </div>
             </div>
@@ -91,9 +78,9 @@ img{
 
 </div>
 <!--电脑端-->
-<div ng-include="'template/cooperation/coop_detail_pc.html'" scope="" onload=""></div>
+<div ng-include="'template/cooperation/coop_detail_pc.html'" scope="" onload="" ng-if="!device"></div>
 <!--手机端-->
-<div ng-include="'template/cooperation/coop_detail_bv.html'" scope="" onload=""></div>
+<div ng-include="'template/cooperation/coop_detail_bv.html'" scope="" onload="" ng-if="device"></div>
 
 <div ng-if="isPreview">
     <div class="container">
@@ -102,16 +89,15 @@ img{
            <!--  <div class="pull-right" style="text-align:right" ng-show="isDoc" ng-click="editOffice()">编辑资料</div> -->
         </header>
         <!-- 编辑部分 -->
-        <div id="edit-office" style="min-height:300px">editOffice</div>
         <div class="doc-edit btn-fix">
-            <div class="text-center"  style="position:fixed;bottom:50px;">
-                <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
-                <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
+            <div class="text-center">
+                <button class="btn btn-default" ng-click="signComment()">签署意见</button>
+                <button class="btn btn-default" ng-click="signElectron()">电子签名</button>
             </div>
-            <div class="text-center footer">
-                <button class="btn btn-default foot-btn" ng-click="signSubmit()">提交</button>
-                <button class="btn btn-default foot-btn" ng-click="signCancel()">取消</button>
-                <button class="btn btn-default foot-btn" ng-click="signEmpty()">清空</button>
+             <div ng-show="isEdit">pdfSign</div><div class="text-center">
+                <button class="btn btn-default" ng-click="signSubmit()">提交</button>
+                <button class="btn btn-default" ng-click="signCancel()">取消</button>
+                <button class="btn btn-default" ng-click="signEmpty()">清空</button>
             </div>
         </div>
     </div>
@@ -126,7 +112,6 @@ img{
     function changeDocPreview (index) {
         $('.a-'+index+'').removeClass('glyphicon-save').addClass('glyphicon-open-file');
     }
-    
     function animate(){
         $(".charts").each(function(i,item){
             var a=parseInt($(item).attr("w"));

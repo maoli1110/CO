@@ -65,8 +65,6 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(this).css("background",'#eceef0').siblings().css("background","#fff");
 
             })
-
-
 		}
 	};
 });
@@ -198,6 +196,25 @@ angular.module('core').directive('scrollDirective', function () {
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
+                $("#content-b3").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-b4").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-b5").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+                $("#content-b6").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+
+
+
                 //});
             }
         };
@@ -406,3 +423,18 @@ angular.module('core').directive('bvOperation', function($document) {
     };
 });
 
+//angular.module('core').directive('scrollLoad', function($timeout) {
+//    return {
+//        restrict: 'AE',
+//        link: function(scope, element, attr) {
+//            $(".table-list table").scroll(function(){
+//                var scrollTop = $(this).scrollTop();
+//                var scrollHeight =  $(".table-list table").height();
+//                var windowHeight = $(this).height();
+//                if(scrollTop + windowHeight == scrollHeight){
+//                    alert("you are in the bottom");
+//                }
+//            });
+//        }
+//    };
+//});

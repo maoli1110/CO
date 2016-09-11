@@ -14,7 +14,7 @@
                 </div>
                 <div class="select">
                     <label for="">工程：</label>
-                    <select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-click="switchPpid(projectOption)"></select>
+                    <select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-change="switchPpid(projectOption)"></select>
                 </div>
                 <div class="person-list clearfix" id="content-a6">
                     <ul id="tree" class="ztree"></ul>

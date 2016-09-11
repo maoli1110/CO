@@ -5,7 +5,7 @@
         <div class="coop-detail">
             <header >
                 <p class="F16">编辑协作</p>
-                <span class="glyphicon glyphicon-remove close"></span>
+                <span class="glyphicon glyphicon-remove "></span>
             </header>
             <div class="container">
                 <div class="main_content clearfix">
@@ -15,7 +15,7 @@
                             <div class="pro_man clearfix row">
                                 <div class="coop-theme row clearfix col-md-12">
                                     <span class="theme-title F16" style="width:80px;text-align:left;">主题：</span>
-                                    <input type="text" class="int-style" ng-model="collaList.name" ng-change="" maxlength="50">
+                                    <input type="text" style="margin-left:30px;" class="int-style" ng-model="collaList.name" ng-change="" maxlength="50">
                                 </div>
                                 <div class="col-xs-5 col-md-5 basicInfo">
                                     <div>
@@ -24,7 +24,7 @@
                                     </div>
                                     <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
-                                        <div class="inline int-style" style="margin-left: 4px;">{{collaList.status}}</div>
+                                        <div class="inline int-style" style="margin-left: 4px;" ng-model="statusE">{{collaList.status}}</div>
                                         <!-- <select class="identify col-xs-6" ng-model="status"  ng-show="zhenggai">
                                             <option value="-1">空</option>
                                             <option value="1">已整改</option>
@@ -153,20 +153,24 @@
                                     <p class="F16">回复:</p>
                                 </div>
                                 <div class="col-md-11 col-xs-10">
-                                    <div class="say clearfix" ng-repeat="item in collaList.comments">
+                                    <div class="say clearfix col-xs-12" style ="border-bottom:1px solid #ddd" ng-repeat="item in collaList.comments">
                                         <div class="col-xs-4 col-md-1 man_pic">
                                             <img ng-src="{{item.avatar}}" alt="">
                                             <p>{{item.commentator}}</p>
                                         </div>
-                                        <div class="col-xs-8 col-md-11 comment" style="min-height:75px">
-                                            <div class="say-content" style="margin: 15px 0;">
-                                            <div>{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}&nbsp;&nbsp;{{item.comment}}</div>
-                                            <div class="inline" ng-repeat="doc in item.docs"  style="margin:10px 0;">
-                                                <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
-                                                <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
+                                        <div class="col-xs-8 col-md-11 comment">
+                                            <div class="say-content">
+                                                <div>{{item.comment}}</div>
+                                                <div class="say-pic">
+                                                    <div class="inline1 look-return"  ng-repeat="doc in item.docs"  >
+                                                        <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
+                                                        <div class="substr" title="{{doc.name}}" style="width:80px;margin-right:20px;">{{doc.name}}</div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        </div>
+
+                                        <div class="break-word text-format say-time" style="clear:both;">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                                     </div>
                                 </div>
                             </div>

@@ -53,11 +53,14 @@ header{
 					<div class="row">
 					    <label for="" class="col-xs-3 align-right">限制期限：</label>
 					    <p class="input-group col-xs-7">
-				          <input type="text" class="form-control" style="height:40px !important;width:97%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
-				          <span class="input-group-btn">
-				            <button type="button" class="btn btn-default btn-calendar" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-				          </span>
-							<input type="checkbox" ng-click="isChecked()">
+				          <input type="text" class="form-control" ng-click="open2()" style="height:40px !important;width:83%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
+				          <!--<span class="input-group-btn">-->
+				            <!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
+				          <!--</span>-->
+							<label>
+								<input type="checkbox" class="new-car" style="opacity:0;" ng-click="isChecked()">
+								<span class="new-state"></span>
+							</label>
 				        </p>
 					</div>
 				</div>
@@ -104,13 +107,13 @@ header{
 					<!-- <div class="inline" style="border-right:1px solid #ccc;"> -->
 						<ul class="inline rela relative-ion" ng-repeat="item in related.sign track by $index">
 							<img src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span>
-							<li class="substr" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
+							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
 						</ul>
 					<!-- </div> -->
 					<!-- <div class="inline"> -->
 						<ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index">
 							<img src="{{item.avatar}}" alt="">
-							<li class="substr" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
+							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
 						</ul>
 					<!-- </div> -->
 					<button class="btn add-related" ng-click="selectRelated()"><span>+</span></button>

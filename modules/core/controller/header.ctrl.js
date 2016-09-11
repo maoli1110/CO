@@ -5,16 +5,20 @@
 angular.module("core").controller("headerCtrl",function($scope,headerService){
     //console.info("我是头部标签")
     //   点击工具栏三角形出现二级菜单
-    //$(".header_menus").hide()
-    $scope.menus = function(){
-        $(".header_menus").slideToggle();
-        $(".header_menus ul li").hover(function(){
-            //console.info(123)
-            $(this).css({"background":"#e6e6e6","color":"#fff"}).children().find("ol").show();
-        },function(){
-            $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide()
+    $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
+        $(".navbar-header").click(function(){
+            //alert('13131')
+            $(".header_menus").slideToggle("fast");
+            $(".header_menus ul li").hover(function(){
+                $(".header_menus").show()
+                //console.info(123)
+                $(this).css({"background":"#e6e6e6","color":"#fff"}).children().find("ol").show();
+            },function(){
+                $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide()
+                $(".header_menus").hide()
+            })
         })
-    }
+    })
     //  头部信息的数据显示
     headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
         $scope.headerMenus = data.data
@@ -37,6 +41,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
             $scope.restore = true;
             //对接pc
             BimCo.SysCommand('SC_MAXIMIZE');
+
         } else { 
             console.log('restore');
             $scope.max = true;

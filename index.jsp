@@ -59,6 +59,7 @@
 		<script type="text/javascript" src="./lib/jquery/dist/jquery.js"></script>
 		<!--<script src="js/jquery-1.9.0.js" type="text/javascript"></script>-->
 		<script type="text/javascript" src="./lib/angular/angular.min.js"></script>
+		
 		<script type="text/javascript" src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script src="./lib/angular-i18n.js"></script>
 		<script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
