@@ -286,6 +286,29 @@ padding: 5px 25px;
     line-height: 15px;
     border: 0;
 }
+.btn-green.btn-success:hover{
+    background:#55ad6c;
+}
+.btn-green.btn-success:active{
+    background:#4a965e;
+}
+.btn-default{
+    backgroud:#979ba8;
+}
+.btn-default:focus{
+    backgroud:#979ba8;
+}
+
+.btn-default.btn-cancel:hover{
+    background:#777b8a;
+    color:#fff;
+}
+.btn-default.btn-cancel:focus{
+    background:#777b8a !important;
+}
+.btn-default.btn-cancel:active{
+    background:#5b6171;
+}
 /*.btn-success{*/
     /*width: 90px;*/
     /*height: 30px;*/
@@ -330,6 +353,29 @@ padding: 5px 25px;
     /*background: #969aa7;*/
     /*color:#fff;*/
 /*}*/
+.btn.btn-success{
+    background:#65c17d;
+    border:0;
+}
+.btn.btn-success:hover{
+    background:#55ad6c;
+    border:0;
+}
+.btn.btn-success:active{
+    background:#4a965e;
+    border:0;
+}
+.btn.btn-cancel{
+    backgorund:#979ba8;
+}
+.btn.btn-cancel:hover{
+    background:#777b8a;
+}
+.btn.btn-cancel:active{
+    background:#5b6171;
+}
+
+
 .modal-footer {
     text-align: center;
 }
@@ -362,20 +408,38 @@ padding: 5px 25px;
     background: #65c17d;
     color: #fff;
     margin-right: 40px;
+    border:0;
+}
+.footer .foot-btn:hover{
+    border:0;
+    background:#55ad6c;
 }
 .footer .btn-default:hover {
     color: #fff;
-    background-color: #65C17D;
-    border-color: #65C17D;
+    background-color: #55ad6c !important;
+    border: 0;
+}
+.footer .foot-btn:active{
+    border:0;
+    background:#4a965e !important;
 }
 /*新建协作页面*/
 /*确定、存储、取消按钮样式*/
-.new-btnFail{
+.btn-default.new-btnFail{
     width: 143px;
     height: 34px;
     border-radius: 5px;
     background: #979ba8;
     color: #fff;
+    border:0;
+}
+.btn-default.new-btnFail:hover{
+    background:#777b8a !important;
+    border:0;
+}
+.btn-default.new-btnFail:active{
+    background:#5b6171 !important;
+    border:0;
 }
 /*reset bootstrapcss*/
 .container-fluid {
@@ -1089,7 +1153,7 @@ padding: 5px 25px;
 }
 .link-component-modal  .ztree{
 
-    /*height: 410px !important;*/
+    height: 410px !important;
     /*overflow: auto;*/
 }
 .ztree li span{
@@ -1130,10 +1194,16 @@ padding: 5px 25px;
     color:#bbb;
 }
 .link-categoty-modal .modal-body{
-    /*height:410px;*/
+    height:480px;
+    /*overflow:auto;*/
+    padding: 28px;
+}
+.link-categoty-modal .modal-body .row.left{
+    margin-top:-25px!important;
 }
 .link-categoty-modal .modal-body .row.right{
-
+    height:437px ;
+    /*border:1px solid #ddd;*/
 }
 .link-categoty-modal .modal-body .link-inputSear{
     position:relative;
@@ -1145,7 +1215,7 @@ padding: 5px 25px;
 }
 .link-categoty-modal .modal-body .row.right{
     padding:0 15px;
-    overflow:hidden;
+    /*overflow:hidden !important;*/
 }
 .link-categoty-modal .modal-body .link-scroll{
     border:1px solid #ddd;
@@ -1710,6 +1780,9 @@ textarea{
 .panel-group .panel+.panel{
     margin-top:0;
 }
+.panel-group{
+    margin-bottom:0 !important;
+}
 .panel-heading{
     background: #353944 !important;
     padding: 16px 20px;
@@ -1887,7 +1960,7 @@ textarea{
 
 /*按钮*/
 .operation .right .btn_count{
-    background:#5a6070 url(../imgs/radiius.png) no-repeat 16px 6px ;
+    background:#979ba8 url(../imgs/radiius.png) no-repeat 16px 6px ;
     background-size:17px;
     padding-left:30px;
     width:90px;
@@ -1895,37 +1968,52 @@ textarea{
     color:#fff;
     line-height:15px;
     font-size:12px;
+   border-radius:5px;
 }
 .operation .right .btn_count:hover{
     color: #fff !important;
-    background-color: #979ba8;
+    background:#777b8a url(../imgs/radiius.png) no-repeat 16px 6px ;
+    background-size:17px;
+}
+.operation .right .btn_count:focus{
+    color:#fff;
 }
 .operation .right .btn_count:active{
-    background:#979ba8 url(../imgs/radiius.png) no-repeat 19px 6px ;
+    background:#5b6171 url(../imgs/radiius.png) no-repeat 16px 6px ;
     background-size:17px;
+
 }
 .operation .right .btn.focus, .operation .right .btn:focus, .operation .right .btn:hover{
     color:#ccc;
 }
 
 .operation .right .btn_new{
-    background:#4a965e url(../imgs/document.png) no-repeat 8px 6px ;
+    background:#65C17D url(../imgs/document.png) no-repeat 8px 6px ;
     background-size:17px;
     padding-left:30px;
-    width:95px;
+    width:90px;
     height:30px;
     color:#fff;
     line-height:15px;
     font-size:12px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
 }
 
 .operation .right .btn_new:hover {
      color: #fff !important;
-     background-color: #65c17d;
- }
-.operation .right .btn_new:active {
-    background:#65c17d url(../imgs/document.png) no-repeat 8px 6px ;
+    background:#55ad6c url(../imgs/document.png) no-repeat 8px 6px ;
     background-size:17px;
+ }
+.operation .right .btn_new:focus{
+    color:#fff;
+}
+
+.operation .right .btn_new:active {
+    background:#4a965e url(../imgs/document.png) no-repeat 8px 6px ;
+    background-size:17px;
+    color:#fff !important;
 }
 /*筛选下拉框*/
 .comboBox .opacity{
@@ -1953,22 +2041,23 @@ textarea{
 }
 
 .data_count .btn_new{
-    background:#4a965e url(../imgs/document.png) no-repeat 8px 6px ;
+    background:#65c17d url(../imgs/document.png) no-repeat 8px 6px ;
     background-size:17px;
     padding-left:30px;
-    width:95px;
+    width:90px;
     height:30px;
     color:#fff;
     line-height:15px;
     font-size:12px;
+    border-radius:5px;
 
 }
 .data_count .btn_new:hover {
     color: #fff !important;
-    background-color: #65c17d;
+    /*background-color: #4a965e;*/
 }
 .data_count .btn_new:active {
-    background:#65c17d url(../imgs/document.png) no-repeat 8px 6px ;
+    background:#4a965e url(../imgs/document.png) no-repeat 8px 6px ;
     background-size:17px;
 }
 

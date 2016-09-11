@@ -185,6 +185,9 @@ angular.module('core').directive('scrollDirective', function () {
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
+                $("#content-a15").mCustomScrollbar({
+                    theme:"minimal"
+                });
                 //$("#content-a3").mCustomScrollbar({
                 //    theme:"minimal"
                 //});

@@ -57,7 +57,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			
 			if(data.speach) {
 				$scope.speachShow = true;
-				alert("塞值:"+data.speach.speechUrl);
+				// alert("塞值:"+data.speach.speechUrl);
 				$scope.speachUrl = data.speach.speechUrl
 			}
 			
@@ -186,23 +186,25 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$(".mobile-devices .play-audio").css({"width":'100%'})
 			}
 			
+			//录音初始化
+			// $("#jquery_jplayer_1").jPlayer({
+			// 	ready: function () {
+			// 	$(this).jPlayer("setMedia", {
+			// 		mp3:""
+			// 	});
+			// 	},
+			// 	solution: "html,falsh",
+			// 	supplied: "mp3",
+			// 	wmode: "window",
+			// 	useStateClassSkin: true,
+			// 	autoBlur: false,
+			// 	smoothPlayBar: true,
+			// 	keyEnabled: true,
+			// 	remainingDuration: true,
+			// 	preload:"auto",
+			// });
+
 			
-			$("#jquery_jplayer_1").jPlayer({
-				ready: function () {
-				$(this).jPlayer("setMedia", {
-					mp3:""
-				});
-				},
-				solution: "html,falsh",
-				supplied: "mp3",
-				wmode: "window",
-				useStateClassSkin: true,
-				autoBlur: false,
-				smoothPlayBar: true,
-				keyEnabled: true,
-				remainingDuration: true,
-				preload:"auto",
-			});
 			
 	   	});
 
@@ -213,9 +215,42 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			});
 	   	}
 
+		var id = "#jquery_jplayer_1";
+
+		var flashHtml = '';
+		if($scope.device) {
+			flashHtml = 'html,falsh'; 
+		} else {
+			flashHtml = 'flash,html'; 
+		}
+		
+		var bubble = {
+				title:"Bubble",
+				mp3:''
+			};
+			
+		var options = {
+			solution: flashHtml,
+			swfPath: "./lib/audio1",
+			supplied: "mp3",
+			wmode: "window",
+			useStateClassSkin: true,
+			autoBlur: false,
+			smoothPlayBar: true,
+			keyEnabled: true,
+			remainingDuration: true,
+			preload:"auto",
+			ended:function(){
+				$(".detail-voice").hide();
+			}
+		};
+
+		var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
+			
 		$scope.play = function(speechUrl){
-			alert("datamp3url: "+speechUrl);
 			var datamp3url;
+			$(".detail-voice").css('display','block');
+			$(".detail-close").css("display",'block');
 			$.ajax({
 	              type: "post",
 	              url: basePath+'rs/co/getMP3URL',
@@ -223,61 +258,29 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	              async:false,
 	              contentType:'text/HTML',
 	              success: function(mp3url){
-	            	  alert("$scope.speachUrl: "+mp3url);
+	            	  // alert("$scope.speachUrl: "+mp3url);
 	            	  datamp3url = mp3url;
 	              }
-	          });
+	        });
 			
-//			var id = "#jquery_jplayer_1";
-//			var flashHtml = '';
-//			if($scope.device) {
-//				flashHtml = 'html,falsh'; 
-//			} else {
-//				flashHtml = 'flash,html'; 
-//			}
+			//alert("datamp3url: "+speechUrl);
 			
-//			var bubble = {
-//					title:"Bubble",
-//					mp3:datamp3url
-//				};
-				
-//			var options = {
-//				solution: flashHtml,
-//				swfPath: "./lib/audio1",
-//				supplied: "mp3",
-//				wmode: "window",
-//				useStateClassSkin: true,
-//				autoBlur: false,
-//				smoothPlayBar: true,
-//				keyEnabled: true,
-//				remainingDuration: true,
-//				preload:"auto",
-//				autoPlay:true
-//			};
+			bubble.mp3 = datamp3url;
+			// bubble.mp3 = 'https://raw.githubusercontent.com/ws00801526/XMNAudio/master/XMNAudioExample/XMNAudioExample/letitgo_v.mp3';
 
-//			var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
 			
-			alert("播放地址32："+datamp3url);
-			$("#jquery_jplayer_1").jPlayer("setMedia",{
-			    mp3:datamp3url
-			});
+
+
+			// alert("播放地址36："+datamp3url);
+
+
+			myAndroidFix.setMedia(bubble).play();
 			
-			$("#jquery_jplayer_1").jPlayer("play");
-			
-//			
-//			$("#jquery_jplayer_1").jPlayer("setMedia",{
-//				mp3:datamp3url
-//		    });
-//		    //开始播放
-//		    $("#jquery_jplayer_1").jPlayer("play");
-			
-			$(".detail-voice").css('display','block');
-			$(".detail-close").css("display",'block');
 		}
 
 		//play-audio(播放声音的显示播放窗口事件)
 		$scope.audioClose = function () {
-			$('.jp-stop').click();
+			$("#jquery_jplayer_1").jPlayer("stop");
 			$(".detail-voice").hide();
 			$(".detail-close").hide();
 		}

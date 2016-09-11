@@ -108,6 +108,15 @@ header .close{
 .proInfo .pro_man  .btn-default{
     background-color:#65c17d !important;
     color:#fff;
+    border:0;
+}
+.proInfo .pro_man  .btn-default:hover{
+    background:#55ad6c !important;
+    border:0;
+}
+.proInfo .pro_man  .btn-default:active{
+    background:#4a965e !important;
+    border:0;
 }
 .proInfo .pro_man  .btn.focus, .btn:focus, .btn:hover{
    /* background:#65c17d;*/

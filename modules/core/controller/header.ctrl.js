@@ -7,6 +7,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
     //   点击工具栏三角形出现二级菜单
     $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
         $(".navbar-header").click(function(){
+            $scope.menus();
             //alert('13131')
             $(".header_menus").slideToggle("fast");
             $(".header_menus ul li").hover(function(){
@@ -17,12 +18,18 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
                 $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide()
                 $(".header_menus").hide()
             })
+
         })
     })
     //  头部信息的数据显示
-    headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
-        $scope.headerMenus = data.data
-    });
+        $scope.menus = function(){
+            headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
+                $scope.headerMenus = data.data
+            });
+        }
+
+
+
 
     //最大化、最小化、还原、关闭
     //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  

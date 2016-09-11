@@ -293,18 +293,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
             console.log('removeremve');
             var idx = type.indexOf(id);
             type.splice(idx,1);
-            //debugger;
-            // if($scope.isTypeChecked) {
-            //   if(signal == 1) {
-            //     $('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
-            //   }
-            // } else {
-              if(signal == 1) {
+        }
+        if(action == 'remove'){
+            if(signal == 1) {
                 $('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
                 $('.comboBox_checkType ').prop('checked',false);
               }
-            // }
-           
         }
      }
 
@@ -346,15 +340,23 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     //alltype全选
 		$scope.allType = function () {
 			if($scope.typeCheck) {
-                // $scope.isTypeChecked = false;
-				$scope.isTypeChecked = true;
+    //             $scope.isTypeChecked = false;
+				// $scope.isTypeChecked = true;
 				$('.type-check').find('input').prop('checked',true);
+
                 queryTypeSelected = _.cloneDeep($scope.coQueryType);
+
+                for(var i=0;i<6;i++) {
+                    $('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
+                }
 				// queryTypeSelected = $scope.coQueryType;
 
 			} else {
                 // $scope.isTypeChecked = true;
-				$scope.isTypeChecked = false;
+				// $scope.isTypeChecked = false;
+                for(var j=0;j<6;j++) {
+                    $('.bgs' + j).removeClass('bgs' + j).addClass('bg' + j);
+                }
 				$('.type-check').find('input').prop('checked',false);
 				queryTypeSelected = [];
 			}
