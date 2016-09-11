@@ -3,7 +3,7 @@
 angular.module('manage').service('Manage', function ($http, $q) {
 
     //var trendUrl = ApplicationConfiguration.urls.trendUrl?ApplicationConfiguration.urls.trendUrl:"";
-    var trendUrl = basePath;
+    var trendUrl = "basePath";
     //trendUrl="http://172.16.21.69:8080/bimco";
     /**
      *获取项目部列表
