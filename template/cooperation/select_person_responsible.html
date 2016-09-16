@@ -8,12 +8,12 @@
     </div>
     <div class="modal-body" copy-radio>
         <div class="row left">
-            <div class="row">
+            <div class="row left-1">
                 <div class="col-xs-4 select">
                     <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                 </div>
                 <div class="col-xs-8 search rela">
-                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索联系人" ng-change="responsibleSearch($event)"><img src="imgs/seache.png" alt="">
+                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索联系人" ng-change="responsibleSearch()"><img src="imgs/seache.png" alt="">
                 </div>
             </div>
             <div class="row person-list" id="content-a9">

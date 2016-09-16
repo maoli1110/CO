@@ -6,6 +6,7 @@ body, ol, ul, li, dl, dd, dt, table, tr, td, div, p, img, h1, h2, h3, h4, h5, h6
     /*font-size: 1rem;*/
     color: #333;
 }
+
  .coo-detail .list .col-xs-5, .col-xs-6{
     position: relative;
     min-height: 1px;
@@ -173,9 +174,22 @@ li {
 .dropdown-menu{
     border-radius:0;
      border: 1px solid rgba(221,221,221,1);
+    padding-top:0;
+    padding-bottom:5px;
+    top:40px !important;
+    max-width: 90%;
 }
 .ng-empty{
     background:#fff !important;
+}
+.create-error {
+    position: fixed;
+    bottom: 60px;
+    width: 100%;
+    text-align: center;
+}
+.create-error ul {
+    display:inline-block;
 }
 .create .btn-link1:nth-child(1){
     margin-left:5px;
@@ -256,6 +270,9 @@ padding: 5px 25px;
 }
 .modal-footer .btn-cancel:hover {
     color:#fff !important;
+}
+.modal-footer{
+    border:0;
 }
 
 .modal-footer .btn-cancel {
@@ -374,8 +391,6 @@ padding: 5px 25px;
 .btn.btn-cancel:active{
     background:#5b6171;
 }
-
-
 .modal-footer {
     text-align: center;
 }
@@ -422,6 +437,54 @@ padding: 5px 25px;
 .footer .foot-btn:active{
     border:0;
     background:#4a965e !important;
+}
+
+/*header*/
+.inner .change-window{
+    display: inline-block;
+    width: 25px;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 5px;
+    margin-left:6px;
+}
+.inner .change-window:hover {
+    background: none;
+}
+.inner header{
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+.inner header p{
+    height: 45px;
+    line-height:45px;
+    text-align: center;
+    /*color:#fff;*/
+}
+.inner header .close{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+.inner header .header-operation {
+    border: 1px solid #ccc;
+    background: #ddd;
+}
+.inner header .header-title {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    line-height: 45px;
+    background: #fff;
+}
+.inner header .label_tools {
+    width: 97px;
+    float: right;
+    line-height: 40px;
+    margin-right: 15px;
 }
 /*新建协作页面*/
 /*确定、存储、取消按钮样式*/
@@ -517,7 +580,7 @@ padding: 5px 25px;
     background: url(../imgs/icon/icon-add.png) no-repeat 0 -21px;
     line-height: 38px;
     margin-top: 1px;
-    float: left;
+    /*float: left;*/
     /*position:absolute;*/
     margin-left:6px;
 }
@@ -878,6 +941,7 @@ padding: 5px 25px;
 /* create */
 .create {
     margin-bottom: 100px;
+    margin-top: 100px;
 }
 .create-title {
 /*    height: 40px;
@@ -905,6 +969,7 @@ padding: 5px 25px;
 }
 .create .left .row >div {
     padding-left:0;
+    padding-right: 0;
 }
 .create .link div,.create .mx >div {
     padding-left:0;
@@ -1054,7 +1119,7 @@ padding: 5px 25px;
     margin:15px 0;
 }
 .select-person-related-modal .modal-body{
-    height:600px !important;
+    height:593px !important;
 }
 .select-person-related-modal .modal-dialog{
     position: absolute;
@@ -1065,7 +1130,7 @@ padding: 5px 25px;
 }
 .select-person-related-modal .modal-body .right{
     padding: 0 10px;
-    height: 564px !important;
+    height: 563px !important;
     overflow: auto;
 }
 .select-person-related{
@@ -1075,7 +1140,7 @@ padding: 5px 25px;
     margin: 0;
 }
 .select-person-related  .left {
-    padding: 0 12px 0 5px;
+    padding: 0 12px 0 0px;
     border-right: 1px solid #ccc;
 }
 .select-person-related  .person-list{
@@ -1095,7 +1160,7 @@ padding: 5px 25px;
 }
 .link-project-modal .modal-content{
     width: 687px;
-    height: 609px;
+    height: 592px;
 }
 .link-project-modal .modal-dialog{
     width:420px;
@@ -1106,7 +1171,6 @@ padding: 5px 25px;
     overflow:hidden;
 }
 .link-project-modal .link-pro{
-    /*border: 1px solid #ddd;*/
     height: 427px !important;
     padding:0 15px;
 }
@@ -1122,6 +1186,7 @@ padding: 5px 25px;
     width:20px;
 }
 .link-project-modal .modal-content .modal-body .ztree-scroll{
+    height:427px !important;
     overflow: auto;
     border:1px solid #ddd;
 }
@@ -1133,6 +1198,9 @@ padding: 5px 25px;
     left: 50%;
     margin-left: -336px;
     margin-top: -297px;
+}
+.link-project-modal .modal-footer{
+    margin-top:-15px;
 }
 .link-component-modal .modal-body .row.left{
     margin-bottom:15px;
@@ -1151,10 +1219,11 @@ padding: 5px 25px;
 
     overflow:hidden;
 }
-.link-component-modal  .ztree{
-
-    height: 410px !important;
-    /*overflow: auto;*/
+.link-component-modal .modal-footer{
+    margin-top:-15px;
+}
+.link-be-modal .modal-footer{
+    margin-top:-15px;
 }
 .ztree li span{
     font-size:14px;
@@ -1195,11 +1264,9 @@ padding: 5px 25px;
 }
 .link-categoty-modal .modal-body{
     height:480px;
-    /*overflow:auto;*/
-    padding: 28px;
 }
 .link-categoty-modal .modal-body .row.left{
-    margin-top:-25px!important;
+    /*margin-top:-25px!important;*/
 }
 .link-categoty-modal .modal-body .row.right{
     height:437px ;
@@ -1230,6 +1297,9 @@ padding: 5px 25px;
     /*border:1px solid #ddd;*/
 }
 .link-categoty-modal .modal-body .row.right .ztree-1{
+}
+.link-categoty-modal .modal-footer{
+    margin-top:-15px;
 }
 .link-form-modal .modal-dialog{
     width: 462px;
@@ -1375,13 +1445,14 @@ textarea{
 }
 .select-person-related .search>input{
     padding-left:10px;
+    width:110.2%;
 }
 .select-person-related .search img{
     position: absolute;
     width: 18px;
     height: 18px;
     top: 12px;
-    right: 7px;
+    right: -17px;
 }
 
 .select-person-related .search >div{
@@ -1394,6 +1465,9 @@ textarea{
     height: 90%;
     border:1px solid #ddd;
 
+}
+.uib-button-bar{
+    padding:0 9px 2px;
 }
 .select-person-related .right .info-title{
     margin-top:6px;
@@ -1481,8 +1555,15 @@ textarea{
     margin-left: -230px;
     margin-top: -263px;
 }
+.select-person-responsible-modal .modal-footer{
+    margin-top:-15px;
+}
 .select-person-responsible .row {
-    padding: 10px 20px;
+    padding: 0px 15px;
+}
+.select-person-responsible .row.left-1{
+    padding: 0 19px;
+    margin-bottom: 15px;
 }
 .select-person-responsible .select{
     padding:0;
@@ -1503,7 +1584,7 @@ textarea{
 }
 .select-person-responsible .person-list{
     padding:0;
-    height: 335px !important;
+    height: 360px !important;
     overflow: auto;
 }
 .select-person-responsible .left select {
@@ -1625,6 +1706,9 @@ textarea{
     position: absolute;
     top: 0;
     left: 0;
+}
+.modal-content{
+    border-radius:0;
 }
 .linkbe  .modal-content{
     height:600px !important;
@@ -2103,10 +2187,6 @@ textarea{
 }
 .upload-img *{
     vertical-align: top;
-}
-.upload{
-    margin-bottom:30px;
-    margin-top:30px !important;
 }
 .new-man{
     padding:0 13px;

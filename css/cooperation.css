@@ -13,7 +13,7 @@
 		/*background: url("../imgs/play.png") 160px center no-repeat rgb(101, 193, 125);*/
 	/*}*/
 /*}*/
-/*form(筛选框)*/
+/*form(绛涢�夋)*/
 .comboBox{
 	background:#fff;
 }
@@ -200,7 +200,7 @@
 	background:#fff;
 	padding-bottom:10px;
 }
-/*data_count(数据统计页面)*/
+/*data_count(鏁版嵁缁熻椤甸潰)*/
 
 /*table-list*/
 .table-list{
@@ -243,10 +243,7 @@
 /*data_every*/
 .data_every{
 	width:50%;
-	/*border-right:1px solid #ddd;*/
-	/*border-bottom:1px solid #ddd;*/
 	float:left;
-	/*min-height:300px;*/
 }
 
 
@@ -280,12 +277,12 @@
 	padding-bottom:20px;
 }
  .data_every .data_graph{
-	width:300px;
-	height:300px;
+	width:320px;
+	height:320px;
 	float:left;
 	margin-left:60px;
 }
-/*data_titleInfo（内圈的颜色）*/
+/*data_titleInfo锛堝唴鍦堢殑棰滆壊锛�*/
  .data_count .data_every .data_titleInfo.first ul li:nth-of-type(1) span{
 	border: 4px solid #E6D055;
 }
@@ -305,34 +302,45 @@
 	margin-right: 10px;
 	margin-top: 12px;
 }
- .data_count .data_every .data_titleInfo.second ul li:nth-of-type(1) span{
-	border: 4px solid #E6D055;
-}
-.data_count .data_every .data_titleInfo.second  ul li:nth-of-type(2) span{
-	border: 4px solid #FC688A;
-}
- .data_count .data_every .data_titleInfo.second ul li:nth-of-type(3) span{
-	border: 4px solid #73CC6C;
-}
- .data_count.data_every .data_titleInfo.second ul li:nth-of-type(4) span{
-	border: 4px solid #5887FD;
-}
-.data_count .data_every .data_titleInfo.second ul li:nth-of-type(5) span{
-	border: 4px solid #8F6DF2;
-}
-.data_count.second .data_every .data_titleInfo.second ul li:nth-of-type(6) span{
-	border: 4px solid #A0A8C1;
+.markColor {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    /* display: inline-block; */
+    float: left;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 /*data_graph*/
 .data_count .data_count .data_graph{
 	width:300px;
 	height:300px;
 }
-/*统计页面的横竖线*/
+/*缁熻椤甸潰鐨勬í绔栫嚎*/
 .transverse-line{
 	border:1px solid #ddd;
 }
 .long-line{
 	position:absolute;left:50%;top:0;border-right:1px solid #ddd;height:calc(100%)
 }
+/*琛ㄦ牸鍒犻櫎鍒�*/
+.icon-remove{
+	display:none;
+
+}
+.cop-delete{
+	display:none;
+	line-height: 39px !important;
+}
+.draft-box{
+	display:none;
+}
+.icon-del-tr{
+	width:20px;height:20px;display:block;background:url(../imgs/icon/new-icon.png) no-repeat center 0 ;
+	margin:0 auto;
+}
+.icon-del-tr:hover{
+	opacity:0.6;
+}
+
 

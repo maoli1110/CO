@@ -310,6 +310,7 @@ var jPlayerAndroidFix = (function($) {
                 debugger
                 // Apply Android play fix, if it is required.
                 this.playFix = true;
+                this.player.jPlayer("play");
             } else {
                 // Other browsers play it, as does Android if the fix is no longer required.
                 this.player.jPlayer("play");

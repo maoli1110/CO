@@ -20,7 +20,7 @@
                                 <div class="col-xs-5 col-md-5 basicInfo">
                                     <div>
                                         <span class="F16" style="width:80px;text-align:left;">负责人：</span>
-                                        <input type="text" class="int-style" ng-model="collaList.collaborator">
+                                        <input type="text" class="int-style" ng-model="collaList.collaborator" disabled />
                                     </div>
                                     <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
@@ -47,8 +47,22 @@
                                         </select>
                                     </div>
                                     <div style="margin-bottom:0;" class="edit-blank"> <span class="edit-state F16" style="text-align:left;">标识:</span>
-                                        <select class="identify col-xs-6" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
-                                           <option value="{{item.markerId}}" data-content="<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span><span class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index"></option>
+                                        <!-- <select class="identify col-xs-6" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
+                                           <option value="{{item.markerId}}" 
+                                           		data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
+                                           				<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
+                                           				<span class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>
+                                           			</div>" 
+                                           		ng-repeat="item in markerList1 track by $index">
+                                           </option>
+                                        </select> -->
+                                        <select class="selectpicker col-xs-6" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
+                                            <option ng-repeat="item in markerList1 track by $index" value="{{item.picMarker}};" 
+                                            	data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;margin:0px;'>
+                                           				<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px;font-size: 14px;'></span>
+                                           				<span class='F14' style='line-height: 19px;font-size: 14px;'>{{item.picMarker}}</span>
+                                           			</div>">
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -57,7 +71,7 @@
                                     <div class="input-group col-md-9 row" style="display:inline-block;">
                                         <div class="calder date-value"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}">{{dt | date:'yyyy-MM-dd'}}</div>
                                         <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
-                                        <input type="hidden" class="calder" uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
+                                        <input type="hidden" class="calder" readonly uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
                                     </div>
                                 </div>
                             </div>

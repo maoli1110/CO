@@ -35,7 +35,7 @@
                             <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                         </a>
                         <ul class="sub-nav" uib-collapse="!isCollapsed">
-                            <li ng-repeat="list in user.users" class="select-check" ng-click="addRelated($index, $parent.$index,list,$event)" ng-class="{true:'grey',false:'default'}[list.add]" >
+                            <li ng-repeat="list in user.users" class="select-check" ng-click="addRelated(list)" ng-class="{true:'grey',false:'default'}[list.add]" >
                                 <label >
                                     <img src="{{list.avatar}}"><span>{{list.username}}</span>
                                 </label>

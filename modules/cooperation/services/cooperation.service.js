@@ -33,7 +33,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     };
 
-    //获取项目部下对应的联系人列表€
+    //获取项目部下对应的联系人列表
     this.getUserList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/pcUserList';
@@ -48,11 +48,10 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     }
 
     //获取项目部下工程列表（BE）
-
-    this.getProjectList = function (params) {
+    this.projectList = function (params) {
         var delay = $q.defer();
         var url_join = url +'rs/co/projectList/'+ params;
-        $http.get(url_join,{cache:true})
+        $http.get(url_join,{cache:false})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -60,17 +59,18 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         });
         return delay.promise;
     }
+    
     //获取项目下工程
-    //this.getProjectList = function(params){
-    //    var delay = $q.defer();
-    //    var url_join = url+'rs/co/getProjectList/'+params;
-    //    $http.get(url_join,{cache:true}).success(function(data){
-    //        delay.resolve(data)
-    //    }).error(function(err){
-    //        delay.reject(err)
-    //    })
-    //    return delay.promise;
-    //}
+    this.getProjectList = function(params){
+        var delay = $q.defer();
+        var url_join = url+'rs/co/projectInfoList/'+params;
+        $http.get(url_join,{cache:true}).success(function(data){
+            delay.resolve(data)
+        }).error(function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
 
     //获取bv
     this.getBVRectifyStatus = function(){
@@ -384,5 +384,28 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         })
         return delay.promise;
     }
-    
+//    草稿箱信息删除
+    this.removeDraft = function(coid){
+        var delay = $q.defer();
+        var url_join = url + "rs/co/removeDraft/"+coid;
+        var params;
+        $http.get(url_join,params,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data);
+        },function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
+    //获取当前用户信息
+    this.getCurrentUser = function(){
+        var delay = $q.defer();
+        var url_join = url + "rs/co/currentUser";
+        $http.get(url_join,{},{transformRequest: angular.identity, transformResponse: angular.identity}).then(function(data){
+            delay.resolve(data);
+        },function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
+
 });

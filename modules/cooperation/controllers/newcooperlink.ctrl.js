@@ -141,6 +141,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 					onCheck: onCheck
 				}
 	         };
+	         dataList.assembleLps =obj;
 			//获取构件类别树
 			Cooperation.getFloorCompClassList(params).then(function (data) {
 				$scope.projectTree = data;
@@ -233,7 +234,40 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				}
 	 	}
 	 	
+	 	//可以查询
+	 	var searchFlag;
+	 	var pollingFlag = true;
+	 	var checkSearchInterval;
+	 	
+	 	$scope.delayTreeSearch = function (type){
+	 		setSearchFlagFalse();
+	 		if(pollingFlag){
+	 			pollingFlag = false;
+	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
+	 		}
+	 		setTimeout(function() {setSearchFlagTrue()},500);
+	 	};
+	 	
+	 	var setSearchFlagFalse = function(){
+	 		searchFlag = false;
+	 	}
+		var setSearchFlagTrue = function(){
+			searchFlag = true;
+	 	}
+	 	
+		var checkCanSearch = function(type){
+			if(searchFlag){
+				clearInterval(checkSearchInterval);
+				$scope.treeSearch(type);
+				pollingFlag = true;
+			}
+		}
+	 	
+	 	
+	 	
+	 	
 	 	$scope.treeSearch = function (type) {
+	 		console.log(new Date());
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
 			//debugger;
@@ -302,11 +336,6 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			data.infoType = infoType;
 			data.ppids = projTypeTextPpid;
 			data = JSON.stringify(data);
-			// Cooperation.getProjTipInfo(data).then(function (data) {
-			// 	console.log(data);
-			// 	return data
-			// });
-
 			$.ajax({
 				contentType: "application/json; charset=utf-8",
 				dataType : 'json',
@@ -497,6 +526,35 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			 return TextSearchPpid;
 		}
 
+		//可以查询
+	 	var searchFlag;
+	 	var pollingFlag = true;
+	 	var checkSearchInterval;
+	 	
+	 	$scope.delayTreeSearch = function (type){
+	 		setSearchFlagFalse();
+	 		if(pollingFlag){
+	 			pollingFlag = false;
+	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
+	 		}
+	 		setTimeout(function() {setSearchFlagTrue()},500);
+	 	};
+	 	
+	 	var setSearchFlagFalse = function(){
+	 		searchFlag = false;
+	 	}
+		var setSearchFlagTrue = function(){
+			searchFlag = true;
+	 	}
+	 	
+		var checkCanSearch = function(type){
+			if(searchFlag){
+				clearInterval(checkSearchInterval);
+				$scope.treeSearch(type);
+				pollingFlag = true;
+			}
+		}
+		
 		$scope.treeSearch = function (type) {
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
@@ -775,7 +833,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
 			//默认工程列表
 			deptId = $scope.selectedOption.deptId;
-			Cooperation.getProjectList(deptId).then(function (data) {
+			Cooperation.projectList(deptId).then(function (data) {
 					$scope.projectList.availableOptions = data;
 					$scope.projectOption = $scope.projectList.availableOptions[0];
 					ppid = $scope.projectOption.ppid;

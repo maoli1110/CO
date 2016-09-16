@@ -38,19 +38,25 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	var coTypeVo = 0;
 	   	var status = "";
 	   	var currentTimestamp = Date.parse(new Date());
+	   	var allRelevants = [];
+	   	var sliceRlevants = [];
 	   	$scope.transcoid = coid;
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
-
 	   		$scope.collaList = data;
-			console.info("线是否",$scope.collaList)
+	   		allRelevants = data.relevants;
+	   		sliceRlevants = data.relevants.slice(0,8);
+	   		if(data.relevants.length>8){
+	   			$scope.collaList.relevants =sliceRlevants;
+	   			$scope.isRevlentMore = true;
+	   		}
 			if(data.coTypeVo) {
 				coTypeVo = data.coTypeVo.type;
 			}
 			
 			status = data.status;
-
 			if(data.bindType !== 0) {
+				console.info('关联模型',data.bindType)
 				$scope.link = true;
 				ppid = data.binds[0].ppid;
 			}
@@ -70,31 +76,31 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.collaList.deadline = '不限期';
 			}
 			//详情描述
-            if($scope.collaList.desc ==null || $scope.collaList.desc==''){
+            if(data.desc ==null || data.desc==''){
                 $('.mobile-job-descrition,.pc-job-descrition').css("display",'none')
             }else{
                 $('.mobile-job-descrition,.pc-job-descrition').css("display",'block')
             }
             //详情联系人
-            if($scope.collaList.relevants.length==0){
+            if(data.relevants.length==0){
                 $(".mobile-relate,.pc-relate").css('display','none')
             }else{
                 $(".mobile-relate,.pc-relate").css('display','block')
             }
             //详情照片
-            if($scope.collaList.pictures.length==0){
+            if(data.pictures.length==0){
                 $(".mobile-photo,.pc-photo").css('display','none')
             }else{
                 $(".mobile-photo,.pc-photo").css('display','block')
             }
             //详情资料
-            if($scope.collaList.docs.length==0){
+            if(data.docs.length==0){
                 $(".mobile-means,.pc-means").css('display','none')
             }else{
                 $(".mobile-means,.pc-means").css('display','block')
             }
             //详情回复
-            if($scope.collaList.comments.length==0){
+            if(data.comments.length==0){
                 $(".mobile-reply,.pc-reply").css('display','none')
             }else{
                 $(".mobile-reply,.pc-reply").css('display','block')
@@ -106,7 +112,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.allowEdit = false;
 			}
 			//2.2.2	当当前用户为负责人但是不需要签字时
-			if(data.isCollaborator && data.isSign == 0) {
+			if(data.isCollaborator && data.isSign == -1) {
 				$scope.bjshow = true;
 				$scope.tjshow = true;
 				$scope.tgshow = false;
@@ -115,7 +121,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true; 
 			}
 			//2.2.3	当当前用户不是负责人但是需要签字时
-			if(!data.isCollaborator && data.isSign == 0) {
+			if(!data.isCollaborator && data.isSign != -1) {
 				$scope.bjshow = false;
 				$scope.tjshow = true;
 				$scope.tgshow = true;
@@ -124,7 +130,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true;
 			}
 			//2.2.4	当当前用户既不是负责人也不需要签字时
-			if(!data.isCollaborator && data.isSign == 0) {
+			if(!data.isCollaborator && data.isSign == -1) {
 				$scope.bjshow = false;
 				$scope.tjshow = true;
 				$scope.tgshow = false;
@@ -132,6 +138,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.jsshow = false;
 				$scope.dchushow = true;
 			}
+
+			//以下三种状态
+	   		if(data.status == ('已结束' || '已拒绝' || '已通过')) {
+	   			$scope.bjshow = false;
+				$scope.tgshow = false;
+				$scope.jjueshow = false;
+				$scope.jsshow = false;
+	   		}
 			var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 			angular.forEach($scope.collaList.docs, function(value, key) {
                 var imgsrc = "imgs/pro-icon/icon-";
@@ -208,13 +222,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			
 	   	});
 
-	   	//获取电子签名uuid
-	   	if(!$scope.device) {
-	   		Cooperation.getSignature().then(function (data) {
-				signature = data.uuid;
-			});
-	   	}
-
 		var id = "#jquery_jplayer_1";
 
 		var flashHtml = '';
@@ -257,22 +264,15 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	              data:speechUrl,
 	              async:false,
 	              contentType:'text/HTML',
-	              success: function(mp3url){
-	            	  // alert("$scope.speachUrl: "+mp3url);
-	            	  datamp3url = mp3url;
+	              success: function(mp3url,status,XMLHttpRequest){
+	            	   if(mp3url.indexOf('<!DOCTYPE html>')!=-1){
+	            	 		document.location = 'co_detail.jsp?coid='+ coid;
+	            	   	}
+	            	  	datamp3url = mp3url;
 	              }
 	        });
 			
-			//alert("datamp3url: "+speechUrl);
-			
 			bubble.mp3 = datamp3url;
-			// bubble.mp3 = 'https://raw.githubusercontent.com/ws00801526/XMNAudio/master/XMNAudioExample/XMNAudioExample/letitgo_v.mp3';
-
-			
-
-
-			// alert("播放地址36："+datamp3url);
-
 
 			myAndroidFix.setMedia(bubble).play();
 			
@@ -290,6 +290,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	 	if($scope.allowEdit) {
 	   	 		Cooperation.checkOut(coid).then(function(data) {	
 	   	 		});
+	   	 		//跳转主页面需要定位到当前工程（延后再说）
 	   	 		$state.go('editDetail', {coid: coid});
 	   	 	} else {
 	   	 		var r=confirm("当前协作已结束，不允许再操作");
@@ -449,12 +450,48 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				docs:[],
 				operationType:statusCode
 			}
-			Cooperation.doCollaboration(params).then(function (data) {
-			},function (data) {
-				alert(data.data.message);
-			});
+			if(statusCode==6) {
+				
+			} else {
+
+			}
+
+			switch (statusCode) {
+				case 6:
+				var re = confirm('提交后您将不能再修改，若确认通过,请点击确定!');
+				if(re){
+//					doCollaboration();
+					location.reload();
+				}
+				break;
+				case 7:
+				var re = confirm('拒绝后将不能再修改，若确认拒绝,请点击确定！');
+				if(re){
+//					doCollaboration();
+					location.reload();
+				}
+				break;
+				case 8:
+				var re = confirm('结束后您将不能再修改，是否结束？');
+				if(re){
+//					doCollaboration();
+					location.reload();
+				}
+				break;
+				default:
+				doCollaboration();
+				break;
+			}
+			function doCollaboration (){
+				Cooperation.doCollaboration(params).then(function (data) {
+					$state.go('cooperation');
+				},function (data) {
+					alert(data.data.message);
+				});
+			}
 		}
 
+		
 
 	    $scope.backDetail = function () {
 	    	$scope.isPreview = false;
@@ -479,10 +516,15 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		});
 
 		$scope.pdfSign = function (uuid,docName,fileType) {
+			//获取电子签名uuid
+	   		Cooperation.getSignature().then(function (data) {
+				signature = data.uuid;
+			});
+
 			$scope.isPreview = true;
             currentEditOfficeUuid = uuid;
-            currentSuffix = 'doc';
-			var pdfSign = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact);
+            currentSuffix = 'pdf';
+			var pdfSign = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact,coid);
 			if(!pdfSign) {
 				alert('下载文件失败！');
 			}
@@ -504,7 +546,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    	var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
 	    	var isSignSubmit;
 	    	if(r){
-	    		 isSignSubmit = BimCo.SignSubmit(currentEditOfficeUuid,currentSuffix);
+	    		 isSignSubmit = BimCo.SignSubmit(currentEditOfficeUuid,currentSuffix,coid);
 	    	}
 	    	if(!isSignSubmit) {
 	    		alert('提交电子签名失败！');
@@ -535,7 +577,47 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		//}
 
 
-		console.info("13131",$scope.status)
+		//最大化、最小化、还原、关闭
+	    //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  
+	    //窗口缩小
+	    $scope.minimize = function () {
+	        BimCo.SysCommand('SC_MINIMIZE');
+	    }
+
+	    //窗口放大还原
+	    var num=0; 
+	    $scope.max = true;
+	    $scope.maxRestore = function ($event) {
+	        if(num++ %2 == 0){ 
+	            console.log('max');
+	            $scope.max = false;
+	            $scope.restore = true;
+	            //对接pc
+	            BimCo.SysCommand('SC_MAXIMIZE');
+
+	        } else { 
+	            console.log('restore');
+	            $scope.max = true;
+	            $scope.restore = false;
+	            //对接pc
+	            BimCo.SysCommand('SC_RESTORE');
+	        }
+	    }
+	    //窗口关闭
+	    $scope.close = function () {
+	        BimCo.SysCommand('SC_CLOSE');
+	    }
+	    //显示更多相关人
+	    $scope.showMore = false;
+	    $scope.showMorePerson = function() {
+	    	if(!$scope.showMore){
+	    		$scope.collaList.relevants = allRelevants;
+	    		$scope.showMore = true;
+	    	} else {
+	    		$scope.collaList.relevants = sliceRlevants;
+	    		$scope.showMore = false;
+	    	}
+	    }
 	 
 }]).controller('updatecommentCtrl',['$rootScope','$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
     function ($rootScope,$scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
@@ -616,6 +698,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 
        	$scope.ok = function() {
+			$scope.status = parseInt($scope.status);
        		var data = {
     	 	coid: items.coid,
     	 	comment: {
@@ -625,7 +708,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
     	 		docs: [],	/*文件列表*/
     	 		// coSpeech:'' /*整改录音*/
 	    	 	},
-	    	 status:parseInt($scope.status)
+	    	 	status: $scope.status
 	    	}
 
 	    	//0.全部上传

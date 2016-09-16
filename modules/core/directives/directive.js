@@ -14,6 +14,33 @@ angular.module('core').directive('profit', function($timeout) {
     };
 });
 
+angular.module('core').directive('profitDept', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                    scope.$emit('ngRepeatFinishedDept');
+                });
+            }
+
+        }
+
+    };
+});
+
+angular.module('core').directive('getCooperlist', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+        	element.bind('click',function(){
+        		debugger;
+        	})
+        }
+
+    };
+});
+
 angular.module('core').directive('copyRadio', function ($timeout) {
     return {
 		restrict: 'AE',
@@ -65,6 +92,7 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(this).css("background",'#eceef0').siblings().css("background","#fff");
 
             })
+
 		}
 	};
 });
@@ -199,19 +227,27 @@ angular.module('core').directive('scrollDirective', function () {
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
-                $("#content-b3").mCustomScrollbar({
-                    setHeight:sideHeight,
+
+                $("#statistics1").mCustomScrollbar({		// 统计页面图1
+
+                    setHeight:200,
+                    theme:"minimal"
+                }
+
+                );
+                $("#statistics2").mCustomScrollbar({		// 统计页面图2
+                    setHeight:200,
                     theme:"minimal"
                 });
-                $("#content-b4").mCustomScrollbar({
-                    setHeight:sideHeight,
+                $("#statistics3").mCustomScrollbar({		// 统计页面图3
+                    setHeight:200,
                     theme:"minimal"
                 });
-                $("#content-b5").mCustomScrollbar({
-                    setHeight:sideHeight,
+                $("#statistics4").mCustomScrollbar({		// 统计页面图4
+                    setHeight:200,
                     theme:"minimal"
                 });
-                $("#content-b6").mCustomScrollbar({
+                $("#content-b7").mCustomScrollbar({
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
@@ -291,30 +327,33 @@ angular.module('core').directive('lightHeight', function () {
                 var searchTerm = $(this).val();
                 // remove any old highlighted terms
                 $('.project_name').removeHighlight();
-//            // disable highlighting if empty
-                if ( searchTerm ) {
-                    // highlight the new term
+                // disable highlighting if empty
+                if ( searchTerm) {
+                // highlight the new term
                     $('.project_name').highlight( searchTerm );
                 }
             });
+
+
+
             $('#exampleInputName3').bind('keyup change', function(ev) {
                 // pull in the new value
                 var searchTerm = $(this).val();
                 // remove any old highlighted terms
                 $('.menName').removeHighlight();
-//            // disable highlighting if empty
-                if ( searchTerm ) {
+                // disable highlighting if empty
+                if (searchTerm) {
                     // highlight the new term
                     $('.menName').highlight( searchTerm );
                 }
             });
-        //    be高亮搜索
+            // be高亮搜索
             $('#linkbeSear').bind('keyup change', function(ev) {
                 // pull in the new value
                 var searchTerm = $(this).val();
                 // remove any old highlighted terms
                 $('.linkbeMatter').removeHighlight();
-//            // disable highlighting if empty
+                // disable highlighting if empty
                 if ( searchTerm ) {
                     // highlight the new term
                     $('.linkbeMatter').highlight( searchTerm );
@@ -335,7 +374,6 @@ angular.module('core').directive('boxShadow', function($timeout) {
                 });
             }
         }
-
     };
 });
 angular.module('core').directive('detail', function($timeout) {
@@ -398,11 +436,10 @@ angular.module('core').directive('bvOperation', function($document) {
     return {
         restrict: 'AE',
         link: function(scope, element, attr) {
-           
-            $(".btn_box_bv").click(function(){
-
             var rightDistance = document.getElementsByClassName('content_right_bv')[0].offsetWidth;
             var rightDistance1 = document.getElementsByClassName('paly-model')[0].offsetWidth;
+
+            $(".btn_box_bv").click(function(){
             console.log('rightDistance1', rightDistance);
                 $(".show_btn").toggleClass("glyphicon-menu-left")
                 //toggleClass增加一个class      
@@ -422,6 +459,25 @@ angular.module('core').directive('bvOperation', function($document) {
                     $(".mobile-mark").hide();
                 }
               });
+            $('.mobile-mark').click(function() {
+                $(".show_btn").toggleClass("glyphicon-menu-left")
+                //toggleClass增加一个class      
+                        //通过判断这个class的状态来决定是开操作还是关操作
+                        $(".content_right_bv").toggleClass("menus");
+                if($(".content_right_bv").hasClass("menus")){
+
+                    $(".btn_box_bv").animate({right:rightDistance})
+                    $(".content_right_bv").animate({right:"0"})
+                    $(".glyphicon-menu-right").css("display",'inline-block');
+                    $(".mobile-mark").show();
+
+                }else{
+                     $(".btn_box_bv").animate({"right":"0"});
+                     $(".content_right_bv").animate({"right": -rightDistance});
+                    $(".glyphicon-menu-right").css('display','none');
+                    $(".mobile-mark").hide();
+                }
+            });
         }
     };
 });

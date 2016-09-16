@@ -2,23 +2,34 @@
 .container {
 	width: 1200px !important;
 }
-header{
-    height:60px;
-    line-height: 60px;
-    background:#ddd;
-    text-align:center;
-    position:relative;
-}
 </style>
 <div ng-show="!isPreview">
-	<header class="create-title">创建协作</header>
+	<div class="inner">
+		<header>
+	        <div class="header-operation clearfix">
+	            <div class="label_tools">
+	                <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()">
+	                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+	                    <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
+	                    <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+	                </div>
+	                <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+	            </div>
+	        </div>
+	        <div class="header-title">
+	            <p class="F16" ><span class="substr">创建协作</span></p>
+	            <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span> -->
+	        </div>
+	    </header>
+	</div>
 	<div class="container">
 		<div class="create">
+		<form name="create_form" id="create-form" novalidate="" >
 			<div class="row">
 				<div class="col-xs-6 left">
 					<div class="row">
 						<label for="" class="col-xs-2">主题：</label>
-				  		<div class="inline col-xs-6"><input type="text" class="form-control left-area new-name" id="" placeholder="" ng-model="coopname" ng-change="changeTopic()"></div>
+				  		<div class="inline col-xs-6"><input type="text" class="form-control left-area new-name" id="" placeholder="" ng-model="coopname" required="" ng-maxlength="50" name="topic"></div>
 					</div>
 					<div class="row">
 						<label for="" class="col-xs-2">优先级：</label>
@@ -30,7 +41,13 @@ header{
 					</div>
 					<div class="row coop-Levels" show-select>
 						<label class="col-xs-2">标识：</label>
-					  	<select class="identify col-xs-6" ng-model="mark" ng-options="item.picMarker for item in markerList" ng-click="switchMark(mark)">
+					  	<select class="identify col-xs-6" ng-model="mark" ng-click="switchMark(mark)">
+					  		<option value="{{item.markerId}}" 
+					  			data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
+					  					<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
+					  					<span>{{item.picMarker}}</span>
+					  				</div>"
+					  			ng-repeat="item in markerList track by $index" ></option>
 						</select>
 						<!-- <select name="" id="" class="identify selectpicker col-xs-6" ng-model="mark">
 							<option value=""></option>
@@ -53,7 +70,7 @@ header{
 					<div class="row">
 					    <label for="" class="col-xs-3 align-right">限制期限：</label>
 					    <p class="input-group col-xs-7">
-				          <input type="text" class="form-control" ng-click="open2()" style="height:40px !important;width:83%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
+				          <input type="text" class="form-control" readonly ng-click="open2()" style="height:40px !important;width:83%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
 				          <!--<span class="input-group-btn">-->
 				            <!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
 				          <!--</span>-->
@@ -65,7 +82,6 @@ header{
 					</div>
 				</div>
 			</div>
-			
 			<div class="row link">
 				<label for="" class="col-xs-1">关联：</label>
 				<div class="list-inline col-xs-8">
@@ -98,7 +114,7 @@ header{
 			<div class="row mt-15 mx">
 				<label for="" class="col-xs-1">描述：</label>
 				<div class="col-xs-11" >
-					<textarea rows="8" ng-model="desc" style="width:100%;padding:0 13px;"></textarea>
+					<textarea id="desc" rows="8" ng-model="desc" style="width:100%;padding:0 13px;" ng-change="changeDesc()"  ng-maxlength="250"></textarea>
 				</div>
 			</div>
 			<div class="row mt-15 relative-man">
@@ -143,19 +159,6 @@ header{
 					<!-- <div class="col-xs-6"><button class="btn">添加</button></div> -->
 				</div>
 			</div>
-			<!-- <div class="row">
-				<label for="" class="col-xs-2">资料：</label>
-				<div class="upload-docs">
-					<input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
-					 <ul class="list-inline inline">
-			            <li ng-repeat="item in uploader1.queue">
-			                Name: <span ng-bind="item.file.name"></span><br/>
-			                <button ng-click="item.upload()">upload</button>
-			            </li>
-			        </ul>
-					<button class="btn btn-default btn-add" ng-click="docsUpload()">+</button>
-				</div>
-			</div> -->
 			<div class="row docs upload" style="margin-top:10px;">
 				<label for="" class="col-xs-1">资料：</label>
 				<div class="col-xs-11 look-book">
@@ -224,13 +227,21 @@ header{
 					</ul>
 				</div>
 			</div>
+		</form>
 		</div>
+	</div>
+	<!-- errorMessage-->
+	<div class="create-error">
+		<ul>
+			<li style="color:red" ng-show="(flag.isTopicNull || create_form.topic.$dirty) && create_form.topic.$error.required">协作主题不能为空</li>
+			<li style="color:red" ng-show="flag.isleast">请至少上传一张图片或一份资料</li>
+		</ul>
 	</div>
 	<div class="create-btn-submit footer">
 		<div class="text-center">
-			<button class="btn btn-default foot-btn" ng-click="save(0)">存储</button>
+			<button class="btn btn-default foot-btn" ng-click="save(0)">存草稿</button>
 			<button class="btn btn-default foot-btn" ng-click="save(1)">提交</button>
-			<button class="btn btn-default new-btnFail" ui-sref="cooperation">取消</button>
+			<button class="btn btn-default new-btnFail" ng-click="cancelCreate()">取消</button>
 		</div>
 	</div>
 </div>

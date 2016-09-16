@@ -4,10 +4,6 @@
     /*display:none;*/
     position:relative;
 }
-.detail-computer .header-title span{
-    width:300px;
-    display:inline-block;
-}
 .detail-computer .F16{
     font-size:16px;
 }
@@ -18,21 +14,6 @@
     border:1px solid #ddd;min-height:80px;padding: 3px 8px;
 }
 
-header{
-    height:60px;
-    background:#ddd;
-    text-align:center;
-    position:relative;
-}
-header p{
-    line-height:60px;
-    /*color:#fff;*/
-}
-header .close{
-    position:absolute;
-    top:10px;
-    right:10px;
-}
 /*---------------------main--------------------*/
 .main{
    overflow:hidden;
@@ -44,6 +25,7 @@ header .close{
 }
 .coop-detail-con{
     position:relative;
+    margin-top: 60px;
 }
 /*------------------content_left-----------------*/
 .content_left{
@@ -75,7 +57,7 @@ header .close{
 }
 
 .detail-close{
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: -13px;
     font-size: 22px;
@@ -181,7 +163,7 @@ header .close{
     display:none;
 }
 .detail-voice .play-audio-mask{
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     width:100%;
@@ -191,7 +173,7 @@ header .close{
     z-index: 100;
 }
 .detail-voice .palys{
-    position: absolute;
+    position: fixed;
     /* top: -1%; */
     left: 50%;
     margin-top: 18px;
@@ -395,26 +377,25 @@ margin:34px 0;
     height:50px;
     border-radius: 50%;
 }
+.reply .say{
+    margin-bottom:40px;
+}
 .reply .comment {
-    /*border: 1px solid #ddd;*/
+    border: 1px solid #ddd;
     min-height: 70px;
     margin-bottom:10px;
     border-radius:5px;
-    width:auto !important;
+    padding: 0 20px;
+/*    width:auto !important;*/
 }
-.reply .say{
-    margin-bottom:40px;
-    border-bottom:1px solid #ddd;
+.reply .comment .comment-doclist >div {
+    width: 75px;
+    margin-right: 10px;
 }
-
-.reply .col-md-11,.col-xs-10,.col-md-12{
-    padding:0;
+.reply .say .comment  .dashed {
+    border-bottom: 0.1rem dashed #ddd;
+    padding: 10px 0;
 }
-.reply .say .comment .say-content{
-    padding-left:10px !important;
-    width:auto;border:1px solid #ddd;
-}
-
 .reply .reply-state{
     margin-bottom:10px;float:left;margin-right:20px;
 
@@ -440,7 +421,7 @@ margin:34px 0;
     width: 260px;
     float:right;
 	position:absolute;
-    top: 0;
+    top: 88px;
 	right:-260px;
 	background:#fff;
 	bottom:0;
@@ -448,12 +429,12 @@ margin:34px 0;
     /*box-shadow: 0px 3px 23px 3px;*/
 }
 .content_right_bv{
-    width: calc(100% - 100px);
+    width: 280px;
     /*width: 200px;*/
     float:right;
     position:fixed;
     top: 0;
-    right: calc(100px - 100%);
+    right: -280px;
     background:#fff;
     bottom:0;
     z-index:2;
@@ -461,12 +442,12 @@ margin:34px 0;
 }
 /*-------bttn(侧边栏样式)-----------------------------------*/
  .btn_box_pc{
+    top: 88px;
     width: 43px;
     height: 74px;
     background: #979ba8;
     text-align: center;
     position: absolute;
-    top: 40px;
     right: 0px;
     line-height: 74px;
     z-index:2;
@@ -543,7 +524,7 @@ margin:34px 0;
     left: -18px;
     top: 0;
     margin-left: 19px;
-
+    margin-bottom: 10px;
 }
 .state ul li{
     list-style:none;
@@ -921,6 +902,14 @@ textarea{
     height:45px;
     border-radius:50%;
     border:1px solid #ddd;
+}
+.mobile-main .mobile-relate .show-more-btn {
+    position:absolute;
+    bottom:10px;
+    right:0px;
+    width:100px;
+    text-align:center;
+    text-decoration:underline;
 }
 /*照片*/
 .mobile-main .mobile-photo .photo-title{

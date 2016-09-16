@@ -672,7 +672,8 @@ html,body{
 }
 /*协作主题*/
 .themer{
-    margin-left:0px;width:73.5%;
+    margin-left:0px;
+    width:78.5%;
     float: right;
 
 }
@@ -765,6 +766,9 @@ html,body{
     border-bottom:1px solid #ddd;
     padding:0px;
 }
+.mobile-main .mobile-main-principal .row .col-xs-9 {
+    padding: 0;
+}
 .mobile-main .mobile-main-principal .mobile-uBasicInfo >.userInfo{
     margin-bottom:20px;
 }
@@ -842,7 +846,7 @@ html,body{
     -webkit-appearance: none !important;
 }
 .mobile-devices .b-tilte{
-   width:80px;float:left
+   width:65px;float:left
 }
 
 .mobile-main .mobile-job-descrition .mobile-textarea textarea{
