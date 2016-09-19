@@ -25,18 +25,6 @@
                                     <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
                                         <div class="inline int-style" style="margin-left: 4px;" ng-model="statusE">{{collaList.status}}</div>
-                                        <!-- <select class="identify col-xs-6" ng-model="status"  ng-show="zhenggai">
-                                            <option value="-1">空</option>
-                                            <option value="1">已整改</option>
-                                            <option value="2">整改中</option>
-                                            <option value="3">不整改</option>
-                                            <option value="4">待整改</option>
-                                            <option value="5">未整改</option>
-                                        </select>
-                                         <select class="identify col-xs-6" ng-model="status"  ng-show="!zhenggai">
-                                            <option value="6">待确认</option>
-                                            <option value="7">进行中</option>
-                                        </select> -->
                                     </div>
                                 </div>
                                 <div class="col-xs-5 col-md-4 pad_clear basicInfo">
@@ -202,7 +190,7 @@
             </div>
         </div>
     </div>
-    <div class="footer">
+    <div class="footer footer-commom">
         <button type="button" class="btn btn-default" ng-click="ok()" style="width:143px;height:34px;">确定</button>
         <button type="button" class="btn btn-default " ui-sref="coopdetail({coid: transcoid})" style="width:143px;height:34px;">取消</button>
     </div>

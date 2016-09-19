@@ -38,7 +38,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/pcUserList';
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest:angular.identity})
+        $http.post(url_join,params,{cache:true,transformRequest:angular.identity})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -110,6 +110,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取工程对应资料列表
     this.getDocList = function (params) {
         var delay = $q.defer();
+        var params = JSON.stringify(params);
         var url_join = url + 'rs/co/docList';
         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
@@ -171,7 +172,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取选择表单列表
     this.getTemplateNode = function (params) {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/template/' + params + '/doc';
+        var url_join= url + 'rs/co/template/' + params + '/pdf';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
@@ -249,7 +250,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/updateCollaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data, status) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -408,4 +409,15 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 
+    //获取指定的UUID的下载地址
+//    this.getDownFileUrl = function (uuids){
+//    	var delay = $q.defer();
+//    	var url_join = url + "rs/co/downFileUrl";
+//    	$http.post(url_join,uuids,{transformRequest: angular.identity}).then(function(data){
+//    		delay.resolve(data);
+//    	},function(err){
+//            delay.reject(err);
+//        })
+//        return delay.promise;
+//    }
 });

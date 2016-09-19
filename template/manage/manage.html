@@ -7,7 +7,7 @@
 	}
 </style>
 <header ng-include="'template/core/header.html'"></header>
-<div class="main-container rela" scroll-directive>
+<div class="main-container rela" scroll-directive >
     <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
@@ -39,7 +39,7 @@
                     <!--<div class="tools"></div>-->
                     <div class="content clearfix" style="border-bottom:1px solid #ddd;">
                         <!--商品展示-->
-                        <div class="good_list clearfix"  id="content-a2" style="height:calc(100vh - 160px);overflow:auto;"  >
+                        <div class="good_list clearfix"  id="content-a2" style="height:calc(100vh - 160px);overflow:auto;" light-height >
                             <!--商品1F-->
                             <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click="updateNew($event)">
                                 <dt>
@@ -104,7 +104,10 @@
                                     <p><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了资料<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs">
-                                            <div class="tools_bar" >
+                                            <div ng-if="getTrents.thumbnailUrl">
+                                                <img ng-src="{{getTrents.thumbnailUuid}}" alt="">
+                                            </div>
+                                            <div ng-if="getTrents.thumbnailUuid==''||getTrents.thumbnailUuid==null" class="tools_bar" >
                                                 <!--文件类型-->
                                                 <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
                                                 <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">

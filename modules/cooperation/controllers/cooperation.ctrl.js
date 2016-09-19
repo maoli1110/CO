@@ -42,6 +42,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
     
 	$scope.link = function(id){
+    $scope.initScrollend(id);
 		$scope.projectInfoList = [];
 		queryData.groups = [];
 			if(id==-1){
@@ -57,6 +58,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	
 	$scope.drafts = function(id){
+      $scope.initScrollend(id);
 			$scope.projectInfoList = [];
 			queryData = {};
 			queryData.groups = [];
@@ -110,12 +112,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     $scope.trans = function (typeId) {
     	var url = $state.href('newcopper', {typeid: typeId});
-		window.open(url,'_blank');
+    	window.open(url,'_self');
     }
 
     //获取项目部列表3434
     Cooperation.getDeptInfo().then(function (data) {
-    	
     	$scope.deptInfoList = data;
     	if(!queryData.deptId){
     		firstdeptid = data[0].deptId;//确定第一个deptid
@@ -159,16 +160,25 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if(!open){
 			Cooperation.getProjectList(deptId).then(function (data) {
 				getimgurl(data,deptId);
-	   			queryData.deptId = deptId;
 				if(queryData.ppid){
 					$("span[id='projectbutton_"+queryData.ppid+"']").click();
 				}
 			});
 		}
+    if(!queryData.deptId){
+      queryData.deptId  = deptId;
+    }
+    if(queryData.deptId != deptId ){
+       queryData.deptId  = deptId;
+    }
+    $scope.cooperationList = [];
+    Cooperation.getCollaborationList(queryData).then(function (data) {
+        $scope.cooperationList = data;
+      });
 		$(" .data_count").hide();
 
    	}
-   	
+   
    	
    	/*滚动加载只防止多次提交请求问题start*/
     //可以查询
@@ -199,6 +209,18 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	/*滚动加载只防止多次提交请求问题end*/
 	
+     //当滚动加载到最后一页时候，$scope.scrollend全局变量为true，
+     //导致切换工程时候不能进行滚动加载，需要初始化$scope.scrollend的值
+     $scope.initScrollend = function(id){
+          //如果当前企业和切换的企业id不一样，初始化$scope.scrollend
+          if(queryData.ppid != id){
+             $scope.scrollend = false;
+             queryData.modifyTime = '';
+             queryData.modifyTimeCount = 0;
+
+          }
+     }
+
     //下拉获取更多协同列表数据
     $scope.searchMoreData = function () {
         //默认获取第一个项目部列表的工程列表
@@ -271,8 +293,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
    	//点击工程获取协同列表
    $scope.getCollaborationList = function (ppid) {
+      $scope.initScrollend(ppid);
    		queryData.ppid = ppid;
-		$scope.typeStatStr=[];
+		  $scope.typeStatStr=[];
    		Cooperation.getCollaborationList(queryData).then(function (data) {
    			$scope.cooperationList = data;
    		});
@@ -396,6 +419,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //动态筛选-确定-按钮-搜索
     $scope.filterOk = function () {
+      console.log($scope.scrollend);
         $scope.isCollapsed = false;
         $('.overlay').css('display','none');
     	var groups = [];
@@ -550,16 +574,27 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			}else{
 				$("#data_graph4").parent().show();
 			}
-
-				var colorStyle1= ["#E6D055","#73CC6C","#5887FD"]
+				/*#E6D055  黄 III
+					#5887FD 蓝 I
+					#73CC6C 绿 II
+				*/
+				var colorStyle1= ["#5887FD","#73CC6C","#E6D055"];
 				// 数据清零
 				arr = [];
 				arrCount = 0;
 				//优先级别
+				var statIndex = 0;
 				angular.forEach( $scope.priorityStat, function (value, key) {
 					arr.push(value);
 					//页面优先级展示数据
-					$scope.arrString.push(key);
+					if((statIndex == 1) && key === "III") {
+						$scope.arrString.push("II");
+					} else if((statIndex == 2) && key === "II") {
+						$scope.arrString.push("III");
+					} else {
+						$scope.arrString.push(key);
+					}
+					statIndex++;
 				})
 
 				for(var n in arr){
@@ -585,12 +620,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 //						unit.name = parseInt((value/arrCount)*100)+"%";
 						unit.name = value;
 					}
-
-
 					unit.itemStyle.normal.color = '';
 					priorityArr.push(unit);
 				});
-				//循环数组给他添加颜色属性
+				//循环数组给他添加颜色属性--优先级
 				for(var t= 0;t<priorityArr.length;t++){
 					priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
 				}

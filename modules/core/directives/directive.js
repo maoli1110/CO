@@ -228,25 +228,11 @@ angular.module('core').directive('scrollDirective', function () {
                     theme:"minimal"
                 });
 
-                $("#statistics1").mCustomScrollbar({		// 统计页面图1
-
-                    setHeight:200,
-                    theme:"minimal"
-                }
-
-                );
-                $("#statistics2").mCustomScrollbar({		// 统计页面图2
-                    setHeight:200,
+                $("#statistic_marker").mCustomScrollbar({		// 统计页面--标识
+                    setHeight:281,
                     theme:"minimal"
                 });
-                $("#statistics3").mCustomScrollbar({		// 统计页面图3
-                    setHeight:200,
-                    theme:"minimal"
-                });
-                $("#statistics4").mCustomScrollbar({		// 统计页面图4
-                    setHeight:200,
-                    theme:"minimal"
-                });
+                
                 $("#content-b7").mCustomScrollbar({
                     setHeight:sideHeight,
                     theme:"minimal"
@@ -401,7 +387,7 @@ angular.module('core').directive('showSelect', function($timeout) {
                         style: '',
                         size: 'auto'
                     });
-                }, 800);
+                }, 300);
             }
     };
 });

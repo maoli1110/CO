@@ -6,6 +6,9 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 	function ($scope, $http, $uibModalInstance,Cooperation,items) {
 		//选择负责人,联系人
 		//设置默认值
+		var flag = {
+			forbidAll:false //防止多次全部选中
+		};
 		var defaultDeptId = 1; 	//默认第一个项目部（值）
 		$scope.selectedOption = {}; //默认中第一个项目部（页面展示对象）
 		$scope.deptInfo = {
@@ -13,6 +16,13 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		};
 		$scope.userList = [];  //联系人列表
 		$scope.responsiblePerson = ''; //当前负责人
+		$scope.trans_selected = {
+        	noSign: [], //不需要签字的相关人
+        	sign: [] //需要签字的相关人
+        };
+		//保存联系人的值
+//		$scope.avatar = [];
+//		$scope.downUrl = [];
 		//查询值
 		var queryData = {
 			deptId:defaultDeptId,
@@ -21,45 +31,135 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		//获取项目部
 		Cooperation.getDeptList().then(function (data) {
 			$scope.deptInfo.availableOptions = data;
-			$scope.selectedOption = data[0];
+			$scope.selectedOption = data[0].deptId + '';
 			defaultDeptId = data[0].deptId;
 			queryData = {
 				deptId:defaultDeptId,
 				searchText:$scope.queryForm
 			};
+			//默认联系人列表
+			Cooperation.getUserList(queryData).then(function (data) {
+				// var imgSrc = './imgs/icon/defalut.png';
+				// console.log('start',Date.parse(new Date()));
+//				 angular.forEach(data,function(value,key){
+//					var avater = {
+//						key:key,//对应的key值
+//						avater:[]//保存的头像地址信息
+//					};
+//				 	angular.forEach(value.users,function(value1,key1) {
+//				 		var urls = {
+//				 			uuid:value1.uuid,
+//				 			url:value1.avatar
+//				 		};
+//				 		avater.avater.push(urls);
+//				 	})
+//				 	$scope.avatar.push(avater);
+//				 });
+				// console.log('start',Date.parse(new Date()));
+				$scope.userList = data.slice(0,14);
+				//console.log(data)
+			});
 		});
 
-		//默认联系人列表
-		Cooperation.getUserList(queryData).then(function (data) {
-			$scope.userList = data;
-		});
-
+		//获取指定角色目录下的所有用户的头像
+//		$scope.getUserAvaterUrl = function(index){
+//			index = parseInt(index);
+//			//获取指定的数据
+//			var avater = $scope.avatar[index];
+////			$scope.$apply(function(){
+////				$("#uib_"+index).attr("uib-collapse",false);
+////			});
+//			if(avater.key != index){
+//				return;
+//			}
+//			var urls = avater.avater;
+//			//获取所有的UUID，根据UUID区获取下载地址
+//			var uuids = [];
+//			angular.forEach(urls,function(value,key){
+//				if(value.uuid){
+//					var url = $scope.getDownUrl(value.uuid)
+//					if(url == null){
+//						uuids.push(value.uuid);
+//					}
+//				}
+//			});
+//			//获取UUID地址,
+//			var mapUrl = '';
+//			if(uuids.length > 0){
+//				uuids = JSON.stringify(uuids)
+////				Cooperation.getDownFileUrl(uuids).then(function (data) {
+////					mapUrl = data.data;
+////				});
+//				$.ajax({
+//		              type: "post",
+//		              url: basePath+'rs/co/downFileUrl',
+//		              data:uuids,
+//		              async:false,
+//		              contentType:'application/json',
+//		              success: function(data){
+//		            	  mapUrl = data;
+//		              }
+//		        });
+//			}
+//			angular.forEach(urls,function(value,key){
+//				var url = "default";
+//				var down = "./imgs/icon/defalut.png";
+//				var uuid = value.uuid;
+//				if(uuid){
+//					  angular.forEach(mapUrl,function(value,key){
+//						  if(key == uuid){
+//							  url = uuid;
+//							  down = value;
+//							  var downUrl = {
+//								  uuid:key,
+//								  url:value
+//							  };
+//							  $scope.downUrl.push(downUrl);
+//						  }
+//					  })
+//				}
+//				$("#"+index+"_"+url+"_"+key).attr("src",down);
+//			});
+//		}
+		
+		//获取指定的url
+//		$scope.getDownUrl =function (uuid){
+//			var url = null;
+//			 angular.forEach($scope.downUrl,function(value,key){
+//				 if(value.uuid == uuid){
+//					 url = value.url;
+//				 }
+//			 });
+//			 return url;
+//		}
+		
 		//切换项目部切换联系人
 		$scope.switchUsers = function (params) {
+			//debugger;
 			queryData = {
-					deptId: params.deptId,
+					deptId: params,
 					searchText: $scope.queryForm
 			};
 			Cooperation.getUserList(queryData).then(function (data) {
 				$scope.userList = data;
 			});
-			$scope.isCollapsed = true;
+			$scope.isCollapsed = false;
 		}
 
 		//选择负责人--搜索功能
 		$scope.responsibleSearch = function () {
 			if($scope.queryForm) {
+				$scope.isCollapsed = true;
 				queryData = {
-					deptId:$scope.selectedOption.deptId,
+					deptId:$scope.selectedOption,
 					searchText:$scope.queryForm
 				};
 				Cooperation.getUserList(queryData).then(function (data) {
 					$scope.userList = data;
-					$scope.isCollapsed = true;
 				});
 			} else if (!$scope.queryForm) {
 				queryData = {
-					deptId:$scope.selectedOption.deptId,
+					deptId:$scope.selectedOption,
 					searchText:$scope.queryForm
 				};
 				Cooperation.getUserList(queryData).then(function (data) {
@@ -92,6 +192,11 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		$scope.relatedSelected = a ? a : [];
 
 		$scope.addRelated = function (current) {
+//			debugger
+//			var url = $scope.getDownUrl(current.uuid);
+//			if(url){
+//				current.avatar = url;
+//			}
 			$scope.relatedSelected.push(current);
 			//数组去重
 			var unique = _.uniqBy($scope.relatedSelected, 'username');
@@ -112,23 +217,26 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		//选择需要签字的相关人
 		var signSelected = temp.sign ? temp.sign : [];
 		var nosignSelected = temp.noSign ? temp.noSign :[];
-        var updateSelected = function(action,id,name){
+        var updateSelected = function(action,id){
             if(action == 'add' && signSelected.indexOf(id) == -1){
                signSelected.push(id);
+               $scope.trans_selected.sign =signSelected;
            	}
-             if(action == 'remove' && signSelected.indexOf(id)!=-1){
-                var idx = signSelected.indexOf(id);
-                signSelected.splice(idx,1);
-             }
+            if(action == 'remove' && signSelected.indexOf(id)!=-1){
+               var idx = signSelected.indexOf(id);
+               signSelected.splice(idx,1);
+               $scope.trans_selected.sign =signSelected;
+            }
          }
  
         $scope.updateSelection = function($event, id){
             var checkbox = $event.target;
             var action = (checkbox.checked?'add':'remove');
-            updateSelected(action,id,checkbox.name);
+            updateSelected(action,id);
         }
  
         $scope.isSelected = function(id){
+        	//console.log('signSelected.indexOf(id)',signSelected.indexOf(id))
             return signSelected.indexOf(id)>=0;
         }
 
@@ -142,12 +250,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
         	}
         }
 
-        //选择相关人点击确定按钮
-        $scope.trans_selected = {
-        	noSign: '',
-        	sign: signSelected
-        };
-
         //选择负责人-确定按钮
 		$scope.ok = function () {
 			console.log('relatedSelected', $scope.responsiblePerson);
@@ -156,8 +258,8 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			} else {
 				alert('请选择负责人');
 			}
-			
 		}
+
 		//选择相关人-确定按钮
 		$scope.ok1 = function () {
 			noSign();
@@ -168,27 +270,27 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		//全选
 		$scope.allSelected = function () {
 			//$scope.isSelected = true;
-			var edit = document.getElementById("edit-all")
-			if(edit.checked){
-				$(".allChoice").show();
-			}else{
-				$(".allChoice").hide();
+			if($scope.flag.allSelected && !$scope.flag.forbidAll){
+				$scope.flag.forbidAll = true;
+				angular.forEach($scope.userList,function (value, key) {
+					angular.forEach(value.users, function (value1,key) {
+						$scope.relatedSelected.push(value1);
+					})
+				});
+			} else {
+				$scope.flag.forbidAll = false;
+				$scope.relatedSelected = [];
+				$scope.trans_selected.sign = [];
+				signSelected = [];
 			}
-			angular.forEach($scope.userList,function (value, key) {
-				angular.forEach(value.users, function (value1,key) {
-					$scope.relatedSelected.push(value1);
-				})
-			})
 		}
-		//$scope.del = function(){
-		//	$(".remove-all").toggleClass("del");
-		//	if($(".del")){
-		//		$(".error-del").css("background",'url(imgs/icon/error-del.png) no-repeat 0 -18px')
-		//	}else{
-		//		$(".error-del").css("background",'url(imgs/icon/error-del.png) no-repeat 0 0')
-        //
-		//	}
-		//}
+		$scope.delAll = function(){
+			$scope.relatedSelected =[];
+			$scope.trans_selected.sign = [];
+			signSelected = [];
+			$scope.flag.allSelected = false;
+			$scope.flag.forbidAll = false;
+		}
 
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');

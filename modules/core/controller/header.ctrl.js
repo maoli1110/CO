@@ -15,6 +15,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
             },function(){
                 $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide();
                 $(".header_menus").hide();
+                $('.navbar-header').removeClass('dispatcher-database')
             })
         })
 

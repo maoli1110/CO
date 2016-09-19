@@ -8,31 +8,47 @@
     <div class="modal-body" copy-radio scroll-directive >
         <div class="row" >
             <div class="col-xs-6 left">
-                <div class="select">
-                    <label for="">项目：</label>
-                    <select name="" class="be-project" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchDept(selectedOption)"></select>
+                <div class="select" show-select style="margin-bottom:12px;">
+                    <label>项目：</label>
+                    <!--<select name="" class="be-project" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-change="switchDept(selectedOption)"></select>-->
+                    <select  class="identify be-project" name=""  ng-model="selectedOption" ng-change="switchDept(selectedOption)">
+                        <option value="{{item.deptId}}"
+                                data-content="<div class='substr' title='{{item.deptName}}' style='text-align:left;'>
+					  					<span>{{item.deptName}}</span>
+					  				</div>"
+                                ng-repeat="item in deptInfo.availableOptions track by $index">
+                        </option>
+                    </select>
                 </div>
-                <div class="select">
-                    <label for="">工程：</label>
-                    <select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-change="switchPpid(projectOption)"></select>
+                <div class="select" show-select>
+                    <label>工程：</label>
+                    <!--<select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-change="switchPpid(projectOption)"></select>-->
+                    <select  class="identify be-project" name=""  ng-model="projectOption" ng-change="switchPpid(projectOption)">
+                        <option value="{{item.ppid}}"
+                                data-content="<div class='substr' title='{{item.projectName}}' style='text-align:left;'>
+					  					<span>{{item.projectName}}</span>
+					  				</div>"
+                                ng-repeat="item in projectList.availableOptions track by $index">
+                        </option>
+                    </select>
                 </div>
                 <div class="person-list clearfix" id="content-a6">
                     <ul id="tree" class="ztree"></ul>
                 </div>
             </div>
-            <div class="col-xs-6 right" id="content-a7" style="margin-left:20px;">
+            <div class="col-xs-6 right" id="content-a7" style="margin-left:15px;">
                 <div class="clearfix public-head">
                     <div class="pull-left">
                         <label>
                             <input type="checkbox" style="display:none;">
-                            <span  class="book-style font16">共{{docList.length}}份资料</span>
+                            <span  class="book-style font16">共{{totalItems}}份资料</span>
                             <div class="linkbe-check"></div>
                         </label>
                     </div>
                     <!--<div class="pull-left"><label ><input type="checkbox"><span  class="book-style font16">共{{docList.length}}份资料</span></label></div>-->
                     <div class="pull-right">
                         <form>
-                            <input type="text" class="be-sear" id="linkbeSear" ng-model="searchname" placeholder="搜索资料名称、上传人" ng-change="docSearch(searchname)">
+                            <input type="text" class="be-sear" id="linkbeSear" ng-model="searchname" placeholder="搜索资料名称、上传人" ng-change="docSearch()">
                             <span  class="posi"><img  src="imgs/seache.png" alt=""></span>
                         </form>
                     </div>
@@ -40,23 +56,28 @@
                 <div>
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="row in docList" class="check-now" profit >
-                                <td><label class="be-check">
-                                        <input type="checkbox" style="opacity: 0" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)">
-                                        <span class="checkbox"></span>
-                                     </label>
+                            <tr ng-repeat="row in docList track by $index" class="check-now" profit >
+                                <td>
+                                <label class="be-check">
+                                    <input type="checkbox" style="opacity:0" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)">
+                                    <span class="checkbox"></span>
+                                </label>
                                 </td>
                                 <td><img src="imgs/pro-icon/icon-txt.png" alt=""></td>
                                 <td><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
                                     <span class="be-proview"></span>
                                 </td>
-                                <td ><p class="substr linkbeMatter" style="width:57px" title="{{row.uploader}}">{{row.uploader}}</p></td>
+                                <td><p class="substr linkbeMatter" style="width:57px" title="{{row.uploader}}">{{row.uploader}}</p></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <div class="bg-pagination" ng-show="docList.length">
+                     <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" previous-text="上一页" next-text="下一页" class="pagination-sm" boundary-link-numbers="true" rotate="true" max-size="5"></ul>
+                </div>
             </div>
         </div>
+       
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>

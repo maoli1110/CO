@@ -247,6 +247,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     /*clear:both;*/
     margin:40px 0;
 }
+
 .Avatar .photo dl{
     display: inline-block;
     margin-right:38px;
@@ -635,8 +636,8 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 }
 /*手机端*/
 html,body{
-    height:100%;
-    overflow-x:hidden;
+    /*height:100%;*/
+    /*overflow-x:hidden;*/
     /*scroll:no;//*/
 }
 .F16{
@@ -702,7 +703,7 @@ html,body{
 }
 .mobile-devices{
     height:100%;
-    overflow-x:hidden;
+    /*overflow-x:hidden;*/
     margin-bottom: 35px;
 }
 .mobile-devices input, textarea {
@@ -721,7 +722,7 @@ html,body{
     width: 100%;
     /*padding:0;*/
     position:relative;
-    overflow:hidden;
+    /*overflow:hidden;*/
     padding: 0 7px;
 }
 .mobile-main .photo-list{

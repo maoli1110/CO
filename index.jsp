@@ -107,13 +107,16 @@
 		<script type="text/javascript" src="./modules/cooperation/config/cooperation.routes.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/cooperation.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperation.ctrl.js"></script>
-			<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/coopdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperlink.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/updatecomment.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkproject.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkcomponent.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkbe.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkform.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/services/treesearch.service.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
-
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
 		<script src="js/jquery.mousewheel.min.js"></script>

@@ -37,6 +37,15 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         	 firstdeptid = data[0].deptId;
         }
     })
+
+    $scope.initScrollend = function(id){
+          //如果当前企业和切换的企业id不一样，初始化$scope.scrollend
+          if(searchId != id){
+                $scope.scrollend = false;
+                lastUploadTime = '';
+                lastUsername = '';
+            }
+     }
   
     //点击项目部追加工程列表，并且绑定click事件
     function getimgurl(treeItems,deptId){
@@ -61,6 +70,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 		        //获取当前元素
 		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
 		   	  $(" .data_count").hide();
+              $scope.trentsListInfo = [];
 		   	  $scope.trentsList($(this).attr("id").split("_")[1]);	
 		});
 	}
@@ -82,6 +92,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             Manage.getProjectTrends(obj).then(function(data){
                 $scope.trentsCount = data.data;
             });
+        }
+
+        if(!deptId){
+            queryData.deptId  = deptId;
+        }
+        if(deptId != deptId ){
+           deptId = deptId;
         }
     }
         //项目统计列表搜索功能
@@ -292,6 +309,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
         //通过侧边栏的子元素去调出动态列表
         $scope.trentsList = function(id) {
+            //如过却换工程 scrollend需要初始化设置
+            $scope.initScrollend(id);
         	if(!id){
         		console.log("无id,查询失败");
         		return;
@@ -321,6 +340,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     }
                     lastUploadTime = data.data[data.data.length-1].updateTime;
                     lastUsername = data.data[data.data.length-1].username;
+                    console.info('动态详情列表',$scope.trentsListInfo)
                 }
                 if(data.data.length<10){
                     $scope.scrollend = true;

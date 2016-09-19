@@ -81,7 +81,7 @@
 								</div>
 								<div class="marklist" style="margin-top:-7px;">
 									<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index" profit>
-										<label class="rela">
+										<label class="rela" title="{{item.name}}">
 											<span class="width50">{{item.name}}</span>
 											<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3, $index)">
 											<div class="absol width50" >{{item.name}}</div>
@@ -210,7 +210,7 @@
 					<div class="data_every">
 						<div id="data_graph" class="data_graph"></div>
 						<div class=" data_titleInfo first">
-							<ul id="statistics1">
+							<ul> 
 								<h4>优先级</h4>
 								<li ng-repeat="mostState in arrString track by $index">
 									<span class="data_raduis"></span>
@@ -222,7 +222,7 @@
 					<div class="data_every">
 						<div id="data_graph2" class="data_graph"></div>
 						<div class=" data_titleInfo first">
-							<ul id="statistics2">
+							<ul>
 								<h4>期限</h4>
 								<li ng-repeat="deadline in deadlineStr track by $index">
 									<span class="data_raduis"></span>
@@ -238,7 +238,7 @@
 					<div class="data_every ">
 						<div id="data_graph3" class="data_graph"></div>
 						<div class=" data_titleInfo second">
-							<ul id="statistics3">
+							<ul id="statistic_marker">
 								<h4>标识</h4>
 								<li ng-repeat="makerStatStrInfo in makerStatStr track by $index">
 									<span class="markColor"  style="border:4px solid {{makerStatStrInfo.color}};"></span>
@@ -251,7 +251,7 @@
 					<div class="data_every " >
 						<div id="data_graph4" class="data_graph"></div>
 						<div class=" data_titleInfo second">
-							<ul id="statistics4">
+							<ul>
 								<h4>协作类型</h4>
 								<li ng-repeat="type in typeStatStr track by $index">
 									<span class="markColor"  style="border:4px solid {{type.color}};"></span>

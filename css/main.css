@@ -268,6 +268,7 @@ padding: 5px 25px;
     border-radius: 0;
 
 }
+.
 .modal-footer .btn-cancel:hover {
     color:#fff !important;
 }
@@ -405,18 +406,17 @@ padding: 5px 25px;
     bottom:0;
     left:0;
 }
-.footer .btn{
-     margin:0 10px;
-
- }
-.footer >.btn-default:hover ,.footer .btn-default:visited ,.footer .btn-default:focus{
+.footer-commom .btn{
+    margin:0 10px;
+}
+.footer-commom >.btn-default:hover ,.footer-commom .btn-default:visited ,.footer-commom .btn-default:focus{
     color:#fff !important;
 }
-.footer>.btn:hover ,.footer .btn:focus{
+.footer-commom>.btn:hover ,.footer-commom .btn:focus{
     background:#65C17D;
     color:#fff;
 }
-.footer .foot-btn{
+.footer-commom .foot-btn{
     width: 143px;
     height: 34px;
     border-radius: 5px;
@@ -425,16 +425,16 @@ padding: 5px 25px;
     margin-right: 40px;
     border:0;
 }
-.footer .foot-btn:hover{
+.footer-commom .foot-btn:hover{
     border:0;
     background:#55ad6c;
 }
-.footer .btn-default:hover {
+.footer-commom .btn-default:hover {
     color: #fff;
     background-color: #55ad6c !important;
     border: 0;
 }
-.footer .foot-btn:active{
+.footer-commom .foot-btn:active{
     border:0;
     background:#4a965e !important;
 }
@@ -646,7 +646,7 @@ padding: 5px 25px;
     position: absolute;
     top: 62px;
     left: 87px;
-    z-index: 10;
+    z-index: 134;
     display:none;
 }
 .header .header_menus ul li{
@@ -1128,6 +1128,18 @@ padding: 5px 25px;
     margin-left: -501px;
     margin-top: -347px;
 }
+.select-person-related-modal .left .select .btn-group{
+
+}
+.select-person-related-modal .left .select .btn-group>button{
+    width:160px;
+    background:#fff;
+    border:1px solid #ddd;
+}
+.select-person-related-modal .dropdown-menu{
+    max-height:511px !important;
+    width:220px !important;
+}
 .select-person-related-modal .modal-body .right{
     padding: 0 10px;
     height: 563px !important;
@@ -1555,8 +1567,29 @@ textarea{
     margin-left: -230px;
     margin-top: -263px;
 }
+.select-person-responsible-modal .select .choice-responsible option{
+    width:100px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    border:1px solid red;
+}
 .select-person-responsible-modal .modal-footer{
     margin-top:-15px;
+}
+.select-person-responsible-modal .btn.dropdown-toggle{
+    width: 138px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+.select-person-responsible-modal  .dropdown-menu.inner{
+    max-height:420px !important;
+}
+.select-person-responsible-modal .bootstrap-select.btn-group .dropdown-menu{
+    width:218px !important;
+}
+.dropdown-menu{
+   max-width:100% !important;
 }
 .select-person-responsible .row {
     padding: 0px 15px;
@@ -1679,6 +1712,13 @@ textarea{
 }
 .linkbe .right .public-head{
     margin-bottom:10px;
+}
+.linkbe .left .select .btn-group>button{
+    background:#fff;
+    border:1px solid #ddd;
+}
+.linkbe .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn){
+    width:195px !important;
 }
 .modal-dialog{
     /*position: relative;*/
@@ -1853,6 +1893,9 @@ textarea{
 }
 .linkbe .pull-right form span.posi img{
    width:20px;
+}
+.linkbe .dropdown-menu{
+    max-height:374px !important;
 }
 .remove-all{
 
@@ -2193,4 +2236,45 @@ textarea{
 }
 .btn-sm.bnt-success{
     width:auto;
+}
+.updata-photo{
+    height:120px;width:120px;border:1px solid #ddd;text-align:center;overflow:hidden;
+    margin:0 auto;
+}
+
+.updata-photo .up-picture {
+    overflow:hidden;
+    vertical-align:middle;
+    display:inline-block;
+}
+.updata-photo  span{
+    width: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*label弹层*/
+.layui-layer-btn .layui-layer-btn0{
+    background:#65c17d !important;
+    border:0;
+}
+.layui-layer-btn .layui-layer-btn0:hover{
+    background:#55AD6C ;
+    border:0;
+}
+.layui-layer-btn .layui-layer-btn1{
+    background:#979BA8;
+    color:#fff;
+    border:0;
+}
+.layui-layer-btn .layui-layer-btn1:hover{
+    background:#777b8a;
+    color:#fff;
+    border:0;
+}
+
+/*new新建页面*/
+.uib-button-bar{
+    padding: 8px 9px 2px;
 }

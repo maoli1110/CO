@@ -250,10 +250,14 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 status: $scope.collaList.statusId
             };
 
-            Cooperation.updateCollaboration(data).then(function (data) {
+            Cooperation.updateCollaboration(data).then(function (data,status) {
                 if($scope.device) {
                     //bv成功
-                    var param = '{"optType":'+9+',"isSuccess":'+true+'}';
+                    if(data.indexOf('<!DOCTYPE html>')!=-1){
+                        var param = '{"optType":'+9+',"isSuccess":'+false+'}';
+                    } else {
+                        var param = '{"optType":'+9+',"isSuccess":'+true+'}';
+                    }
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
                     document.location = 'co_detail.jsp?coid='+ coid;

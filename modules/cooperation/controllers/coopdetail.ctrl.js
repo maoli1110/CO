@@ -1,18 +1,19 @@
 'use strict';
 /**
- * 协作详情
+ * coopdetailCtrl
  */
 angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Manage','$sce',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Manage,$sce) {
 		var currentEditOfficeUuid = '';
 	    var currentSuffix = '';
-	    var currentReact = '0,60,1200,720';
+	    var currentReact = '45,100,1080,720';
 		var signature = '';
 		$scope.link = false;
 		$scope.speachShow = false;
 		$scope.device = false;
 		$scope.allowEdit = true;
 		$scope.isPreview = false;
+		$scope.flag = {};
 		//页面按钮显示标志
 		$scope.bjshow = true;
 		$scope.tjshow = true;
@@ -44,6 +45,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
 	   		$scope.collaList = data;
+			console.info('需不需要签字',$scope.collaList.relevants)
 	   		allRelevants = data.relevants;
 	   		sliceRlevants = data.relevants.slice(0,8);
 	   		if(data.relevants.length>8){
@@ -217,9 +219,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			// 	remainingDuration: true,
 			// 	preload:"auto",
 			// });
-
-			
-			
 	   	});
 
 		var id = "#jquery_jplayer_1";
@@ -228,7 +227,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		if($scope.device) {
 			flashHtml = 'html,falsh'; 
 		} else {
-			flashHtml = 'flash,html'; 
+			flashHtml = 'flash,html';
 		}
 		
 		var bubble = {
@@ -291,35 +290,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	 		Cooperation.checkOut(coid).then(function(data) {	
 	   	 		});
 	   	 		//跳转主页面需要定位到当前工程（延后再说）
-	   	 		$state.go('editDetail', {coid: coid});
+	   	 		$state.go('editdetail', {coid: coid});
 	   	 	} else {
 	   	 		var r=confirm("当前协作已结束，不允许再操作");
 	   	 	}
 
 	   	 }
-	   	//预览功能
-	   	$scope.pcPreView = function (docName, uuid) { 
-	            var data = {fileName:docName,uuid:uuid};
-	            Manage.getTrendsFileViewUrl(data).then(function (result) {
-        		$scope.isPreview = true;
-        		$scope.previewUrl =result;
-                layer.open({
-                        type: 2,
-                        //skin: 'layui-layer-lan',
-                        title: '预览',
-                        fix: false,
-                        shadeClose: true,
-                        maxmin: true,
-                        area: ['1000px', '500px'],
-                        content: $scope.previewUrl
-                    });
-            },function (data) {
-                var obj = JSON.parse(data);
-                alert(obj.message);
-            });
-	   		
-	   	}
-
 
 	   	//pc端交互
 	   	$scope.checkModelpc = function () {
@@ -385,8 +361,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		}
 		getOperationList();
 
-
-
 		//更新评论
 
         $scope.updateComment = function () {
@@ -450,12 +424,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				docs:[],
 				operationType:statusCode
 			}
-			if(statusCode==6) {
-				
-			} else {
-
-			}
-
 			switch (statusCode) {
 				case 6:
 				var re = confirm('提交后您将不能再修改，若确认通过,请点击确定!');
@@ -489,45 +457,48 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					alert(data.data.message);
 				});
 			}
-		}
-
-		
+		}	
 
 	    $scope.backDetail = function () {
-	    	$scope.isPreview = false;
+	    	$scope.flag.isPreview = false;
 	    }
 		//pc对接
 		//进入页面
-		//窗口发生变化传给pc对应的边距及高度
-	    $(window).resize(function(){
-		    //alert(('.edit-office').innerWidth);
-		  	var editLeft = document.getElementById("edit-office").offsetLeft;
-		  	var editHeight = $(document.body).height() - 60 - 60;
-		  	//分别对应edit-office div 对应的 left top width height
-		  	currentReact = editLeft + ',60,1200,' + editHeight;
-
-		  	$scope.pdfSign();
-
-		    $scope.$apply(function(){
-		       //do something to update current scope based on the new innerWidth and let angular update the view.
-		    });
-
-
-		});
-
-		$scope.pdfSign = function (uuid,docName,fileType) {
-			//获取电子签名uuid
-	   		Cooperation.getSignature().then(function (data) {
-				signature = data.uuid;
-			});
-
-			$scope.isPreview = true;
-            currentEditOfficeUuid = uuid;
-            currentSuffix = 'pdf';
-			var pdfSign = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact,coid);
-			if(!pdfSign) {
-				alert('下载文件失败！');
-			}
+		$scope.previewSign = function (uuid,docName) {
+            var suffix = '';
+            if(docName.indexOf('.')!=-1){
+            	//获取电子签名uuid
+		   		Cooperation.getSignature().then(function (data) {
+					signature = data.uuid;
+				});
+            	suffix = docName.split('.')[docName.split('.').length-1];
+            	if(suffix=='pdf'){
+            		//pdf签署（客户端）
+            		$scope.flag.isPreview = true;
+	            	$scope.flag.isPdfsign = true;
+	            	$scope.flag.isGeneral = false;
+	            	var pdfSign = BimCo.PdfSign(uuid,suffix,currentReact,coid);
+					if(!pdfSign) {
+						alert('下载文件失败！');
+					}
+	            } else {
+	            	//普通预览（除去pdf以外的文件）
+	            	var data ={fileName:docName,uuid:uuid};
+		        	Manage.getTrendsFileViewUrl(data).then(function (result) {
+		        		console.log(typeof result)
+		        		$scope.flag.isPreview = true;
+		        		$scope.flag.isGeneral = true;
+		        		$scope.flag.isPdfsign = false;
+		        		$scope.previewUrl = $sce.trustAsResourceUrl(result);
+		            },function (data) {
+		            	$scope.flag.isPreview = false;
+		            	$scope.previewUrl ='';
+		                var obj = JSON.parse(data);
+		                console.log(obj);
+		                alert(obj.message);
+		            });
+	            }
+            }
     	}
 
 		//签署意见
@@ -537,22 +508,50 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 	    //电子签名
 	    $scope.signElectronic = function () {
+	    	alert(signature);
 	    	$scope.isEleSign = true;
 	       	BimCo.ElectronicSign(signature);
 
 	    }
 	    //提交
-	    $scope.signSubmit = function () {
-	    	var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
+	    $scope.SubmitAll = function () {
+	    	//var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
 	    	var isSignSubmit;
+	    	var backJson;
+	    	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
+	    	//backJson = "{\"6330EB632087445B98DB6D6B677B136A\":{\"PdfModify\":[{\"contents\":\"asdfasdfaf\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":477.74996948242188,\"yAxis\":786.75}]},\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"我好\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":427.49996948242188,\"yAxis\":759.4000244140625}]},\"C053AFCBAE3742E1907C711AEEE49FB1\":{\"PdfModify\":[{\"contents\":\"asfasfasfa\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":390.74996948242188,\"yAxis\":749.75}]}}"
+	    	var modifyDocs=[];
 	    	if(r){
-	    		 isSignSubmit = BimCo.SignSubmit(currentEditOfficeUuid,currentSuffix,coid);
+	    		//客户端提交
+	    	 	backJson = BimCo.SubmitAll();
 	    	}
-	    	if(!isSignSubmit) {
-	    		alert('提交电子签名失败！');
-	    	} else {
-	    		alert('提交电子签名成功！');
+	    	if(backJson){
+	    		backJson = JSON.parse(backJson);
 	    	}
+	    	if(backJson){
+				angular.forEach(backJson,function(value, key){
+					if(!value){
+						return;
+					} else {
+						var unit = {};
+						unit.uuid = key;
+						unit.modifys = value.PdfModify;
+						modifyDocs.push(unit);
+					}
+        		});
+	    	}
+	    	var params = {
+				coid:coid,
+				docs:modifyDocs,
+				operationType:4
+			}
+	    	Cooperation.doCollaboration(params).then(function (data) {
+				$scope.flag.isPreview = false;
+			},function (data) {
+				alert(data.data.message);
+			});
+
+
 	    }
 
 	    //取消
@@ -560,7 +559,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    	var r = confirm ("放弃编辑？");
 	    	if(r) {
 	    		BimCo.SignCancel(currentEditOfficeUuid,currentSuffix);
-	    	} 
+	    	}
 	    }
 
 	    //清空
@@ -618,136 +617,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    		$scope.showMore = false;
 	    	}
 	    }
+
 	 
-}]).controller('updatecommentCtrl',['$rootScope','$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
-    function ($rootScope,$scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
-    	var onCompleteAllSignal = false;
-    	$scope.uploadBegin = false;
-    	$scope.zhenggai = false;
-    	$scope.status = items.status;
-		switch ($scope.status) {
-			case '空':
-				$scope.status = '11';
-				break;
-			case '已整改':
-				$scope.status ='1' ;
-				break;
-			case '整改中':
-				$scope.status = '2';
-				break;
-			case '不整改':
-				$scope.status = '3';
-				break;
-			case '待整改':
-				$scope.status = '4';
-				break;
-			case '未整改':
-				$scope.status = '5';
-				break;
-
-		}
-
-		//如果是问题整改则显示状态
-		var isShowArr = ["已结束","已通过","已通过","进行中"];
-		//debugger
-		if(isShowArr.indexOf($scope.status) == -1) {
-			$scope.zhenggai = true;
-			$(".detail-state").show();
-		} else if( coTypeVo === 1) {
-			$scope.zhenggai = true;
-			$(".detail-state").show();
-		}else{
-			$(".detail-state").hide();
-		}
-		//switch($scope.status){
-		//	case "已结束":
-		//		$scope.zhenggai = false;
-		//		break;
-		//	case "已通过":
-		//		$scope.zhenggai = false;
-		//		break;
-		//	case "已拒绝":
-		//		$scope.zhenggai = false;
-		//		break;
-		//}
-    	//详情展示页添加更新
-    	var coTypeVo = items.coTypeVo;
-    	var date = Common.dateFormat1(new Date());
-    	var uploadList = [];
-
-
-
-    	//上传资料
-	    var uploader1 = $scope.uploader1 = new FileUploader({
-	    		url: '/bimco/fileupload/upload.do'
-	    });
-
-	    //FILTERS
-	    uploader1.filters.push({
-	    	name: 'customFilter',
-	        fn: function(item /*{File|FileLikeObject}*/, options) {
-	            return this.queue.length < 31;
-	        }
-	    });
-
-	    //点击上传资料按钮
-	    $scope.docsUpload = function () {
-	    	$('.upload-docs').attr('uploader', 'uploader1');
-	    	$('.upload-docs').attr('nv-file-select', '');
-	    	$('.upload-docs').click();
-	    }
-
-       	$scope.ok = function() {
-			$scope.status = parseInt($scope.status);
-       		var data = {
-    	 	coid: items.coid,
-    	 	comment: {
-    	 		comment: $scope.comment, /*内容*/
-    	 		commentator:'', /*评论人后端接口没给*/
-    	 		commentTime:date,	/*评论时间*/
-    	 		docs: [],	/*文件列表*/
-    	 		// coSpeech:'' /*整改录音*/
-	    	 	},
-	    	 	status: $scope.status
-	    	}
-
-	    	//0.全部上传
-	    	//1.上传回调给uploadList赋值
-	    	//2.每次上传回调给赋值
-	    	//点击确定保存图片和评论文字，去主页面调用更新评论reload详情页面
-	    
-		if(uploader1.queue.length) {
-			$scope.uploadBegin = true;
-   			uploader1.uploadAll();
-   		} else {
-   			$uibModalInstance.close(data);
-   		}
-   		//每个上传成功之后的回调函数
-   		uploader1.onSuccessItem = function(fileItem, response, status, headers) { 
-	            console.info('onSuccessItem', fileItem, response, status, headers);
-	            var unit = {};
-	            unit.name = response[0].result.fileName;
-	            unit.md5 = response[0].result.fileMd5;
-	            unit.size = response[0].result.fileSize;
-	            unit.uuid = response[0].result.uuid;
-	            unit.suffix = response[0].result.suffix;
-	            uploadList.push(unit);
-		};
-		//全部成功的回调函数
-		uploader1.onCompleteAll = function() {
-            onCompleteAllSignal = true;
-            data.comment.docs = uploadList;
-            if(uploader1.progress == 100) {
-        
-            	$uibModalInstance.close(data);
-            }
-            
-        };
-
-    }
-
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    }
-	    
 }]);

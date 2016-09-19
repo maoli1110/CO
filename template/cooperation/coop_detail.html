@@ -75,30 +75,51 @@ img{
     </div>
     </div>
     <div class="audio-close detail-close"><span class="glyphicon glyphicon-remove" style="top:-55px;right: 23px;font-size: 22px" ng-click="audioClose()"></span></div>
-
 </div>
 <!--电脑端-->
 <div ng-include="'template/cooperation/coop_detail_pc.html'" scope="" onload="" ng-if="!device"></div>
 <!--手机端-->
 <div ng-include="'template/cooperation/coop_detail_bv.html'" scope="" onload="" ng-if="device"></div>
 
-<div ng-if="isPreview">
-    <div class="container">
-        <header>
-            <div class="pull-left" ng-click="backDetail()"><a><--返回</a></div>
-           <!--  <div class="pull-right" style="text-align:right" ng-show="isDoc" ng-click="editOffice()">编辑资料</div> -->
-        </header>
-        <!-- 编辑部分 -->
-        <div class="doc-edit btn-fix">
+<div ng-if="flag.isPreview" class="pdf-sign">
+    <div class="inner">
+    <header>
+        <div class="header-operation clearfix">
+            <div ng-click="backDetail()" class="pull-left" style="margin-top:10px;margin-left:100px;">
+                <span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
+                <a href="" style="color:#69C080;text-decoration: none;">返回</a>
+            </div>
+            <div class="label_tools">
+                <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+                    <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
+                    <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+                </div>
+                <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+            </div>
+        </div>
+    </header>
+    <!-- 默认预览 -->
+    <div ng-show="flag.isGeneral">
+        <div style="width:100%;margin-top:60px" ng-show="!isEdit">
+            <iframe src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
+        </div>
+    </div>
+    <!-- 电子签名 -->
+    <div ng-show="flag.isPdfsign">
+        <div class="sign footer-commom" style="position:fixed;">
             <div class="text-center">
-                <button class="btn btn-default" ng-click="signComment()">签署意见</button>
-                <button class="btn btn-default" ng-click="signElectronic()">电子签名</button>
+                <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
+                <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
             </div>
+        </div>
+        <div class="doc-edit footer footer-commom">
              <div ng-show="isEdit">pdfSign</div><div class="text-center">
-                <button class="btn btn-default" ng-click="signSubmit()">提交</button>
-                <button class="btn btn-default" ng-click="signCancel()">取消</button>
-                <button class="btn btn-default" ng-click="signEmpty()">清空</button>
+                <button class="btn btn-default foot-btn" ng-click="SubmitAll()">提交</button>
+                <button class="btn btn-default new-btnFail foot-btn" ng-click="signCancel()">取消</button>
+                <button class="btn btn-default new-btnFail foot-btn" ng-click="signEmpty()">清空</button>
             </div>
+        </div>
         </div>
     </div>
 </div>
@@ -125,7 +146,8 @@ img{
     function bvcoEditDetail() {
         var coid = $('.trancoid').val();
         // document.location = 'http://192.168.13.222:8080/bimco/#!/editdetail/?coid='+ coid;
-        document.location = '#/editdetail/?coid='+ coid;
+        // document.location = '#/editdetail/?coid='+ coid;
+        document.location = 'co_edit.jsp?coid='+ coid;
     }
 
     function changeDocsStatus (id) {
