@@ -1,16 +1,29 @@
-<div class="detail-computer" ng-show="!device && !isPreview">
+<div class="detail-computer" ng-show="!device && !flag.isPreview">
     <!--mobile-mark-->
-
-
-    
-    <div class="main" style="margin-bottom:50px;min-width:320px;">
+        <div class="main" style="margin-bottom:50px;min-width:320px;">
         <!--main_content-->
-        <div class="coop-detail">
-            <header >
-                <p class="F16 header-title" ><span class="substr" title="{{collaList.coTypeVo.name+'通知单'}}">{{collaList.coTypeVo.name+'通知单'}}</span></p>
-                <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span>
+        <div class="coop-detail inner">
+            <header>
+                <div class="header-operation clearfix">
+                    <div ui-sref="cooperation" class="pull-left" style="">
+                    	<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
+                    	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
+                    </div>
+                    <div class="label_tools">
+                        <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+                        <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+                            <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
+                            <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+                        </div>
+                        <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+                    </div>
+                </div>
+                <div class="header-title">
+                    <!-- <p class="F16" ><span class="substr" title="{{collaList.coTypeVo.name+'通知单'}}">{{collaList.coTypeVo.name+'通知单'}}</span></p> -->
+                    <p class="F16" ><span class="substr" title="{{collaList.name}}" style="display:inline-block;max-width:1200px;">{{collaList.name}}</span></p>
+                    <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span> -->
+                </div>
             </header>
-<<<<<<< HEAD
             <div class="clearfix" style="margin:0 auto;width:1360px;min-width:1000px;">
                 <div class="" style="height:100%;float:left;margin-top:100px;">
                     <img ng-if="collaList.coTypeVo.name=='问题整改'"  src="imgs/pro_solve.png" alt="">
@@ -21,19 +34,17 @@
                     <img ng-if="collaList.coTypeVo.name=='阶段报告'"  src="imgs/term-report.png" alt="">
                 </div>
              <div class="container coop-detail-con clearfix" style="display:inline-block">
-=======
-            <div class="container coop-detail-con">
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
             <div class="main_content clearfix">
             <!--content_left(中间内容的左边)-->
                 <div class="content_left clearfix">
                     <div class="proInfo">
                         <div class="pro_man clearfix row">
-                            <div class="col-xs-5 col-md-5">
+
+                            <div class=" col-md-5">
                                <div class="F16"> <span>负责人:</span><span class="coop-name" >{{collaList.collaborator}}</span></div>
                                <div  class="F16"> <span>状态:</span><span class="coop-name" ng-model="status">{{collaList.status}}</span></div>
                             </div>
-                            <div class="col-xs-5 col-md-5 pad_clear">
+                            <div class=" col-xs-5 col-md-5 pad_clear">
                                 <div  class="F16"> <span>优先级:</span><span class="coop-name">{{collaList.priority}}</span></div>
                                 <div  class="F16"> <span>标识:</span><span class="coop-name substr" title="{{collaList.markerInfo.name}}" style="max-width:100px;position:absolute"><i class ="chara"style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></div>
                             </div>
@@ -64,7 +75,7 @@
                                <div class="blank col-xs-12">
                                     <p class="F16">详情描述:</p>
                                 </div>
-                                <div class="col-xs-8 col-md-12">
+                                <div class="col-xs-12 col-md-12">
                                     <div class="F14 detail-dir text-format"  >{{collaList.desc}}</div>
                                 </div>
                            </div>
@@ -73,16 +84,22 @@
                                     <p class="F16">相关人:</p>
                                 </div>
                                 <div class="photo col-xs-8 col-md-10">
-                                    <dl ng-repeat="item in collaList.relevants" class="photoImg">
+                                    <dl ng-if="item.needSign ==true" ng-repeat="item in collaList.relevants" class="photoImg">
                                         <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                                         <dd class="substr" title="{{item.username}}" style="width:100px;">{{item.username}}</dd>
                                         <dd ng-if="!item.isReaded">未读</dd>
                                         <dd ng-if="item.isReaded">已读</dd>
                                     </dl>
-
+                                    <!--修饰线-->
+                                    <div class="adorn-line"></div>
+                                    <dl ng-if="item.needSign ==false" ng-repeat="item in collaList.relevants" class="photoImg" style="margin-left:38px;margin-right:0">
+                                        <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
+                                        <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
+                                        <dd ng-if="!item.isReaded">未读</dd>
+                                        <dd ng-if="item.isReaded">已读</dd>
+                                    </dl>
                                 </div>
                             </div>
-
                         </div>
                         <!--action(功能)-->
                         <div class="action row pc-photo">
@@ -108,9 +125,9 @@
                                 <div class="col-xs-8 col-md-11 picInfo">
                                     <dl class="data-list" ng-repeat="item in collaList.docs" profit>
                                         <dt class="rela deta-down">
-                                            <img ng-src="{{item.imgsrc}}"   ng-click="pdfSign(item.uuid,item.name,item.fileType)">
+                                            <img ng-src="{{item.imgsrc}}" ng-click="previewSign(item.uuid,item.name)">
                                             <div class="absol show-icon">
-                                                <a ng-href="{{item.fileUrl}}"><img class="detail-down" src="imgs/icon_down.png" class=" a-{{$index}}" ng-click="downDocs(item.uuid)"/></a>
+                                                <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" ng-click="downDocs(item.uuid)"/></a>
                                             </div>
                                         </dt>
                                         <dd title="{{item.name}}" class="substr">{{item.name}}</dd>
@@ -125,41 +142,54 @@
                             <div class="col-md-11 col-xs-10">
                                 <div class="say clearfix col-xs-12" ng-repeat="item in collaList.comments">
                                     <div class="col-xs-4 col-md-1 man_pic">
-                                        <img ng-src="{{item.avatar}}" alt="">
-                                        <p>{{item.commentator}}</p>
+                                        <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
+                                        <p class="substr" title="{{item.commentator}}">{{item.commentator}}</p>
                                     </div>
-                                        <div class="col-xs-8 col-md-11 comment">
-                                            <div class="say-content">
-                                                <div>{{item.comment}}</div>
-                                                <div class="say-pic">
-                                                    <div class="inline look-return"  ng-repeat="doc in item.docs"  >
-                                                        <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
-                                                        <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
-                                                    </div>
-                                                </div>
+                                    <div class="col-xs-8 col-md-11 comment">
+                                        <!-- 状态 -->
+                                        <div class="dashed" ng-if="item.status">更新状态为：<span style="color:#65c17d">"{{item.status}}"</span></div>
+                                        <!-- 评论 -->
+                                        <div class="dashed break-word text-format" ng-if="item.comment">{{item.comment}}</div>
+                                        <!-- 资料 -->
+                                        <div class="dashed comment-doclist" ng-if="item.docs.length">
+                                            <div class="inline" ng-repeat="doc in item.docs track by $index">
+                                                <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
+                                              <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
+                                                <span><img style="width:75px;height:75px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"  ng-click="previewSign(doc.uuid,doc.name)"></span>
+                                                <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
                                             </div>
                                         </div>
-
-                                        <div class="break-word text-format say-time" style="clear:both;">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                        <!-- 录音 -->
+                                        <div class="dashed" ng-if="item.speech.speechUrl">
+                                            <div><button type="button " class="play-audio DIY-btn F14" ng-click="play(item.speech.speechUrl)"><input type="hidden" ng-model="item.speech.speechUrl"/><img src="imgs/play.png">播放录音</button></div>
+                                        </div>
+                                        <!-- 时间 -->
+                                        <div style="text-align:right;padding:10px 0" ng-if="item.commentTime">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                <!--问题整改-->
-                <div class="pro_solve">
-                    <img src="imgs/pro_solve.png" alt="">
-                </div>
+                <!--&lt;!&ndash;问题整改&ndash;&gt;-->
+                <!--<div class="" style="height:100%;float:left">-->
+                    <!--<img ng-if="collaList.coTypeVo.name=='问题整改'"  src="imgs/pro_solve.png" alt="">-->
+                    <!--<img ng-if="collaList.coTypeVo.name=='图纸变更'"  src="imgs/pro_pic.png" alt="">-->
+                    <!--<img ng-if="collaList.coTypeVo.name=='现场签证'"  src="imgs/pro_sign.png" alt="">-->
+                    <!--<img ng-if="collaList.coTypeVo.name=='方案会签'"  src="imgs/pro_.png" alt="">-->
+                    <!--<img ng-if="collaList.coTypeVo.name=='方案报审'"  src="imgs/pro_report.png" alt="">-->
+                    <!--<img ng-if="collaList.coTypeVo.name=='阶段报告'"  src="imgs/pro_level_report.png" alt="">-->
+                <!--</div>-->
         </div>
-        </div>
+            </div>
         <!--侧边栏里面的按钮样式-->
-        <div class="btn_box_pc" id="btn_box" style="top:60px" pc-operation>
+        <div class="btn_box_pc" id="btn_box" pc-operation>
             <span class="glyphicon glyphicon-menu-left show_btn"></span>
             <span class="glyphicon glyphicon-menu-right hide_btn"></span>
         </div>
         <!--右边内容-->
-        <div class="content_right_pc" style="top:60px">
+        <div class="content_right_pc">
             <div class="aside">
                 <p class="side_title">协作动态</p>
                 <div class="status">
@@ -178,8 +208,14 @@
                                     <img src="./imgs/icon/icon-sign.png" alt="" ng-if="item.operation == '签署'" style="padding:4px;">
                                 </div>
                                 <div class="handle">
-                                    <div class="icon_man"><img ng-src="{{item.avatar}}"/></div>
-                                    <p>{{item.username}}{{item.operation}}<span>本次协作</span></p>
+                                    <div class="icon_man">
+                                    	<!-- <img ng-src="{{item.avatar}}"/> -->
+                                    	<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
+										<img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+                                    </div>
+                                    <p class="ng-binding substr" style="width: 120px;" title="{{item.username}}{{item.operation}}本次协作">
+                                    	{{item.username}}{{item.operation}}<span>本次协作</span>
+                                    </p>
                                 </div>
                             </li>
                         </ul>
@@ -189,7 +225,8 @@
 
         </div>
     </div>
-    <div class="footer">
+    </div>
+    <div class="footer footer-commom">
         <button type="button" class="btn a-222 btn-default foot-btn"  ng-click="allowEditTrans()" ng-show="bjshow">编辑协作</button>
         <button type="button" class="btn btn-default foot-btn" ng-click="updateComment()" ng-show="tjshow">添加更新</button>
         <button type="button" class="btn btn-default foot-btn" ng-show="tgshow" ng-click="doCollaboration(6)">通过</button>

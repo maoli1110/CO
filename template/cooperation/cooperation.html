@@ -1,3 +1,12 @@
+<style>
+	.content-container {
+	     height:calc(100vh - 150px);
+	 }
+	.content-scroll-container {
+	    overflow:auto;
+	}
+</style>
+ 
 <header ng-include="'template/core/header.html'"></header>
 <div class="main-container rela">
 	<div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
@@ -6,13 +15,13 @@
 		<div class="container-fluid rela">
 			<div class="operation clearfix">
 				<div class="left">
-					<button style="margin-top:0px;padding:5px 12px;height:34px;" type="button" class="btn btn-default" ng-click="openfilter()"><span ><img
+					<button style="margin-top:0px;padding:5px 12px;height:34px;" type="button" class="btn btn-default cop-filter" ng-click="openfilter()"><span ><img
 							src="imgs/icon/funnel.png" alt=""></span>筛选</button>
-					<select class="selectpicker" ng-change="changeAttr()" ng-model="coopattr">
+					<select class="selectpicker cop-list" ng-change="changeAttr()" ng-model="coopattr">
 						<option value="0">全部</option>
-					  	<option value="1">我负责</option>
-					  	<option value="2">我签署</option>
-					  	<option value="3">我相关</option>
+					  	<option value="1">我负责的</option>
+					  	<option value="2">我签署的</option>
+					  	<option value="3">与我相关</option>
 					  	<option value="4">已结束</option>
 					</select>
 					<div class="rela search inline">
@@ -35,28 +44,25 @@
 						<div class="tabs">
 							<div class="checkbox">
 								<label class="filter_title rela">
-									<input type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型
+									<input id="allTypeId" type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型
 									<div class="absol check-funnel" style="margin-top: 4px;"></div>
 								</label>
 							</div>
-							<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index">
+							<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index" profit>
 								 <label class="rela bg{{$index}}">
-									 <input type="checkbox" class="absol"  ng-click="updateSelection($event, item, 1, $index)">
+									 <input type="checkbox" class="absol"  ng-click="updateSelection($event, item, 1, $index)" style="opacity:0">
 								</label>
-								<!--<label class="rela {{'bg'+ $index}}" style="margin-right:20px;">-->
-									<!--<input type="checkbox" class="absol opacity"  ng-click="updateSelection($event, item, 1, $index)">-->
-								<!--</label>-->
 							</div>
 						</div>
 						<!--most(优先级)-->
 						<div class="tabs">
 							<div class="checkbox">
 								<label class="filter_title">
-									<input type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
+									<input id="allPriorityId" type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
 									<div class="absol check-funnel"></div>
 								</label>
 							</div>
-							<div class="priority-check rela inline check-sub1" ng-repeat="item in coPriority track by $index">
+							<div class="priority-check rela inline check-sub1" ng-repeat="item in coPriority track by $index" profit>
 								<label class="rela" style="background: none;margin-right:20px;">
 									<span>{{item.name}}</span>
 									<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2, $index)">
@@ -69,13 +75,13 @@
 							<div class="tabs " style="margin-bottom:0;">
 								<div class="checkbox" style="float:left;margin-top:19px;">
 									<label class="filter_title">
-										<input type="checkbox"class="comboBox_checkType" ng-click="allMark()" ng-model="markCheck">标识
+										<input id="allMarkId" type="checkbox"class="comboBox_checkType" ng-click="allMark()" ng-model="markCheck">标识
 										<div class="absol check-funnel"></div>
 									</label>
 								</div>
 								<div class="marklist" style="margin-top:-7px;">
-									<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index">
-										<label class="rela">
+									<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index" profit>
+										<label class="rela" title="{{item.name}}">
 											<span class="width50">{{item.name}}</span>
 											<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3, $index)">
 											<div class="absol width50" >{{item.name}}</div>
@@ -98,8 +104,8 @@
 				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background:url('./imgs/dyfilter/co-type_{{items.typeId}}.png') no-repeat"></a></div>
 			</div>
 		</div>
-		<div class="table-list" style="max-height:calc(100vh - 117px); overflow:auto;" id="content-b2">
-			<table class="table" class="info_list">
+		<div class=" table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
+			<table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
 				<thead>
 					<tr style="background:#d2d7de;height:47px;">
 						<th>协做类型</th>
@@ -110,7 +116,7 @@
 						<th>详情</th>
 					</tr>
 				</thead>
-				<tbody infinite-scroll="addMoreData()" infinite-scroll-distance="3" infinite-scroll-disabled="true">
+				<tbody>
 					<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead}">
 						<!--<td></td>-->
 						<td ui-sref="coopdetail({coid: item.coid})" width="15%" style="border:none;position:relative;" >
@@ -128,8 +134,37 @@
 					</tr>
 				</tbody>
 			</table>
-
 		</div>
+		<!--草稿箱-->
+ 		<div class="table-list draft-box" style="max-height:calc(100vh - 117px); overflow:auto;" id="content-b7" >
+ 			<table class="table" class="info_list">
+ 				<thead>
+ 				<tr style="background:#d2d7de;height:47px;">
+ 					<th>协做类型</th>
+ 					<th>主题</th>
+ 					<th>优先级</th>
+ 					<th>最后更新时间</th>
+ 					<th>删除</th>
+ 					<th>详情</th>
+ 				</tr>
+ 				</thead>
+ 				<tbody infinite-scroll="addMoreData()" infinite-scroll-distance="3" infinite-scroll-disabled="false">
+ 				<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead}">
+ 					<td ui-sref="coopdetail({coid: item.coid})" width="15%" style="border:none;position:relative;" >
+ 						<span class="cop-edit"></span>
+ 						<div style="background:{{item.type.color}}">{{item.type.name}}</div>
+ 					</td>
+ 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;text-align:left;">{{item.name}}</td>
+ 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.priority}}</td>
+ 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+ 					<td class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
+ 					<td ng-click="openDetail(item)" >
+ 						<span class="cop-add"></span>
+ 					</td>
+ 				</tr>
+ 				</tbody>
+ 			</table>
+ 		</div>
 		<div class="coo-detail absol" ng-show="detailSignal">
 			<div class="title">协作详情</div>
 			<div class="row list">
@@ -175,7 +210,7 @@
 					<div class="data_every">
 						<div id="data_graph" class="data_graph"></div>
 						<div class=" data_titleInfo first">
-							<ul id="content-b3">
+							<ul> 
 								<h4>优先级</h4>
 								<li ng-repeat="mostState in arrString track by $index">
 									<span class="data_raduis"></span>
@@ -183,12 +218,11 @@
 								</li>
 							</ul>
 						</div>
-
 					</div>
 					<div class="data_every">
 						<div id="data_graph2" class="data_graph"></div>
 						<div class=" data_titleInfo first">
-							<ul id="content-b4">
+							<ul>
 								<h4>期限</h4>
 								<li ng-repeat="deadline in deadlineStr track by $index">
 									<span class="data_raduis"></span>
@@ -196,7 +230,6 @@
 								</li>
 							</ul>
 						</div>
-
 					</div>
 					<!--transverse-line(统计中的田字格)-->
 					<div class="clearfix transverse-line" ></div>
@@ -205,11 +238,11 @@
 					<div class="data_every ">
 						<div id="data_graph3" class="data_graph"></div>
 						<div class=" data_titleInfo second">
-							<ul id="content-b5">
+							<ul id="statistic_marker">
 								<h4>标识</h4>
 								<li ng-repeat="makerStatStrInfo in makerStatStr track by $index">
-									<span class="data_raduis"></span>
-									<p class="substr" style="width: 55%;text-align: left;" title="{{makerStatStrInfo}}">{{makerStatStrInfo}}</p>
+									<span class="markColor"  style="border:4px solid {{makerStatStrInfo.color}};"></span>
+									<p class="substr" style="width: 55%;text-align: left;" title="{{makerStatStrInfo.name}}">{{makerStatStrInfo.name}}</p>
 								</li>
 							</ul>
 						</div>
@@ -218,11 +251,11 @@
 					<div class="data_every " >
 						<div id="data_graph4" class="data_graph"></div>
 						<div class=" data_titleInfo second">
-							<ul id="content-b6">
+							<ul>
 								<h4>协作类型</h4>
 								<li ng-repeat="type in typeStatStr track by $index">
-									<span class="data_raduis"></span>
-									<p class="substr" style="width: 55%;text-align: left;" title="{{type}}">{{type}}</p>
+									<span class="markColor"  style="border:4px solid {{type.color}};"></span>
+									<p class="substr" style="width: 55%;text-align: left;" title="{{type.name}}">{{type.name}}</p>
 								</li>
 							</ul>
 						</div>

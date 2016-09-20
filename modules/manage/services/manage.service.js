@@ -60,7 +60,7 @@ angular.module('manage').service('Manage', function ($http, $q) {
         var delay = $q.defer();
         var url_join = trendUrl+"rs/trends/trends";
         var obj = JSON.stringify(params);
-        console.log(obj);
+//        console.log(obj);
         $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
             //console.info(data)

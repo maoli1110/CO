@@ -13,7 +13,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.transcoid = $stateParams.coid;
         $scope.zhenggai = false;
         var contracts = [];
-        console.log(coid);
         //设置日期相关
         $scope.dateOptions = {
             formatYear: 'yy',
@@ -38,12 +37,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //协作详情数据
         var coid = $stateParams.coid;
         Cooperation.getCollaboration(coid).then(function (data) {
-
-            //console.log(data);
             var currentMarkInfo = data.markerInfo.id;
             console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
-            console.info("编辑协作数据",data);
             $scope.priority =  data.priority;
             if(data.priority == "I") {
                 $scope.priority = "1";
@@ -58,8 +54,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             if(!data.deadline) {
                 $scope.isDeadlineNull = true;
             }
-
-
             if( data.deadline && data.isDeadline==3){
                 $scope.deadlineStyle = 'red';
             }
@@ -101,8 +95,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 //type = 0 问题整改
                 if(data.coTypeVo.type == 1) {
                     $scope.zhenggai = true;
-                     //根据详情返回的status来定值，这里后端有问题（）
-                     //$scope.status = "1";
                 }
             }
             //详情联系人
@@ -225,7 +217,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             document.location = 'http://localhost:8080/bv/?param='+param;
         }
 
-
         $scope.ok = function () {
             if(!$scope.collaList.name) {
                 var index = layer.open({
@@ -244,7 +235,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $scope.dt = $('.data-value').html();
             }
             
-            console.log($scope.dt);
             if($scope.dt) {
                 $scope.dt =  $scope.dt;
             } else {
@@ -261,14 +251,28 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 status: $scope.collaList.statusId
             };
 
-            console.log(data);
-            Cooperation.updateCollaboration(data).then(function (data) {
-                 // //签入(后端接口无需调用)
-                 // Cooperation.checkIn(coid).then(function(data) {
-                 // });
-                // $state.go('coopdetail', {coid:coid});
-                document.location = 'co_detail.jsp?coid='+ coid;
+            Cooperation.updateCollaboration(data).then(function (data,status) {
+                if($scope.device) {
+                    //bv成功
+                    if(data.indexOf('<!DOCTYPE html>')!=-1){
+                        var param = '{"optType":'+9+',"isSuccess":'+false+'}';
+                    } else {
+                        var param = '{"optType":'+9+',"isSuccess":'+true+'}';
+                    }
+                    document.location = 'http://localhost:8080/bv/?param='+param;
+                } else {
+                    document.location = 'co_detail.jsp?coid='+ coid;
+                }
                
+            },function(data){
+               if($scope.device) {
+                    //bv失败
+                    var message = data.message;
+                    var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
+                    document.location = 'http://localhost:8080/bv/?param='+param;
+                } else {
+                    console.log(message);
+                }
             });
           
         }
@@ -305,7 +309,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             //	$(".means-down").click(function(){
             //		console.info(123)
             //		//$(this).find(".means-address").slideUp()
-                    })
+            })
 
         //选择相关人
         //选择相关人

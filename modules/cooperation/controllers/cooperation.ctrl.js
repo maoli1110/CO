@@ -4,34 +4,34 @@
  */
 angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams) {
+	
+    var firstflag = true; //筛选全选只加载一次标识
+    var firstreackflag = true;//进入页面只加载一次定位
+    $scope.scrollend = false;//停止滚动加载
+    var firstdeptid; //第一个项目部id
+    
     //查询列表初始值
-    console.log('deptId', $stateParams.deptId);
-    console.log('ppid',$stateParams);
     $scope.currentDate =  Cooperation.getCurrentDate();
     $scope.cooperationList = [];
     var tempCooperationList = [];
     var queryData = {};
   	queryData.count = 20;
-  	queryData.deptId = '';
+  	queryData.deptId = $stateParams.deptId?$stateParams.deptId:'';
   	queryData.groups=[];
   	queryData.modifyTime = '';
     queryData.modifyTimeCount = 0;
-  	queryData.ppid = 1000;
+  	queryData.ppid = $stateParams.ppid?$stateParams.ppid:'';
+  	
   	queryData.queryFromBV = true;
   	queryData.searchKey = '';
   	queryData.searchType = '';
-
     $scope.isTypeChecked = false;
     $scope.coopattr = '0';
-
     $scope.openSignal = false;
     $scope.projectInfoList = [];
-<<<<<<< HEAD
     $scope.deptIdToken = 0;//防止点击项目部多次提交
     $scope.ppidToken = 0;//防止点击工程部多次提交
     
-=======
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
     $scope.openNew = function () {
     	$scope.openSignal = true;
     	Cooperation.getTypeList().then(function (data) {
@@ -41,43 +41,24 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		$scope.typeList = data;
     	});
     }
-<<<<<<< HEAD
     
 	$scope.link = function(id){
         $scope.initScrollend(id);
 		$scope.projectInfoList = [];
-=======
-	$scope.draftsLink = function(id){
-		if($(".panel-collapse").text==""){
-			//$(".panel-body").css("padding-bottom",'0')
-			alert(123)
-		}
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 		queryData.groups = [];
-		if(id==-1){
-			queryData.deptId = '';
-			queryData.ppid = '';
-		}else if(id==0){
-			var group = {
-				type:605,
-				value:{
-					key:"0"
-				}
-			};
-			queryData.groups.push(group);
-		}
-
-		Cooperation.getCollaborationList(queryData).then(function (data) {
+			if(id==-1){
+				queryData.deptId = '';
+				queryData.ppid = '';
+			}
+			Cooperation.getCollaborationList(queryData).then(function (data) {
 			$scope.cooperationList = data;
-<<<<<<< HEAD
 			queryData.deptId = '';
 			queryData.ppid = '';
-=======
-			console.info("$scope.cooperationList",$scope.cooperationList);
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 		});
+		$(".cop-filter, .cop-list, .btn_count").css("display",'inline-block');
+		$(".basic-project").show();
+		$(".draft-box").hide();
 	}
-<<<<<<< HEAD
 	
 	$scope.drafts = function(id){
       $scope.initScrollend(id);
@@ -109,12 +90,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				queryData.ppid = '';
 			});
 		}
-=======
-
-    // $scope.closeNew = function () {
-    // 	$scope.openSignal = false;
-    // }
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 
      //弹出筛选框
     $scope.openfilter = function () {
@@ -141,50 +116,19 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
 
     $scope.trans = function (typeId) {
-
     	var url = $state.href('newcopper', {typeid: typeId});
-		window.open(url,'_blank');
-        //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+    	window.open(url,'_self');
     }
 
     //获取项目部列表3434
     Cooperation.getDeptInfo().then(function (data) {
-<<<<<<< HEAD
     	$scope.deptInfoList = data;
     	if(!queryData.deptId){
     		firstdeptid = data[0].deptId;//确定第一个deptid
     		$scope.deptIdToken = 0;
     	}
-=======
-    	//debugger;
-    	$scope.deptInfoList = data.slice(0,6);
-		console.info("一级菜单",$scope.deptInfoList)
-
-		//定位到当前工程
-		if($stateParams) {
-			var deptId = $stateParams.deptId;
-			var ppid = $stateParams.ppid;
-			angular.forEach(data, function (value, key) {
-				if(value === deptId) {
-					$('.panel-heading').eq(0).click();
-				}
-			})
-		}
-		//debugger
-		$('.panel-heading').eq(0).click();
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
     });
-	//$scope.scrollLoad = function(){
-	//	$(window).scroll(function(){
-	//		var scrollTop = $(this).scrollTop();
-	//		var scrollHeight = $(document).height();
-	//		var windowHeight = $(this).height();
-	//		if(scrollTop + windowHeight == scrollHeight){
-	//			alert("you are in the bottom");
-	//		}
-	//	});
-	//}
-
+    
     function getimgurl(treeItems,deptId){
 		for(var i = 0 ; i< treeItems.length;i++){
 			if(treeItems[i].projectType=="土建预算"){
@@ -198,11 +142,19 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			}else if(treeItems[i].projectType=="Tekla"){
 				treeItems[i].imgsrc="imgs/icon/5.png";
 			};
-			$("#dept_"+deptId).append("<span title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'>"+treeItems[i].projectName+"&nbsp;("+treeItems[i].count+")</span>")
+			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'>"+treeItems[i].projectName+"&nbsp;("+treeItems[i].count+")</span>")
 		}
+		
+		$("span[id^='projectbutton_']").bind("click", function(){
+			  $(".draft-box").hide();
+		   	  $("span[class*=ng-binding]").removeClass("menusActive");
+		        //获取当前元素
+		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
+		   	  $(" .data_count").hide();
+			  $scope.getCollaborationList($(this).attr("id").split("_")[1]);
+		});
 	}
     
-<<<<<<< HEAD
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
       $('.panel-collapse').find('span').removeClass('menusActive');
@@ -217,27 +169,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$(".basic-project").show();
 		$(".draft-box").hide();
 		if(!open){
-=======
-	var id=0;
-    //获取工程列表
-   	$scope.getprojectInfoList = function (deptId, open) {
-		queryData.ppid = '';
-		if(deptId != queryData.deptId || deptId == 1){
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 			Cooperation.getProjectList(deptId).then(function (data) {
 				getimgurl(data,deptId);
-				$scope.projectInfoList = data.slice(0,6);;
-	   			queryData.deptId = deptId;
-				//console.info("eeeeeeeeeeee")
-
-   			});
-			id=deptId;
-			queryData.deptId =deptId;
-			Cooperation.getCollaborationList(queryData).then(function (data) {
-				$scope.cooperationList = data;
-				console.info("$scope.cooperationList1313131",$scope.cooperationList)
+				if(queryData.ppid){
+					$("span[id='projectbutton_"+queryData.ppid+"']").click();
+				}
 			});
-<<<<<<< HEAD
 		}
 		if(!queryData.deptId){
 			queryData.deptId  = deptId;
@@ -251,15 +188,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	    	$scope.cooperationList = data;
 	    	$scope.deptIdToken = 1;
 	    });
-=======
-   		}
-		$(".table-list ").show();
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 		$(" .data_count").hide();
 
    	}
+   
    	
-<<<<<<< HEAD
    	/*滚动加载只防止多次提交请求问题start*/
     //可以查询
  	var searchFlag;
@@ -310,61 +243,69 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         //默认获取第一个项目部列表的工程列表
         if(!queryData.deptId) {
             //queryData.deptId = firstdeptid;
-=======
-   	//默认的协同列表
-   	var initCollaborationList = function () {
-   		//1.获取默认的项目部列表
-   		//2.获取第一个项目部列表的工程列表
-   		//3.获取工程列表的第一个工程
-   		//4.以上备注后期实现
-   		 queryData.deptId =1;
-   		 queryData.ppid = 1000;
-   		 var params= {deptId:1,ppid:1000,queryFromBV:true,count:20}
-   		Cooperation.getCollaborationList(queryData).then(function (data) {
-   			$scope.cooperationList = data;
-			console.info("$scope.cooperationList",$scope.cooperationList)
-   		});
-   	}
-   	//initCollaborationList();
-
-    //下拉获取更多协同列表数据
-    $scope.addMoreData = function () {
-        //debugger;
-        console.log('222scroll');
-        //默认获取第一个项目部列表的工程列表
-        if(!queryData.deptId) {
-            queryData.deptId = 1;
-            queryData.ppid = 1000;
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
             queryData.searchType = 0;
         }
         //第一次queryData.modifyTime为空
         //第二次modifyTime为最后一次的数据的时间值
         if($scope.cooperationList.length) {
             queryData.modifyTimeCount = 1;
+            for(var i = 0;i<$scope.cooperationList.length;i++){
+            	queryData.modifyTime = $scope.cooperationList[i].updateTime;
+            }
             queryData.modifyTime =  $scope.cooperationList[$scope.cooperationList.length - 1].updateTime;
         }
-
         Cooperation.getCollaborationList(queryData).then(function (data) {
-            // debugger;
-            if(!$scope.cooperationList.length) {
+        	if(!$scope.cooperationList.length) {
                 $scope.cooperationList = data;
             } else {
                 if(data.length) {
-                    $scope.cooperationList.push(data);
+                	for(var j=0 ; j<data.length;j++){
+                		 $scope.cooperationList.push(data[j]);
+                	}
+                    if(data.length<20){
+                    	$scope.scrollend = true;
+                    }
                 }
                 return;
             }
-            
         });
     }
+    
     
 	$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
 		$('.table-list table tbody tr').click(function(){
 			$(this).find(".cop-edit").show();
 			$(this).siblings().find(".cop-edit").hide();
+		});
+		if(firstflag){
+			//第一次设置默认全选
+	        $scope.typeCheck = true;
+	        $scope.priorityCheck = true;
+	    	$scope.markCheck = true;
+	    	$scope.allType();
+	      	$scope.allPriority();
+	      	$scope.allMark();
+	      	firstflag = false;
+		}
+	})
+	
+	$scope.$on('ngRepeatFinishedDept',function(ngRepeatFinishedEvent){
+		if(firstreackflag){
+			//获取列表里面第一个项目部
+			if(queryData.deptId){
+				$("#deptbutton_"+queryData.deptId).click();
+			}else{
+				$("#deptbutton_"+firstdeptid).click();
+			}
+			firstreackflag = false;
+		}
+	})
+	
+	//删除草稿箱的内容
+	$scope.deleteProject = function(coid){
+		Cooperation.removeDraft(coid).then(function(data){
+			window.location.reload();
 		})
-<<<<<<< HEAD
 	}
 	
    	//点击工程获取协同列表
@@ -384,71 +325,23 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		   isSuccuess =true;
    	  });
    }
-=======
-	})
-
-   	//点击工程获取协同列表
-   	$scope.getCollaborationList = function ($event,ppid) {
-   		queryData.ppid = ppid;
-		$scope.typeStatStr=[];
-   		Cooperation.getCollaborationList(queryData).then(function (data) {
-   			$scope.cooperationList = data;
-   		});
-   		$("span[class*=ng-binding]").removeClass("menusActive");
-        //获取当前元素
-//        $($event.target).children("span").hide();
-        $($event.target).addClass("menusActive").siblings().removeClass("menusActive");
-
-//        $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
-//		$event.stopPropagation();
-		$(".table-list ").show();
-		$(" .data_count").hide();
-   	}
-	
-   	//获取协作类型
-   	// Cooperation.getTypeList().then(function (data) {
-    // 		console.log(data);
-    // 		$scope.typeList = data;
-    // });
-
-    //获取优先级列表
-    // Cooperation.getPriorityList().then(function (data) {
-    // 	console.log(data);
-    // 	$scope.priorityList = data;
-    // });
-
-    //获取标识列表
-    // Cooperation.getMarkerList().then(function (data) {
-    // 	console.log(data);
-    // 	$scope.markerList = data;
-    // });
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
     
     //获取动态筛选列表
     Cooperation.getCoQueryFilter().then(function (data) {
-    	console.log(data);
     	$scope.coQueryFilterList = data;
-    	//debugger;
-    	data[1].list.shift();
     	data[0].list.shift();
+    	data[1].list.shift();
     	data[2].list.shift();
     	$scope.coQueryType = data[0].list;
-      console.log('$scope.coQueryType',$scope.coQueryType);
     	$scope.coPriority = data[2].list;
     	$scope.coMark = data[1].list;
-      //debugger
     });
 
 	var queryTypeSelected = [];
 	var queryPriorityselected = [];
 	var queryMarkSelected = [];
     var updateSelected = function(action,id,type,index,signal){
-		//debugger;
-        console.log(JSON.stringify(type),'type')
-        console.log('testremove')
-
         var findIndex = _.findIndex(type, id);
-
         if(action == 'add' && findIndex == -1){
             type.push(id);
        	}
@@ -458,15 +351,31 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
             }
         }
         if(action == 'remove' && findIndex !=-1){
-            console.log('removeremve');
-            var idx = type.indexOf(id);
-            type.splice(idx,1);
+            type.splice(findIndex,1);
         }
         if(action == 'remove'){
             if(signal == 1) {
                 $('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
-                $('.comboBox_checkType ').prop('checked',false);
-              }
+                $('#allTypeId').prop('checked',false);
+            }else if(signal == 2 ){
+            	$('#allPriorityId').prop('checked',false); 
+            }else if(signal == 3){
+            	$('#allMarkId').prop('checked',false);
+            }
+        }else{
+        	 if(signal == 1) {
+        		 if($scope.coQueryType.length == type.length){
+        			 $('#allTypeId').prop('checked',true);
+        		 }
+             }else if(signal == 2 ){
+            	 if($scope.coPriority.length == type.length){
+            		 $('#allPriorityId').prop('checked',true); 
+            	 }
+             }else if(signal == 3){
+            	 if($scope.coMark.length == type.length){
+            		 $('#allMarkId').prop('checked',true); 
+            	 }
+             }
         }
      }
 
@@ -485,59 +394,34 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         		type = queryMarkSelected;
         		break;
         }
-
-		// if($scope.typeCheck) {
-		// 	if(signal == 1) {
-		// 		$('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
-		// 		$('.comboBox_checkType ').prop('checked',false);
-		// 	}
-		// }
         updateSelected(action,id,type,index,signal);
-        // testSelected();
     }
-
-    function testSelected() {
-        console.log('222');
-    }
-
+    
     $scope.isSelected = function(id){
     	console.log(queryTypeSelected.indexOf(id));
         return queryTypeSelected.indexOf(id)>=0;
     }
 
     //alltype全选
-		$scope.allType = function () {
-			if($scope.typeCheck) {
-    //             $scope.isTypeChecked = false;
-				// $scope.isTypeChecked = true;
-				$('.type-check').find('input').prop('checked',true);
-
-                queryTypeSelected = _.cloneDeep($scope.coQueryType);
-
-                for(var i=0;i<6;i++) {
-                    $('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
-                }
-				// queryTypeSelected = $scope.coQueryType;
-
-			} else {
-                // $scope.isTypeChecked = true;
-				// $scope.isTypeChecked = false;
-                for(var j=0;j<6;j++) {
-                    $('.bgs' + j).removeClass('bgs' + j).addClass('bg' + j);
-                }
-				$('.type-check').find('input').prop('checked',false);
-				queryTypeSelected = [];
-			}
-			console.log(queryTypeSelected);
+	$scope.allType = function () {
+		if($scope.typeCheck) {
+			$('.type-check').find('input').prop('checked',true);
+            queryTypeSelected = _.cloneDeep($scope.coQueryType);
+            for(var i=0;i<6;i++) {
+                $('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
+            }
+		} else {
+            for(var j=0;j<6;j++) {
+                $('.bgs' + j).removeClass('bgs' + j).addClass('bg' + j);
+            }
+			$('.type-check').find('input').prop('checked',false);
+			queryTypeSelected = [];
 		}
+	}
 
-
-
-		//allPriority全选
+	//allPriority全选
     $scope.allPriority = function () {
-    	
         $('.priority-check label').addClass('input-check');
- 
     	if($scope.priorityCheck) {
     		$('.priority-check').find('input').prop('checked',true);
     		queryPriorityselected = _.cloneDeep($scope.coPriority);
@@ -549,7 +433,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //marking标识全选
     $scope.allMark = function () {
-    	console.log($scope.typeCheck);
     	if($scope.markCheck) {
     		$('.mark-check').find('input').prop('checked',true);
     		queryMarkSelected = _.cloneDeep($scope.coMark);
@@ -559,19 +442,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	}
     }
 
-
     //动态筛选-确定-按钮-搜索
     $scope.filterOk = function () {
+      console.log($scope.scrollend);
         $scope.isCollapsed = false;
         $('.overlay').css('display','none');
     	var groups = [];
-    	console.log(queryTypeSelected);
-    	console.log(queryPriorityselected);
-    	console.log(queryMarkSelected);
     	var type601Selected = [];
     	var type602Selected = [];
     	var type603Selected = [];
-    	//var combSelected = queryTypeSelected.concat(queryPriorityselected,queryMarkSelected);
     	angular.forEach(queryTypeSelected,function (value, key) {
 			var unit = {};
 			unit.type= 601;
@@ -590,18 +469,17 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		unit.value = {key:value.key};
     		type603Selected.push(unit);
     	});
-    	//console.log(type603Selected);
     	groups = groups.concat(type601Selected,type602Selected,type603Selected);
-    	console.log('groups',groups);
-
-    	queryData.groups = groups;
-      queryData.modifyTime = 0;
-
-    	Cooperation.getCollaborationList(queryData).then(function (data) {
-   			//console.log(data);
-   			$scope.cooperationList = data;
-
-   		});
+    	if(groups!=null&&groups.length>0){
+    		queryData.groups = groups;
+        	queryData.modifyTime = 0;
+        	Cooperation.getCollaborationList(queryData).then(function (data) {
+       			$scope.cooperationList = data;
+       		});
+    	}else{
+    		$scope.cooperationList = [];
+    	}
+    	
     }
 
     $scope.filterCancel = function () {
@@ -611,23 +489,20 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    	//根据属性筛选
    	$scope.changeAttr = function () {
    		queryData.searchType = parseInt($scope.coopattr);
-      queryData.modifyTime = 0;
+   		queryData.modifyTime = 0;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
-   			console.log(data);
    			$scope.cooperationList = data;
-
    		});
    	}
 
    	//根据搜索框搜索
    	$scope.inputSearch = function () {
    		if(queryData.deptId==""){
-   			queryData.deptId = 1;
+   			queryData.deptId = firstdeptid;
    		}
    		queryData.searchKey = $scope.searchkey;
-      queryData.modifyTime = 0;
+   		queryData.modifyTime = 0;
    		Cooperation.getCollaborationList(queryData).then(function (data) {
-   			console.log(data);
    			$scope.cooperationList = data;
    		});
    	}
@@ -652,112 +527,103 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	$scope.typeStatStr=[];
 	var coTypeObj = [];
 	var typeCount =0;
-
-
-	//console.info("百分比数据",$scope.arr)
-
+	
 	//统计页面
 	var comboxCount = $("#comboBox_count");
 	$scope.comboxCount = function(){
-
 		$(".table-list ").hide();
 		$(" .data_count").show();
-		//if($(".data-every").length==0){
-		//	$(".data_every").hide();
-		//}
 		$scope.getCoTotal();
 	}
-			//统计页面数据
 
-		$scope.getCoTotal = function(){
-			priorityArr = [];
-			timeLim =[];
-			blankId = [];
-			coTypeObj = [];
-			$scope.arrString =[];
-			$scope.deadlineStr =[];
-			$scope.makerStatStr=[];
-			$scope.typeStatStr=[];
-			//$(".data_count").children().hide();
-			if(!queryData.ppid){
-				queryData.ppid ='';
+	$scope.getCoTotal = function(){
+		priorityArr = [];
+		timeLim =[];
+		blankId = [];
+		coTypeObj = [];
+		$scope.arrString =[];
+		$scope.deadlineStr =[];
+		$scope.makerStatStr=[];
+		$scope.typeStatStr=[];
+		//$(".data_count").children().hide();
+		if(!queryData.ppid){
+			queryData.ppid ='';
+		}
+		Cooperation.getCoStatisticsInfo({deptId :queryData.deptId,ppid:queryData.ppid}).then(function(data){
+			$scope.getCoCountInfo =data.data;
+			//优先级
+			$scope.priorityStat = data.data.priorityStat;
+			//期限
+			$scope.deadLineStat = data.data.deadLineStat;
+			//标识
+			$scope.makerStat = data.data.makerStat;
+			//协作类型
+			$scope.typeStat = data.data.typeStat;
+			//判断返回的数据类型是空或者是NaN,如果是把对应的div给移除掉
+			//判断返回数据是否为空
+			function isEmpty(obj){
+				for(var key in obj){
+					return false
+				}
+				return true
 			}
-			Cooperation.getCoStatisticsInfo({deptId :queryData.deptId,ppid:queryData.ppid}).then(function(data){
-				//console.info("1313131",queryData.deptId,queryData.ppid)
-				$scope.getCoCountInfo =data.data;
-				console.info("统计页面数据",$scope.getCoCountInfo)
-				//console.info($scope.getCoCountInfo)
-				//优先级
-				$scope.priorityStat = data.data.priorityStat;
-
-				//期限
-				$scope.deadLineStat = data.data.deadLineStat;
-				//标识
-				$scope.makerStat = data.data.makerStat;
-				//协作类型
-				$scope.typeStat = data.data.typeStat;
-				//	判断返回的数据类型是空或者是NaN,如果是把对应的div给移除掉
-				//console.info("数据类型",$scope.priorityStat);
-				//判断返回数据是否为空
-				function isEmpty(obj){
-					for(var key in obj){
-						return false
-					}
-					return true
+			//判断数组的值是否为空
+			function isEmptyArr(array){
+				var count = 0;
+				for(var i = 0;i<array.length;i++){
+					return  count +=array[i]
 				}
-				//判断数组的值是否为空
-				function isEmptyArr(array){
-					var count = 0;
-					for(var i = 0;i<array.length;i++){
-						return  count +=array[i]
-					}
+			}
 
-				}
-
-				var isPriorityStat = isEmpty($scope.priorityStat);
-				var isDeadLineStat = isEmpty($scope.deadLineStat);
-				var isMakerStat = isEmpty($scope.makerStat);
-				var istypeStat = isEmpty($scope.typeStat);
-				if(isPriorityStat){
-					$("#data_graph").parent().hide();
-				}else{
-					$("#data_graph").parent().show();
-				}
-				if(isDeadLineStat){
-					$("#data_graph2").parent().hide();
-				}else{
-					$("#data_graph2").parent().show();
-				}
-				if(isMakerStat){
-					$("#data_graph3").parent().hide();
-				}else{
-					$("#data_graph3").parent().show();
-				}
-				if(istypeStat){
-					$("#data_graph4").parent().hide();
-				}else{
-					$("#data_graph4").parent().show();
-				}
-
-
-
-				var colorStyle1= ["#E6D055","#73CC6C","#5887FD"]
-				var colorStyle2 = ["#E6D055",'#FC688A',"#73CC6C","#5887FD","#8F6DF2","#A0A8C1"];
-				
+			var isPriorityStat = isEmpty($scope.priorityStat);
+			var isDeadLineStat = isEmpty($scope.deadLineStat);
+			var isMakerStat = isEmpty($scope.makerStat);
+			var istypeStat = isEmpty($scope.typeStat);
+			if(isPriorityStat){
+				$("#data_graph").parent().hide();
+			}else{
+				$("#data_graph").parent().show();
+			}
+			if(isDeadLineStat){
+				$("#data_graph2").parent().hide();
+			}else{
+				$("#data_graph2").parent().show();
+			}
+			if(isMakerStat){
+				$("#data_graph3").parent().hide();
+			}else{
+				$("#data_graph3").parent().show();
+			}
+			if(istypeStat){
+				$("#data_graph4").parent().hide();
+			}else{
+				$("#data_graph4").parent().show();
+			}
+				/*#E6D055  黄 III
+					#5887FD 蓝 I
+					#73CC6C 绿 II
+				*/
+				var colorStyle1= ["#5887FD","#73CC6C","#E6D055"];
 				// 数据清零
 				arr = [];
 				arrCount = 0;
 				//优先级别
+				var statIndex = 0;
 				angular.forEach( $scope.priorityStat, function (value, key) {
 					arr.push(value);
 					//页面优先级展示数据
-					$scope.arrString.push(key);
-
+					if((statIndex == 1) && key === "III") {
+						$scope.arrString.push("II");
+					} else if((statIndex == 2) && key === "II") {
+						$scope.arrString.push("III");
+					} else {
+						$scope.arrString.push(key);
+					}
+					statIndex++;
 				})
 
 				for(var n in arr){
 					arrCount += arr[n];
-
 				}
 				angular.forEach( $scope.priorityStat, function (value, key) {
 					var unit = {
@@ -775,16 +641,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						$("#data_graph").parent().hide();
 					}else{
 						$("#data_graph").parent().show();
-						unit.name = parsePercent(value/arrCount);
+//						unit.name = parsePercent(value/arrCount);
 //						unit.name = parseInt((value/arrCount)*100)+"%";
+						unit.name = value;
 					}
-
 					unit.itemStyle.normal.color = '';
 					priorityArr.push(unit);
-
-
 				});
-				//循环数组给他添加颜色属性
+				//循环数组给他添加颜色属性--优先级
 				for(var t= 0;t<priorityArr.length;t++){
 					priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
 				}
@@ -795,10 +659,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				//期限
 				angular.forEach($scope.deadLineStat,function(val,key){
 					deadline.push(val);
-					$scope.deadlineStr.push(key)
+					$scope.deadlineStr.push(key);
 				})
 				for(var m in deadline){
-					deadlineCount += deadline[m]
+					deadlineCount += deadline[m];
 				}
 				angular.forEach($scope.deadLineStat,function(val,key){
 					var dataTime = {
@@ -816,12 +680,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						$("#data_graph2").parent().hide();
 					}else{
 						$("#data_graph2").parent().show();
-						dataTime.name = parsePercent(val/deadlineCount);
+//						dataTime.name = parsePercent(val/deadlineCount);
 //						dataTime.name=parseInt((val/deadlineCount)*100)+"%";
+						dataTime.name=val;
 					}
-
 					timeLim.push(dataTime);
-
 				});
 				for(var a = 0;a<timeLim.length;a++){
 					timeLim[a].itemStyle.normal.color= colorStyle1[a]
@@ -829,16 +692,23 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				// 数据清零
 				maker = [];
 				makerCount = 0;
+
 				//标识
-				angular.forEach($scope.makerStat,function(val,key){
-					maker.push(val);
-					$scope.makerStatStr.push(key);
+				angular.forEach($scope.makerStat,function(obj,key){
+					maker.push(obj.count);
+					var makerObj ={
+							name:"",
+							color:""
+						};
+					makerObj.name = key;
+					makerObj.color = obj.color;
+					$scope.makerStatStr.push(makerObj);
 
 				})
 				for(var i in maker){
 					makerCount += maker[i];
 				}
-				angular.forEach($scope.makerStat,function(val,key){
+				angular.forEach($scope.makerStat,function(obj,key){
 					var blank = {
 						value:"",
 						name:"",
@@ -848,33 +718,43 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 							}
 						}
 					};
-					blank.value =val;
+					blank.value =obj.count;
+					blank.itemStyle.normal.color = obj.color;
 					if(isEmptyArr(maker)==0){
 						//blank.name = val.toString();
 						$("#data_graph3").parent().hide();
 					}else{
 						$("#data_graph3").parent().show();
-						blank.name = parsePercent(val/makerCount);
+//						blank.name = parsePercent(val/makerCount);
 //						blank.name =parseInt((val/makerCount)*100)+"%";
+						blank.name = obj.count;
 					}
 
 					blankId.push(blank);
 				})
-				for(var b = 0;b<blankId.length;b++){
+				/*for(var b = 0;b<blankId.length;b++){
 					blankId[b].itemStyle.normal.color = colorStyle2[b];
-				}
+
+				}*/
 				// 数据清零
 				typeStatNub = [];
 				typeCount = 0;
 				//协作类型
-				angular.forEach($scope.typeStat,function(val,key){
-					typeStatNub.push(val);
-					$scope.typeStatStr.push(key)
+				angular.forEach($scope.typeStat,function(obj,key){
+					typeStatNub.push(obj.count);
+					var statObj ={
+						name:"",
+						color:""
+					};
+					statObj.name = key;
+					statObj.color = obj.color;
+					$scope.typeStatStr.push(statObj);
 				});
 				for(var k in typeStatNub){
 					typeCount += typeStatNub[k]
+
 				}
-				angular.forEach($scope.typeStat,function(val,key){
+				angular.forEach($scope.typeStat,function(obj,key){
 					var coType ={
 						value:"",
 						name:"",
@@ -884,142 +764,112 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 							}
 						}
 					};
-					coType.value = val;
+
+					coType.value = obj.count;
+					coType.itemStyle.normal.color = obj.color;
 					if(isEmptyArr(typeStatNub)==0){
 						//coType.name =val.toString();
 						$("#data_graph4").parent().hide()
 					}else{
 						$("#data_graph4").parent().show();
-						coType.name = parsePercent(val/typeCount);
+//						coType.name = parsePercent(val/typeCount);
 //						coType.name = parseInt((val/typeCount)*100)+"%";
+						coType.name = obj.count;
+
 					}
 					coTypeObj.push(coType);
 
 				});
-				for(var c= 0;c<coTypeObj.length;c++){
-					coTypeObj[c].itemStyle.normal.color = colorStyle2[c]
-				}
-				//console.info(typeCount)
-				var myChart1 = echarts.init(document.getElementById('data_graph'));
+				/*for(var c= 0;c<coTypeObj.length;c++){
+					coTypeObj[c].itemStyle.normal.color = colorStyle2[c];
+				}*/
+			var myChart1 = echarts.init(document.getElementById('data_graph'));
 				//标识统计
-				var option1 = {
-					series: [{
-						name: '优先级',
-						type: 'pie',
-						//饼型图的宽度
-						radius: ['50%', '80%'],
-						//中间文字位置和动画效果
-						avoidLabelOverlap: false,
-						label: {
+			var option1 = {
+				series: [
+					{
+						type:'pie',
+						labelLine: {
 							normal: {
-								position: 'inner'
+								show: true
 							}
 						},
-						tooltip: {
-							trigger: 'item',
-							formatter: "{a} <br/>{b}: {c} ({d}%)"
-						},
-						//labelLine: {
-						//	normal: {
-						//		show: false
-						//	}
-						//},
-						//是否显示线
-						//饼型图的显示比例
-						data: priorityArr
-
-					}]
-				};
+					},
+					{
+						type:'pie',
+						radius: ['40%', '60%'],
+						data:priorityArr
+					}
+				]
+			};
 				myChart1.setOption(option1);
 				//	第二部分
-				//图形绘制
-				var myChart2 = echarts.init(document.getElementById('data_graph2'));
-
-				// 指定图表的配置项和数据
-				//			app.title = '环形图';
-
-				var option2 = {
-					series: [{
-						name: '访问来源',
-						type: 'pie',
-						//饼型图的宽度
-						radius: ['50%', '80%'],
-						//中间文字位置和动画效果
-						avoidLabelOverlap: false,
-						label: {
+			var myChart2 = echarts.init(document.getElementById('data_graph2'));
+			var option2 = {
+				series: [
+					{
+						type:'pie',
+						labelLine: {
 							normal: {
-								position: 'inner'
+								show: true
 							}
 						},
-						//是否显示线
-						//饼型图的显示比例
+					},
+					{
+						type:'pie',
+						radius: ['40%', '60%'],
 						data:timeLim
-
-					}]
-				};
-
+					}
+				]
+			};
 				// 使用刚指定的配置项和数据显示图表。
 				myChart2.setOption(option2);
 				//图形绘制
-				var myChart3 = echarts.init(document.getElementById('data_graph3'));
-
+			var myChart3 = echarts.init(document.getElementById('data_graph3'));
 				// 指定图表的配置项和数据
 				//			app.title = '环形图';
-
-				var option3 = {
-					series: [{
-						name: '访问来源',
-						type: 'pie',
-						//饼型图的宽度
-						radius: ['50%', '80%'],
-						//中间文字位置和动画效果
-						avoidLabelOverlap: false,
-						label: {
+			var option3 = {
+				series: [
+					{
+						type:'pie',
+						labelLine: {
 							normal: {
-								position: 'inner'
+								show: true
 							}
 						},
-						//是否显示线
-						//饼型图的显示比例
+					},
+					{
+						type:'pie',
+						radius: ['40%', '60%'],
 						data:blankId
-
-					}]
-				};
+					}
+				]
+			};
 
 				// 使用刚指定的配置项和数据显示图表。
 				myChart3.setOption(option3);
 
 				//图形绘制
 				var myChart4 = echarts.init(document.getElementById('data_graph4'));
-
-				// 指定图表的配置项和数据
-				//			app.title = '环形图';
-
 				var option4 = {
-					series: [{
-						name: '访问来源',
-						type: 'pie',
-						//饼型图的宽度
-						radius: ['50%', '80%'],
-						//中间文字位置和动画效果
-						avoidLabelOverlap: false,
-						label: {
-							normal: {
-								position: 'inner'
-							}
+					series: [
+						{
+							type:'pie',
+							labelLine: {
+								normal: {
+									show: true
+								}
+							},
 						},
-						//是否显示线
-						//饼型图的显示比例
-						data:coTypeObj,
-
-
-
-					}]
+						{
+							type:'pie',
+							radius: ['40%', '60%'],
+							data:coTypeObj
+						}
+					]
 				};
-
 				// 使用刚指定的配置项和数据显示图表。
 				myChart4.setOption(option4);
-
 			})
 		}
 
@@ -1030,18 +880,16 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			})
 		}
 		$scope.currentTime();
-
-
 		if($stateParams.transignal == 'be') {
 	    	$scope.openNew();
-	    }
-
-
-
-
-
+		}
 	}]);
 
+/**
+ * 拼接百分数 结果： xx.xx%
+ * @param number
+ * @returns {String}
+ */
 function parsePercent(number) {
 	var persent = number*10000;
 	var strName = parseInt(persent)+"";

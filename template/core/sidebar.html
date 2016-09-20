@@ -2,9 +2,8 @@
 <div class="ng-scope menusFont14 currentTime system-time">{{serviceTime.sysTime}}<span class="">{{serviceTime.sysWeek}}</span></div>
 <div scroll-directive id="content-b1" style="overflow:auto;" class="manage_bar" copy-radio>
 	<uib-accordion close-others="true" class="sider-bar">
-	    <div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="item in deptInfoList track by $index"  profit>
+	    <div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="item in deptInfoList track by $index"  profit-dept>
 	       <uib-accordion-heading class="sideText">
-<<<<<<< HEAD
 			 <!--<span id="deptbutton_{{item.deptId}}"  ng-if="item.deptId !=-1 && item.deptId !=0" ng-click="getprojectInfoList(item.deptId,status.open)"  title="{{deptInList.deptName}}">{{item.deptName}}<i style="margin-left:10px;font-style:normal">({{item.count}})</i>-->
 			 <!--</span>-->
 			   <div ng-if="item.deptId !=-1 && item.deptId !=0" >
@@ -22,28 +21,12 @@
 				   <i style="display:inline;font-style:normal">({{item.count}})</i>
 				   <b class="menus-icon"></b>s
 			   </div>
-=======
-	       <!--  {{item.deptName}}{{status.open}}<i style="margin-left:10px;font-style:normal">({{deptInList.count}})</i> <span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span> -->
-			 <span ng-if="item.deptId !=-1 && item.deptId !=0" ng-click="getprojectInfoList(item.deptId,status.open)"  title="{{deptInList.deptName}}">{{item.deptName}}{{status.open}}<i style="margin-left:10px;font-style:normal">({{item.count}})</i>
-			 </span>
-		     <span ng-if="item.deptId ==-1" ng-click="draftsLink(item.deptId)" title="{{deptInList.deptName}}">{{item.deptName}}{{status.open}}<i style="margin-left:10px;font-style:normal">({{item.count}})</i>
-			 </span>
-			 <span ng-if="item.deptId ==0" ng-click="draftsLink(item.deptId)" title="{{deptInList.deptName}}">{{item.deptName}}{{status.open}}<i style="margin-left:10px;font-style:normal">({{item.count}})</i>
-			 </span>
-			   <b class="menus-icon">
-			   </b>
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 	       </uib-accordion-heading>
-			<!--<div id="dept_{{item.deptId}}" class="manage_proList" ng-click="getCollaborationList($event,item.ppid)" >-->
-			<!--<div ng-if="item.deptId != -1 && item.deptId != 0">-->
-			<!--</div>-->
-			<div id="{{item.deptId}}" class="manage_proList" ng-repeat="item in projectInfoList track by $index" ng-click="getCollaborationList($event,item.ppid)">
-				<span title="{{item.projectName}}" class="spanwidth"><img src="{{item.imgsrc}}">{{item.projectName}}&nbsp;({{item.count}})</span>
-			<!--</div>-->
+			<div id="dept_{{item.deptId}}" class="manage_proList">
+				<div ng-if="item.deptId != -1 && item.deptId != 0">
+			</div>
 	      </div>
-
 	    </div>
 	</uib-accordion>
 </div>
-
 

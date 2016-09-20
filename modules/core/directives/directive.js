@@ -14,7 +14,6 @@ angular.module('core').directive('profit', function($timeout) {
     };
 });
 
-<<<<<<< HEAD
 angular.module('core').directive('profitDept', function($timeout) {
     return {
         restrict: 'A',
@@ -57,8 +56,6 @@ angular.module('core').directive('getCooperlist', function($timeout) {
     };
 });
 
-=======
->>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
 angular.module('core').directive('copyRadio', function ($timeout) {
     return {
 		restrict: 'AE',
@@ -110,6 +107,7 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(this).css("background",'#eceef0').siblings().css("background","#fff");
 
             })
+
 		}
 	};
 });
@@ -244,19 +242,13 @@ angular.module('core').directive('scrollDirective', function () {
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
-                $("#content-b3").mCustomScrollbar({
-                    setHeight:sideHeight,
+
+                $("#statistic_marker").mCustomScrollbar({		// 统计页面--标识
+                    setHeight:281,
                     theme:"minimal"
                 });
-                $("#content-b4").mCustomScrollbar({
-                    setHeight:sideHeight,
-                    theme:"minimal"
-                });
-                $("#content-b5").mCustomScrollbar({
-                    setHeight:sideHeight,
-                    theme:"minimal"
-                });
-                $("#content-b6").mCustomScrollbar({
+                
+                $("#content-b7").mCustomScrollbar({
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
@@ -336,30 +328,33 @@ angular.module('core').directive('lightHeight', function () {
                 var searchTerm = $(this).val();
                 // remove any old highlighted terms
                 $('.project_name').removeHighlight();
-//            // disable highlighting if empty
-                if ( searchTerm ) {
-                    // highlight the new term
+                // disable highlighting if empty
+                if ( searchTerm) {
+                // highlight the new term
                     $('.project_name').highlight( searchTerm );
                 }
             });
+
+
+
             $('#exampleInputName3').bind('keyup change', function(ev) {
                 // pull in the new value
                 var searchTerm = $(this).val();
                 // remove any old highlighted terms
                 $('.menName').removeHighlight();
-//            // disable highlighting if empty
-                if ( searchTerm ) {
+                // disable highlighting if empty
+                if (searchTerm) {
                     // highlight the new term
                     $('.menName').highlight( searchTerm );
                 }
             });
-        //    be高亮搜索
+            // be高亮搜索
             $('#linkbeSear').bind('keyup change', function(ev) {
                 // pull in the new value
                 var searchTerm = $(this).val();
                 // remove any old highlighted terms
                 $('.linkbeMatter').removeHighlight();
-//            // disable highlighting if empty
+                // disable highlighting if empty
                 if ( searchTerm ) {
                     // highlight the new term
                     $('.linkbeMatter').highlight( searchTerm );
@@ -380,7 +375,6 @@ angular.module('core').directive('boxShadow', function($timeout) {
                 });
             }
         }
-
     };
 });
 angular.module('core').directive('detail', function($timeout) {
@@ -408,7 +402,7 @@ angular.module('core').directive('showSelect', function($timeout) {
                         style: '',
                         size: 'auto'
                     });
-                }, 800);
+                }, 300);
             }
     };
 });
@@ -443,11 +437,10 @@ angular.module('core').directive('bvOperation', function($document) {
     return {
         restrict: 'AE',
         link: function(scope, element, attr) {
-           
-            $(".btn_box_bv").click(function(){
-
             var rightDistance = document.getElementsByClassName('content_right_bv')[0].offsetWidth;
             var rightDistance1 = document.getElementsByClassName('paly-model')[0].offsetWidth;
+
+            $(".btn_box_bv").click(function(){
             console.log('rightDistance1', rightDistance);
                 $(".show_btn").toggleClass("glyphicon-menu-left")
                 //toggleClass增加一个class      
@@ -467,6 +460,25 @@ angular.module('core').directive('bvOperation', function($document) {
                     $(".mobile-mark").hide();
                 }
               });
+            $('.mobile-mark').click(function() {
+                $(".show_btn").toggleClass("glyphicon-menu-left")
+                //toggleClass增加一个class      
+                        //通过判断这个class的状态来决定是开操作还是关操作
+                        $(".content_right_bv").toggleClass("menus");
+                if($(".content_right_bv").hasClass("menus")){
+
+                    $(".btn_box_bv").animate({right:rightDistance})
+                    $(".content_right_bv").animate({right:"0"})
+                    $(".glyphicon-menu-right").css("display",'inline-block');
+                    $(".mobile-mark").show();
+
+                }else{
+                     $(".btn_box_bv").animate({"right":"0"});
+                     $(".content_right_bv").animate({"right": -rightDistance});
+                    $(".glyphicon-menu-right").css('display','none');
+                    $(".mobile-mark").hide();
+                }
+            });
         }
     };
 });
