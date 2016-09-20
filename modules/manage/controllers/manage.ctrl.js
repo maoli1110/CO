@@ -4,12 +4,7 @@
  */
 angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal', '$state','FileUploader','Manage',
     function ($scope, $http, $uibModal, $state, FileUploader,Manage) {
-	var firstreackflag = true;//进入页面只加载一次定位
-	var firstdeptid; //第一个项目部id
-    var searchId ;//工程id
-	
-	var deptId = '';
-	$scope.docType = "1";
+    $scope.docType = "1";
     $scope.deptInfoList = [];
     $scope.projectInfoList = [];
 
@@ -26,18 +21,26 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.trans = function () {
     	var url = $state.href('newcopper', {parameter: "parameter"});
 		window.open(url,'_blank');
+        //window.open(url, "", "toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
     }
-    //加载更多
-    var moreTrents;
-    var searchBox = $("#exampleInputName2").val();//项目部下面的工程搜索参数
+
     //获取项目部列表
     Manage.getDeptInfoList().then(function (data) {
+        //console.log("mmmmmm",data);
         $scope.deptInfoList = data;
-        if(!deptId){
-        	 firstdeptid = data[0].deptId;
-        }
-    })
 
+    })
+    $scope.init = function(){
+        var params = {deptId:1,searchText:""}
+        var obj = JSON.stringify(params)
+        Manage.getProjectTrends(obj).then(function(data){
+            //console.info("我是项目统计列表信息11111",data)
+            $scope.trentsCount = data.data;
+        });
+    }
+    $scope.init();
+
+<<<<<<< HEAD
     $scope.initScrollend = function(id){
           //如果当前企业和切换的企业id不一样，初始化$scope.scrollend
           if(searchId != id){
@@ -77,63 +80,51 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     
     $scope.childItems = function(id,$event,open){
         var searchBox = $("#exampleInputName2").val();
+=======
+        var deptId = '';
+    $scope.childItems = function(id,$event){
+>>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
         $(".good_list").show();
         $(".pro_list").hide();
         $(".goodlist_left").show();
         $(".prolist_left").hide();
-        if(!open){
-        	Manage.getProjectInfoList(id).then(function (data) {
-            	getimgurl(data,id);
+        //if($scope.projectInfoList.length){
+            Manage.getProjectInfoList(id).then(function (data) {
+            //console.log("侧边菜单栏子菜单",data);
+                $scope.projectInfoList = [];
+                $scope.projectInfoList = data.slice(0,6);
             });
             deptId = id;
-            //获取项目统计列表
-            var params = {deptId:id,searchText:searchBox}
+            //    获取项目统计列表
+            var params = {deptId:id,searchText:""}
             var obj = JSON.stringify(params)
             Manage.getProjectTrends(obj).then(function(data){
-                $scope.trentsCount = data.data;
+                //console.info("我是项目统计列表信息",data)
+                $scope.trentsCount = data.data.slice(0,6);
             });
-        }
-
-        if(!deptId){
-            queryData.deptId  = deptId;
-        }
-        if(deptId != deptId ){
-           deptId = deptId;
-        }
     }
-        //项目统计列表搜索功能
+        //    项目统计列表搜索功能
         $scope.getDeptId = function(){
-            if(!deptId){
-                 deptId = firstdeptid;
-            }else{
-                 deptId = deptId;
-            }
+            //console.info(123)
+            //if(!deptId){
+            //     deptId = 1;
+            //}else{
+            //     deptId = deptId;
+            //}
+
             var searchBox = $("#exampleInputName2").val();
             if(searchBox.length>0){
+                //console.info(searchBox)
                 var params = {deptId:deptId,searchText:searchBox};
                 var obj = JSON.stringify(params);
                 Manage.getProjectTrends(obj).then(function(data){
+                    //console.info("我是项目统计搜索列表信息",data)
                     $scope.trentsCount = data.data;
-                    setTimeout(addProjectStyle,100);
                 });
             }
-        }
 
-        function addProjectStyle(){
-            var searchTerm = $("#exampleInputName2").val();
-            $('.project_name').removeHighlight();
-            if (searchTerm) {
-                $('.project_name').highlight(searchTerm);
-            }
-        }
-        function addEpcStyle(){
-            var searchTerm = $("#exampleInputName3").val();
-            $('.menName').removeHighlight();
-            if (searchTerm) {
-                $('.menName').highlight(searchTerm);
-            }
-        }
 
+        }
         //图片预览效果
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
             var slid = $('ul.slide_box li')
@@ -154,9 +145,26 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 slid.addClass('none');
                 slid.eq(indexs).removeClass('none');
             }
-            //判断是第几页的内容
-            //前进后退的效果
-            //如果恒等于0的时候就等于三，执行减操作，执行上一个动作
+            //$(".list>li").click(function(){
+            //    var index = $(this).index();
+            //    //console.info(index)
+            //    var $img = $(".slide_box img");
+            //    //获取一组数据中小图片的个数，来判断插入多少张大图；
+            //    var aLiChild = $(this).find(".bx-controls").children();
+            //    //console.info(aLiChild);
+            //    //动态插入一组数据，通过索引值的方式插入指定文件夹下面的图片；
+            //    for(var i=0;i<aLiChild.length;i++){
+            //        //通过attr属性改变图片的src路径
+            //        var url = "imgs/show/"+index+"/"+(i+1)+".jpg";
+            //        $img.eq(i).attr('src',url);
+            //    }
+            //});
+            //
+            ////判断是第几页的内容
+            //
+            ////前进后退的效果
+            ////如果恒等于0的时候就等于三，执行减操作，执行上一个动作
+            //
             $('a.options').click(function(){
                 var drec = $(this).data('drec');
                 if(drec == 'pre') {
@@ -177,6 +185,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 options(slideindex);
             });
             $('ul > li >.bx-controls >.img_list>.tools_bar>.bookSection').click(function(){
+                //console.info(123)
                 slideindex = $(this).index();
                 clearInterval(timer);
                 options(slideindex);
@@ -189,8 +198,20 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $(".mask").hide();
                 $(".showImg").hide();
             })
-         
-            //下载弹出遮罩层和下载进度
+
+            // 动态列表图片定位动画
+            //$(".tools_bar").hover(function(){
+            //   $(this).find(".bar").stop().animate({"bottom":"0"})
+            //},function(){
+            //    $(this).find(".bar").stop().animate({"bottom":"-28px"})
+            //})
+            //$(".tools_bar").hover(function(){
+            //   //alert(1313)
+            //    $(this).find(".bar").stop().animate({"bottom":"0"})
+            //},function(){
+            //    $(this).find(".bar").stop().animate({"bottom":"-28px"})
+            //})
+        //    下载弹出遮罩层和下载进度
             $(".pro-down").click(function(){
                 $(".tools_bar>.pro_mask").animate({top:0});
                 $(".bar").hide();
@@ -204,19 +225,23 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 
         });
 
-        //动态列表搜索关键字
-        $scope.manageSeacher = function(){
-            //获取搜索类型关键字
-            $scope.trentsListInfo=[];
-            $scope.seacherKey = $("#exampleInputName3").val();
-            if(!$scope.docType){
-                $scope.docType="1";
-            }else{
-                $scope.docType=$scope.docType;
-            }
-            
-            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+    //获取动态列表
+    //跳转页面
+    //跳转页面
+
+    //    $(".manage_back").hide();
+
+        var searchId ;
+        $scope.turnPage = function(id){
+            //debugger;
+            searchId = id;
+            $(".good_list").hide();
+            $(".pro_list").show();
+           $(".goodlist_left").hide();
+            $(".prolist_left").show();
+            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:id,searchKey:"",searchType:""}).then(function(data){
                 $scope.trentsListInfo = data.data;
+                console.info("详情列表",$scope.trentsListInfo)
                 var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
                     angular.forEach(value.docs, function (value1, key1) {
@@ -226,33 +251,66 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                         }
                     });
                 });
-                setTimeout(addEpcStyle,100);
+
+            });
+            //searchId
+           //console.info("跳转页面的id",id)
+
+        }
+        //动态列表搜索关键字
+        $scope.manageSeacher = function(){
+            //console.info(123)
+            //获取搜索类型关键字
+            $scope.seacherKey = $("#exampleInputName3").val();
+            //$scope.doc_type?0:$scope.doc_type;
+            if(!$scope.docType){
+                $scope.docType="1";
+            }else{
+                $scope.docType=$scope.docType;
+            }
+
+
+            Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+                $scope.trentsListInfo = data.data;
+                //console.info($scope.docType)
+                //console.info("我是搜索列表", $scope.trentsListInfo )
             });
         }
 
         $scope.changeAttr = function () {
+            //debugger
             $scope.seacherKey = $("#exampleInputName3").val();
+            //$scope.doc_type?0:$scope.doc_type;
             if(!$scope.docType){
                 $scope.docType=1;
             }else{
                 $scope.docType=$scope.docType;
             }
-            
             Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
                 $scope.trentsListInfo = data.data;
+                //console.info($scope.docType)
+                //console.info("我是搜索列表", $scope.trentsListInfo )
             });
         }
-        
-        
-        
-        
         //判断是否按下enter键进行搜索（动态工程列表页面）
         //工程列表enter键搜索
-        $("#exampleInputName2").val();
         $scope.previewList = function(e){
             var keyCode = e.keyCode|| e.which;
             if($("#exampleInputName2").val()!="" && keyCode==13){
-                $scope.getDeptId();
+                if(!deptId){
+                    deptId = 1;
+                }else{
+                    deptId = deptId;
+                }
+                var searchBox = $("#exampleInputName2").val();
+                //console.info(searchBox)
+                var params = {deptId:deptId,searchText:searchBox};
+                var obj = JSON.stringify(params);
+                Manage.getProjectTrends(obj).then(function(data){
+                    //console.info("我是项目统计搜索列表信息",data)
+                    $scope.trentsCount = data.data;
+                    //console.info(' $scope.trentsCount', $scope.trentsCount)
+                });
             }
         }
 
@@ -262,89 +320,41 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             var keyCode = e.keyCode|| e.which;
             if($("#exampleInputName3").val()!="" && keyCode==13){
                 $scope.seacherKey = $("#exampleInputName3").val();
-                $scope.manageSeacher();
+                //$scope.doc_type?0:$scope.doc_type;
+                if($scope.docType==undefined){
+                    $scope.docType=1;
+                }else{
+                    $scope.docType=$scope.docType;
+                }
+
+
+                Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+                    $scope.trentsListInfo = data.data;
+                    //console.info($scope.docType)
+                    //debugger
+                    console.info("我是搜索列表", $scope.trentsListInfo )
+
+                });
 
             }
-        }
-
-
-        /*滚动加载只防止多次提交请求问题start*/
-        //可以查询
-        var searchFlag;
-        var pollingFlag = true;
-        var checkSearchInterval;
-        $scope.addMoreData = function (){
-            setSearchFlagFalse();
-            if(pollingFlag){
-                pollingFlag = false;
-                checkSearchInterval = setInterval(function() {checkCanSearch()},100);
-     		}
-     		setTimeout(function() {setSearchFlagTrue()},150);
-        };
-        var setSearchFlagFalse = function(){
-        	console.log(false);
-            searchFlag = false;
-        }
-        var setSearchFlagTrue = function(){
-        	console.log(true);
-            searchFlag = true;
-        }
-        var checkCanSearch = function(){
-        	console.log("轮询");
-            if(searchFlag){
-            	console.log("chaxun");
-                clearInterval(checkSearchInterval);
-                $scope.trentsList(searchId);
-                pollingFlag = true;
-            }
-        }
-        /*滚动加载只防止多次提交请求问题end*/
-        var lastUploadTime; //下一次请求的时间 第一次没有值
-        var lastUsername;//下一次请求的用户名 第一次没有值
-        $scope.trentsListInfo=[];
-        $scope.scrollend= false;
-        //通过点击获取
-        $scope.turnPage = function(id){
-            $("span[id='projectbutton_"+id+"']").click();
         }
         //通过侧边栏的子元素去调出动态列表
-        $scope.trentsList = function(id) {
-            //如过却换工程 scrollend需要初始化设置
-            $scope.initScrollend(id);
-        	if(!id){
-        		console.log("无id,查询失败");
-        		return;
-        	}
+        $scope.trentsList = function($event,id) {
             searchId = id;
+            //alert(id);
+            //console.info(12131313)
             $(".good_list").hide();
             $(".pro_list").show();
             $(".goodlist_left").hide();
             $(".prolist_left").show();
-            $scope.seacherKey = $("#exampleInputName3").val();
-            if(!$scope.docType){
-                $scope.docType =1;
-            }else{
-                $scope.docType = $scope.docType;
-            }
             Manage.getTrends({
-                count:10,
-                lastUploadTime:lastUploadTime,
-                lastUsername:lastUsername,
+                lastUploadTime: "",
+                lastUsername: "",
                 ppid: id,
-                searchKey:$scope.seacherKey,
-                searchType:$scope.docType
+                searchKey: "",
+                searchType: ""
             }).then(function (data) {
-                if(data.data.length!=0){
-                    for(var i=0 ;i<data.data.length;i++){
-                        $scope.trentsListInfo.push(data.data[i])
-                    }
-                    lastUploadTime = data.data[data.data.length-1].updateTime;
-                    lastUsername = data.data[data.data.length-1].username;
-                    console.info('动态详情列表',$scope.trentsListInfo)
-                }
-                if(data.data.length<10){
-                    $scope.scrollend = true;
-                }
+                $scope.trentsListInfo = data.data;
                 var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
                     angular.forEach(value.docs, function (value1, key1) {
@@ -356,6 +366,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 });
             });
             $scope.id = id;
+            //$("span.ng-binding").removeClass("active");
+            //获取所有span下面的class名为ng-binding并且移除所有active;
+            $("span[class*=ng-binding]").removeClass("menusActive");
+            //获取当前元素
+            $($event.target).children("span").hide()
+            $($event.target).addClass("menusActive").parent().siblings().find("menusActive").removeClass("menusActive");
+            $($event.target).children().css('opacity','1').parent().parent().siblings().find(".font_radius").css('opacity','0');
         }
 
 
@@ -365,6 +382,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //通过动态列表的图片获取大图的资源路径
         $scope.transformBig = function(uuid,docName,isPreview){
             var data ={fileName:docName,uuid:uuid};
+            //debugger
             if(isPreview == false){
                 alert('该文件暂不支持预览')
                 return;
@@ -373,6 +391,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $scope.previewimg = result;
                 layer.open({
                         type: 2,
+                        //skin: 'layui-layer-lan',
                         title: '预览',
                         fix: false,
                         shadeClose: true,
@@ -385,17 +404,20 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 console.log(obj);
                 alert(obj.message);
             });
+            
         }
-        //回退按钮关闭列表页面
+//        回退按钮关闭列表页面
         $scope.listBack = function(){
             $(".good_list").show();
             $(".pro_list").hide();
+            //location.reload()
             $(".goodlist_left").show();
             $(".prolist_left").hide();
         }
 
-        //更新资料和选中模块加阴影效果
+//更新资料和选中模块加阴影效果
         $scope.$on('shadowFinsh', function (ngRepeatFinishedEvent) {
+            //$($event.target).find(".updateNub").text("1111");
             $scope.updataBook = function(adds){
                 adds = adds;
                 if(adds>0){
@@ -407,20 +429,10 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 })
             }
         })
-        
-        $scope.$on('ngRepeatFinishedDept',function(ngRepeatFinishedEvent){
-	    	if(firstreackflag){
-				//获取列表里面第一个项目部
-				if(deptId){
-					$("#deptbutton_"+deptId).click();
-				}else{
-					$("#deptbutton_"+firstdeptid).click();
-				}
-				firstreackflag = false;
-			}
-		})
 
-        //服务器时间
+        //系统时间
+       //$scope.currentDate =  Manage.getCurrentDate();
+//        服务器时间
         $scope.currentTime= function(){
             Manage.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
                 $scope.serviceTime = data.data;

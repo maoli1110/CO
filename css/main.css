@@ -6,7 +6,6 @@ body, ol, ul, li, dl, dd, dt, table, tr, td, div, p, img, h1, h2, h3, h4, h5, h6
     /*font-size: 1rem;*/
     color: #333;
 }
-
  .coo-detail .list .col-xs-5, .col-xs-6{
     position: relative;
     min-height: 1px;
@@ -174,22 +173,9 @@ li {
 .dropdown-menu{
     border-radius:0;
      border: 1px solid rgba(221,221,221,1);
-    padding-top:0;
-    padding-bottom:5px;
-    top:40px !important;
-    max-width: 90%;
 }
 .ng-empty{
     background:#fff !important;
-}
-.create-error {
-    position: fixed;
-    bottom: 60px;
-    width: 100%;
-    text-align: center;
-}
-.create-error ul {
-    display:inline-block;
 }
 .create .btn-link1:nth-child(1){
     margin-left:5px;
@@ -268,12 +254,8 @@ padding: 5px 25px;
     border-radius: 0;
 
 }
-.
 .modal-footer .btn-cancel:hover {
     color:#fff !important;
-}
-.modal-footer{
-    border:0;
 }
 
 .modal-footer .btn-cancel {
@@ -392,6 +374,8 @@ padding: 5px 25px;
 .btn.btn-cancel:active{
     background:#5b6171;
 }
+
+
 .modal-footer {
     text-align: center;
 }
@@ -406,17 +390,18 @@ padding: 5px 25px;
     bottom:0;
     left:0;
 }
-.footer-commom .btn{
-    margin:0 10px;
-}
-.footer-commom >.btn-default:hover ,.footer-commom .btn-default:visited ,.footer-commom .btn-default:focus{
+.footer .btn{
+     margin:0 10px;
+
+ }
+.footer >.btn-default:hover ,.footer .btn-default:visited ,.footer .btn-default:focus{
     color:#fff !important;
 }
-.footer-commom>.btn:hover ,.footer-commom .btn:focus{
+.footer>.btn:hover ,.footer .btn:focus{
     background:#65C17D;
     color:#fff;
 }
-.footer-commom .foot-btn{
+.footer .foot-btn{
     width: 143px;
     height: 34px;
     border-radius: 5px;
@@ -425,66 +410,18 @@ padding: 5px 25px;
     margin-right: 40px;
     border:0;
 }
-.footer-commom .foot-btn:hover{
+.footer .foot-btn:hover{
     border:0;
     background:#55ad6c;
 }
-.footer-commom .btn-default:hover {
+.footer .btn-default:hover {
     color: #fff;
     background-color: #55ad6c !important;
     border: 0;
 }
-.footer-commom .foot-btn:active{
+.footer .foot-btn:active{
     border:0;
     background:#4a965e !important;
-}
-
-/*header*/
-.inner .change-window{
-    display: inline-block;
-    width: 25px;
-    height: 20px;
-    line-height: 20px;
-    padding-left: 5px;
-    margin-left:6px;
-}
-.inner .change-window:hover {
-    background: none;
-}
-.inner header{
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
-}
-.inner header p{
-    height: 45px;
-    line-height:45px;
-    text-align: center;
-    /*color:#fff;*/
-}
-.inner header .close{
-    position:absolute;
-    top:10px;
-    right:10px;
-}
-.inner header .header-operation {
-    border: 1px solid #ccc;
-    background: #ddd;
-}
-.inner header .header-title {
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    line-height: 45px;
-    background: #fff;
-}
-.inner header .label_tools {
-    width: 97px;
-    float: right;
-    line-height: 40px;
-    margin-right: 15px;
 }
 /*新建协作页面*/
 /*确定、存储、取消按钮样式*/
@@ -580,7 +517,7 @@ padding: 5px 25px;
     background: url(../imgs/icon/icon-add.png) no-repeat 0 -21px;
     line-height: 38px;
     margin-top: 1px;
-    /*float: left;*/
+    float: left;
     /*position:absolute;*/
     margin-left:6px;
 }
@@ -646,7 +583,7 @@ padding: 5px 25px;
     position: absolute;
     top: 62px;
     left: 87px;
-    z-index: 134;
+    z-index: 10;
     display:none;
 }
 .header .header_menus ul li{
@@ -941,7 +878,6 @@ padding: 5px 25px;
 /* create */
 .create {
     margin-bottom: 100px;
-    margin-top: 100px;
 }
 .create-title {
 /*    height: 40px;
@@ -969,7 +905,6 @@ padding: 5px 25px;
 }
 .create .left .row >div {
     padding-left:0;
-    padding-right: 0;
 }
 .create .link div,.create .mx >div {
     padding-left:0;
@@ -1119,7 +1054,7 @@ padding: 5px 25px;
     margin:15px 0;
 }
 .select-person-related-modal .modal-body{
-    height:593px !important;
+    height:600px !important;
 }
 .select-person-related-modal .modal-dialog{
     position: absolute;
@@ -1128,21 +1063,9 @@ padding: 5px 25px;
     margin-left: -501px;
     margin-top: -347px;
 }
-.select-person-related-modal .left .select .btn-group{
-
-}
-.select-person-related-modal .left .select .btn-group>button{
-    width:160px;
-    background:#fff;
-    border:1px solid #ddd;
-}
-.select-person-related-modal .dropdown-menu{
-    max-height:511px !important;
-    width:220px !important;
-}
 .select-person-related-modal .modal-body .right{
     padding: 0 10px;
-    height: 563px !important;
+    height: 564px !important;
     overflow: auto;
 }
 .select-person-related{
@@ -1152,7 +1075,7 @@ padding: 5px 25px;
     margin: 0;
 }
 .select-person-related  .left {
-    padding: 0 12px 0 0px;
+    padding: 0 12px 0 5px;
     border-right: 1px solid #ccc;
 }
 .select-person-related  .person-list{
@@ -1172,7 +1095,7 @@ padding: 5px 25px;
 }
 .link-project-modal .modal-content{
     width: 687px;
-    height: 592px;
+    height: 609px;
 }
 .link-project-modal .modal-dialog{
     width:420px;
@@ -1183,6 +1106,7 @@ padding: 5px 25px;
     overflow:hidden;
 }
 .link-project-modal .link-pro{
+    /*border: 1px solid #ddd;*/
     height: 427px !important;
     padding:0 15px;
 }
@@ -1198,7 +1122,6 @@ padding: 5px 25px;
     width:20px;
 }
 .link-project-modal .modal-content .modal-body .ztree-scroll{
-    height:427px !important;
     overflow: auto;
     border:1px solid #ddd;
 }
@@ -1210,9 +1133,6 @@ padding: 5px 25px;
     left: 50%;
     margin-left: -336px;
     margin-top: -297px;
-}
-.link-project-modal .modal-footer{
-    margin-top:-15px;
 }
 .link-component-modal .modal-body .row.left{
     margin-bottom:15px;
@@ -1231,11 +1151,10 @@ padding: 5px 25px;
 
     overflow:hidden;
 }
-.link-component-modal .modal-footer{
-    margin-top:-15px;
-}
-.link-be-modal .modal-footer{
-    margin-top:-15px;
+.link-component-modal  .ztree{
+
+    height: 410px !important;
+    /*overflow: auto;*/
 }
 .ztree li span{
     font-size:14px;
@@ -1276,9 +1195,11 @@ padding: 5px 25px;
 }
 .link-categoty-modal .modal-body{
     height:480px;
+    /*overflow:auto;*/
+    padding: 28px;
 }
 .link-categoty-modal .modal-body .row.left{
-    /*margin-top:-25px!important;*/
+    margin-top:-25px!important;
 }
 .link-categoty-modal .modal-body .row.right{
     height:437px ;
@@ -1309,9 +1230,6 @@ padding: 5px 25px;
     /*border:1px solid #ddd;*/
 }
 .link-categoty-modal .modal-body .row.right .ztree-1{
-}
-.link-categoty-modal .modal-footer{
-    margin-top:-15px;
 }
 .link-form-modal .modal-dialog{
     width: 462px;
@@ -1457,14 +1375,13 @@ textarea{
 }
 .select-person-related .search>input{
     padding-left:10px;
-    width:110.2%;
 }
 .select-person-related .search img{
     position: absolute;
     width: 18px;
     height: 18px;
     top: 12px;
-    right: -17px;
+    right: 7px;
 }
 
 .select-person-related .search >div{
@@ -1477,9 +1394,6 @@ textarea{
     height: 90%;
     border:1px solid #ddd;
 
-}
-.uib-button-bar{
-    padding:0 9px 2px;
 }
 .select-person-related .right .info-title{
     margin-top:6px;
@@ -1567,36 +1481,8 @@ textarea{
     margin-left: -230px;
     margin-top: -263px;
 }
-.select-person-responsible-modal .select .choice-responsible option{
-    width:100px;
-    overflow:hidden;
-    white-space: nowrap;
-    text-overflow:ellipsis;
-    border:1px solid red;
-}
-.select-person-responsible-modal .modal-footer{
-    margin-top:-15px;
-}
-.select-person-responsible-modal .btn.dropdown-toggle{
-    width: 138px;
-    background: #fff;
-    border: 1px solid #ddd;
-}
-.select-person-responsible-modal  .dropdown-menu.inner{
-    max-height:420px !important;
-}
-.select-person-responsible-modal .bootstrap-select.btn-group .dropdown-menu{
-    width:218px !important;
-}
-.dropdown-menu{
-   max-width:100% !important;
-}
 .select-person-responsible .row {
-    padding: 0px 15px;
-}
-.select-person-responsible .row.left-1{
-    padding: 0 19px;
-    margin-bottom: 15px;
+    padding: 10px 20px;
 }
 .select-person-responsible .select{
     padding:0;
@@ -1617,7 +1503,7 @@ textarea{
 }
 .select-person-responsible .person-list{
     padding:0;
-    height: 360px !important;
+    height: 335px !important;
     overflow: auto;
 }
 .select-person-responsible .left select {
@@ -1713,13 +1599,6 @@ textarea{
 .linkbe .right .public-head{
     margin-bottom:10px;
 }
-.linkbe .left .select .btn-group>button{
-    background:#fff;
-    border:1px solid #ddd;
-}
-.linkbe .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn){
-    width:195px !important;
-}
 .modal-dialog{
     /*position: relative;*/
     position: absolute;
@@ -1746,9 +1625,6 @@ textarea{
     position: absolute;
     top: 0;
     left: 0;
-}
-.modal-content{
-    border-radius:0;
 }
 .linkbe  .modal-content{
     height:600px !important;
@@ -1893,9 +1769,6 @@ textarea{
 }
 .linkbe .pull-right form span.posi img{
    width:20px;
-}
-.linkbe .dropdown-menu{
-    max-height:374px !important;
 }
 .remove-all{
 
@@ -2231,50 +2104,13 @@ textarea{
 .upload-img *{
     vertical-align: top;
 }
+.upload{
+    margin-bottom:30px;
+    margin-top:30px !important;
+}
 .new-man{
     padding:0 13px;
 }
 .btn-sm.bnt-success{
     width:auto;
-}
-.updata-photo{
-    height:120px;width:120px;border:1px solid #ddd;text-align:center;overflow:hidden;
-    margin:0 auto;
-}
-
-.updata-photo .up-picture {
-    overflow:hidden;
-    vertical-align:middle;
-    display:inline-block;
-}
-.updata-photo  span{
-    width: 0;
-    height: 100%;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-/*label弹层*/
-.layui-layer-btn .layui-layer-btn0{
-    background:#65c17d !important;
-    border:0;
-}
-.layui-layer-btn .layui-layer-btn0:hover{
-    background:#55AD6C ;
-    border:0;
-}
-.layui-layer-btn .layui-layer-btn1{
-    background:#979BA8;
-    color:#fff;
-    border:0;
-}
-.layui-layer-btn .layui-layer-btn1:hover{
-    background:#777b8a;
-    color:#fff;
-    border:0;
-}
-
-/*new新建页面*/
-.uib-button-bar{
-    padding: 8px 9px 2px;
 }

@@ -7,33 +7,26 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
     //   点击工具栏三角形出现二级菜单
     $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
         $(".navbar-header").click(function(){
+            $scope.menus();
+            //alert('13131')
             $(".header_menus").slideToggle("fast");
-
             $(".header_menus ul li").hover(function(){
-                $(".header_menus").show();
+                $(".header_menus").show()
+                //console.info(123)
                 $(this).css({"background":"#e6e6e6","color":"#fff"}).children().find("ol").show();
             },function(){
-                $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide();
-                $(".header_menus").hide();
-                $('.navbar-header').removeClass('dispatcher-database')
+                $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide()
+                $(".header_menus").hide()
             })
+
         })
-
     })
-    $scope.headerMenus=[];
     //  头部信息的数据显示
-
         $scope.menus = function(){
-            //if( $scope.statusT){
-            $('.navbar-header').toggleClass("dispatcher-database");
-            if($('.navbar-header').hasClass("dispatcher-database")){
-                //$scope.menus();
-                headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
-                    $scope.headerMenus = data.data;
-                });
-            }
+            headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
+                $scope.headerMenus = data.data
+            });
         }
-
 
 
 
@@ -72,4 +65,4 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
     }
 
 })
- 
+//默认还原//点击放大

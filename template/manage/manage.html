@@ -1,13 +1,5 @@
-<style>
-	.content-container {
-	     height:calc(100vh - 150px);
-	 }
-	.content-scroll-container {
-	    overflow:auto;
-	}
-</style>
 <header ng-include="'template/core/header.html'"></header>
-<div class="main-container rela" scroll-directive >
+<div class="main-container rela" scroll-directive>
     <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
@@ -18,6 +10,10 @@
                         <input type="text" class="form-control" id="exampleInputName2" placeholder="搜索工程" ng-keyUp = "previewList($event)">
                         <div class="good_search001" ng-click="getDeptId()"><img src="imgs/seache.png" alt=""></div>
                     </div>
+                   <!--  <div class="right ">
+                        <button type="button" class="btn  btn_count" style="margin-right:12px;">统计</button>
+                        <button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>
+                    </div> -->
                 </div>
                 <strong></strong>
             </div>
@@ -39,7 +35,11 @@
                     <!--<div class="tools"></div>-->
                     <div class="content clearfix" style="border-bottom:1px solid #ddd;">
                         <!--商品展示-->
+<<<<<<< HEAD
                         <div class="good_list clearfix"  id="content-a2" style="height:calc(100vh - 143px);overflow:auto;" light-height >
+=======
+                        <div class="good_list clearfix"  id="content-a2" style="height:calc(100vh - 160px);overflow:auto;"  >
+>>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
                             <!--商品1F-->
                             <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click="updateNew($event)">
                                 <dt>
@@ -52,6 +52,8 @@
                                 </dt>
                                 <dd>
                                     <div class="box" ng-click = "turnPage(trentsLiInfo.ppid)" style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:cover">
+                                        <!--<img src="imgs/img_build.png">-->
+                                        <!--<img ng-src="{{trentsLiInfo.projectPicture}}" alt="">-->
                                     </div>
                                     <div class=" data_update">
                                         <p class="updata_info" ng-click="updataBook(trentsLiInfo.adds)">资料更新</p>
@@ -59,6 +61,7 @@
                                     </div>
                                 </dd>
                             </dl>
+
                         </div>
 
                         <!--商品列表展示页面-->
@@ -69,6 +72,8 @@
                                     <span><img src="imgs/call_back.png" alt=""></span>
                                     <b>返回</b>
                                 </div>
+                                <!--<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">筛选</button>-->
+
                                 <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr(docType)">
                                     <option value="1">全部类型</option>
                                     <option value="2">文档</option>
@@ -92,27 +97,21 @@
                                 <!--<button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>-->
                             <!--</div>-->
                         </div>
-                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true">
-                            <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
+                        <div class="pro_list clearfix" light-height id="content-a4" style="height:800px;overflow:auto;" copy-radio>
+                            <ul class="list" >
                                 <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
                                 <li ng-repeat="getTrents in trentsListInfo track by $index" >
                                     <!--icon_img-->
-                                    <div class="icon_img">
-                                        <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{getTrents.avatar}}" ng-if="getTrents.avatar"/>
-                                        <img src="./imgs/icon/defalut.png" ng-if="getTrents.avatar==null" alt="">
-                                    </div>
+                                    <div class="icon_img"><img ng-src="{{getTrents.avatar}}"></div>
                                     <p><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了资料<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs">
-                                            <div ng-if="getTrents.thumbnailUrl">
-                                                <img ng-src="{{getTrents.thumbnailUuid}}" alt="">
-                                            </div>
-                                            <div ng-if="getTrents.thumbnailUuid==''||getTrents.thumbnailUuid==null" class="tools_bar" >
+                                            <div class="tools_bar" >
                                                 <!--文件类型-->
                                                 <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
                                                 <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
                                                 <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
-                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='ppt'||items.fileType=='PPT'">
+                                                <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='ppt'||itmes.fileType=='PPT'">
                                                 <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
                                                 <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
                                                 <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='XLS'" >
@@ -159,7 +158,7 @@
                                                 </div>
                                                 <!--<div class="pro_mask"></div>-->
                                             </div>
-                                            <i  class="substr margin20 menName" title="{{items.docName}}" style="text-align:left;" >&nbsp;&nbsp;{{items.docName}}</i>
+                                            <i  class="substr margin20" title="{{items.docName}}" style="text-align:left;" >&nbsp;&nbsp;{{items.docName}}</i>
                                         </div>
                                     </div>
                                 </li>

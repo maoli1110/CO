@@ -1,12 +1,12 @@
 <nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl" >
 		<div class="header clearfix">
-			<div class="navbar-header user" ng-click="menus()">
+			<div class="navbar-header user">
 				<img src="./imgs/saber.jpg" alt="头像">
 				<div class="inline">
 					<div>贾吉祥&nbsp;&nbsp;施工员</div>
 					<div>鲁班建设集团有限公司</div>
 				</div>
-				<div class="inline header-shape" >
+				<div class="inline header-shape" ng-click="menus()">
 					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
 					<div class="header_trigon">
 
@@ -28,11 +28,11 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li  ui-sref="cooperation" ng-class="{navActive:$state.includes('cooperation')}">
-					<img src="imgs/icon02.png" alt="">
+					<img src="imgs/icon01.png" alt="">
 					<a>协作管理</a>
 				</li>
 				<li ui-sref="manage" ng-class="{navActive:$state.includes('manage')}">
-					<img src="imgs/icon01.png" alt="">
+					<img src="imgs/icon02.png" alt="">
 					<a>资料动态</a>
 				</li>
 			</ul>

@@ -37,11 +37,23 @@
                                 <div class="col-xs-5 col-md-5 basicInfo">
                                     <div>
                                         <span class="F16" style="width:80px;text-align:left;">负责人：</span>
-                                        <input type="text" class="int-style" ng-model="collaList.collaborator" disabled />
+                                        <input type="text" class="int-style" ng-model="collaList.collaborator">
                                     </div>
                                     <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
                                         <div class="inline int-style" style="margin-left: 4px;" ng-model="statusE">{{collaList.status}}</div>
+                                        <!-- <select class="identify col-xs-6" ng-model="status"  ng-show="zhenggai">
+                                            <option value="-1">空</option>
+                                            <option value="1">已整改</option>
+                                            <option value="2">整改中</option>
+                                            <option value="3">不整改</option>
+                                            <option value="4">待整改</option>
+                                            <option value="5">未整改</option>
+                                        </select>
+                                         <select class="identify col-xs-6" ng-model="status"  ng-show="!zhenggai">
+                                            <option value="6">待确认</option>
+                                            <option value="7">进行中</option>
+                                        </select> -->
                                     </div>
                                 </div>
                                 <div class="col-xs-5 col-md-4 pad_clear basicInfo">
@@ -51,12 +63,18 @@
                                             <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
                                         </select>
                                     </div>
+<<<<<<< HEAD
                                     <div style="margin-bottom:0;" class="edit-blank">
                                     	<span class="edit-state F16" style="text-align:left;">标识:</span>
                                         <select class="identify selectpicker1" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
                                            <option value="{{item.markerId}}" data-content="<span title='{{item.picMarker}}' class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
                                            		<span title='{{item.picMarker}}' class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index">
                                            	</option>
+=======
+                                    <div style="margin-bottom:0;" class="edit-blank"> <span class="edit-state F16" style="text-align:left;">标识:</span>
+                                        <select class="identify col-xs-6" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
+                                           <option value="{{item.markerId}}" data-content="<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span><span class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index"></option>
+>>>>>>> 2f015721583663eb58d1c21ad451c15a4e340a12
                                         </select>
                                     </div>
                                 </div>
@@ -65,7 +83,7 @@
                                     <div class="input-group col-md-9 row" style="display:inline-block;">
                                         <div class="calder date-value"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}">{{dt | date:'yyyy-MM-dd'}}</div>
                                         <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
-                                        <input type="hidden" class="calder" readonly uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
+                                        <input type="hidden" class="calder" uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +202,7 @@
             </div>
         </div>
     </div>
-    <div class="footer footer-commom">
+    <div class="footer">
         <button type="button" class="btn btn-default" ng-click="ok()" style="width:143px;height:34px;">确定</button>
         <button type="button" class="btn btn-default " ui-sref="coopdetail({coid: transcoid})" style="width:143px;height:34px;">取消</button>
     </div>

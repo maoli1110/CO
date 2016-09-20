@@ -11,16 +11,8 @@
             <div class="col-xs-6 left">
 
                 <div class="row">
-                    <div class="col-xs-4 select" style="width:153px;" show-select>
-                         <!--<select  name=""  ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-change="switchUsers(selectedOption)"></select>-->
-                        <select  class="identify be-project" name=""  ng-model="selectedOption" ng-change="switchUsers(selectedOption)">
-                            <option value="{{item.deptId}}"
-                                    data-content="<div class='substr' title='{{item.deptName}}' style='text-align:left;'>
-					  					<span>{{item.deptName}}</span>
-					  				</div>"
-                                    ng-repeat="item in deptInfo.availableOptions track by $index">
-                            </option>
-                        </select>
+                    <div class="col-xs-4 select" style="width:153px;" >
+                         <select  name=""  ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                     </div>
                     <div class="col-xs-7 search rela" >
                         <input type="text" class="form-control" placeholder="搜索联系人" ng-change="responsibleSearch($event)" ng-model="queryForm"><img src="imgs/seache.png" alt="">
@@ -30,50 +22,57 @@
                     <!--<div >new-icon.png</div>-->
                     <p class="modal-checked">
                         <label >
-                            <span style="display: inline-block;padding: 0 25px;">全选</span><input id="edit-all" type="checkbox" style="display: inline-block; width: auto;" ng-model="flag.allSelected" ng-click="allSelected()">
-                            <!-- <span class="allChoice"></span> -->
+                            <span style="display: inline-block;padding: 0 25px;">全选</span><input id="edit-all" type="checkbox" style="opacity:0;display: inline-block; width: auto;" ng-click="allSelected()">
+                            <span class="allChoice">
+
+                            </span>
                         </label>
                     </p>
-                </div><!-- getUserAvaterUrl($index); -->
+                </div>
                 <div class="person-list" id="content-a8">
-                    <div ng-repeat="user in userList track by $index" class="select-list">
-                        <a class="first-title" ng-click="isCollapsed=!isCollapsed">
+                    <div ng-repeat="user in userList" class="select-list">
+                        <a class="first-title" ng-click="isCollapsed = !isCollapsed">
                             <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                         </a>
-                        <ul class="sub-nav" id="uib_{{$index}}" uib-collapse="!isCollapsed">
-                            <li ng-repeat="item in user.users track by $index" class="select-check" ng-click="addRelated(item)" ng-class="{true:'grey',false:'default'}[item.add]">
+                        <ul class="sub-nav" uib-collapse="!isCollapsed">
+                            <li ng-repeat="list in user.users" class="select-check" ng-click="addRelated($index, $parent.$index,list,$event)" ng-class="{true:'grey',false:'default'}[list.add]" >
                                 <label >
-                                   <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{item.avatar}}" />
-                                   <!--  <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.uuid==null||item.uuid==''" id="{{$parent.$parent.$index}}_default_{{$index}}" src="" />
-                                    <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.uuid!=null&&item.uuid!=''" id="{{$parent.$parent.$index}}_{{item.uuid}}_{{$index}}" src="" />--><span>{{item.username}}</span> 
+                                    <img src="{{list.avatar}}"><span>{{list.username}}</span>
                                 </label>
-                                <div class="user-chioce"></div>
+                                <div class="user-chioce">
+
+                                </div>
                             </li>
                         </ul>
                     </div>
                 </div>
+
+                
             </div>
             <div class="col-xs-6 right" style="padding:0 10px;" id="content-a10">
                 <div class="clearfix info-title" >
                    <!--  <div class="pull-left"><input type="checkbox"><span>全选</span></div> -->
                     <div  style="float:left">已选择{{relatedSelected.length}}人，需要签字{{trans_selected.sign.length}}人</div>
                     <!--全部删除-->
-                    <div class="remove-all" style="float:right;" ng-click="delAll()">全部删除 <span class="error-del"></span></div>
+                    <div class="remove-all" style="float:right;" ng-click="del()">全部删除 <span class="error-del"></span></div>
                 </div>
+
                 <div>
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="row in relatedSelected track by $index"  align="center" style="line-height:40px;">
+                            <tr ng-repeat="row in relatedSelected"  align="center" style="line-height:40px;">
                                 <td class="is-sign">
                                     <label class="rela" style="">
                                         <input type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)" ng-model="typeCheck" style="opacity:0;" >
-                                        <div class="absol handle-state">需签字</div>
+                                        <div class="absol handle-state" ng-click ="adminHandle()">需签字</div>
                                     </label>
-                                    <div class="avatar-pic"><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{row.avatar}}" ng-show="row.avatar"/><img src="./imgs/icon/defalut.png" alt="" ng-show="row.avatar==null"></div>
-                                    <span>{{row.username}}</span>
+                                        <div class="avatar-pic"><img ng-src="{{row.avatar}}" alt=""></div>
+                                        <span>{{row.username}}</span>
+
+
                                 </td>
                                 <!--<td></td>-->
-                                <td style="text-align:center;"> <span class="error-del"  ng-click="removeRelated(row)"></span></td>
+                                <td ng-click="removeRelated(row)" style="text-align:center;">删除 <span class="error-del"></span></td>
                             </tr>
                         </tbody>
                     </table>

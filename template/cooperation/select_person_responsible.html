@@ -8,19 +8,12 @@
     </div>
     <div class="modal-body" copy-radio>
         <div class="row left">
-            <div class="row left-1">
-                <div class="col-xs-4 select" show-select>
-                    <!--<select name="" class="choice-responsible" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>-->
-                    <select  class="identify" name="" class="choice-responsible" id="" ng-model="selectedOption" ng-change="switchUsers(selectedOption)">
-                        <option value="{{item.deptId}}"
-                                data-content="<div class='substr' title='{{item.deptName}}' style='text-align: left; '>
-					  					<span>{{item.deptName}}</span>
-					  				</div>"
-                                ng-repeat="item in deptInfo.availableOptions track by $index" ></option>
-                    </select>
+            <div class="row">
+                <div class="col-xs-4 select">
+                    <select name="" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>
                 </div>
                 <div class="col-xs-8 search rela">
-                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索联系人" ng-change="responsibleSearch()"><img ng-src="imgs/seache.png" alt="">
+                    <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索联系人" ng-change="responsibleSearch($event)"><img src="imgs/seache.png" alt="">
                 </div>
             </div>
             <div class="row person-list" id="content-a9">
@@ -29,11 +22,13 @@
                         <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                     </a>
                     <ul class="sub-nav" uib-collapse="!isCollapsed">
-                        <li ng-repeat="item in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,item.username)" ng-class="{true:'grey',false:'default'}[item.add]">
+                        <li ng-repeat="list in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,list.username)" ng-class="{true:'grey',false:'default'}[list.add]">
                             <label class="checkA">
-                                <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
-                                <span>{{item.username}}</span>
-                                <div class="user-chioce"></div>
+                                <img src="{{list.avatar}}">
+                                <span>{{list.username}}</span>
+                                <div class="user-chioce">
+
+                                </div>
                             </label>
                         </li>
                     </ul>

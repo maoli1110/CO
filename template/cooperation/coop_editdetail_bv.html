@@ -12,13 +12,13 @@
         <div class="mobile-main-principal col-xs-12 clearfix">
 
             <div class="row common-height" style="margin-bottom:4px;">
-               <div class="inline F16 b-tilte"  >主&nbsp;&nbsp;&nbsp;&nbsp;题：</div>
+               <div class="inline F16 b-tilte"  >主&nbsp;&nbsp;&nbsp;题：</div>
                <div class="inline col-xs-9 themer" ><input id="title-bv" type="text" ng-model="collaList.name" maxlength="50"></div>
             </div>
                 <div>
                     <div class="row">
                         <div class=" mobile-distance F14 b-tilte line-height30" >负责人：</div>
-                        <div class="col-xs-9 themer mobile-distance F14" style="line-height: 30px;">{{collaList.collaborator}}</div>
+                        <div class="col-xs-9 themer mobile-distance F14" style="padding: 0 14px;line-height: 30px;">{{collaList.collaborator}}</div>
                     </div>
                     <div class="row">
                         <div class="b-tilte mobile-distance F14 line-height30">优先级：</div>
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30" >期&nbsp;&nbsp;&nbsp;&nbsp;限：</div>
+                        <div class="b-tilte mobile-distance F14 line-height30" >期&nbsp;&nbsp;&nbsp;限：</div>
                         <div class="col-xs-9 themer mobile-distance F14">
                             <div class="calder date-value-bv"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}">{{dt | date:'yyyy-MM-dd'}}</div>
                             <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
@@ -38,11 +38,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30">状&nbsp;&nbsp;&nbsp;&nbsp;态：</div>
-                        <div class="col-xs-9 themer mobile-distance F14" style="line-height: 30px;">{{collaList.status}}</div>
+                        <div class="b-tilte mobile-distance F14 line-height30">状&nbsp;&nbsp;&nbsp;态：</div>
+                        <div class="col-xs-9 themer mobile-distance F14" style="padding: 0 14px;line-height: 30px;">{{collaList.status}}</div>
                     </div>
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30" style="margin-bottom:20px">标&nbsp;&nbsp;&nbsp;&nbsp;识：</div>
+                        <div class="b-tilte mobile-distance F14 line-height30" style="margin-bottom:20px">标&nbsp;&nbsp;&nbsp;识：</div>
                         <div class="col-xs-9 themer mobile-distance F14">
                             <select class="identify selectpicker1" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
                                 <option value="{{item.markerId}}" data-content="<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span><span class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index"></option>
@@ -141,12 +141,12 @@
         </div>
     </div>
     <!--mobile-footer-->
-    <div class="mobile-footer" style="visibility:hidden">
-        <button class="DIY-btn  mobile-btn-defult" type="button"  ng-click="ok()" id="editSave" >确定</button>
-        <button class="DIY-btn  mobile-btn-defult" type="button" ui-sref="coopdetail({coid: transcoid})">取消</button>
-    </div>
-    <!-- <div class="mobile-footer">
+   <!--  <div class="mobile-footer" style="visibility:hidden">
         <button class="DIY-btn  mobile-btn-defult" type="button"  ng-click="ok()" id="editSave" >确定</button>
         <button class="DIY-btn  mobile-btn-defult" type="button" ui-sref="coopdetail({coid: transcoid})">取消</button>
     </div> -->
+    <div class="mobile-footer">
+        <button class="DIY-btn  mobile-btn-defult" type="button"  ng-click="ok()" id="editSave" >确定</button>
+        <button class="DIY-btn  mobile-btn-defult" type="button" ui-sref="coopdetail({coid: transcoid})">取消</button>
+    </div>
 </div>

@@ -65,7 +65,7 @@
 		<script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
 		<script type="text/javascript" src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="./lib/echart/echarts.min.js"></script>
-		<script src="./lib/nginfinite/ng-infinite-scroll.js"></script>
+		<script src="./lib/nginfinite/ng-infinite-scroll.min.js"></script>
 		<script src="./lib/jquery.imgbox.pack.js"></script>
 		<script src="./lib/layer/layer.js"></script>
 		<script src="./lib/audio1/jquery.jplayer.js"></script>
@@ -107,16 +107,12 @@
 		<script type="text/javascript" src="./modules/cooperation/config/cooperation.routes.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/cooperation.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperation.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/coopdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/updatecomment.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkproject.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkcomponent.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkbe.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkform.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperlink.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/services/treesearch.service.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
+
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
 		<script src="js/jquery.mousewheel.min.js"></script>

@@ -11,7 +11,7 @@
 			String coid = request.getParameter("coid");  
 			String path = request.getContextPath();
 			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-			String newLocation = basePath+"#/editdetail/?coid="+coid;
+			String newLocation = basePath+"#/coopdetail/?coid="+coid;
 			response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 			response.setHeader("Location",newLocation);
 		%>

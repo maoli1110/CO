@@ -141,7 +141,6 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 					onCheck: onCheck
 				}
 	         };
-	         dataList.assembleLps =obj;
 			//获取构件类别树
 			Cooperation.getFloorCompClassList(params).then(function (data) {
 				$scope.projectTree = data;
@@ -234,37 +233,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				}
 	 	}
 	 	
-	 	//可以查询
-	 	var searchFlag;
-	 	var pollingFlag = true;
-	 	var checkSearchInterval;
-	 	
-	 	$scope.delayTreeSearch = function (type){
-	 		setSearchFlagFalse();
-	 		if(pollingFlag){
-	 			pollingFlag = false;
-	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
-	 		}
-	 		setTimeout(function() {setSearchFlagTrue()},500);
-	 	};
-	 	
-	 	var setSearchFlagFalse = function(){
-	 		searchFlag = false;
-	 	}
-		var setSearchFlagTrue = function(){
-			searchFlag = true;
-	 	}
-	 	
-		var checkCanSearch = function(type){
-			if(searchFlag){
-				clearInterval(checkSearchInterval);
-				$scope.treeSearch(type);
-				pollingFlag = true;
-			}
-		}
-	 	
 	 	$scope.treeSearch = function (type) {
-	 		console.log(new Date());
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
 			//debugger;
@@ -333,6 +302,11 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			data.infoType = infoType;
 			data.ppids = projTypeTextPpid;
 			data = JSON.stringify(data);
+			// Cooperation.getProjTipInfo(data).then(function (data) {
+			// 	console.log(data);
+			// 	return data
+			// });
+
 			$.ajax({
 				contentType: "application/json; charset=utf-8",
 				dataType : 'json',
@@ -460,6 +434,8 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				teklanodestore.push(str2);
 			}
 		}
+
+
 		function zTreeOnClick (event, treeId, treeNode) {
 			//点击工程
 			dataList.linkProjectSelected = treeNode;
@@ -521,35 +497,6 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			 return TextSearchPpid;
 		}
 
-		//可以查询
-	 	var searchFlag;
-	 	var pollingFlag = true;
-	 	var checkSearchInterval;
-	 	
-	 	$scope.delayTreeSearch = function (type){
-	 		setSearchFlagFalse();
-	 		if(pollingFlag){
-	 			pollingFlag = false;
-	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
-	 		}
-	 		setTimeout(function() {setSearchFlagTrue()},500);
-	 	};
-	 	
-	 	var setSearchFlagFalse = function(){
-	 		searchFlag = false;
-	 	}
-		var setSearchFlagTrue = function(){
-			searchFlag = true;
-	 	}
-	 	
-		var checkCanSearch = function(type){
-			if(searchFlag){
-				clearInterval(checkSearchInterval);
-				$scope.treeSearch(type);
-				pollingFlag = true;
-			}
-		}
-		
 		$scope.treeSearch = function (type) {
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
@@ -723,11 +670,10 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 		$uibModalInstance.dismiss('cancel');
 	 	}
 
-}]).controller('linkbeCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items',
-	 function ($scope, $http, $uibModalInstance,Cooperation,items) {
+}]).controller('linkbeCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation',
+	 function ($scope, $http, $uibModalInstance,Cooperation) {
 	 	$scope.selectedOption = {};
 	 	$scope.projectOption = {};
-		$scope.currentPage = 1; //默认第一页
 		$scope.deptInfo = {
 			availableOptions:[]
 		};
@@ -746,89 +692,49 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				onCheck: onCheck
 			}
          };
-	     var treeObj,nodes,params;
-	     var selectedItem = [];
-	     //组合查询条件
-	     var queryData = {
-	     	ppid: '',
-	     	tagids:[],
-	     	searchText:'',
-	     	pageInfo:{}
-	     };
-
-        //获取项目部
-		Cooperation.getDeptList().then(function (data) {
-			$scope.deptInfo.availableOptions = data;
-			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
-			//默认工程列表
-			deptId = $scope.selectedOption.deptId;
-			Cooperation.projectList(deptId).then(function (data) {
-					$scope.projectList.availableOptions = data;
-					$scope.projectOption = $scope.projectList.availableOptions[0];
-					ppid = $scope.projectOption.ppid;
-					//获取BE资料树
-					getDocTagList(ppid);
-			});
-		});
-
-        //根据条件获取资料列表
-        var getDocList = function () {
-			//组合搜索条件
-			queryData.ppid = $scope.projectOption.ppid;
-			queryData.tagids = selectedItem;
-			queryData.searchText = $scope.searchname;
-			queryData.pageInfo = {
-				currentPage:$scope.currentPage?$scope.currentPage:1,
-				pageSize:10
-			};
-			Cooperation.getDocList(queryData).then(function (data) {
-				$scope.docList = data.result;
-				$scope.totalItems = data.pageInfo.totalNumber;
-			});
-	 	}
-
-	 	//分页显示
-	 	$scope.pageChanged = function () {
-	 		getDocList();
-	 	}
-
+         var treeObj,nodes,params;
+         var data = {};
+         var selectedItem = [];
         function onCheck (event, treeId, treeNode) {
 			treeObj = $.fn.zTree.getZTreeObj("tree");
-			//选中节点(check)
 			nodes = treeObj.getCheckedNodes(true);
-			//type=2的节点
+			console.log(nodes);
+			//获取工程对应的资料列表
+			data = {};
+			data.tagids=[];
 			var unit = _.filter(nodes, function(o){
 				return o.type === 2
 			});
 			console.log(unit)
-			var tempselectedItem = [];
 			angular.forEach(unit, function(value,key) {
-				//左侧树选中的节点
-				tempselectedItem.push(value.value);
+				var selectList = [];
+				selectedItem.push(value.value);
+			})
+			//组合条件
+			data.ppid = $scope.projectOption.ppid;
+			data.tagids = selectedItem;
+			data.searchText = '';
+			data.pageInfo = {};
+			//debugger;
+			params = JSON.stringify(data);
+			console.log(params);
+			Cooperation.getDocList(params).then(function (data) {
+				console.log(data);
+				$scope.docList = data.result;
 			});
-			selectedItem = tempselectedItem;
-			if(selectedItem.length){
-				getDocList();
-			} else {
-				$scope.$apply(function() {
-					$scope.docList = [];
-				});
-			}
-			
 	 	}
+
 	 	//选中需要上传的资料
-	 	var a = _.cloneDeep(items);
-	 	//var docSelected = [];
-	 	var docSelected = a?a:[];
+	 	var docSelected = [];
         var updateSelected = function(action,id,name){
-        	var findIndex = _.findIndex(docSelected,id);
-            if(action == 'add' && findIndex == -1){
+            if(action == 'add' && docSelected.indexOf(id) == -1){
                docSelected.push(id);
+				$()
            	}
-            if(action == 'remove' && findIndex!=-1){
+             if(action == 'remove' && docSelected.indexOf(id)!=-1){
                 var idx = docSelected.indexOf(id);
-                docSelected.splice(findIndex,1);
-            }
+                docSelected.splice(idx,1);
+             }
          }
  
         $scope.updateSelection = function($event, id){
@@ -840,17 +746,44 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
         }
  
         $scope.isSelected = function(id){
-        	console.log('id', _.findIndex(docSelected,id))
-            return _.findIndex(docSelected,id)>=0;
+        	//console.log(docSelected.indexOf(id));
+            return docSelected.indexOf(id)>=0;
         }
 
-        $scope.docSearch = function () {
-        	getDocList(queryData);
+        $scope.docSearch = function (searchname) {
+        	if(searchname) {
+        		var unit = _.filter($scope.docList, function (o) {
+        		return o.docName.indexOf(searchname) != -1;
+	        	})
+	        	$scope.docList = unit;
+        	} else {
+        		Cooperation.getDocList(params).then(function (data) {
+					console.log(data);
+					$scope.docList = data.result;
+				});
+        	}
+        	
         }
 
         $scope.ok = function () {
 		    $uibModalInstance.close(docSelected);
 		};
+
+		//获取项目部
+		Cooperation.getDeptList().then(function (data) {
+			$scope.deptInfo.availableOptions = data;
+			$scope.selectedOption = $scope.deptInfo.availableOptions[0];
+			//默认工程列表
+			deptId = $scope.selectedOption.deptId;
+			Cooperation.getProjectList(deptId).then(function (data) {
+					$scope.projectList.availableOptions = data;
+					$scope.projectOption = $scope.projectList.availableOptions[0];
+					ppid = $scope.projectOption.ppid;
+					//获取BE资料树
+					getDocTagList(ppid);
+			});
+			
+		});
 
 		//根据deptId取工程列表
 	 	$scope.switchDept = function (params) {
@@ -881,26 +814,28 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 
 	 	}
 
+
+
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss();
 		}
 
-		$scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+		 $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
 			 $('.check-now').click(function(){
 				$(this).css('background',"#eceef0").siblings().css("background",'#fff')
 			 })
-		});
+		 });
 
 }]).controller('linkformCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items) {
-	 	console.log(items);
-	 	//默认模版类型
-	 	$scope.selectedTypeId = items.typeid;
-	 	Cooperation.getTemplateNode(items.typeid).then(function (data) {
+	 	
+	 	Cooperation.getTemplateNode(items).then(function (data) {
 	 		$scope.templateNode = data;
 	 	});
 	 	Cooperation.getTypeList().then(function (data) {
 	 		$scope.typeList = data;
+	 		$scope.selectedTypeId = items;
+
 	 	});
 
 	 	$scope.switchType = function (selectedTypeId) {
@@ -910,15 +845,14 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	}
 
 	 	//选中表单中需要上传的资料
-	 	var a = _.cloneDeep(items.formSelectedList);
-	 	var formSelected = a?a:[];
+	 	var docSelected = [];
         var updateSelected = function(action,id,name){
-        	var findIndex = _.findIndex(formSelected,id);
-            if(action == 'add' && findIndex == -1){
-               formSelected.push(id);
+            if(action == 'add' && docSelected.indexOf(id) == -1){
+               docSelected.push(id);
            	}
-             if(action == 'remove' && findIndex!=-1){
-                formSelected.splice(findIndex,1);
+             if(action == 'remove' && docSelected.indexOf(id)!=-1){
+                var idx = docSelected.indexOf(id);
+                docSelected.splice(idx,1);
              }
          }
  
@@ -927,16 +861,16 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
             var checkbox = $event.target;
             var action = (checkbox.checked?'add':'remove');
             updateSelected(action,id,checkbox.name);
-            console.log(formSelected);
+            console.log(docSelected);
         }
  
         $scope.isSelected = function(id){
-        	console.log('_.findIndex(formSelected,id)',_.findIndex(formSelected,id));
-            return _.findIndex(formSelected,id)>=0;
+        	//console.log(docSelected.indexOf(id));
+            return docSelected.indexOf(id)>=0;
         }
 
         $scope.ok = function () {
-        	$uibModalInstance.close(formSelected);
+        	$uibModalInstance.close(docSelected);
         }
 
 		$scope.cancel = function () {
