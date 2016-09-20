@@ -5,8 +5,11 @@
     <uib-accordion close-others="true"   class="manage_title">
         <div uib-accordion-group class="panel-default pro-list-name"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index" profit-dept>
           <uib-accordion-heading  class="sideText" >
-           <span  id="deptbutton_{{deptInList.deptId}}" title="{{deptInList.deptName}}" class="substr" ng-click="childItems(deptInList.deptId,$event,status.open)" >{{deptInList.deptName}}<i style="display:inline;margin-left:10px;font-style:normal">({{deptInList.count}})</i>
-           </span> <b class="menus-icon"></b>
+          <div>
+              <span  id="deptbutton_{{deptInList.deptId}}" class="substr-sideMenus"  style="color:#fff;max-width:130px;display:inline-block !important;" title="{{deptInList.deptName}}"  ng-click="childItems(deptInList.deptId,$event,status.open)" >{{deptInList.deptName}}</span>
+              <i style="display:inline;margin-left:10px;font-style:normal">({{deptInList.count}})</i>
+              <b class="menus-icon"></b>
+          </div>
           </uib-accordion-heading>
           	<div id="dept_{{deptInList.deptId}}" class="manage_proList">
 				<div ng-if="deptInList.deptId != -1 && deptInList.deptId != 0">

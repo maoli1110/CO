@@ -56,7 +56,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 //				 	$scope.avatar.push(avater);
 //				 });
 				// console.log('start',Date.parse(new Date()));
-				$scope.userList = data.slice(0,14);
+				$scope.userList = data.slice(0,8);
 				//console.log(data)
 			});
 		});
@@ -141,7 +141,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					searchText: $scope.queryForm
 			};
 			Cooperation.getUserList(queryData).then(function (data) {
-				$scope.userList = data;
+				$scope.userList = data.slice(0,6);
 			});
 			$scope.isCollapsed = false;
 		}
@@ -155,7 +155,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					searchText:$scope.queryForm
 				};
 				Cooperation.getUserList(queryData).then(function (data) {
-					$scope.userList = data;
+					$scope.userList = data.slice(0,6);
 				});
 			} else if (!$scope.queryForm) {
 				queryData = {
@@ -163,7 +163,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					searchText:$scope.queryForm
 				};
 				Cooperation.getUserList(queryData).then(function (data) {
-					$scope.userList = data;
+					$scope.userList = data.slice(0,6);
 				});
 				$scope.isCollapsed = false;
 			}
@@ -270,6 +270,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		//全选
 		$scope.allSelected = function () {
 			//$scope.isSelected = true;
+			$scope.relatedSelected = [];	// 无论全选与否，值先清掉
 			if($scope.flag.allSelected && !$scope.flag.forbidAll){
 				$scope.flag.forbidAll = true;
 				angular.forEach($scope.userList,function (value, key) {
@@ -279,7 +280,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 				});
 			} else {
 				$scope.flag.forbidAll = false;
-				$scope.relatedSelected = [];
 				$scope.trans_selected.sign = [];
 				signSelected = [];
 			}

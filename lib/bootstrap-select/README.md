@@ -10,11 +10,24 @@ bootstrap-select
 [![Dependency Status](https://david-dm.org/silviomoreto/bootstrap-select.svg)](https://david-dm.org/silviomoreto/bootstrap-select)
 [![devDependency Status](https://david-dm.org/silviomoreto/bootstrap-select/dev-status.svg)](https://david-dm.org/silviomoreto/bootstrap-select#info=devDependencies)
 
-Bootstrap-select is a jQuery plugin that utilizes Bootstrap's dropdown.js to style and bring additional functionality to normal select boxes.
+Bootstrap-select is a jQuery plugin that utilizes Bootstrap's dropdown.js to style and bring additional functionality to standard select elements.
+
+<a href="http://silviomoreto.github.io/bootstrap-select/"><img src="https://cloud.githubusercontent.com/assets/2874325/18023324/42cf556c-6bb5-11e6-84ce-35be08ae57ba.gif" alt="bootstrap-select demo"></a>
 
 ## Demo and Documentation
 
-See a Bootstrap 3 example [here](http://silviomoreto.github.io/bootstrap-select).
+You can view a live demo and some examples of how to use the various options [here](http://silviomoreto.github.io/bootstrap-select).
+
+Bootstrap-select's documentation, included in this repo in the root directory, is built with MkDocs and publicly hosted on GitHub Pages at http://silviomoreto.github.io/bootstrap-select. The documentation may also be run locally.
+
+
+### Running documentation locally
+
+1. If necessary, [install MkDocs](http://www.mkdocs.org/#installation).
+3. From the `/bootstrap-select/docs` directory, run `mkdocs serve` in the command line.
+4. Open `http://127.0.0.1:8000/` in your browser, and voilà.
+
+Learn more about using MkDocs by reading its [documentation](http://www.mkdocs.org/).
 
 ## Authors
 
@@ -54,9 +67,9 @@ Checkout the [documentation](http://silviomoreto.github.io/bootstrap-select) for
 
 **N.B.**: The CDN is updated after the release is made public, which means that there is a delay between the publishing of a release and its availability on the CDN. Check [the GitHub page](https://github.com/silviomoreto/bootstrap-select/releases) for the latest release.
 
-* [//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css](//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css)
-* [//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js](//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js)
-* //cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js (The translation files)
+* [//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css](//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css)
+* [//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js](//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js)
+* //cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/i18n/defaults-*.min.js (The translation files)
 
 ## Bugs and feature requests
 
@@ -77,5 +90,6 @@ Licensed under [the MIT license](LICENSE).
 * [SnapAppointments](https://snapappointments.com)
 * [Thermo Fisher Scientific Inc.](https://www.thermofisher.com)
 * [membermeister](https://www.membermeister.com)
+* [Solve for All](https://solveforall.com)
 
 Does your organization use bootstrap-select? Open an issue, and include a link and logo, and you'll be added to the list.

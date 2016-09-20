@@ -57,7 +57,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			}
 			
 			status = data.status;
-			if(data.bindType !== 0) {
+			if(data.bindType !== 0 && data.binds.length) {
 				console.info('关联模型',data.bindType)
 				$scope.link = true;
 				ppid = data.binds[0].ppid;
@@ -107,12 +107,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             }else{
                 $(".mobile-reply,.pc-reply").css('display','block')
             }
-
-			//是否编辑协作
-			var statusReject = ['已结束','未通过','已通过','已拒绝'];
-			if (statusReject.indexOf(data.status) != -1) {
-				$scope.allowEdit = false;
-			}
+			
 			//2.2.2	当当前用户为负责人但是不需要签字时
 			if(data.isCollaborator && data.isSign == -1) {
 				$scope.bjshow = true;
@@ -141,13 +136,16 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true;
 			}
 
-			//以下三种状态
-	   		if(data.status == ('已结束' || '已拒绝' || '已通过')) {
+			//是否编辑协作
+			var statusReject = ['已结束','未通过','已通过','已拒绝'];
+			if (statusReject.indexOf(data.status) != -1) {
+				$scope.allowEdit = false;
 	   			$scope.bjshow = false;
 				$scope.tgshow = false;
 				$scope.jjueshow = false;
 				$scope.jsshow = false;
-	   		}
+			}
+
 			var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 			angular.forEach($scope.collaList.docs, function(value, key) {
                 var imgsrc = "imgs/pro-icon/icon-";
@@ -428,21 +426,21 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				case 6:
 				var re = confirm('提交后您将不能再修改，若确认通过,请点击确定!');
 				if(re){
-//					doCollaboration();
+					doCollaboration();
 					location.reload();
 				}
 				break;
 				case 7:
 				var re = confirm('拒绝后将不能再修改，若确认拒绝,请点击确定！');
 				if(re){
-//					doCollaboration();
+					doCollaboration();
 					location.reload();
 				}
 				break;
 				case 8:
 				var re = confirm('结束后您将不能再修改，是否结束？');
 				if(re){
-//					doCollaboration();
+					doCollaboration();
 					location.reload();
 				}
 				break;
@@ -460,7 +458,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		}	
 
 	    $scope.backDetail = function () {
+	    	if($scope.flag.isPreview && $scope.flag.isApprove){
+	    		BimCo.SignCancel();
+	    		BimCo.CancelSubmitAll(); 
+	    	}
 	    	$scope.flag.isPreview = false;
+	    	$scope.flag.isPdfsign = false;
 	    }
 		//pc对接
 		//进入页面
@@ -475,7 +478,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             	if(suffix=='pdf'){
             		//pdf签署（客户端）
             		$scope.flag.isPreview = true;
-	            	$scope.flag.isPdfsign = true;
+	            	$scope.flag.isApprove = true;
 	            	$scope.flag.isGeneral = false;
 	            	var pdfSign = BimCo.PdfSign(uuid,suffix,currentReact,coid);
 					if(!pdfSign) {
@@ -489,6 +492,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		        		$scope.flag.isPreview = true;
 		        		$scope.flag.isGeneral = true;
 		        		$scope.flag.isPdfsign = false;
+		        		$scope.flag.isApprove = false;
 		        		$scope.previewUrl = $sce.trustAsResourceUrl(result);
 		            },function (data) {
 		            	$scope.flag.isPreview = false;
@@ -501,6 +505,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             }
     	}
 
+    	//添加审批意见
+    	$scope.addApprove = function() {
+    		$scope.flag.isPdfsign = true;
+    		//添加审批意见时签出
+    		Cooperation.checkOut(coid).then(function(data){
+    		});
+    	}
+
 		//签署意见
 		$scope.signComment = function () {
 			$scope.isSign = true;
@@ -508,21 +520,22 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 	    //电子签名
 	    $scope.signElectronic = function () {
-	    	alert(signature);
 	    	$scope.isEleSign = true;
 	       	BimCo.ElectronicSign(signature);
 
 	    }
 	    //提交
 	    $scope.SubmitAll = function () {
-	    	//var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
+	    	var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
 	    	var isSignSubmit;
 	    	var backJson;
 	    	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
 	    	//backJson = "{\"6330EB632087445B98DB6D6B677B136A\":{\"PdfModify\":[{\"contents\":\"asdfasdfaf\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":477.74996948242188,\"yAxis\":786.75}]},\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"我好\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":427.49996948242188,\"yAxis\":759.4000244140625}]},\"C053AFCBAE3742E1907C711AEEE49FB1\":{\"PdfModify\":[{\"contents\":\"asfasfasfa\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":390.74996948242188,\"yAxis\":749.75}]}}"
 	    	var modifyDocs=[];
 	    	if(r){
-	    		//客户端提交
+	    		//客户端临时缓存
+	    		BimCo.SignSubmit();
+	    		//客户端正式提交
 	    	 	backJson = BimCo.SubmitAll();
 	    	}
 	    	if(backJson){

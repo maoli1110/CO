@@ -29,6 +29,21 @@ angular.module('core').directive('profitDept', function($timeout) {
     };
 });
 
+angular.module('core').directive('profitSwitch', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                    scope.$emit('ngRepeatFinishedSwitch');
+                });
+            }
+
+        }
+
+    };
+});
+
 angular.module('core').directive('getCooperlist', function($timeout) {
     return {
         restrict: 'A',

@@ -668,7 +668,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	        		
 	        	}
 				a.md5 = value.md5;
-				a.name = value.name;
+				a.name = value.name +'.'+value.suffix;
 				a.needSign = true;
 				a.uuid = value.uuid;
 				a.size = value.size;
@@ -707,7 +707,12 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 			Cooperation.createCollaboration(obj).then(function (data) {
 				var coid = data;
-				alert('创建协作成功');
+				if(status==0){
+					alert('协作存入草稿箱成功！')
+				}else if(status==1){
+					alert('创建协作成功');
+				}
+
 				$state.go('cooperation',{'deptId':$scope.data.deptId, 'ppid':$scope.data.ppid},{ location: 'replace'});
 				// $state.go('cooperation',{'transignal':$scope.data.deptId},{ location: 'replace'});
 				//上传之后将coid传给客户端
@@ -794,6 +799,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.backDetail = function () {
     	$scope.flag.isPreview = false;
     	BimCo.SignCancel();
+    	BimCo.SubmitCancel();
     }
 
     //最大化、最小化、还原、关闭

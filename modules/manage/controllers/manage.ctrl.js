@@ -61,8 +61,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 			}else if(treeItems[i].projectType=="Tekla"){
 				treeItems[i].imgsrc="imgs/icon/5.png";
 			};
-			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'>"+treeItems[i].projectName+"&nbsp;("+treeItems[i].count+")</span>")
-		}
+			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
+        }
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
 			  $(".draft-box").hide();

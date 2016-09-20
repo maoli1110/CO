@@ -106,6 +106,13 @@ img{
         </div>
     </div>
     <!-- 电子签名 -->
+    <div ng-show="flag.isApprove">
+        <div class="doc-edit footer footer-commom">
+            <div class="text-center">
+                <button class="btn btn-default foot-btn" ng-click="addApprove()">添加审批意见</button>
+            </div>
+        </div>
+    </div>
     <div ng-show="flag.isPdfsign">
         <div class="sign footer-commom" style="position:fixed;">
             <div class="text-center">
@@ -114,7 +121,7 @@ img{
             </div>
         </div>
         <div class="doc-edit footer footer-commom">
-             <div ng-show="isEdit">pdfSign</div><div class="text-center">
+            <div class="text-center">
                 <button class="btn btn-default foot-btn" ng-click="SubmitAll()">提交</button>
                 <button class="btn btn-default new-btnFail foot-btn" ng-click="signCancel()">取消</button>
                 <button class="btn btn-default new-btnFail foot-btn" ng-click="signEmpty()">清空</button>

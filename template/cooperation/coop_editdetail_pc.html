@@ -2,10 +2,27 @@
 
     <div class="main" style="margin-bottom:50px min-width:320px;">
         <!--main_content-->
-        <div class="coop-detail">
+        <div class="inner">
             <header >
-                <p class="F16">编辑协作</p>
-                <span class="glyphicon glyphicon-remove close" ui-sref="cooperation" href="#/cooperation"></span>
+            	<div class="header-operation clearfix">
+            	<!-- #/coopdetail/?coid=57e0c5f3807cdce43f15c48b -->
+                    <div class="pull-left" style="margin-top:10px;width:10%;" ng-click="backDetail()">
+                    	<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
+                    	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
+                    </div>
+                    <div class="label_tools">
+                        <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+                        <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+                            <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
+                            <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+                        </div>
+                        <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+                    </div>
+                </div>
+	            <div class="header-title">
+	                <p class="F16" ><span class="substr" title="编辑协作" style="display:inline-block;max-width:1200px;">编辑协作</span></p>
+	                <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation" href="#/cooperation"></span> -->
+	            </div>
             </header>
             <div class="container">
                 <div class="main_content clearfix">
@@ -34,23 +51,12 @@
                                             <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
                                         </select>
                                     </div>
-                                    <div style="margin-bottom:0;" class="edit-blank"> <span class="edit-state F16" style="text-align:left;">标识:</span>
-                                        <!-- <select class="identify col-xs-6" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
-                                           <option value="{{item.markerId}}" 
-                                           		data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
-                                           				<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
-                                           				<span class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>
-                                           			</div>" 
-                                           		ng-repeat="item in markerList1 track by $index">
-                                           </option>
-                                        </select> -->
-                                        <select class="selectpicker col-xs-6" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
-                                            <option ng-repeat="item in markerList1 track by $index" value="{{item.picMarker}};" 
-                                            	data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;margin:0px;'>
-                                           				<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px;font-size: 14px;'></span>
-                                           				<span class='F14' style='line-height: 19px;font-size: 14px;'>{{item.picMarker}}</span>
-                                           			</div>">
-                                            </option>
+                                    <div style="margin-bottom:0;" class="edit-blank">
+                                    	<span class="edit-state F16" style="text-align:left;">标识:</span>
+                                        <select class="identify selectpicker1" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
+                                           <option value="{{item.markerId}}" data-content="<span title='{{item.picMarker}}' class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
+                                           		<span title='{{item.picMarker}}' class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index">
+                                           	</option>
                                         </select>
                                     </div>
                                 </div>
@@ -97,23 +103,9 @@
                                                 <dd>{{item.username}}</dd>
                                             </dl>
                                         </div>
-                                        <!--<div class="inline add-chioce" style="border-right:1px solid #ccc;">-->
-                                            <!--<dl class="inline rela add-img" ng-repeat="item in related.sign">-->
-                                                <!--<dt><img src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span></dt>-->
-                                               <!--<dd>{{item.username}}</dd>-->
-                                            <!--</dl>-->
-                                        <!--</div>-->
-                                        <!--<div class="inline add-chioce">-->
-                                            <!--<dl class="inline add-img" ng-repeat="item in related.noSign ">-->
-                                               <!--<dt><img src="{{item.avatar}}" alt=""></dt>-->
-                                                <!--<dd>{{item.username}}</dd>-->
-                                            <!--</dl>-->
-                                        <!--</div>-->
                                         <button class="btn add-related " ng-click="selectRelated()"><span>+</span></button>
-
                                     </div>
                                 </div>
-
                             </div>
                             <!--action(功能)-->
                             <div class="action row pc-photo">
@@ -155,34 +147,36 @@
                                     <p class="F16">回复:</p>
                                 </div>
                                 <div class="col-md-11 col-xs-10">
-                                    <div class="say clearfix col-xs-12" style ="border-bottom:1px solid #ddd" ng-repeat="item in collaList.comments">
+                                    <div class="say clearfix col-xs-12" ng-repeat="item in collaList.comments">
                                         <div class="col-xs-4 col-md-1 man_pic">
-                                            <img ng-src="{{item.avatar}}" alt="">
-                                            <p>{{item.commentator}}</p>
+                                            <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
+                                            <p class="substr" title="{{item.commentator}}">{{item.commentator}}</p>
                                         </div>
                                         <div class="col-xs-8 col-md-11 comment">
-                                            <div class="say-content">
-                                                <div>{{item.comment}}</div>
-                                                <div class="say-pic">
-                                                    <div class="inline1 look-return"  ng-repeat="doc in item.docs"  >
-                                                        <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"   class="reply-other"  ng-click="pcPreView(doc.name, doc.uuid)"/></span>
-                                                        <div class="substr" title="{{doc.name}}" style="width:80px;margin-right:20px;">{{doc.name}}</div>
-                                                    </div>
+                                            <!-- 状态 -->
+                                            <div class="dashed" ng-if="item.status">更新状态为：<span style="color:#65c17d">"{{item.status}}"</span></div>
+                                            <!-- 评论 -->
+                                            <div class="dashed break-word text-format" ng-if="item.comment">{{item.comment}}</div>
+                                            <!-- 资料 -->
+                                            <div class="dashed comment-doclist" ng-if="item.docs.length">
+                                                <div class="inline" ng-repeat="doc in item.docs track by $index">
+                                                    <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
+                                                    <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
+                                                    <span><img style="width:75px;height:75px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"  ng-click="previewSign(doc.uuid,doc.name)"></span>
+                                                    <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
                                                 </div>
                                             </div>
+                                            <!-- 录音 -->
+                                            <div class="dashed" ng-if="item.speech.speechUrl">
+                                                <div><button type="button " class="play-audio DIY-btn F14" ng-click="play(item.speech.speechUrl)"><input type="hidden" ng-model="item.speech.speechUrl"/><img src="imgs/play.png">播放录音</button></div>
+                                            </div>
+                                            <!-- 时间 -->
+                                            <div style="text-align:right;padding:10px 0" ng-if="item.commentTime">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                                         </div>
-
-                                        <div class="break-word text-format say-time" style="clear:both;">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                                     </div>
                                 </div>
                             </div>
-                            <!--reply-->
-                            <!--<div class="reply row">-->
-                            <!--<div class="col-md-1 col-xs-2">-->
-                            <!--<p>回复:</p>-->
-                            <!--</div>-->
-
-                            <!--</div>-->
+                        </div>
                         </div>
 
                     </div>

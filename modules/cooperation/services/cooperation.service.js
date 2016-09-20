@@ -47,7 +47,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 
-    //获取项目部下工程列表（BE）
+    //获取项目部下工程列表
     this.projectList = function (params) {
         var delay = $q.defer();
         var url_join = url +'rs/co/projectList/'+ params;

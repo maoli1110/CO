@@ -38,6 +38,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         var coid = $stateParams.coid;
         Cooperation.getCollaboration(coid).then(function (data) {
             var currentMarkInfo = data.markerInfo.id;
+            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
             $scope.priority =  data.priority;
             if(data.priority == "I") {
@@ -378,9 +379,42 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             });
             
         }
+        // 返回上个页面
+        $scope.backDetail = function() {
+        	$state.go('coopdetail', {'coid':coid});
+        }
 
+      //最大化、最小化、还原、关闭
+        //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  
+        //窗口缩小
+        $scope.minimize = function () {
+            BimCo.SysCommand('SC_MINIMIZE');
+        }
 
+        //窗口放大还原
+        var num=0; 
+        $scope.max = true;
+        $scope.maxRestore = function ($event) {
+            if(num++ %2 == 0){ 
+                console.log('max');
+                $scope.max = false;
+                $scope.restore = true;
+                //对接pc
+                BimCo.SysCommand('SC_MAXIMIZE');
 
+            } else { 
+                console.log('restore');
+                $scope.max = true;
+                $scope.restore = false;
+                //对接pc
+                BimCo.SysCommand('SC_RESTORE');
+            }
+        }
+        
+        //窗口关闭
+        $scope.close = function () {
+            BimCo.SysCommand('SC_CLOSE');
+        }
 
     
 }]);
