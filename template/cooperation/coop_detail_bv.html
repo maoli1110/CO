@@ -46,8 +46,8 @@
                 </dl>
             </div>
             <div ng-show="isRevlentMore" style="margin-top:10px;">
-                <div class="show-more-btn" ng-click="showMorePerson()"  ng-show="!showMore">显示更多></div>
-                <div class="show-more-btn" ng-click="showMorePerson()" ng-show="showMore">收起< </div>
+                <div class="show-more-btn" ng-click="showMorePerson()"  ng-show="!showMore">显示更多</div>
+                <div class="show-more-btn" ng-click="showMorePerson()" ng-show="showMore">收起</div>
             </div>
         </div>
         
@@ -126,7 +126,7 @@
          <button class="DIY-btn" type="button" onclick="changeDocsStatus()">更改docs预览状态</button>
     </div> -->
     <!--侧边栏里面的按钮样式-->
-    <div class="btn_box_bv mobile-phone-turn" bv-operation style="position:fixed;">
+    <div class="btn_box_bv mobile-phone-turn" bv-operation style="position:fixed;" ng-click="getOperationList()">
         <i class="glyphicon glyphicon-menu-left show_btn" style="color:#fff;"></i>
         <i class="glyphicon glyphicon-menu-right hide_btn" style="color:#fff;"></i>
     </div>
@@ -147,7 +147,7 @@
                                 <img src="./imgs/icon/wc-icon.png" alt="" ng-if="item.operation == '通过'" style="padding:4px;">
                                 <img src="./imgs/icon/update-icon.png" alt="" ng-if="item.operation == '添加'" style="padding:4px;">
                                 <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" style="padding: 4px;">
-                                <img src="./imgs/icon/icon-sign.png" alt="" ng-if="item.operation == '签署'" style="padding:4px;">
+                                <img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="padding:4px;height:27px; padding: 7px 0 0px 6.5px;">
                             </div>
                             <div class="handle">
                                 <div class="menus-head">

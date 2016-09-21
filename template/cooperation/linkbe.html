@@ -21,25 +21,28 @@
                     </select>
                 </div>
                 <div class="select">
-                    <label>工程：</label>
+                    <label style="vertical-align:top">工程：</label>
                    <!--  <select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-change="switchPpid(projectOption)"></select> -->
-                     <select name="" id="" ng-change="switchPpid(projectOption)" ng-model="projectOption">
+                   <!--   <select name="" id="" ng-change="switchPpid(projectOption)" ng-model="projectOption">
                        <option value="{{item.ppid}}" ng-repeat="item in projectList.availableOptions track by $index">{{item.projectName}}</option>
                    </select>
-
-                   <div class="project-selected" ng-click="isCollapsed=!isCollapsed">
-                   <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px"><input type="text" ng-model="projectOption" ng-click="switchPpid(projectOption)">{{projectSelected.projectName}}</div>
-                   <div uib-collapse="!isCollapsed" class="project-list">
-                       <ul style="height:300px;overflow:auto;">
-                           <li ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
-                           <img src="imgs/icon/1.png" alt="" ng-if="item.projectType=='土建预算'" style="width:20px">
-                           <img src="imgs/icon/2.png" alt="" ng-if="item.projectType=='钢筋预算'" style="width:20px">
-                           <img src="imgs/icon/3.png" alt="" ng-if="item.projectType=='安装预算'" style="width:20px">
-                           <img src="imgs/icon/4.png" alt="" ng-if="item.projectType=='Revit'" style="width:20px">
-                           <img src="imgs/icon/5.png" alt="" ng-if="item.projectType=='Tekla'" style="width:20px">
-                           {{item.projectName}}</li>
-                       </ul>
-                   </div>
+ -->
+                    <div class="simulate-select">
+                        <div class="project-selected select" ng-click="isCollapsed=!isCollapsed">
+                           <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px"><input type="hidden" ng-model="projectOption" ng-click="switchPpid(projectOption)">{{projectSelected.projectName}}</div>
+                           <div uib-collapse="!isCollapsed" class="project-list">
+                               <ul style="height:300px;overflow:auto;">
+                                   <li ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
+                                   <img src="imgs/icon/1.png" alt="" ng-if="item.projectType=='土建预算'" style="width:20px">
+                                   <img src="imgs/icon/2.png" alt="" ng-if="item.projectType=='钢筋预算'" style="width:20px">
+                                   <img src="imgs/icon/3.png" alt="" ng-if="item.projectType=='安装预算'" style="width:20px">
+                                   <img src="imgs/icon/4.png" alt="" ng-if="item.projectType=='Revit'" style="width:20px">
+                                   <img src="imgs/icon/5.png" alt="" ng-if="item.projectType=='Tekla'" style="width:20px">
+                                   {{item.projectName}}</li>
+                               </ul>
+                           </div>
+                    </div>
+                   
 
                  <!--    <select  class="identify2 selectpicker2 be-project" name=""  ng-model="projectOption" ng-change="switchPpid(projectOption)" >
                         <option value="{{item.ppid}}"

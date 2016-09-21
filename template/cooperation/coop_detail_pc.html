@@ -5,12 +5,12 @@
         <div class="coop-detail inner">
             <header>
                 <div class="header-operation clearfix">
-                    <div ui-sref="cooperation" class="pull-left" style="">
+                    <div class="pull-left" style="" ng-click="backCooperation()">
                     	<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
                     	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
                     </div>
                     <div class="label_tools">
-                        <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+                        <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()">
                         <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
                             <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
                             <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
@@ -184,7 +184,7 @@
         </div>
             </div>
         <!--侧边栏里面的按钮样式-->
-        <div class="btn_box_pc" id="btn_box" pc-operation>
+        <div class="btn_box_pc" id="btn_box" pc-operation ng-click="getOperationList()">
             <span class="glyphicon glyphicon-menu-left show_btn"></span>
             <span class="glyphicon glyphicon-menu-right hide_btn"></span>
         </div>
@@ -205,7 +205,7 @@
                                     <img src="./imgs/icon/wc-icon.png" alt="" ng-if="item.operation == '通过'" style="padding:4px;">
                                     <img src="./imgs/icon/update-icon.png" alt="" ng-if="item.operation == '添加'" style="padding:4px;">
                                     <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" style="padding:4px;">
-                                    <img src="./imgs/icon/icon-sign.png" alt="" ng-if="item.operation == '签署'" style="padding:4px;">
+                                    <img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="padding:4px; padding: 6px 0 0 5.5px;">
                                 </div>
                                 <div class="handle">
                                     <div class="icon_man">

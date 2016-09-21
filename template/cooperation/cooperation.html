@@ -6,7 +6,6 @@
 	    overflow:auto;
 	}
 </style>
- 
 <header ng-include="'template/core/header.html'"></header>
 <div class="main-container rela">
 	<div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
@@ -101,7 +100,7 @@
 		<div class="addcoo absol overflow" ng-show="openSignal">
 			<!-- <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div> -->
 			<div class="row">
-				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background:url('./imgs/dyfilter/co-type_{{items.typeId}}.png') no-repeat"></a></div>
+				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background:url('./imgs/dyfilter/co-type_{{items.typeImg}}.png') no-repeat"></a></div>
 			</div>
 		</div>
 		<div class=" table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
@@ -127,7 +126,7 @@
 						<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.priority}}</td>
 						<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 						<td class="edit-click">{{item.updater}}</td>
-						<td ng-click="openDetail(item)" >
+						<td ng-click="openDetail(item)">
 							<!--<img src="imgs/icon/detail.png" alt="">-->
 							<span class="cop-add"></span>
 						</td>

@@ -61,12 +61,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 			}else if(treeItems[i].projectType=="Tekla"){
 				treeItems[i].imgsrc="imgs/icon/5.png";
 			};
-			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
+			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
         }
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
-			  $(".draft-box").hide();
-		   	  $("span[class*=ng-binding]").removeClass("menusActive");
+			  //$(".draft-box").hide();
+            //debugger;
+             $(".manage-menus").removeClass("menusActive");
+		   	  $("span").removeClass("menusActive");
 		        //获取当前元素
 		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
 		   	  $(" .data_count").hide();
@@ -81,6 +83,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $(".pro_list").hide();
         $(".goodlist_left").show();
         $(".prolist_left").hide();
+        $('.manage-menus').removeClass('menusActive');
+        $("span.spanwidth").removeClass("menusActive");
+
         if(!open){
         	Manage.getProjectInfoList(id).then(function (data) {
             	getimgurl(data,id);
@@ -201,6 +206,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     $(this).find(".panel-body").css("padding-bottom",'0px')
                 }
             })
+            $(".manage-menus").bind("click", function(){
+                $("manage-menus").removeClass("menusActive");
+                //获取当前元素
+                $(this).addClass("menusActive").siblings().removeClass("menusActive");
+            });
 
         });
 
@@ -242,10 +252,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $scope.trentsListInfo = data.data;
             });
         }
-        
-        
-        
-        
         //判断是否按下enter键进行搜索（动态工程列表页面）
         //工程列表enter键搜索
         $("#exampleInputName2").val();
@@ -255,7 +261,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $scope.getDeptId();
             }
         }
-
         //判断是否按下enter键进行搜索（动态工程动态列表页面）
         //工程动态列表enter键搜索
         $scope.keyUp = function(e){
@@ -266,8 +271,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 
             }
         }
-
-
         /*滚动加载只防止多次提交请求问题start*/
         //可以查询
         var searchFlag;
@@ -310,6 +313,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //通过侧边栏的子元素去调出动态列表
         $scope.trentsList = function(id) {
             //如过却换工程 scrollend需要初始化设置
+            $(".manage-menus").removeClass("menusActive");
             $scope.initScrollend(id);
         	if(!id){
         		console.log("无id,查询失败");

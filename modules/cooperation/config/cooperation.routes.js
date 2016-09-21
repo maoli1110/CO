@@ -16,6 +16,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 			params: {
 				'deptId': null,
 				'ppid': null,
+				'status':null,
 				'transignal': null
 			}
 		})
@@ -26,7 +27,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 			data: {
 				displayName: 'newcopper'
 			}
-			
 		})
 		.state('coopdetail', {
 			'url':"/coopdetail/?coid",
@@ -34,6 +34,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 			controller: 'coopdetailCtrl',
 			data: {
 				displayName: 'coopdetail'
+			},
+			params: {
+				'deptId':null,
+				'ppid':null,
+				'coid':null
 			}
 		}).state("editdetail",{
 			'url':"/editdetail/?coid",

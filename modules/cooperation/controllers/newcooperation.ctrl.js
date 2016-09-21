@@ -706,17 +706,25 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			var obj = JSON.stringify($scope.data);
 
 			Cooperation.createCollaboration(obj).then(function (data) {
+				debugger
 				var coid = data;
 				if(status==0){
+					$scope.data.deptId = 0;
 					alert('协作存入草稿箱成功！')
 				}else if(status==1){
+					if(!binds.length){
+						$scope.data.deptId = -1;
+					}	
 					alert('创建协作成功');
 				}
-
+				
 				$state.go('cooperation',{'deptId':$scope.data.deptId, 'ppid':$scope.data.ppid},{ location: 'replace'});
 				// $state.go('cooperation',{'transignal':$scope.data.deptId},{ location: 'replace'});
 				//上传之后将coid传给客户端
-				BimCo.UpLoadComponent(coid);
+				if($scope.data.bindType == 2){
+					debugger
+					BimCo.UpLoadComponent(coid);
+				}
 			},function(data) {
 				obj =  JSON.parse(data);
 				//if(status==1) {
@@ -764,10 +772,17 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	        		$scope.previewUrl = $sce.trustAsResourceUrl(result);
 	            },function (data) {
 	            	$scope.flag.isPreview = false;
-	            	$scope.previewUrl ='';
-	                var obj = JSON.parse(data);
-	                console.log(obj);
-	                alert(obj.message);
+					if($scope.flag.isPreview == false){
+						alert('该文件暂不支持预览');
+						return;
+					}else{
+						$scope.previewUrl ='';
+						var obj = JSON.parse(data);
+						console.log(obj);
+						alert(obj.message);
+					}
+
+
 	            });
             }
     }
@@ -778,22 +793,40 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
     //保存编辑
     $scope.saveOffice = function () {
-    	var isSuccess =  BimCo.SignSubmit(coid);
-        if(isSuccess){
-        	$scope.flag.isPreview = false;
-        } else {
-        	$scope.flag.isPreview = false;
-        	alert('保存失败！');
-        }
+		layer.confirm('是否保存当前文档？', {
+			btn: ['是','否'] //按钮
+		}, function(){
+			layer.closeAll();
+			var isSuccess =  BimCo.SignSubmit(coid);
+			if(isSuccess){
+				$scope.flag.isPreview = false;
+			} else {
+				$scope.flag.isPreview = false;
+				alert('保存失败！');
+			}
+		},function(){
+			return;
+		});
+    	//if(re){
+    	//	var isSuccess =  BimCo.SignSubmit(coid);
+	    //    if(isSuccess){
+	    //    	$scope.flag.isPreview = false;
+	    //    } else {
+	    //    	$scope.flag.isPreview = false;
+	    //    	alert('保存失败！');
+	    //    }
+    	//}
     }
 
     $scope.cancelEditOffice = function () {
-    	var re = confirm("是否保存当前文档？");
-    	if(!re){
-        	BimCo.SignCancel(currentEditOfficeUuid,currentSuffix);
-    	} else {
-    		$scope.saveOffice();
-    	}
+		layer.confirm('是否取消编辑当前文档？', {
+			btn: ['是','否'] //按钮
+		}, function(){
+			layer.closeAll();
+			BimCo.SignCancel(currentEditOfficeUuid,currentSuffix);
+		},function(){
+			return;
+		});
     }
 
     $scope.backDetail = function () {

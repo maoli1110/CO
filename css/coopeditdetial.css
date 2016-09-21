@@ -27,6 +27,20 @@ header{
 .edit-blank .dropdown-menu{
     width:100%;
 }
+.edit-blank  .btn-group{
+    width:53% !important;
+}
+.btn-group button{
+    background:#fff;
+    border:1px solid #ddd;
+}
+input{
+    background:#fff;
+}
+.edit-blank  .btn-group>button{
+    background:#fff;
+    border:1px solid #ddd;
+}
 header p{
     line-height:60px;
     /*color:#fff;*/
@@ -83,12 +97,18 @@ header .close{
     float:right;
 }
  .bootstrap-select.btn-group .dropdown-menu li a .glyphicon-stop + span{
-    word-break: normal;
-    width: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow: hidden;
+     word-break: normal;
+     white-space: nowrap;
+     word-wrap: break-word;
+     overflow: hidden;
+     text-overflow:ellipsis;
+     width:120px;
+     display:inline-block;
 }
+ .ng-scope .substr .mark-blank{
+     text-align:left;
+     width:120px !important;
+ }
 .proInfo .pro_man{
     /*padding-bottom: 10px;*/
     border-bottom:1px solid #ddd;
@@ -101,7 +121,7 @@ header .close{
 .proInfo .pro_man .basicInfo div>span{
     width:64px;
     display:inline-block;
-    text-align:center;
+    text-align:left;
 }
 .proInfo .pro_man .basicInfo div .edit-state{
     float: left;
@@ -247,12 +267,12 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     /*clear:both;*/
     margin:40px 0;
 }
+
 .Avatar .photo dl{
     display: inline-block;
     margin-right:38px;
     text-align:center;
     font-size:12px;
-    margin-left:-10px;
     vertical-align: top;
 }
 .Avatar .photo dl dt{
@@ -435,19 +455,34 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     margin:10px 0;margin-right:20px;
 }
 .reply .comment {
-    /*border: 1px solid #ddd;*/
     min-height: 70px;
     margin-bottom:10px;
     border-radius:5px;
-    width:auto !important;
+    padding:0 10px;
 }
 .reply .say .comment .say-content{
     padding-left:10px !important;
-    /*width:auto;border:1px solid #ddd;*/
 }
-/*.reply .say .comment .say-content >div:first-child{
-    word-wrap: break-word;
-}*/
+
+
+/*-------------reply---------------------------*/
+
+.reply .say .comment  .dashed {
+    border-bottom: 0.1rem dashed #ddd;
+    padding: 10px 0;
+}
+.reply .reply-state{
+    margin-bottom:10px;float:left;margin-right:20px;
+}
+.reply-other{
+    display: inline-block;
+}
+.reply .say .comment .say-content .look-return span > img{
+    width: 70px;
+}
+.reply .say .comment .say-content .look-return{
+    width: 80px;
+}
 /*-----------principal(个人信息)-----------------------------*/
 .principal{
     width:30%;
@@ -635,8 +670,8 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 }
 /*手机端*/
 html,body{
-    height:100%;
-    overflow-x:hidden;
+    /*height:100%;*/
+    /*overflow-x:hidden;*/
     /*scroll:no;//*/
 }
 .F16{
@@ -672,7 +707,8 @@ html,body{
 }
 /*协作主题*/
 .themer{
-    margin-left:0px;width:73.5%;
+    margin-left:0px;
+    width:78.5%;
     float: right;
 
 }
@@ -701,7 +737,7 @@ html,body{
 }
 .mobile-devices{
     height:100%;
-    overflow-x:hidden;
+    /*overflow-x:hidden;*/
     margin-bottom: 35px;
 }
 .mobile-devices input, textarea {
@@ -720,7 +756,7 @@ html,body{
     width: 100%;
     /*padding:0;*/
     position:relative;
-    overflow:hidden;
+    /*overflow:hidden;*/
     padding: 0 7px;
 }
 .mobile-main .photo-list{
@@ -765,6 +801,9 @@ html,body{
     border-bottom:1px solid #ddd;
     padding:0px;
 }
+.mobile-main .mobile-main-principal .row .col-xs-9 {
+    padding: 0;
+}
 .mobile-main .mobile-main-principal .mobile-uBasicInfo >.userInfo{
     margin-bottom:20px;
 }
@@ -799,11 +838,13 @@ html,body{
     height: 32px !important;
 }
 .mobile-devices .bootstrap-select.btn-group .dropdown-menu li a .glyphicon-stop + span{
-    word-break:normal;
-    width:auto;
-    white-space:pre-wrap;
+    word-break: normal;
+    white-space: nowrap;
     word-wrap: break-word;
     overflow: hidden;
+    text-overflow:ellipsis;
+    width:200px;
+    display:inline-block;
 }
 .mobile-main .mobile-reply .say-content .dashed {
     border-bottom: 0.1rem dashed #ddd;
@@ -842,7 +883,7 @@ html,body{
     -webkit-appearance: none !important;
 }
 .mobile-devices .b-tilte{
-   width:80px;float:left
+   width:65px;float:left
 }
 
 .mobile-main .mobile-job-descrition .mobile-textarea textarea{

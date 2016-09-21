@@ -4,11 +4,12 @@
  */
 angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams) {
-	
+	 console.log($stateParams);
     var firstflag = true; //筛选全选只加载一次标识
     var firstreackflag = true;//进入页面只加载一次定位
     $scope.scrollend = false;//停止滚动加载
-    var firstdeptid; //第一个项目部id
+    var firstdeptid; //第一个项目部id;
+	var searId;
     
     //查询列表初始值
     $scope.currentDate =  Cooperation.getCurrentDate();
@@ -16,7 +17,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     var tempCooperationList = [];
     var queryData = {};
   	queryData.count = 20;
-  	queryData.deptId = $stateParams.deptId?$stateParams.deptId:'';
+  	queryData.deptId = ($stateParams.deptId >= -1)?$stateParams.deptId:'';
   	queryData.groups=[];
   	queryData.modifyTime = '';
     queryData.modifyTimeCount = 0;
@@ -31,6 +32,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.projectInfoList = [];
     $scope.deptIdToken = 0;//防止点击项目部多次提交
     $scope.ppidToken = 0;//防止点击工程部多次提交
+    $scope.deptIdOpenToken = 0;//防止点击项目部关闭多次提交
     
     $scope.openNew = function () {
     	$scope.openSignal = true;
@@ -38,11 +40,29 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         $('.overlay').css('top','0px');
         $('.overlay').css('height','calc(100vh - 65px)');
         $('.overlay').css('display','block');
+        angular.forEach(data,function(value,key) {
+          if(value.name == '问题整改'){
+            data[key].typeImg = 1;
+          } else if(value.name == '阶段报告'){
+            data[key].typeImg = 2;
+          }else if(value.name == '方案报审'){
+            data[key].typeImg = 3;
+          }else if(value.name == '方案会签'){
+            data[key].typeImg = 4;
+          }else if(value.name == '现场签证'){
+            data[key].typeImg = 5;
+          } else if(value.name == '图纸变更'){
+            data[key].typeImg = 6;
+          }
+        });
+        debugger
     		$scope.typeList = data;
     	});
     }
     
 	$scope.link = function(id){
+		//searId =id;
+		console.info('searId',searId)
         $scope.initScrollend(id);
 		$scope.projectInfoList = [];
 		queryData.groups = [];
@@ -61,6 +81,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	
 	$scope.drafts = function(id){
+		searId = id;
+		console.info('searId',searId)
       $scope.initScrollend(id);
 			$scope.projectInfoList = [];
 			queryData = {};
@@ -127,6 +149,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		firstdeptid = data[0].deptId;//确定第一个deptid
     		$scope.deptIdToken = 0;
     	}
+      console.log(queryData.deptId);
     });
     
     function getimgurl(treeItems,deptId){
@@ -142,11 +165,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			}else if(treeItems[i].projectType=="Tekla"){
 				treeItems[i].imgsrc="imgs/icon/5.png";
 			};
-			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'>"+treeItems[i].projectName+"&nbsp;("+treeItems[i].count+")</span>")
+			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
 		}
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
 			  $(".draft-box").hide();
+           $('.manage-menus').removeClass('menusActive');
 		   	  $("span[class*=ng-binding]").removeClass("menusActive");
 		        //获取当前元素
 		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
@@ -154,10 +178,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			  $scope.getCollaborationList($(this).attr("id").split("_")[1]);
 		});
 	}
-    
+
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
       $('.panel-collapse').find('span').removeClass('menusActive');
+       var ppid = queryData.ppid;
    		//初始化数据
    		$scope.scrollend = false;
         queryData.modifyTime = '';
@@ -171,11 +196,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if(!open){
 			Cooperation.getProjectList(deptId).then(function (data) {
 				getimgurl(data,deptId);
-				if(queryData.ppid){
-					$("span[id='projectbutton_"+queryData.ppid+"']").click();
+				if(ppid){
+					$("span[id='projectbutton_"+ppid+"']").click();
 				}
 			});
+		}else{
+			$scope.deptIdOpenToken = 1;
 		}
+
 		if(!queryData.deptId){
 			queryData.deptId  = deptId;
 		}
@@ -183,13 +211,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if(queryData.deptId != deptId ){
 			queryData.deptId  = deptId;
 		}
-	    $scope.cooperationList = []; 
-	    Cooperation.getCollaborationList(queryData).then(function (data) {
-	    	$scope.cooperationList = data;
-	    	$scope.deptIdToken = 1;
-	    });
-		$(" .data_count").hide();
-
+    if(!ppid){
+      $scope.cooperationList = []; 
+      Cooperation.getCollaborationList(queryData).then(function (data) {
+        $scope.cooperationList = data;
+        $scope.deptIdToken = 1;
+      });
+    $(" .data_count").hide();
+    }
    	}
    
    	
@@ -199,8 +228,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
  	var pollingFlag = true;
  	var checkSearchInterval;
  	$scope.addMoreData = function (){
-
- 		if($scope.deptIdToken == 0){
+    //debugger
+ 		if($scope.deptIdToken == 0 ||  $scope.ppidToken == 1 || $scope.deptIdOpenToken == 1) {
+ 			$scope.ppidToken = 0;
+ 			$scope.deptIdOpenToken = 0;
  			return;
  		}
  		setSearchFlagFalse();
@@ -242,7 +273,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	
         //默认获取第一个项目部列表的工程列表
         if(!queryData.deptId) {
-            //queryData.deptId = firstdeptid;
+            queryData.deptId = firstdeptid;
             queryData.searchType = 0;
         }
         //第一次queryData.modifyTime为空
@@ -290,12 +321,18 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	})
 	
 	$scope.$on('ngRepeatFinishedDept',function(ngRepeatFinishedEvent){
+    console.log(queryData.ppid);
 		if(firstreackflag){
 			//获取列表里面第一个项目部
-			if(queryData.deptId){
+			if(queryData.deptId && queryData.deptId!=0 && queryData.deptId!=-1){
 				$("#deptbutton_"+queryData.deptId).click();
-			}else{
+			}else if(queryData.deptId==-1){
+        $('#no-relate').click();
+      }else if(queryData.deptId==0){
+        $('#draft').click();
+      }else{
 				$("#deptbutton_"+firstdeptid).click();
+         $("#deptbutton_"+firstdeptid).parent().addClass('menusActive');
 			}
 			firstreackflag = false;
 		}
@@ -303,9 +340,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	
 	//删除草稿箱的内容
 	$scope.deleteProject = function(coid){
-		Cooperation.removeDraft(coid).then(function(data){
-			window.location.reload();
-		})
+		layer.confirm('是否删除该协作？', {
+			btn: ['是','否'] //按钮
+		}, function(){
+			layer.closeAll();
+			Cooperation.removeDraft(coid).then(function(data){
+			})
+			$scope.drafts(0);
+		});
+
 	}
 	
    	//点击工程获取协同列表
@@ -313,6 +356,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	  if(queryData.ppid==ppid && queryData.modifyTimeCount != 1){
 		  return;
 	  }else{
+		  //此处是防止滚动加载到最后，在切换工程的时候，$scope.deptIdToken=1导致加载两次
+		  if($scope.scrollend == true){
+			  $scope.deptIdToken = 0;
+		  }
+		  $scope.ppidToken = 0;
 		  $scope.scrollend = false;
           queryData.modifyTime = '';
           queryData.modifyTimeCount = 0;
@@ -322,7 +370,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	  $scope.typeStatStr=[];
    	  Cooperation.getCollaborationList(queryData).then(function (data) {
    		   $scope.cooperationList = data;
-   		   isSuccuess =true;
+   		   $scope.ppidToken = 1;
    	  });
    }
     
@@ -496,15 +544,26 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    	}
 
    	//根据搜索框搜索
+	$scope.getCollaborationListFun = function(){
+		queryData.searchKey = $scope.searchkey;
+		queryData.modifyTime = 0;
+		Cooperation.getCollaborationList(queryData).then(function (data) {
+			$scope.cooperationList = data;
+		});
+	}
    	$scope.inputSearch = function () {
-   		if(queryData.deptId==""){
-   			queryData.deptId = firstdeptid;
-   		}
-   		queryData.searchKey = $scope.searchkey;
-   		queryData.modifyTime = 0;
-   		Cooperation.getCollaborationList(queryData).then(function (data) {
-   			$scope.cooperationList = data;
-   		});
+		if(searId ==0){
+			queryData.deptId=0;
+			$scope.getCollaborationListFun();
+		}else if(searId ==-1){
+			queryData.deptId=-1;
+			$scope.getCollaborationListFun();
+		}else{
+			if(queryData.deptId==""){
+				queryData.deptId = firstdeptid;
+			}
+			$scope.getCollaborationListFun();
+		}
    	}
 
 	$scope.getCoCountInfo=[];

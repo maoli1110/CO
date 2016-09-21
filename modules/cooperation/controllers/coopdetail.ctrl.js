@@ -4,6 +4,7 @@
  */
 angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Manage','$sce',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Manage,$sce) {
+		console.log('detail',$stateParams);
 		var currentEditOfficeUuid = '';
 	    var currentSuffix = '';
 	    var currentReact = '45,100,1080,720';
@@ -352,13 +353,16 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		}
 
 		//侧边栏获取动态列表
-		var getOperationList = function () {
-			Cooperation.getOperationList(coid).then(function (data) {
-				$scope.operationList = data;
-			});
+		var trendflag = true;
+		$scope.getOperationList = function() {
+			if(trendflag){
+				Cooperation.getOperationList(coid).then(function (data) {
+                	$scope.operationList = data;
+          		});
+			}
+			trendflag = false;
 		}
-		getOperationList();
-
+		
 		//更新评论
 
         $scope.updateComment = function () {
@@ -457,14 +461,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			}
 		}	
 
-	    $scope.backDetail = function () {
-	    	if($scope.flag.isPreview && $scope.flag.isApprove){
-	    		BimCo.SignCancel();
-	    		BimCo.CancelSubmitAll(); 
-	    	}
-	    	$scope.flag.isPreview = false;
-	    	$scope.flag.isPdfsign = false;
-	    }
+
 		//pc对接
 		//进入页面
 		$scope.previewSign = function (uuid,docName) {
@@ -537,34 +534,34 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    		BimCo.SignSubmit();
 	    		//客户端正式提交
 	    	 	backJson = BimCo.SubmitAll();
-	    	}
-	    	if(backJson){
-	    		backJson = JSON.parse(backJson);
-	    	}
-	    	if(backJson){
-				angular.forEach(backJson,function(value, key){
-					if(!value){
-						return;
-					} else {
-						var unit = {};
-						unit.uuid = key;
-						unit.modifys = value.PdfModify;
-						modifyDocs.push(unit);
-					}
-        		});
-	    	}
-	    	var params = {
-				coid:coid,
-				docs:modifyDocs,
-				operationType:4
-			}
-	    	Cooperation.doCollaboration(params).then(function (data) {
-				$scope.flag.isPreview = false;
-			},function (data) {
-				alert(data.data.message);
-			});
 
-
+	    	 	if(backJson){
+		    		backJson = JSON.parse(backJson);
+		    	}
+		    	if(backJson){
+					angular.forEach(backJson,function(value, key){
+						if(!value){
+							return;
+						} else {
+							var unit = {};
+							unit.uuid = key;
+							unit.modifys = value.PdfModify;
+							modifyDocs.push(unit);
+						}
+	        		});
+		    	}
+		    	var params = {
+					coid:coid,
+					docs:modifyDocs,
+					operationType:4
+				}
+		    	Cooperation.doCollaboration(params).then(function (data) {
+					$scope.flag.isPreview = false;
+				},function (data) {
+					$scope.flag.isPreview = false;
+					alert(data.data.message);
+				});
+		    	}
 	    }
 
 	    //取消
@@ -631,5 +628,19 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    	}
 	    }
 
+	    //预览界面跳转回详情
+	    $scope.backDetail = function () {
+	    	if($scope.flag.isPreview && $scope.flag.isApprove){
+	    		BimCo.SignCancel();
+	    		BimCo.CancelSubmitAll(); 
+	    	}
+	    	$scope.flag.isPreview = false;
+	    	$scope.flag.isPdfsign = false;
+	    }
+	    
+	    //详情页面跳转回homepage(cooperation)
+	   	$scope.backCooperation = function (){
+	   		$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId},{ location: 'replace'});
+	   	}
 	 
 }]);

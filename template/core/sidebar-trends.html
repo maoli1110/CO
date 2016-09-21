@@ -5,9 +5,9 @@
     <uib-accordion close-others="true"   class="manage_title">
         <div uib-accordion-group class="panel-default pro-list-name"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index" profit-dept>
           <uib-accordion-heading  class="sideText" >
-          <div>
-              <span  id="deptbutton_{{deptInList.deptId}}" class="substr-sideMenus"  style="color:#fff;max-width:130px;display:inline-block !important;" title="{{deptInList.deptName}}"  ng-click="childItems(deptInList.deptId,$event,status.open)" >{{deptInList.deptName}}</span>
-              <i style="display:inline;margin-left:10px;font-style:normal">({{deptInList.count}})</i>
+          <div class="manage-menus" profit>
+              <span  id="deptbutton_{{deptInList.deptId}}" class="substr-sideMenus"  style="max-width:142px;margin-right:3px;display:inline-block !important;" title="{{deptInList.deptName}}"  ng-click="childItems(deptInList.deptId,$event,status.open)" >{{deptInList.deptName}}</span>
+              <i style="display:inline;font-style:normal">({{deptInList.count}})</i>
               <b class="menus-icon"></b>
           </div>
           </uib-accordion-heading>

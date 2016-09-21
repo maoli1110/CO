@@ -381,7 +381,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
         // 返回上个页面
         $scope.backDetail = function() {
-        	$state.go('coopdetail', {'coid':coid});
+        	$state.go('cooperation', {'coid':coid});
         }
 
       //最大化、最小化、还原、关闭

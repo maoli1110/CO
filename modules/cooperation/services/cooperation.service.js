@@ -64,7 +64,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getProjectList = function(params){
         var delay = $q.defer();
         var url_join = url+'rs/co/projectInfoList/'+params;
-        $http.get(url_join,{cache:true}).success(function(data){
+        $http.get(url_join).success(function(data){
             delay.resolve(data)
         }).error(function(err){
             delay.reject(err)

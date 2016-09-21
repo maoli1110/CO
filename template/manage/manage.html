@@ -104,10 +104,10 @@
                                     <p><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了资料<b>{{getTrents.updateTime}}</b></p>
                                     <div class="bx-controls" >
                                         <div class="img_list actives" ng-repeat = "items in getTrents.docs">
-                                            <div ng-if="getTrents.thumbnailUrl">
-                                                <img ng-src="{{getTrents.thumbnailUuid}}" alt="">
+                                            <div ng-if="items.thumbnailUrl" class="tools_bar" style="background:url({{items.thumbnailUrl}}) no-repeat;background-size:cover">
+                                                <!--<img ng-src="{{items.thumbnailUrl}}" alt="" style="margin-left:0;">-->
                                             </div>
-                                            <div ng-if="getTrents.thumbnailUuid==''||getTrents.thumbnailUuid==null" class="tools_bar" >
+                                            <div ng-if="items.thumbnailUuid==''||items.thumbnailUuid==null" class="tools_bar" >
                                                 <!--文件类型-->
                                                 <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
                                                 <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">

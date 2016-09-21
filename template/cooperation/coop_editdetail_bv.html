@@ -95,7 +95,7 @@
             <div class="means-con col-xs-10">
                 <dl class="means-list" ng-repeat="item in collaList.docs" profit> 
                     <dt class="rela means-down">
-                        <img ng-src="{{item.imgsrc}}"  ng-click="previewDocs(item.uuid)">
+                        <img ng-src="{{item.imgsrc}}">
                     </dt>
                     <dd title="{{item.name}}">{{item.name}}</dd>
                 </dl>
@@ -122,7 +122,7 @@
                                     <div class="inline" ng-repeat="doc in item.docs track by $index">
                                         <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                       <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                        <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;" ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>
+                                        <span><img style="width:50px;height:50px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"></span>
                                         <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
                                     </div>
                                 </div>
