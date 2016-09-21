@@ -942,6 +942,20 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if($stateParams.transignal == 'be') {
 	    	$scope.openNew();
 		}
+
+    $(window).resize(function() {
+    // $("#content-b1").mCustomScrollbar("update");
+    // $scope.$apply();
+    debugger
+ var sideHeight = $(window).height()-124;
+    $("#content-b1").mCustomScrollbar({
+                    setHeight:sideHeight,
+                    theme:"minimal"
+                });
+
+
+
+});
 	}]);
 
 /**
