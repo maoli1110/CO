@@ -148,10 +148,31 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				//全部打开
 				treeObj.expandAll(true);
 			});
-			
+
+			//选中节点的组合数组
+			var selectedNodes = [];
 			function onCheck (event, treeId, treeNode) {
-				var treeObj = $.fn.zTree.getZTreeObj("tree1");
-				selectedNodes = treeObj.getCheckedNodes(true);
+				// var treeObj = $.fn.zTree.getZTreeObj("tree1");
+				// selectedNodes = treeObj.getCheckedNodes(true);
+				if(treeNode.checked){
+					var signalSelected = getParentNodeList(treeNode).concat(treeObj);;
+				}
+
+				selectedNodes.push(signalSelected);
+		 	}
+
+		 	
+		 	//获取父节点的集合
+		 	function getParentNodeList(treeObj){
+		 		var pNodeList = [];
+		 		if(treeObj==null) return;
+
+		 		var pNode = treeObj.getParentNode();
+		 		if(pNode!=null){
+		 			pNodeList.push(pNode);
+		 			pNode = getParentNodeList(pNode);
+		 		}
+		 		return pNodeList;
 		 	}
 	 	}
 
@@ -191,6 +212,26 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 			});
 	 			console.log(unit);
 	 		});
+
+
+	 		var selectedCategory = []; //组合数据
+	 		angular.forEach(selectedNodes,function(value,key){
+	 			angular.forEach(value,function(value1,key1){
+	 				var unit=[];
+	 				if(value1.type === 0){
+	 					unit.floor = value1.value;
+	 				} else if(value1.type === 1){
+	 					unit.spec = value1.value;
+	 				}else if(value1.type ===2){
+	 					unit.compClass = value1.value;
+	 				} else if(value1.type ===3){
+	 					unit.subClass = value1.value;
+	 				}
+	 				unit.ppid = ppid;
+	 				unit.projType= projType;
+	 				selectedCategory.push(unit);
+	 			});
+	 		})
 	 		dataList.selectedCategory = [];
 	 		angular.forEach(unit, function (value, key) {
 	 				a.ppid = ppid;

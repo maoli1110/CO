@@ -123,7 +123,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getProjectTree = function () {
         var delay = $q.defer();
         var url_join = url + 'rs/co/projectTree';
-        $http.get(url_join)
+        $http.get('tree.json')
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {

@@ -1,6 +1,6 @@
 
 <div class="ng-scope menusFont14 currentTime system-time">{{serviceTime.sysTime}}<span class="">{{serviceTime.sysWeek}}</span></div>
-<div  height="200px" style="overflow:hidden" class="manage_bar" copy-radio  is-bar-shown="barShown" ng-scrollbar rebuild-on-resize>
+<div  height="200px" class="manage_bar"  class="scrollme" copy-radio  is-bar-shown="barShown" ng-scrollbar rebuild-on-resize>
 	<uib-accordion close-others="true" class="sider-bar">
 	    <div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="item in deptInfoList track by $index"  profit-dept>
 	       <uib-accordion-heading class="sideText">
