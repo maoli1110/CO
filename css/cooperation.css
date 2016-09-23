@@ -1,19 +1,31 @@
-/*@media screen and (min-width: 320px) {*/
-	/*.play-audio{*/
-		/*background: url("../imgs/play.png") 112px center no-repeat rgb(101, 193, 125);*/
-	/*}*/
-/*}*/
-/*@media screen and (min-width:374px) and(max-width: 375px) {*/
-	/*.play-audio{*/
-		/*background: url("../imgs/play.png") 138px center no-repeat rgb(101, 193, 125);*/
-	/*}*/
-/*}*/
-/*@media screen and (min-width:413px) and(max-width: 414px) {*/
-	/*.play-audio{*/
-		/*background: url("../imgs/play.png") 160px center no-repeat rgb(101, 193, 125);*/
-	/*}*/
-/*}*/
-/*form(绛涢�夋)*/
+@media screen and (min-width:1080px) {
+	.data_every .data_graph{
+		margin:0px !important;
+	}
+	.data_list .data_every .data_titleInfo{
+		min-width:122px;
+		padding:0 !important;
+		margin-top:100px;
+	}
+	.count-echart{
+		margin-top:33px;
+	}
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	height:100%;
+	width:100%;
+}
+canvas{
+	display:block;
+}
+.main-container{
+	min-width:1080px;
+}
 .comboBox{
 	background:#fff;
 }
@@ -45,7 +57,7 @@
 	margin-top:20px;
 }
 .comboBox .filter-table .tabs{
-	 margin-bottom:35px;
+	 margin-bottom:20px;
  }
 
 .comboBox .filter-table .tabs > div{
@@ -71,7 +83,7 @@
 	background:#666;
 }
 .comboBox .tabs .check-sub label {
-	margin-right: 10px;
+	margin-right: 20px;
 	width: 90px;
 /*	background: green;*/
 	text-align: center;
@@ -202,13 +214,18 @@
 	margin-top: -34px;
 }
 .comboBox .filter-table .tabs .checkbox {
-	/*width: 100px;*/
     margin-left: 25px;
 }
 .comboBox .filter-button {
 	text-align: center;
 	background:#fff;
 	padding-bottom:10px;
+}
+.combo-typeAll{
+	float:left;
+}
+.first-list{
+	margin-left:161px;
 }
 /*data_count(鏁版嵁缁熻椤甸潰)*/
 
@@ -219,8 +236,9 @@
 /*data_count*/
 .data_count{
 	display:none;
-	height:auto;
 	position:relative;
+	height:824px;
+	min-width:800px;
 }
 .data_count .data_Totle{
 	width:100%;
@@ -254,15 +272,29 @@
 .data_every{
 	width:50%;
 	float:left;
+	/*height:50%;*/
+	height:412px;
 }
+.count-echart{
+	vertical-align:middle;
+	display:inline-block;
+	width:100%;
+	/*margin-top:56px;*/
+}
+.count-echart+span{
+	display:inline-block;
+	vertical-align:middle;
+	width:0%;
+	height:102%;
 
+}
 
  .data_list .data_every .data_titleInfo{
 	width: 25%;
 	height: 70%;
 	float: right;
-	margin-top: 47px;
-	margin-right:15px;
+	margin-top: 64px;
+	margin-right:12px;
 
 }
  .data_every .data_titleInfo ul h4{
@@ -275,20 +307,21 @@
 	background:#F9F9FA;
 	border:1px solid #ddd;
 	margin-bottom:20px;
+	 /*margin-right:10px;*/
 }
  .data_every .data_titleInfo ul li{
 	line-height:40px;
-	padding:0 30px;
+	padding:0 10px;
+	 /*cursor: pointer;*/
 }
 .data_every .data_titleInfo ul li>p{width: 100px;}
  .data_every .data_titleInfo ul li:last-child{
 	padding-bottom:20px;
 }
  .data_every .data_graph{
-	width:320px;
-	height:320px;
+	 /*width:100%;*/
+	/*height:360px;*/
 	float:left;
-	margin-left:60px;
 }
 /*data_titleInfo锛堝唴鍦堢殑棰滆壊锛�*/
  .data_count .data_every .data_titleInfo.first ul li:nth-of-type(1) span{
@@ -320,16 +353,12 @@
     margin-right: 10px;
 }
 /*data_graph*/
-.data_count .data_count .data_graph{
-	width:300px;
-	height:300px;
-}
 /*缁熻椤甸潰鐨勬í绔栫嚎*/
 .transverse-line{
-	border:1px solid #ddd;
+	border-bottom:1px solid #ddd;
 }
 .long-line{
-	position:absolute;left:50%;top:0;border-right:1px solid #ddd;height:calc(100%)
+	position:absolute;left:50%;top:0;border-right:1px solid #ddd;height:calc( 100% )
 }
 /*琛ㄦ牸鍒犻櫎鍒�*/
 .icon-remove{
@@ -340,9 +369,9 @@
 	display:none;
 	line-height: 39px !important;
 }
-.draft-box{
+/*.draft-box{
 	display:none;
-}
+}*/
 .icon-del-tr{
 	width:20px;height:20px;display:block;background:url(../imgs/icon/new-icon.png) no-repeat center 0 ;
 	margin:0 auto;
@@ -350,5 +379,32 @@
 .icon-del-tr:hover{
 	opacity:0.6;
 }
+.comboBox .type-check{
+	margin-top:0;
+}
+.left .btn.btn-default.cop-filter{
+	margin-top: 0px;
+	padding: 2px 12px;
+	height: 30px !important;
+	display: inline-block;
+	background: #69C080;
+	color: #fff;
+	border: 0;
+	border-radius: 5px;
+	line-height:24px ;
+}
+.left .btn.btn-default.cop-filter:hover{
+	background:#55ad6c;
+}
+.left .btn.btn-default.cop-filter:active{
+	background:#4a965e;
+}
+.coop-searchKey{
+	height:30px !important;
+}
 
-
+.filter-active{
+	border: 1px solid #69C080 !important;
+	background: #fff !important;
+	color: #000 !important;
+}

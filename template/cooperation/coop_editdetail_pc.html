@@ -24,7 +24,7 @@
 	                <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation" href="#/cooperation"></span> -->
 	            </div>
             </header>
-            <div class="container">
+            <div class="container clearfix">
                 <div class="main_content clearfix">
                     <!--content_left(中间内容的左边)-->
                     <div class="content_left clearfix">
@@ -32,12 +32,12 @@
                             <div class="pro_man clearfix row">
                                 <div class="coop-theme row clearfix col-md-12">
                                     <span class="theme-title F16" style="width:80px;text-align:left;">主题：</span>
-                                    <input type="text" style="margin-left:30px;" class="int-style" ng-model="collaList.name" ng-change="" maxlength="50">
+                                    <input type="text" style="margin-left:30px;" class="int-style F16" ng-model="collaList.name" ng-change="" maxlength="50">
                                 </div>
                                 <div class="col-xs-5 col-md-5 basicInfo">
                                     <div>
                                         <span class="F16" style="width:80px;text-align:left;">负责人：</span>
-                                        <input type="text" class="int-style" ng-model="collaList.collaborator" disabled />
+                                        <input type="text" class="int-style F16" ng-model="collaList.collaborator" disabled />
                                     </div>
                                     <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="Avatar row pc-relate">
                                     <div class="col-xs-3 col-md-1">
-                                        <p class="F16">相关人物:</p>
+                                        <p class="F16">相关人:</p>
                                     </div>
                                     <div class="photo col-xs-8 col-md-10">
                                         <dl class="photoImg" style="text-align:center;"  ng-repeat="item in collaList.relevants">
@@ -183,10 +183,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="footer footer-commom">
-        <button type="button" class="btn btn-default" ng-click="ok()" style="width:143px;height:34px;">确定</button>
-        <button type="button" class="btn btn-default " ui-sref="coopdetail({coid: transcoid})" style="width:143px;height:34px;">取消</button>
-    </div>
+         <div class="footer footer-commom">
+            <button type="button" class="btn btn-default" ng-click="ok()" style="width:143px;height:34px;">确定</button>
+            <button type="button" class="btn btn-default " ui-sref="coopdetail({coid: transcoid})" style="width:143px;height:34px;">取消</button>
+        </div>
 
-</div>
+    </div>
+   

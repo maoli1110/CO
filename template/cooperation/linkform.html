@@ -18,7 +18,7 @@
                     <tr ng-repeat="row in templateNode track by $index" class="tab-tr" profit>
                         <td >
                             <label>
-                                <input style="vertical-align:middle" type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"><span class="substr" title="{{row.name}}" style="display:inline-block;margin-top:11px;max-width:300px;">{{row.name}}</span>
+                                <input style="vertical-align:middle" type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"><span class="substr" title="{{row.name}}" style="display:inline-block;margin-top:11px;max-width:300px;">{{row.name}}.{{row.suffix}}</span>
                                 <span class="link-check-state"></span>
                             </label>
                         </td>

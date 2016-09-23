@@ -36,11 +36,19 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.checksignal = false;
         //协作详情数据
         var coid = $stateParams.coid;
+        var allRelevants = [];
+        var sliceRlevants = [];
         Cooperation.getCollaboration(coid).then(function (data) {
             var currentMarkInfo = data.markerInfo.id;
-            console.info('标识Id',currentMarkInfo)
+//            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
             $scope.priority =  data.priority;
+            allRelevants = _.cloneDeep(data.relevants);
+            sliceRlevants = _.cloneDeep(data.relevants.slice(0,8));
+            if(data.relevants.length>8){
+                $scope.collaList.relevants =sliceRlevants;
+                $scope.isRevlentMore = true;
+            }
             if(data.priority == "I") {
                 $scope.priority = "1";
             } else if (data.priority == "II") {
@@ -58,7 +66,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $scope.deadlineStyle = 'red';
             }
 
-            angular.forEach(data.relevants, function (value, key) {
+            angular.forEach(allRelevants, function (value, key) {
                 var unit = {};
                 unit.username = value.username;
                 unit.needSign = value.needSign;
@@ -381,7 +389,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
         // 返回上个页面
         $scope.backDetail = function() {
-        	$state.go('cooperation', {'coid':coid});
+        	$state.go('coopdetail', {'coid':coid});
         }
 
       //最大化、最小化、还原、关闭
@@ -414,6 +422,18 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //窗口关闭
         $scope.close = function () {
             BimCo.SysCommand('SC_CLOSE');
+        }
+
+        //显示更多相关人
+        $scope.showMore = false;
+        $scope.showMorePerson = function() {
+            if(!$scope.showMore){
+                $scope.collaList.relevants = allRelevants;
+                $scope.showMore = true;
+            } else {
+                $scope.collaList.relevants = sliceRlevants;
+                $scope.showMore = false;
+            }
         }
 
     

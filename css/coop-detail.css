@@ -271,6 +271,12 @@ a:hover{color:#c00;text-decoration:underline;}
     font-size:12px;
     margin-left:0px;
 }
+.photo.col-xs-8.col-md-10{
+    /*padding:0;*/
+}
+.col-xs-11{
+    padding:0;
+}
 .Avatar .photo dl dt{
     /*width:50px;*/
     /*height: 50px;*/

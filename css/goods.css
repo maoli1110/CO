@@ -10,6 +10,9 @@ body {
     position:relative;
    
 }
+@media screen and (min-width:1080px){
+
+}
 /*---------------------------header--------------------------------*/
 
 .trends .header{
@@ -171,7 +174,7 @@ body {
 }
 .trends .pro_list{
     overflow:auto;
-    min-width:1200px;
+    min-width:820px;
     display:none;
     /*background:#F4F2F2;*/
 }
@@ -211,11 +214,11 @@ body {
 
 }
 .bx-controls{
-    margin-left:68px;
+    /*margin-left:68px;*/
 }
 /*-------------------------*/
 .trends .pro_list .list li p{
-    width:94%;
+    width:100%;
     display:inline-block;
     /*margin-top:10px;*/
     margin-bottom:26px;
@@ -230,7 +233,9 @@ body {
     float:right;
     font-weight:normal;
 }
-
+.trents-list{
+    width:90%;
+}
 .trends .pro_list .list li .img_list{
     width:80px;
     /*height:80px;*/

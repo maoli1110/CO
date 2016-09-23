@@ -8,16 +8,16 @@
 		<header>
 	        <div class="header-operation clearfix">
 	        	<div ui-sref="cooperation" class="pull-left" style="margin-top:10px;">
-                   	<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
+                   	<span class="" style="margin-left:15px;"><img ng-src="imgs/call_back.png" alt=""></span>
                    	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
                 </div>
 	            <div class="label_tools">
-	                <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()">
+	                <img ng-src="imgs/icon/icon-small.png" alt="" ng-click="minimize()">
 	                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-	                    <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
-	                    <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+	                    <img ng-src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
+	                    <img ng-src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
 	                </div>
-	                <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+	                <span class="change-window"><img ng-src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
 	            </div>
 	        </div>
 	        <div class="header-title">
@@ -34,7 +34,10 @@
 				<div class="col-xs-6 left">
 					<div class="row">
 						<label for="" class="col-xs-2">主题：</label>
-				  		<div class="inline col-xs-6"><input type="text" class="form-control left-area new-name" id="" placeholder="" ng-model="coopname" required="" ng-maxlength="50" name="topic"></div>
+				  		<div class="inline col-xs-6">
+				  			<input type="text" class="form-control left-area new-name" id="" placeholder="" 
+				  				ng-model="coopname" required="" ng-maxlength="50" name="topic" ng-click="changeTopic()">
+				  		</div>
 					</div>
 					<div class="row">
 						<label for="" class="col-xs-2">优先级：</label>
@@ -63,7 +66,7 @@
 					<div class="row">
 						<label for="" class="col-xs-3 align-right">负责人：</label>
 						<dl ng-repeat="item in collaList.relevants" class="photoImg">
-							<dt><img src="{{item.avatar}}"/></dt>
+							<dt><img ng-src="{{item.avatar}}"/></dt>
 							<dd class="substr" style="width:100px;">{{item.username}}</dd>
 						</dl>
 					    <div class="inline col-xs-7">
@@ -110,7 +113,7 @@
 							<div ng-show="linkCategoty1" style="line-height:37px;">
 								<span>与构件类别相关：{{data.linkProjectDptName}}项目部 -- {{data.linkProjectName}}工程</span>
 							</div>
-							<label style="display:inline-block"><img src="imgs/delete.png" alt="" class="new-del" ng-click="removeLink()"></label>
+							<label style="display:inline-block"><img ng-src="imgs/delete.png" alt="" class="new-del" ng-click="removeLink()"></label>
 						</div>
 
 					</div>
@@ -119,7 +122,7 @@
 			<div class="row mt-15 mx">
 				<label for="" class="col-xs-1">描述：</label>
 				<div class="col-xs-11" >
-					<textarea id="desc" rows="8" ng-model="desc" style="width:100%;padding:0 13px;" ng-change="changeDesc()"  ng-maxlength="250"></textarea>
+					<textarea id="desc" rows="8" ng-model="desc" style="width:100%;padding:0 13px;" ng-click="changeDesc()"  ng-maxlength="250" ></textarea>
 				</div>
 			</div>
 			<div class="row mt-15 relative-man">
@@ -128,7 +131,7 @@
 					<!-- <div class="inline" style="border-right:1px solid #ccc;"> -->
 						<ul class="inline rela relative-ion" ng-repeat="item in related.sign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
-							<img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+							<img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
 							<span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span>
 							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
 						</ul>
@@ -136,7 +139,7 @@
 					<!-- <div class="inline"> -->
 						<ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
-							<img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+							<img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
 							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
 						</ul>
 					<!-- </div> -->
@@ -146,20 +149,19 @@
 			<!-- upload -->
 			<div class="row upload">
 				<label for="" class="col-xs-1">照片：</label>
-				<div class="upload-img col-xs-11">
+				<div class="upload-img col-xs-11 clearfix">
 					<input class="upload-img" type="file" nv-file-select="" uploader="uploader" style="display:none;" multiple />
 			        <ul class="list-inline photo-box" style="margin-top:10px;">
 			            <li ng-repeat="item in uploader.queue">
 							<div class="updata-photo">
 								<div style="display:inline">
 									<div ng-show="uploader.isHTML5" class="up-picture"  ng-thumb="{ file: item._file,width:120}" ></div><br/>
-									<!--<span></span>-->
 								</div>
 							</div>
 								 <span ng-bind="item.file.name" title="{{item.file.name}}" class="substr" style="width:100px;display:inline-block"></span>
 			                 <!--<button ng-click="item.upload()">upload</button>-->
 			            </li>
-			            <li><button class="btn  btn-add btn-lg" ng-click="fileUpload()" style="vertical-align:top"><span>+</span></button></li>
+			            <li><button class="btn btn-add btn-lg" ng-click="fileUpload()" style="vertical-align:top;margin-left:-3px;"><span>+</span></button></li>
 			        </ul>
 			       
 			       	<!--  <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
@@ -184,11 +186,11 @@
 						<p title="{{items.docName}}" class="substr" style="width:100px;">{{items.docName}}</p>
 					</ul>
 					<ul ng-repeat="items in formSelectedList" class="select-form rela read-book" style="border:0;vertical-align:top">
-						<li style="border:1px solid #ddd;"><img src="imgs/pro-icon/icon-pdf.png" alt="" ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">
+						<li style="border:1px solid #ddd;"><img ng-src="imgs/pro-icon/icon-pdf.png" alt="" ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">
 						<span class="absol glyphicon glyphicon-remove" ng-click="removeForm(items)"></span>
 						</li>
 						<!-- <input type="checkbox" class="absol" ng-checked="isSelected" ng-click="updateSelection($event,items)"> -->
-						<p title="{{items.name}}" class="substr" style="width:100px;">{{items.name}}</p>
+						<p title="{{items.name}}.{{items.suffix}}" class="substr" style="width:100px;">{{items.name}}.{{items.suffix}}</p>
 					</ul>
 					<input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
 					<ul class="list-inline inline" style="vertical-align:middle">
@@ -203,7 +205,7 @@
 							<div class="substr" style="margin-top:20px;width: 100px;" title="{{item.file.name}}">{{item.file.name}}</div>
 			            </li>
 			        </ul>
-					<ul class="inline"><button class="btn  btn-add btn-lg" popover-trigger="'focus'" class="form-control" popover-placement="right" uib-popover-template="dynamicPopover.templateUrl"><span>+</span></button></li>
+					<ul class="inline"><button class="btn  btn-add btn-lg" popover-trigger="'focus'" class="form-control" popover-placement="right" uib-popover-template="dynamicPopover.templateUrl" style="margin-left:-3px;"><span>+</span></button></li>
 					</ul>
 				</div>
 			</div>
@@ -214,6 +216,8 @@
 	<!-- errorMessage-->
 	<div class="create-error">
 		<ul>
+			<li style="color:red" ng-show="flag.nameToLong">协作主题长度不能超过50个字符</li>
+			<li style="color:red" ng-show="flag.descToLong">协作描述长度不能超过250个字符</li>
 			<li style="color:red" ng-show="flag.isTopicNull && create_form.topic.$error.required">协作主题不能为空</li>
 			<li style="color:red" ng-show="flag.isleast">请至少上传一张图片或一份资料</li>
 		</ul>
@@ -231,25 +235,25 @@
     <div class="inner">
     <header>
         <div class="header-operation clearfix">
-            <div ng-click="backDetail()" class="pull-left" style="margin-top:10px;margin-left:100px;">
-                <span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
+            <div ng-click="backDetail()" class="pull-left" style="margin-top:10px;">
+                <span class="" style="margin-left:15px;"><img ng-src="imgs/call_back.png" alt=""></span>
                 <a href="" style="color:#69C080;text-decoration:none;">返回</a>
             </div>
-           <!--  <div class="label_tools">
+            <div class="label_tools">
                 <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
                 <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
                     <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
                     <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
                 </div>
                 <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
-            </div> -->
-            <div class="pull-right" ng-click="CommentSign()" style="color:#69C080;margin-right:100px;">启用编辑</div>
+            </div>
+            <div class="pull-right" ng-click="CommentSign()" style="color:#69C080;margin-right:100px;margin-top: 10px;">启用编辑</div>
         </div>
     </header>
     <!-- 默认预览 -->
 	    <div ng-show="flag.isGeneral">
-	        <div style="width:100%;margin-top:60px" ng-show="!isEdit">
-	            <iframe src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
+	        <div style="width:100%;padding-top:42px" ng-show="!isEdit">
+	            <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 48px);width:100%;" scrolling="no" frameborder="0"></iframe>
 	        </div>
 	    </div>
 		<!-- 编辑部分 -->

@@ -13,8 +13,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.linkComponent1 = false;
     $scope.linkCategoty1 =false;
     $scope.data = {};
+    $scope.desc = '';
 
-    console.log($stateParams.typeid);
+//    console.log($stateParams.typeid);
    	//获取当前用户信息
    	$.ajax({
 	    type: "get",
@@ -97,7 +98,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     //获取标识
     Cooperation.getMarkerList().then(function (data) {
     	$scope.markerList = data;
-    	console.log($scope.markerList);
+//    	console.log($scope.markerList);
     	$scope.mark = $scope.markerList[0].markerId+'';
     });
 
@@ -251,6 +252,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 						$scope.data.linkProjectDptName = dataList.parentNode.name;
 						$scope.linkProjectSelected = dataList.selectedCategory;
 						//传给服务器的两个值
+						//debugger
 						$scope.data.assembleLps = dataList.assembleLps;
 						$scope.data.deptId = dataList.parentNode.value;
 						$scope.data.ppid = dataList.assembleLps[0].ppid;
@@ -458,24 +460,12 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	//	监听新建文本框的状态
 	$scope.changeTopic = function(){
 		// 名称字符控制
-		var name = $(".new-name").val();
-		if(name.length > 50) {
-			alert("协作主题不能超过50个字符！");
-		}
-		var subName = name.substr(0,50);
-		$(".new-name").val(subName);
-		$scope.topic = subName;
+		$scope.flag.nameToLong = false;
 	}
 	//监听描述的状态
 	$scope.changeDesc = function(){
 		// 描述字符控制
-		var desc = $("#desc").val();
-		if(desc.length > 250) {
-			alert("描述不能超过250个字符！");
-		}
-		var subDesc = desc.substr(0,250);
-		$("#desc").val(subDesc);
-		$scope.desc = subDesc;
+		$scope.flag.descToLong = false;
 	}
 
 	var docsList = []; //组合doclist
@@ -514,6 +504,18 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			if(!$scope.coopname){
 				$scope.flag.isTopicNull= true;
 				return;
+			}
+			if($scope.coopname.length > 50){	//协作主题不能超过50个字符
+				$scope.flag.nameToLong = true;
+				return;
+			} else {
+				$scope.flag.nameToLong = false;
+			}
+			if($scope.desc.length > 250){	//协作描述不能超过250个字符
+				$scope.flag.descToLong = true;
+				return;
+			} else {
+				$scope.flag.descToLong = false;
 			}
 			//当主题不为空，资料照片为空
 			if($scope.coopname && !uploader.queue.length && !uploader1.queue.length && !$scope.docSelectedList.length && !$scope.formSelectedList.length) {
@@ -586,14 +588,19 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
    		
 	   		//每个上传成功之后的回调函数
 	   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
-		            console.info('onSuccessItem', fileItem, response, status, headers);
-		            var unit = {};
-		            unit.name = response[0].result.fileName;
-		            unit.md5 = response[0].result.fileMd5;
-		            unit.size = response[0].result.fileSize;
-		            unit.uuid = response[0].result.uuid;
-					unit.sourceType = 3;
-		            uploadDocList.push(unit);
+//		            console.info('onSuccessItem', fileItem, response, status, headers);
+	   			if(response.type != "error") {
+	   				var unit = {};
+	   				unit.name = response[0].result.fileName;
+	   				unit.md5 = response[0].result.fileMd5;
+	   				unit.size = response[0].result.fileSize;
+	   				unit.uuid = response[0].result.uuid;
+	   				unit.sourceType = 3;
+	   				uploadDocList.push(unit);
+	   			} else {
+	   				// TODO 弹框提示错误信息 (上传文件size=0时会报错)
+	   				condole.log(response.info);
+	   			}
 			};
 			//全部成功的回调函数
 			uploader1.onCompleteAll = function() {
@@ -618,7 +625,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
         function saveCooperation () {
         	// var backJson = BimCo.SubmitAll();
         	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
-       
+       	
         	if(backJson){
         		 backJson = JSON.parse(backJson);
         	}
@@ -682,6 +689,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			if($scope.data.bindType == 2) {
 				binds = [];
 			} else {
+				//debugger
 				binds = $scope.data.assembleLps?$scope.data.assembleLps:[];
 			}
 			$scope.data = {
@@ -702,11 +710,11 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		    	typeId:$stateParams.typeid
 		    };
 		    console.log(JSON.stringify($scope.data));
-		    //return;
+		    console.log($scope.data);
 			var obj = JSON.stringify($scope.data);
 
 			Cooperation.createCollaboration(obj).then(function (data) {
-				debugger
+				//debugger
 				var coid = data;
 				if(status==0){
 					$scope.data.deptId = 0;
@@ -722,7 +730,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				// $state.go('cooperation',{'transignal':$scope.data.deptId},{ location: 'replace'});
 				//上传之后将coid传给客户端
 				if($scope.data.bindType == 2){
-					debugger
+					//debugger
 					BimCo.UpLoadComponent(coid);
 				}
 			},function(data) {
@@ -793,20 +801,35 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
     //保存编辑
     $scope.saveOffice = function () {
-		layer.confirm('是否保存当前文档？', {
-			btn: ['是','否'] //按钮
-		}, function(){
-			layer.closeAll();
-			var isSuccess =  BimCo.SignSubmit(coid);
-			if(isSuccess){
-				$scope.flag.isPreview = false;
-			} else {
-				$scope.flag.isPreview = false;
-				alert('保存失败！');
+		alert(1313)
+		layer.open({
+			type: 2,
+			shade: false,
+			area: '500px',
+			maxmin: true,
+			content: '1313131313131313122222222222222222',
+			zIndex: layer.zIndex, //重点1
+			success: function(layero){
+				layer.setTop(layero); //重点2
 			}
-		},function(){
-			return;
 		});
+		//layer.confirm('是否保存当前文档？', {
+		//	shadeClose: true,
+		//	zIndex: layer.zIndex, //重点1
+		//	btn: ['是','否'] //按钮
+		//}, function(layero){
+		//	//layer.zIndex();
+		//	layer.setTop(layero);
+		//	var isSuccess =  BimCo.SignSubmit(coid);
+		//	if(isSuccess){
+		//		$scope.flag.isPreview = false;
+		//	} else {
+		//		$scope.flag.isPreview = false;
+		//		alert('保存失败！');
+		//	}
+		//	//layer.closeAll();
+		//})
+        //var re = confirm('是否取消？')
     	//if(re){
     	//	var isSuccess =  BimCo.SignSubmit(coid);
 	    //    if(isSuccess){
@@ -832,7 +855,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.backDetail = function () {
     	$scope.flag.isPreview = false;
     	BimCo.SignCancel();
-    	BimCo.SubmitCancel();
+    	BimCo.CancelSubmitAll();
     }
 
     //最大化、最小化、还原、关闭
@@ -874,10 +897,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		 layer.confirm('是否取消？', {
 		   btn: ['是','否'] //按钮
 		 }, function(){
-//			 window.close();
-			 layer.closeAll();
-			 BimCo.SubmitCancel();
-			 window.open("#/cooperation","_self");
+			layer.closeAll();
+			BimCo.CancelSubmitAll();
+			$state.go('cooperation',{'deptId':$scope.data.deptId, 'ppid':$scope.data.ppid},{ location: 'replace'});
 		 });
     }
 

@@ -65,13 +65,17 @@
             <div class=" mobile-relate-title F14 m-title">
                 相关人:
             </div>
-            <div class="col-xs-9 mobile-relate-con clearfix m-con" style="width:82%;float:right;">
+            <div class="col-xs-9 mobile-relate-con clearfix m-con" style="width:82%;float:right;margin-bottom:15px;">
                 <dl ng-repeat="item in collaList.relevants" class="photoImg ">
                     <dt><img ng-src="{{item.avatar}}" ng-if="item.avatar"/ onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                     <dd class="substr" style="font-size:14px;">{{item.username}}</dd>
                     <dd  ng-if="!item.isReaded">未读</dd>
                     <dd  ng-if="item.isReaded">已读</dd>
                 </dl>
+            </div>
+            <div ng-show="isRevlentMore" style="margin-top:10px;">
+                <div class="show-more-btn" ng-click="showMorePerson()"  ng-show="!showMore">显示更多</div>
+                <div class="show-more-btn" ng-click="showMorePerson()" ng-show="showMore">收起</div>
             </div>
         </div>
         <!--照片-->
@@ -148,5 +152,5 @@
     <!-- <div class="mobile-footer">
         <button class="DIY-btn  mobile-btn-defult" type="button"  ng-click="ok()" id="editSave" >确定</button>
         <button class="DIY-btn  mobile-btn-defult" type="button" ui-sref="coopdetail({coid: transcoid})">取消</button>
-    </div> -->
+    </div> --> 
 </div>

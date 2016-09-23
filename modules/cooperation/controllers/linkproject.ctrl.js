@@ -1,6 +1,8 @@
 /**
  * linkprojectCtrl
  */
+var level = 1;	// 当前树状态树展开、折叠深度
+var maxLevel = -1;	
 angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
 	function ($scope, $http, $uibModalInstance,Cooperation) {
 		$scope.openSignal = true;
@@ -35,23 +37,29 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		$scope.openSignal = true;
 		//获取工程树
 		Cooperation.getProjectTree().then(function (data) {
-			console.log(data);
+//			console.log(data);
 			$scope.projectTree = data;
 			treeObj = $.fn.zTree.init($("#tree"), setting, $scope.projectTree);
 			//全部打开
 			treeObj.expandAll(true);
 			nodelist = treeObj.transformToArray(treeObj.getNodes());
+			// 只打开一层
+//			treeObj.expandNode(nodelist[0], true, false, null, true);
+			// 设置当前打开的层数
 			for(var i = 0 ; i<nodelist.length;i++){
+				if(nodelist[i].level >= maxLevel){
+					maxLevel = nodelist[i].level;
+				}
 				if(nodelist[i].type==3){
 					categoryprojtype(nodelist[i]);
 				}
 			}
+			level = maxLevel;
 		});
 
 
 		//工程分类处理
 		function categoryprojtype(node){
-			//debugger;
 			if(maxlevel<node.level){//获取最大层级
 				maxlevel = node.level;
 			}
@@ -135,10 +143,10 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				},
 				check: {
 					enable: true
-				},
-				callback:{
-					onCheck: onCheck
 				}
+				// callback:{
+				// 	onCheck: onCheck
+				// }
 	         };
 	         dataList.assembleLps =obj;
 			//获取构件类别树
@@ -147,26 +155,80 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				var treeObj = $.fn.zTree.init($("#tree1"), setting1, $scope.projectTree);
 				//全部打开
 				treeObj.expandAll(true);
+				// 设置当前打开的层数
+				var treeNodes = treeObj.transformToArray(treeObj.getNodes());
+				for(var i = 0 ; i<treeNodes.length;i++){
+					if(treeNodes[i].level >= maxLevel){
+						maxLevel = treeNodes[i].level;
+					}
+				}
+				level = maxLevel;
+				// 只打开一层
+//				treeObj.expandNode(treeNodes[0], true, false, null, true);
 			});
 
-			//选中节点的组合数组
-			var selectedNodes = [];
-			function onCheck (event, treeId, treeNode) {
-				// var treeObj = $.fn.zTree.getZTreeObj("tree1");
-				// selectedNodes = treeObj.getCheckedNodes(true);
-				if(treeNode.checked){
-					var signalSelected = getParentNodeList(treeNode).concat(treeObj);;
-				}
+			//选中节点的组合数组(checkbox选中状态)
+			// var selectedNodes = [];
+			// var selectedNodesList = [];
+			// var pNodeList = [];
+			// function onCheck (event, treeId, treeNode) {
+			// 	var treeObj = $.fn.zTree.getZTreeObj("tree1");
+			// 	selectedNodes = treeObj.getCheckedNodes(true);
+			// 	// if(treeNode.checked){
+			// 	// 	var signalSelected = getParentNodeList(treeNode).concat(treeNode);;
+			// 	// }
+		
+			// 	var lastNodeList = _.filter(selectedNodes,function(value,key){
+			// 		return value.type == 3;
+			// 	});
+			// 	angular.forEach(lastNodeList,function(value,key){
+			// 		//遍历type=3的结合，递归获取父级的集合并且拼接上自己的集合
+			// 		pNodeList = [];
+			// 		var signalSelected = getParentNodeList(value,pNodeList).concat(value);
+			// 		selectedNodesList.push(signalSelected);
+			// 	});
+			// 	console.log('selectedNodesList',selectedNodesList);
 
-				selectedNodes.push(signalSelected);
-		 	}
-
+			// 	//递归获取父节点的集合
+			//  	function getParentNodeList(treeObj){
+			//  		if(treeObj==null) return;
+			//  		var pNode = treeObj.getParentNode();
+			//  		if(pNode!=null){
+			//  			pNodeList.push(pNode);
+			//  			pNode = getParentNodeList(pNode);
+			//  		}
+			//  		return pNodeList;
+			//  	}
+		 // 	}
+			
 		 	
-		 	//获取父节点的集合
-		 	function getParentNodeList(treeObj){
-		 		var pNodeList = [];
-		 		if(treeObj==null) return;
 
+	 	}
+
+	 	$scope.ok4 = function () {
+
+	 		//选中节点的组合数组(checkbox选中状态)
+			var selectedNodes = [];
+			var selectedNodesList = [];
+			var pNodeList = [];
+	 		var treeObj = $.fn.zTree.getZTreeObj("tree1");
+	 		//当前选中的所有的节点
+			selectedNodes = treeObj.getCheckedNodes(true);
+			
+			var lastNodeList = _.filter(selectedNodes,function(value,key){
+				return value.type == 3;
+			});
+			angular.forEach(lastNodeList,function(value,key){
+				//遍历type=3的结合，递归获取父级的集合并且拼接上自己的集合
+				pNodeList = [];
+				var signalSelected = getParentNodeList(value,pNodeList).concat(value);
+				selectedNodesList.push(signalSelected);
+			});
+			console.log('selectedNodesList',selectedNodesList);
+
+			//递归获取父节点的集合
+		 	function getParentNodeList(treeObj){
+		 		if(treeObj==null) return;
 		 		var pNode = treeObj.getParentNode();
 		 		if(pNode!=null){
 		 			pNodeList.push(pNode);
@@ -174,12 +236,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		 		}
 		 		return pNodeList;
 		 	}
-	 	}
-
-	 	$scope.ok4 = function () {
-	 		//传递参数
-	 		var  unit;
-	 		var a = {}
+	 		
 	 		switch (projType) {
 	 			case "1" :
 	 			projType = '土建预算';
@@ -197,54 +254,30 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 			projType = 'Tekla';
 	 			break;
 	 		}
-	 		angular.forEach(selectedNodes, function(value, key) {
-	 			if(value.type === 0) {
-	 				floor = value.value;
-	 			} else if (value.type === 1) {
-	 				spec = value.value;
-	 			} else if (value.type === 2) {
-	 				compClass = value.value;
-	 			} else if (value.type === 3) {
-	 				subClass = value.value;
-	 			}
-	 			unit = _.filter(selectedNodes,function (o) {
-	 				return o.type === 3;
-	 			});
-	 			console.log(unit);
-	 		});
 
-
-	 		var selectedCategory = []; //组合数据
-	 		angular.forEach(selectedNodes,function(value,key){
-	 			angular.forEach(value,function(value1,key1){
-	 				var unit=[];
-	 				if(value1.type === 0){
-	 					unit.floor = value1.value;
-	 				} else if(value1.type === 1){
-	 					unit.spec = value1.value;
-	 				}else if(value1.type ===2){
-	 					unit.compClass = value1.value;
-	 				} else if(value1.type ===3){
-	 					unit.subClass = value1.value;
-	 				}
-	 				unit.ppid = ppid;
-	 				unit.projType= projType;
-	 				selectedCategory.push(unit);
-	 			});
-	 		})
-	 		dataList.selectedCategory = [];
-	 		angular.forEach(unit, function (value, key) {
-	 				a.ppid = ppid;
-	 				a.projType= projType;
-	 				a.floor= floor ? floor : '';
-	 				a.compClass= compClass ? compClass : '';
-	 				a.spec = spec ? spec : '';
-	 				a.subClass= value.value ? value.value : '';
-	 				//a.name = value.name;
-	 				dataList.selectedCategory.push(a);
-	 			})
-	 		dataList.assembleLps = dataList.selectedCategory;
-	 		//console.log(selectedCategory);
+	 		/**
+			 * 土建，钢筋，revit是楼层——大类——小类
+			 * 安装是楼层——专业——大类——小类
+			 * tekla是楼层——大类，tekla手机没有获取到小类
+			 */ 
+	 		var selectedCategory = []; //组合选中数据
+			angular.forEach(selectedNodesList[0],function(value1,key1){
+				var unit={};
+				if(value1.type === 0){
+					unit.floor = value1.value;
+				} else if(value1.type === 1){
+					unit.spec = value1.value;
+				}else if(value1.type ===2){
+					unit.compClass = value1.value;
+				} else if(value1.type ===3){
+					unit.subClass = value1.value;
+				}
+				unit.ppid = ppid;
+				unit.projType= projType;
+				selectedCategory.push(unit);
+			});
+	 		dataList.assembleLps = selectedCategory;
+	 		console.log('dataList',dataList);
 	 		$uibModalInstance.close(dataList);
 	 	}
 
@@ -426,5 +459,16 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	$scope.cancel = function () {
 	 		$uibModalInstance.dismiss('cancel');
 	 	}
-
+	 	
+	 	// 展开树节点
+	 	$scope.expand = function () {
+	 		var obj = {type:"expand",operObj:"tree", level: level};
+	 		level = Cooperation.openOrClose(obj);
+	 	}
+	 	
+	 	// 收起树节点
+	 	$scope.collapse = function () {
+	 		var obj = {type:"collapse",operObj:"tree", level: level};
+	 		level = Cooperation.openOrClose(obj);
+	 	}
 }]);

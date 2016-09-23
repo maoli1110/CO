@@ -11,7 +11,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getDeptInfo = function () {
         var delay = $q.defer();
         var url_join= url+"rs/co/deptInfoList";
-        $http.get(url_join)
+        $http.get('dept.json',{cache:true})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
@@ -24,7 +24,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getDeptList = function () {
         var delay = $q.defer();
         var url_join= url+"rs/co/deptList";
-        $http.get(url_join)
+        $http.get(url_join,{cache:true})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
@@ -38,7 +38,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/pcUserList';
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{cache:true,transformRequest:angular.identity})
+        $http.get(url_join,params,{cache:true,transformRequest:angular.identity})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -51,7 +51,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.projectList = function (params) {
         var delay = $q.defer();
         var url_join = url +'rs/co/projectList/'+ params;
-        $http.get(url_join,{cache:false})
+        $http.get('projectlist.json',{cache:false})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -64,7 +64,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getProjectList = function(params){
         var delay = $q.defer();
         var url_join = url+'rs/co/projectInfoList/'+params;
-        $http.get(url_join).success(function(data){
+        $http.get('projectlist.json').success(function(data){
             delay.resolve(data)
         }).error(function(err){
             delay.reject(err)
@@ -88,7 +88,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var params = JSON.stringify(params);
         var delay = $q.defer();
         var url_join = url + 'rs/co/collaborationList';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.get('collaboration.json',params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -112,7 +112,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/docList';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.get(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -123,7 +123,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getProjectTree = function () {
         var delay = $q.defer();
         var url_join = url + 'rs/co/projectTree';
-        $http.get(url_join)
+        $http.get('tree.json')
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -135,7 +135,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getFloorCompClassList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/floorCompClassList';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.get(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -160,7 +160,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getTypeList = function () {
         var delay = $q.defer();
         var url_join= url + 'rs/co/typeList';
-        $http.get(url_join)
+        $http.get('typelist.json')
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
@@ -187,7 +187,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.createCollaboration = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/collaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity, transformResponse: angular.identity}).success(function (data) {
+        $http.get(url_join,params,{transformRequest: angular.identity, transformResponse: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -224,7 +224,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getProjTipInfo = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/getProjTipInfo';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.get(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -237,7 +237,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var params = JSON.stringify({queryBvToPc:true});
         var url_join = url + 'rs/co/coQueryFilter';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.get('coquery.json',params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -250,7 +250,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/updateCollaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data, status) {
+        $http.get(url_join,params,{transformRequest: angular.identity}).success(function (data, status) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -276,7 +276,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/commentToCollaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.get(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -307,7 +307,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + "rs/co/coStatistics";
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.get(url_join,params,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
             //console.info("统计页面",data)
         },function(err){
@@ -321,7 +321,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + "rs/co/doCollaboration";
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.get(url_join,params,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
             //console.info("统计页面",data)
         },function(err){
@@ -361,7 +361,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + "rs/co/checkIn/"+coid;
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.get(url_join,params,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
             //console.info("统计页面",data)
         },function(err){
@@ -377,7 +377,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var params;
         // var params={"coid":coid}
         // var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.get(url_join,params,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
             //console.info("统计页面",data)
         },function(err){
@@ -413,63 +413,11 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
 //    this.getDownFileUrl = function (uuids){
 //    	var delay = $q.defer();
 //    	var url_join = url + "rs/co/downFileUrl";
-//    	$http.post(url_join,uuids,{transformRequest: angular.identity}).then(function(data){
+//    	$http.get(url_join,uuids,{transformRequest: angular.identity}).then(function(data){
 //    		delay.resolve(data);
 //    	},function(err){
 //            delay.reject(err);
 //        })
 //        return delay.promise;
 //    }
-    
-    // 树节点展开或关闭  e={type:"",operObj:"",level: 1}  
-    // 展开e.type="expand"  收起e.type="collapse"		e.operObj对应树节点信息ul的id
-    // e.level:当前展开到第几层 
-    this.openOrClose = function (e){
-    	var level = e.level;	// 当前展开到第几层
-    	var type = e.type;	// 展开e.type="expand"  收起e.type="collapse"
-    	var operObj = e.operObj;	// e.operObj对应树节点信息ul的id
-    	
-    	var zTree = $.fn.zTree.getZTreeObj(operObj);
-    	var treeNodes = zTree.transformToArray(zTree.getNodes());
-    	var flag=true;
-    	var maxLevel=-1;	// 该树的最大层数
-    	//点击展开、折叠的时候需要判断一下当前level的节点是不是都为折叠、展开状态
-    	for (var i = 0;i < treeNodes.length; i++) {
-    		if(treeNodes[i].level >= maxLevel){	// 获取状态树的深度
-				maxLevel = treeNodes[i].level;
-			}
-    		if(treeNodes[i].level == level && treeNodes[i].isParent){
-    			if (type == "expand" && !treeNodes[i].open) {
-    				flag=false;
-    				break;
-    			} else if (type == "collapse" && treeNodes[i].open) {
-    				flag=false;
-    				break;
-    			}
-    		}
-    	}
-    	if(flag){
-    		//说明当前level的节点都为折叠或者展开状态
-    		if(type == "expand"){
-    			if(level < maxLevel-1){
-    				level++;
-    			}
-    		}else if(type == "collapse"){
-    			if(level == 0){
-    				return level;
-    			}
-    			level--;
-    		}
-    	}
-    	for (var i = 0;i < treeNodes.length; i++) {
-    		if(treeNodes[i].level == level && treeNodes[i].isParent){
-    			if (type == "expand" && !treeNodes[i].open) {
-    				zTree.expandNode(treeNodes[i], true, false, null, true);
-    			} else if (type == "collapse" && treeNodes[i].open) {
-    				zTree.expandNode(treeNodes[i], false, false, null, true);
-    			}
-    		}
-    	}
-    	return level;
-    }
 });

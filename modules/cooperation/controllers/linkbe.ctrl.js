@@ -1,6 +1,8 @@
 /**
  * linkbeCtrl
  */
+var level = 0;	// 当前树状态树展开、折叠深度
+var checkAll = 0; // 是否全选 
 angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items','$timeout',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items,$timeout) {
 	 	$scope.selectedOption = {};
@@ -211,5 +213,28 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			 })
 
 		});
+		
+		// 展开树节点
+	 	$scope.expand = function () {
+	 		var obj = {type:"expand",operObj:"tree", level: level};
+	 		level = Cooperation.openOrClose(obj);
+	 	}
+	 	
+	 	// 收起树节点
+	 	$scope.collapse = function () {
+	 		var obj = {type:"collapse",operObj:"tree", level: level};
+	 		level = Cooperation.openOrClose(obj);
+	 	}
+	 	
+	 	//全选
+	 	$scope.checkAllNodes = function() {
+	        var treeObj = $.fn.zTree.getZTreeObj("tree");
+	        if(checkAll % 2 == 0) {
+	        	treeObj.checkAllNodes(true);
+	        } else {
+	        	treeObj.checkAllNodes(false);
+	        }
+	        checkAll++;
+	    }
 
 }]);

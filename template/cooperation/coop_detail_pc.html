@@ -86,7 +86,7 @@
                                 <div class="photo col-xs-8 col-md-10">
                                     <dl ng-if="item.needSign ==true" ng-repeat="item in collaList.relevants" class="photoImg">
                                         <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                                        <dd class="substr" title="{{item.username}}" style="width:100px;">{{item.username}}</dd>
+                                        <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
                                         <dd ng-if="!item.isReaded">未读</dd>
                                         <dd ng-if="item.isReaded">已读</dd>
                                     </dl>
@@ -125,7 +125,7 @@
                                 <div class="col-xs-8 col-md-11 picInfo">
                                     <dl class="data-list" ng-repeat="item in collaList.docs" profit>
                                         <dt class="rela deta-down">
-                                            <img ng-src="{{item.imgsrc}}" ng-click="previewSign(item.uuid,item.name)">
+                                            <img ng-src="{{item.imgsrc}}" ng-click="previewSign(item.uuid,item.name,1)">
                                             <div class="absol show-icon">
                                                 <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" ng-click="downDocs(item.uuid)"/></a>
                                             </div>
@@ -155,7 +155,7 @@
                                             <div class="inline" ng-repeat="doc in item.docs track by $index">
                                                 <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                               <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                                <span><img style="width:75px;height:75px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"  ng-click="previewSign(doc.uuid,doc.name)"></span>
+                                                <span><img style="width:75px;height:75px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"  ng-click="previewSign(doc.uuid,doc.name,2)"></span>
                                                 <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
                                             </div>
                                         </div>

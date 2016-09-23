@@ -5,7 +5,7 @@
             <span class="close"></span>
         </div>
     </div>
-    <div class="modal-body" copy-radio scroll-directive >
+    <div class="modal-body" copy-radio scroll-directive style="overflow: hidden;">
         <div class="row" >
             <div class="col-xs-6 left">
                 <div class="select" style="margin-bottom:12px;">
@@ -28,17 +28,24 @@
                    </select>
  -->
                     <div class="simulate-select">
-                        <div class="project-selected select" ng-click="isCollapsed=!isCollapsed">
-                           <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px"><input type="hidden" ng-model="projectOption" ng-click="switchPpid(projectOption)">{{projectSelected.projectName}}</div>
-                           <div uib-collapse="!isCollapsed" class="project-list">
-                               <ul style="height:300px;overflow:auto;">
-                                   <li ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
+                        <div class="project-selected select" ng-click="isCollapsed=!isCollapsed" title="{{projectSelected.projectName}}" style="padding-left: 10px;">
+                           <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px;float: left;"><input type="hidden" ng-model="projectOption" ng-click="switchPpid(projectOption)">
+                           <div class="substr" title="{{projectSelected.projectName}}" style="text-align:left;float: left;width: 74%;">
+	                           <span>{{projectSelected.projectName}}</span>
+					  		</div>
+                           &nbsp;
+                           <span class="bs-caret"><span class="caret"></span></span>
+                        </div>
+                           <div uib-collapse="!isCollapsed" class="project-list" style="margin-top:10px;">
+                               <ul style="max-height: 350px;width: 194px;background-color: #fff;padding-left:10px;" class="projectOption">
+                                   <li class="substr" style="width: 158px;height: 26px;text-align: left;" title="{{item.projectName}}" ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
                                    <img src="imgs/icon/1.png" alt="" ng-if="item.projectType=='土建预算'" style="width:20px">
                                    <img src="imgs/icon/2.png" alt="" ng-if="item.projectType=='钢筋预算'" style="width:20px">
                                    <img src="imgs/icon/3.png" alt="" ng-if="item.projectType=='安装预算'" style="width:20px">
                                    <img src="imgs/icon/4.png" alt="" ng-if="item.projectType=='Revit'" style="width:20px">
                                    <img src="imgs/icon/5.png" alt="" ng-if="item.projectType=='Tekla'" style="width:20px">
-                                   {{item.projectName}}</li>
+                                   {{item.projectName}}
+                                   </li>
                                </ul>
                            </div>
                     </div>
@@ -52,6 +59,18 @@
                                 ng-repeat="item in projectList.availableOptions track by $index" >
                         </option>
                     </select> -->
+                </div>
+                <div style="margin-top:10px;">
+	                <span class="btn btn-success" style="display: inline-block;border-radius: 5px;line-height: 18px;" ng-click="checkAllNodes()">全选</span>
+	                <!-- <div style="margin-top:10px;float: right;"> -->
+		                <div ng-click="collapse()" class="openOrCloseTree" style="margin-left: 15px;float:right;">
+		                    <span>-</span>
+		                </div>
+		                <div ng-click="expand()" class="openOrCloseTree" style="margin-left: 50px;float:right;">
+		                    <span>+</span>
+		                </div>
+		                
+	                <!-- </div> -->
                 </div>
                 <div class="person-list clearfix" id="content-a6">
                     <ul id="tree" class="ztree"></ul>

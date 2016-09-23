@@ -4,9 +4,9 @@
 <div scroll-directive id="content-a3" style="overflow:auto" class="manage_bar" copy-radio>
     <uib-accordion close-others="true"   class="manage_title">
         <div uib-accordion-group class="panel-default pro-list-name"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index" profit-dept>
-          <uib-accordion-heading  class="sideText" >
-          <div class="manage-menus" profit>
-              <span  id="deptbutton_{{deptInList.deptId}}" class="substr-sideMenus"  style="max-width:142px;margin-right:3px;display:inline-block !important;" title="{{deptInList.deptName}}"  ng-click="childItems(deptInList.deptId,$event,status.open)" >{{deptInList.deptName}}</span>
+          <uib-accordion-heading  class="sideText">
+          <div class="manage-menus" profit ng-click="childItems(deptInList.deptId,$event,status.open)">
+              <span  id="deptbutton_{{deptInList.deptId}}" class="substr-sideMenus"  style="max-width:142px;margin-right:3px;display:inline-block !important;" title="{{deptInList.deptName}}" >{{deptInList.deptName}}</span>
               <i style="display:inline;font-style:normal">({{deptInList.count}})</i>
               <b class="menus-icon"></b>
           </div>

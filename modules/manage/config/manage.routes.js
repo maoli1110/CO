@@ -11,6 +11,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			controller: 'manageCtrl',
 			data: {
 				displayName: 'manage'
+			},
+			params: {
+				'deptId': null,
+				'ppid': null
 			}
 		});
 		// .state('home.part', {

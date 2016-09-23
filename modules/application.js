@@ -11,10 +11,9 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
         };
         //$httpProvider.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     })
-    .config(['$locationProvider','$controllerProvider',
-        function($locationProvider,$controllerProvider) {
+    .config(['$locationProvider',
+        function($locationProvider) {
             $locationProvider.hashPrefix('');
-            $controllerProvider.allowGlobals();
         }
     ])
     .config(['$httpProvider',

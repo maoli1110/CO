@@ -1,6 +1,9 @@
 /**
  * linkcomponentCtrl
  */
+var level = 1;	// 图上构建树状态树展开、折叠深度
+var levelCategory = 1;	// 构建类别树状态树展开、折叠深度
+var maxLevel = -1;	
 angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
 	 function ($scope, $http, $uibModalInstance,Cooperation) {
 	 	var refreshID;
@@ -39,10 +42,15 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			treeObj.expandAll(true);
 			nodelist = treeObj.transformToArray(treeObj.getNodes());
 			for(var i = 0 ; i<nodelist.length;i++){
+				if(nodelist[i].level >= maxLevel){	// 设置当前打开的层数
+					maxLevel = nodelist[i].level;
+				}
 				if(nodelist[i].type==3){
 					categoryprojtype(nodelist[i]);
 				}
 			}
+			levelCategory = maxLevel;
+			level = maxLevel;
 		});
 
 
@@ -336,5 +344,28 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 	 		//if已经选择了构件，通知pc端
 	 		$uibModalInstance.dismiss('cancel');
 	 	}
-
+	 	
+	 // 展开树节点
+	 	$scope.expand = function (status) {
+	 		if(status == 1) {	// 图上构件
+	 			var obj = {type:"expand",operObj:"tree", level: level};
+		 		level = Cooperation.openOrClose(obj);
+	 		} else if(status == 2) {	// 构件类别
+	 			var obj = {type:"expand",operObj:"tree", level: levelCategory};
+		 		levelCategory = Cooperation.openOrClose(obj);
+	 		}
+	 		
+	 	}
+	 	
+	 	// 收起树节点
+	 	$scope.collapse = function (status) {
+	 		if(status == 1) {	// 图上构件
+	 			var obj = {type:"collapse",operObj:"tree", level: level};
+		 		level = Cooperation.openOrClose(obj);
+	 		} else if(status == 2) {	// 构件类别
+	 			var obj = {type:"collapse",operObj:"tree", level: levelCategory};
+		 		levelCategory = Cooperation.openOrClose(obj);
+	 		}
+	 	}
+	 	
 }]);

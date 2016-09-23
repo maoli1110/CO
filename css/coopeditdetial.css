@@ -1,4 +1,11 @@
-
+@media screen and (min-width:1080px){
+    .container{
+        min-width:900px !important;
+    }
+}
+.container{
+    padding:0;
+}
 /*电脑端*/
 .detail-computer{
     /*display:none;*/
@@ -850,6 +857,9 @@ html,body{
     border-bottom: 0.1rem dashed #ddd;
     padding: 10px 0;
 }
+.mobile-main .mobile-reply .say-content .dashed >div {
+    width: 65px;
+}
 .mobile-devices .bootstrap-select.btn-group .dropdown-menu {
     max-width: 100%;
 }
@@ -896,6 +906,14 @@ html,body{
 .mobile-main .mobile-relate{
     padding:20px 0px;
     border-bottom:1px solid #ddd;
+}
+.mobile-main .mobile-relate .show-more-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    width: 100%;
+    text-align: center;
+    color: #909090;
 }
 .btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info{
     color: #fff;
@@ -1151,8 +1169,6 @@ html,body{
     border-radius: 0;
 }
 
-/*html::-webkit-scrollbar,*/
-/*body::-webkit-scrollbar{*/
-/*width:0;*/
-/*height:0;*/
-/*}*/
+.list-inline{
+    margin-left:0px;
+}

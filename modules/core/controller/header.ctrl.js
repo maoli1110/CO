@@ -11,9 +11,9 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
 
             $(".header_menus ul li").hover(function(){
                 $(".header_menus").show();
-                $(this).css({"background":"#e6e6e6","color":"#fff"}).children().find("ol").show();
+                $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
             },function(){
-                $(this).css({"background":"#fff","color":"#000"}).children().find("ol").hide();
+                $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
                 $(".header_menus").hide();
                 $('.navbar-header').removeClass('dispatcher-database')
             })
@@ -33,10 +33,20 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
                 });
             }
         }
-
-
-
-
+    
+    //获取当前用户信息
+    $scope.currentUser={
+		img:"",
+		name:"",
+		job:"",
+		compName:""
+	};
+    headerService.currentUserInfo().then(function(data){
+        $scope.currentUser.img = data.avatarUrl;
+    	$scope.currentUser.name = data.userName;
+    	$scope.currentUser.job = data.roleName;
+    	$scope.currentUser.compName = data.enterpriseName;
+    });
 
     //最大化、最小化、还原、关闭
     //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  

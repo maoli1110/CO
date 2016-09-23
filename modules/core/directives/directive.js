@@ -76,7 +76,8 @@ angular.module('core').directive('copyRadio', function ($timeout) {
             //点击返回按钮关闭当前对话框
             $(".data_back").click(function(){
                 $(".data_count").hide();
-                $(".table-list").show();
+                $(".table-list.basic-project").show();
+                $(".table-list.draft-box").hide();
             })
                     //动态列表图片定位动画
             $(".list").on("mouseenter",".tools_bar",function(){
@@ -235,6 +236,7 @@ angular.module('core').directive('scrollDirective', function () {
                 //    theme:"minimal"
                 //});
                 $("#content-b1").mCustomScrollbar({
+                    setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-b2").mCustomScrollbar({
@@ -482,18 +484,11 @@ angular.module('core').directive('bvOperation', function($document) {
     };
 });
 
-//angular.module('core').directive('scrollLoad', function($timeout) {
+//angular.module('core').directive('canvas', function($timeout) {
 //    return {
 //        restrict: 'AE',
 //        link: function(scope, element, attr) {
-//            $(".table-list table").scroll(function(){
-//                var scrollTop = $(this).scrollTop();
-//                var scrollHeight =  $(".table-list table").height();
-//                var windowHeight = $(this).height();
-//                if(scrollTop + windowHeight == scrollHeight){
-//                    alert("you are in the bottom");
-//                }
-//            });
+//
 //        }
 //    };
 //});

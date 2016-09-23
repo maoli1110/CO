@@ -2,16 +2,16 @@
 /**
  * 协作管理
  */
-angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal', '$state','FileUploader','Manage',
-    function ($scope, $http, $uibModal, $state, FileUploader,Manage) {
+angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal', '$state','FileUploader','Manage','$stateParams',
+    function ($scope, $http, $uibModal, $state, FileUploader,Manage,$stateParams) {
 	var firstreackflag = true;//进入页面只加载一次定位
 	var firstdeptid; //第一个项目部id
-    var searchId ;//工程id
-	
-	var deptId = '';
+    var searchId = $stateParams.ppid?$stateParams.ppid:'';//工程ppid
+	var deptId = $stateParams.deptId?$stateParams.deptId:'';
 	$scope.docType = "1";
     $scope.deptInfoList = [];
     $scope.projectInfoList = [];
+    $scope.status = {};
 
     $scope.openSignal = false;
     
@@ -65,8 +65,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
-			  //$(".draft-box").hide();
-            //debugger;
              $(".manage-menus").removeClass("menusActive");
 		   	  $("span").removeClass("menusActive");
 		        //获取当前元素
@@ -77,6 +75,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 		});
 	}
     
+    //获取项目部下的工程列表
     $scope.childItems = function(id,$event,open){
         var searchBox = $("#exampleInputName2").val();
         $(".good_list").show();
@@ -107,6 +106,15 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
     }
         //项目统计列表搜索功能
+        //搜索功能
+        $scope.searchProject = function(deptId,searchBox){
+            var params = {deptId:deptId,searchText:searchBox};
+            var obj = JSON.stringify(params);
+            Manage.getProjectTrends(obj).then(function(data){
+                $scope.trentsCount = data.data;
+                setTimeout(addProjectStyle,100);
+            });
+        }
         $scope.getDeptId = function(){
             if(!deptId){
                  deptId = firstdeptid;
@@ -115,12 +123,15 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             }
             var searchBox = $("#exampleInputName2").val();
             if(searchBox.length>0){
-                var params = {deptId:deptId,searchText:searchBox};
-                var obj = JSON.stringify(params);
-                Manage.getProjectTrends(obj).then(function(data){
-                    $scope.trentsCount = data.data;
-                    setTimeout(addProjectStyle,100);
-                });
+                $scope.searchProject(deptId,searchBox);
+            }else if(searchBox.length==0){
+                if(!deptId){
+                    deptId = firstdeptid;
+                }else{
+                    deptId = deptId;
+                }
+                searchBox='';
+                $scope.searchProject(deptId,searchBox);
             }
         }
 
@@ -215,17 +226,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         });
 
         //动态列表搜索关键字
-        $scope.manageSeacher = function(){
-            //获取搜索类型关键字
-            $scope.trentsListInfo=[];
-            $scope.seacherKey = $("#exampleInputName3").val();
-            if(!$scope.docType){
-                $scope.docType="1";
-            }else{
-                $scope.docType=$scope.docType;
-            }
-            
-            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+        $scope.trentsSearch = function(seacherKey){
+            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:seacherKey,searchType:$scope.docType}).then(function(data){
                 $scope.trentsListInfo = data.data;
                 var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
@@ -238,6 +240,17 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 });
                 setTimeout(addEpcStyle,100);
             });
+        }
+        $scope.manageSeacher = function(){
+            //获取搜索类型关键字
+            $scope.trentsListInfo=[];
+            $scope.seacherKey = $("#exampleInputName3").val();
+            if(!$scope.docType){
+                $scope.docType="1";
+            }else{
+                $scope.docType=$scope.docType;
+            }
+            $scope.trentsSearch( $scope.seacherKey)
         }
 
         $scope.changeAttr = function () {
@@ -259,6 +272,15 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             var keyCode = e.keyCode|| e.which;
             if($("#exampleInputName2").val()!="" && keyCode==13){
                 $scope.getDeptId();
+            }else if($("#exampleInputName2").val()==''){
+                searchBox = $("#exampleInputName2").val();
+                searchBox=''
+                if(!deptId){
+                    deptId = firstdeptid;
+                }else{
+                    deptId = deptId;
+                }
+                $scope.searchProject(deptId,searchBox);
             }
         }
         //判断是否按下enter键进行搜索（动态工程动态列表页面）
@@ -268,7 +290,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             if($("#exampleInputName3").val()!="" && keyCode==13){
                 $scope.seacherKey = $("#exampleInputName3").val();
                 $scope.manageSeacher();
-
+            }else if($("#exampleInputName3").val()==''){
+                var searchValue = $("#exampleInputName3").val();
+                searchValue='';
+                $scope.trentsListInfo=[];
+                $scope.trentsSearch(searchValue)
             }
         }
         /*滚动加载只防止多次提交请求问题start*/
@@ -306,7 +332,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         var lastUsername;//下一次请求的用户名 第一次没有值
         $scope.trentsListInfo=[];
         $scope.scrollend= false;
-        //通过点击获取
+        //点击右侧列表获取动态列表
         $scope.turnPage = function(id){
             $("span[id='projectbutton_"+id+"']").click();
         }
@@ -396,6 +422,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".pro_list").hide();
             $(".goodlist_left").show();
             $(".prolist_left").hide();
+           $state.go('manage',{'deptId':deptId,'ppid':searchId},{ location: 'replace'});
         }
 
         //更新资料和选中模块加阴影效果

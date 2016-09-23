@@ -235,7 +235,7 @@ website:	http://code.google.com/p/jquerytree/
 }
 
 .ztree li span.button.roots_open {
-	background-position: -28px -29px
+	background-position: -88px -86px;
 }
 
 .ztree li span.button.roots_open_hover {
@@ -243,7 +243,7 @@ website:	http://code.google.com/p/jquerytree/
 }
 
 .ztree li span.button.roots_close {
-	background-position: -60px -29px
+	background-position: -60px -31px;
 }
 
 .ztree li span.button.roots_close_hover {

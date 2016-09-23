@@ -269,6 +269,14 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 
 		//全选
 		$scope.allSelected = function () {
+			$scope.flag.forbidAll = true;
+			angular.forEach($scope.userList,function (value, key) {
+				angular.forEach(value.users, function (value1,key) {
+					$scope.relatedSelected.push(value1);
+				})
+			});
+			$scope.relatedSelected = _.uniqBy($scope.relatedSelected, 'username');
+			/*
 			//$scope.isSelected = true;
 			$scope.relatedSelected = [];	// 无论全选与否，值先清掉
 			if($scope.flag.allSelected && !$scope.flag.forbidAll){
@@ -282,7 +290,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 				$scope.flag.forbidAll = false;
 				$scope.trans_selected.sign = [];
 				signSelected = [];
-			}
+			}*/
 		}
 		$scope.delAll = function(){
 			$scope.relatedSelected =[];

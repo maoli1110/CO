@@ -1,21 +1,27 @@
 <nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl" >
 		<div class="header clearfix">
 			<div class="navbar-header user" ng-click="menus()">
-				<img src="./imgs/saber.jpg" alt="头像">
-				<div class="inline">
-					<div>贾吉祥&nbsp;&nbsp;施工员</div>
-					<div>鲁班建设集团有限公司</div>
+				<img ng-if="currentUser.img==''"  src="./imgs/icon/defalut.png"  alt="头像">
+				<img ng-if="currentUser.img!=''"  src="{{currentUser.img}}"  alt="头像">
+				<div class="inline" >
+					<div class="substr" style="width: 61px;float: left;text-align: left;padding-left: 3px;" title="{{currentUser.name}}">{{currentUser.name}}</div>
+					<div class="substr" style="width: 181px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
+					<div class="substr" style="width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
 				</div>
 				<div class="inline header-shape" >
 					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
-					<div class="header_trigon">
+					<div class="header_trigon" style="margin-top: -4px;">
 
 					</div>
 				</div>
-				<div class="header_menus">
+				<div class="header_menus" style="width: 251px;">
 					<ul>
 						<li ng-repeat="menus in headerMenus track by $index" profit>
-							<p><b>{{menus.enterpriseName}}</b><span class="glyphicon glyphicon-chevron-right"></span></p>
+							<p><b>{{menus.enterpriseName}}</b>
+								<!-- <span class="glyphicon glyphicon-chevron-right"></span> -->
+								<span><img alt="" src="./imgs/icon/icon-left.png"/></span>
+								
+							</p>
 							<div class="child_items">
 								<ol >
 									<li>动态({{menus.trendsCount}})</li>

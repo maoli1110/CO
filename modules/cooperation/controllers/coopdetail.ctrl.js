@@ -119,7 +119,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true; 
 			}
 			//2.2.3	当当前用户不是负责人但是需要签字时
-			if(!data.isCollaborator && data.isSign != -1) {
+			if(!data.isCollaborator && data.isSign ==0) {
 				$scope.bjshow = false;
 				$scope.tjshow = true;
 				$scope.tgshow = true;
@@ -146,6 +146,17 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.jjueshow = false;
 				$scope.jsshow = false;
 			}
+
+			//判断当前用户已经点过通过/拒绝按钮
+			if(data.isSign == 1){
+				$scope.tgshow = false;
+				$scope.jjueshow = false;
+			}
+			//当前用户是负责人
+			if(data.isSign == 1 && data.isCollaborator){
+				$scope.jsshow = false;
+			}
+
 
 			var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 			angular.forEach($scope.collaList.docs, function(value, key) {
@@ -251,13 +262,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		};
 
 		var myAndroidFix = new jPlayerAndroidFix(id, bubble, options);
-			
+
 		$scope.play = function(speechUrl){
 			var datamp3url;
 			$(".detail-voice").css('display','block');
 			$(".detail-close").css("display",'block');
 			$.ajax({
-	              type: "post",
+	              type: "POST",
 	              url: basePath+'rs/co/getMP3URL',
 	              data:speechUrl,
 	              async:false,
@@ -464,7 +475,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 		//pc对接
 		//进入页面
-		$scope.previewSign = function (uuid,docName) {
+		$scope.previewSign = function (uuid,docName,isPdfsign) {
             var suffix = '';
             if(docName.indexOf('.')!=-1){
             	//获取电子签名uuid
@@ -472,7 +483,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					signature = data.uuid;
 				});
             	suffix = docName.split('.')[docName.split('.').length-1];
-            	if(suffix=='pdf'){
+            	if(suffix=='pdf' && isPdfsign == 1){
             		//pdf签署（客户端）
             		$scope.flag.isPreview = true;
 	            	$scope.flag.isApprove = true;
@@ -523,22 +534,57 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 	    //提交
 	    $scope.SubmitAll = function () {
-	    	var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
+	    	//var r = confirm('提交后将不能再修改，若确认无无误请点击确认！');
 	    	var isSignSubmit;
 	    	var backJson;
 	    	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
 	    	//backJson = "{\"6330EB632087445B98DB6D6B677B136A\":{\"PdfModify\":[{\"contents\":\"asdfasdfaf\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":477.74996948242188,\"yAxis\":786.75}]},\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"我好\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":427.49996948242188,\"yAxis\":759.4000244140625}]},\"C053AFCBAE3742E1907C711AEEE49FB1\":{\"PdfModify\":[{\"contents\":\"asfasfasfa\",\"font\":\"宋体\",\"fontSize\":15,\"page\":1,\"type\":2,\"xAxis\":390.74996948242188,\"yAxis\":749.75}]}}"
 	    	var modifyDocs=[];
-	    	if(r){
-	    		//客户端临时缓存
-	    		BimCo.SignSubmit();
-	    		//客户端正式提交
-	    	 	backJson = BimCo.SubmitAll();
+	    	//if(r){
+	    	//	//客户端临时缓存
+	    	//	BimCo.SignSubmit();
+	    	//	//客户端正式提交
+	    	// 	backJson = BimCo.SubmitAll();
+            //
+	    	// 	if(backJson){
+		    //		backJson = JSON.parse(backJson);
+		    //	}
+		    //	if(backJson){
+				//	angular.forEach(backJson,function(value, key){
+				//		if(!value){
+				//			return;
+				//		} else {
+				//			var unit = {};
+				//			unit.uuid = key;
+				//			unit.modifys = value.PdfModify;
+				//			modifyDocs.push(unit);
+				//		}
+	        	//	});
+		    //	}
+		    //	var params = {
+				//	coid:coid,
+				//	docs:modifyDocs,
+				//	operationType:4
+				//}
+		    //	Cooperation.doCollaboration(params).then(function (data) {
+				//	$scope.flag.isPreview = false;
+				//},function (data) {
+				//	$scope.flag.isPreview = false;
+				//	alert(data.data.message);
+				//});
+		    //	}
+			layer.confirm('提交后不能修改，是否继续？', {
+				btn: ['确定','取消'] //按钮
+			}, function(){
+				//客户端临时缓存
+				BimCo.SignSubmit();
+				//客户端正式提交
+				backJson = BimCo.SubmitAll();
 
-	    	 	if(backJson){
-		    		backJson = JSON.parse(backJson);
-		    	}
-		    	if(backJson){
+				if(backJson){
+					backJson = JSON.parse(backJson);
+				}
+				if(backJson){
 					angular.forEach(backJson,function(value, key){
 						if(!value){
 							return;
@@ -548,20 +594,23 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 							unit.modifys = value.PdfModify;
 							modifyDocs.push(unit);
 						}
-	        		});
-		    	}
-		    	var params = {
+					});
+				}
+				var params = {
 					coid:coid,
 					docs:modifyDocs,
 					operationType:4
 				}
-		    	Cooperation.doCollaboration(params).then(function (data) {
+				Cooperation.doCollaboration(params).then(function (data) {
 					$scope.flag.isPreview = false;
 				},function (data) {
 					$scope.flag.isPreview = false;
 					alert(data.data.message);
 				});
-		    	}
+				layer.closeAll();
+			},function(){
+				return;
+			});
 	    }
 
 	    //取消
@@ -640,6 +689,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    
 	    //详情页面跳转回homepage(cooperation)
 	   	$scope.backCooperation = function (){
+	   		if($scope.collaList.status=='草稿箱'){
+	   			//草稿箱
+	   			$scope.collaList.deptId = 0;
+	   		} else if(!$scope.collaList.binds || $scope.collaList.binds.length==0){
+	   			//未关联
+	   			$scope.collaList.deptId = -1;
+	   		}
 	   		$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId},{ location: 'replace'});
 	   	}
 	 

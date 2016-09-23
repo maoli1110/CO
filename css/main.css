@@ -31,6 +31,7 @@ h4 {
 a, a:hover, a:active, a:visited, a:link {
     text-decoration: none;
     cursor: pointer;
+    color: #333;
 }
 li {
     list-style: none;
@@ -79,9 +80,9 @@ li {
     background:#353944;
     bottom:0;
 }
-/*.sidebar .mCustomScrollBox{
+.sidebar .mCustomScrollBox{
     height:800px;
-}*/
+}
 .monitor-border {
     border: 1px solid #e6eaf1;
 }
@@ -674,7 +675,7 @@ padding: 5px 25px;
 }
 .header .header_menus ul li p b{
     font-weight: normal;
-    width: 157px;
+    width: 223px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -708,7 +709,7 @@ padding: 5px 25px;
     background:#fff;
     position:absolute;
     top:0;
-    left:232px;
+    left:252px;
     display:none;
 }
 .header .header_menus ul li .child_items ol li{
@@ -716,6 +717,7 @@ padding: 5px 25px;
     line-height:20px;
     padding:10px;
     border-bottom:1px solid #ddd;
+    color:#333;
 }
 .navbar{
     min-width: 768px;
@@ -800,7 +802,8 @@ padding: 5px 25px;
 }
 /*manage*/
 .main-container {
-    min-width: 830px;
+    /*min-width: 830px;*/
+    height: 100%;
 
 }
 .right-content .form-inline button {
@@ -821,7 +824,10 @@ padding: 5px 25px;
 .operation .left .btn, .operation .left input {
     border-radius: 0;
     margin-top:1px;
+    height:30px;
+    line-height:12px;
 }
+
 .operation .right {
     float: right;
 }
@@ -1036,6 +1042,7 @@ padding: 5px 25px;
     text-overflow:ellipsis;
     margin-right: 10px;
     text-align: center;
+    margin-right:25px;
 }
 .create .docs .select-form input{
     top: 48px;
@@ -1068,6 +1075,9 @@ padding: 5px 25px;
 .look-book{
     padding:0;
 }
+.look-book .list-inline{
+    margin-left:0;
+}
 .upload .btn-lg{
     width: 120px;
     height: 120px;
@@ -1078,7 +1088,17 @@ padding: 5px 25px;
 }
 .upload .btn-lg.btn{
     vertical-align:top;
-    margin-left:5px;
+    margin-left:0px;
+}
+.upload-img .list-inline{
+    margin-left:0;
+}
+/*.btn.btn-add.btn-lg{*/
+    /*padding:0;*/
+    /*margin-left:-2px;*/
+/*}*/
+.inline .btn.btn-add.btn-lg{
+    margin:0;
 }
 .create .add-related {
     height: 50px;
@@ -1147,7 +1167,7 @@ padding: 5px 25px;
 
 }
 .select-person-related-modal .left .select .btn-group>button{
-    width:160px;
+    width:220px;
     background:#fff;
     border:1px solid #ddd;
 }
@@ -1471,8 +1491,9 @@ textarea{
 
 }
 .select-person-related .search>input{
-    padding-left:10px;
-    width:110.2%;
+    padding-left: 10px;
+    width: 90%;
+    margin-left: 55px;
 }
 .select-person-related .search img{
     position: absolute;
@@ -1713,10 +1734,19 @@ textarea{
 .linkbe .simulate-select {
     width: 195px;
     display: inline-block;
+    cursor: pointer;
+    height: 34px;
+    background:#fff;
+    border:1px solid #ddd;
 }
 .linkbe .simulate-select ul {
     border:1px solid #ddd;
     margin-top:5px;
+}
+.linkbe .simulate-select .project-list >ul{
+    position: absolute;
+    overflow-x: hidden;
+    z-index: 10;
 }
 .linkbe .book-style{
     margin-top: 9px;
@@ -1743,6 +1773,10 @@ textarea{
     background:#fff;
     border:1px solid #ddd;
 }
+/*.simulate-select{
+	background:#fff;
+    border:1px solid #ddd;
+}*/
 .linkbe .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn){
     width:195px !important;
 }
@@ -1790,9 +1824,9 @@ textarea{
 
 .linkbe .left .person-list {
     border: 1px solid #ddd;
-    margin-top: 10px;
+    margin-top: 14px;
     width:241px;
-    height: 388px !important;
+    height: 338px !important;
     overflow-y:auto;
     overflow-x:hidden;
 }
@@ -2245,7 +2279,7 @@ textarea{
     border: 1px solid #ddd;
 }
 .read-book{
-    margin-right:30px !important;
+    margin-right:25px;
     margin-bottom:20px;
 }
 .read-book li{
@@ -2308,4 +2342,23 @@ textarea{
 /*new新建页面*/
 .uib-button-bar{
     padding: 8px 9px 2px;
+}
+/*新建协作上传照片*/
+.list-inline>li{
+    padding:0;
+}
+/*新建页面 关联工程、图上构建、构建类别的+ - 按钮样式*/
+.openOrCloseTree {
+	padding: 0px 10px;
+	float: left;
+	border: #ccc 1px solid;
+	height: 30px;
+	width: 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.openOrCloseTree span {
+	position: relative;
+    top: 3px;
+    left: -4px;
 }

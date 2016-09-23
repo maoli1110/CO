@@ -16,5 +16,18 @@ angular.module("core").service("headerService",function($http,$q){
         })
         return delay.promise;
     }
+    
+    headerService.currentUserInfo = function () {
+        var delay = $q.defer();
+        var url_join= "/bimco/rs/co/userInfo";
+        $http.get(url_join,{cache:true})
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    };
+    
     return headerService;
 })
