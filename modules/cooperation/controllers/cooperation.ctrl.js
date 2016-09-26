@@ -2,27 +2,27 @@
 /**
  * 协作管理
  */
-angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams',
-    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams) {
-	 console.log($stateParams);
-   $scope.flag = {};
+angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','$location',
+    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,$location) {
+    var urlParams = $location.search(); //截取url参数
+    $scope.flag = {};
+    $scope.flag.isEmptyUrl = $.isEmptyObject(urlParams); //判断当前url参数否为空 false:有值 true：空
     var firstflag = true; //筛选全选只加载一次标识
     var firstreackflag = true;//进入页面只加载一次定位
     $scope.scrollend = false;//停止滚动加载
     var firstdeptid; //第一个项目部id;
 	var searId;
-    
     //查询列表初始值
     $scope.currentDate =  Cooperation.getCurrentDate();
     $scope.cooperationList = [];
     var tempCooperationList = [];
     var queryData = {};
   	queryData.count = 20;
-  	queryData.deptId = ($stateParams.deptId >= -1)?$stateParams.deptId:'';
+  	queryData.deptId = (!$scope.flag.isEmptyUrl && urlParams.deptId >= -1)?urlParams.deptId:'';
   	queryData.groups=[];
   	queryData.modifyTime = '';
     queryData.modifyTimeCount = 0;
-  	queryData.ppid = $stateParams.ppid?$stateParams.ppid:'';
+  	queryData.ppid = urlParams.ppid?urlParams.ppid:'';
   	
   	queryData.queryFromBV = true;
   	queryData.searchKey = '';
@@ -60,6 +60,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
     
 	$scope.link = function(id){
+        $scope.flag.isDraft = false;
 		$scope.deptIdOpenToken = 0;
 		//searId =id;
 		console.info('searId',searId)
@@ -83,7 +84,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	
 	$scope.drafts = function(id){
-    debugger
     $scope.flag.isDraft = true;
 		$scope.deptIdOpenToken = 0;
 		searId = id;
@@ -153,6 +153,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	$scope.deptInfoList = data;
     	if(!queryData.deptId){
     		firstdeptid = data[0].deptId;//确定第一个deptid
+            queryData.deptId = firstdeptid;
     		$scope.deptIdToken = 0;
     	}
 //      console.log(queryData.deptId);
@@ -178,13 +179,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
 			  // $(".draft-box").hide();
-           $('.manage-menus').removeClass('menusActive');
-		   	  $("span[class*=ng-binding]").removeClass("menusActive");
-		        //获取当前元素
-		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
-		   	  $(" .data_count").hide();
-			  $(".table-list.basic-project").show();
-			  $scope.getCollaborationList($(this).attr("id").split("_")[1]);
+            $scope.flag.isDraft = false;
+            $('.manage-menus').removeClass('menusActive');
+		   	$("span[class*=ng-binding]").removeClass("menusActive");
+		    //获取当前元素
+		   	$(this).addClass("menusActive").siblings().removeClass("menusActive");
+		   	$(" .data_count").hide();
+			$(".table-list.basic-project").show();
+			$scope.getCollaborationList($(this).attr("id").split("_")[1]);
 		});
 	}
 
@@ -240,14 +242,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
  	var pollingFlag = true;
  	var checkSearchInterval;
  	$scope.addMoreData = function (){
- 		// if($scope.deptIdToken == 0 ||  $scope.ppidToken == 1 || $scope.deptIdOpenToken == 1) {
- 		// 	$scope.ppidToken = 0;
- 		// 	return;
- 		// }
- 		// if(token == true){
- 		// 	token = false;
- 		// 	return;
- 		// }
+ 		if($scope.deptIdToken == 0 ||  $scope.ppidToken == 1 || $scope.deptIdOpenToken == 1) {
+ 			$scope.ppidToken = 0;
+ 			return;
+ 		}
+ 		if(token == true){
+ 			token = false;
+ 			return;
+ 		}
  		setSearchFlagFalse();
  		if(pollingFlag){
  			pollingFlag = false;

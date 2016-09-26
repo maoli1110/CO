@@ -149,6 +149,22 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- springmvc配置 -->
+	<servlet>  
+	    <servlet-name>dispatcher</servlet-name>  
+	    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+	    <init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>classpath:dispatcher-servlet.xml</param-value>
+     	 </init-param>
+	    <!-- <load-on-startup>1</load-on-startup> -->  
+  	</servlet>  
+  	<!-- 设置dispatchservlet的匹配模式，通过把dispatchservlet映射到/，默认servlet会处理所有的请求，包括静态资源 -->  
+	<servlet-mapping>  
+		<servlet-name>dispatcher</servlet-name>  
+	    <url-pattern>*.do</url-pattern>  
+	</servlet-mapping>
+	
 	<!-- 日志过滤器 -->
 	<filter>
 		<filter-name>Log4jFilter</filter-name>
@@ -192,6 +208,6 @@
 	</session-config>
 
 	<welcome-file-list>
-		<welcome-file>/index.html</welcome-file>
+		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>

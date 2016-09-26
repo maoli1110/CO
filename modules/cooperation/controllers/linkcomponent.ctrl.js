@@ -148,13 +148,19 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 	 	var pollingFlag = true;
 	 	var checkSearchInterval;
 	 	
-	 	$scope.delayTreeSearch = function (type){
+	 	$scope.delayTreeSearch = function (type, status){
 	 		setSearchFlagFalse();
 	 		if(pollingFlag){
 	 			pollingFlag = false;
 	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
 	 		}
 	 		setTimeout(function() {setSearchFlagTrue()},500);
+	 		//全部打开
+	 		if(status == 1) {	// 图上构件
+		 		level = Cooperation.expandAll("tree");
+	 		} else if(status == 2) {	// 构件类别
+	 			levelCategory = Cooperation.expandAll("tree");
+	 		}
 	 	};
 	 	
 	 	var setSearchFlagFalse = function(){
@@ -172,7 +178,7 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			}
 		}
 		
-		$scope.treeSearch = function (type) {
+		$scope.treeSearch = function (type, status) {
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
 			//debugger;
@@ -208,6 +214,12 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			treeObj.hideNodes(hidenodes);
 			treeObj.showNodes(showchildnodes);
 			hideparentnode();
+			//全部打开
+	 		if(status == 1) {	// 图上构件
+		 		level = Cooperation.expandAll("tree");
+	 		} else if(status == 2) {	// 构件类别
+	 			levelCategory = Cooperation.expandAll("tree");
+	 		}
 		}
 
 		function filterhidechild(node) {

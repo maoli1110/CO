@@ -101,7 +101,9 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var url_join = url + 'rs/co/docTagList/' + params;
         $http.get(url_join)
             .success(function (data) {
-                delay.resolve(data);
+            	// 添加全部跟节点
+            	var allNode = {name:"全部", value:"全部", type:1, children:data};
+                delay.resolve(allNode);
             }).error(function (data) {
                 delay.reject(data);
             });
@@ -471,5 +473,20 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     		}
     	}
     	return level;
+    }
+    
+    // 展开全部节点，并返回当前展开层数 即最大层数
+    this.expandAll = function(treeId) {
+    	var treeObj = $.fn.zTree.getZTreeObj(treeId);
+		//全部打开
+		treeObj.expandAll(true);
+		// 设置当前打开的层数
+		var treeNodes = treeObj.transformToArray(treeObj.getNodes());
+		for(var i = 0 ; i<treeNodes.length;i++){
+			if(treeNodes[i].level >= maxLevel){
+				maxLevel = treeNodes[i].level;
+			}
+		}
+    	return maxLevel;
     }
 });

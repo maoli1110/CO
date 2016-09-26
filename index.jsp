@@ -41,17 +41,20 @@
 
 		</head>
 		<body>
-		<!-- <header ng-include="'core/header.html'"></header>
-		<div class="container-fluid">
-		<div class="row">
-		<div class="col-sm-2 col-md2 sidebar" ng-include="'core/sidebar.html'"></div>
-		<div class="col-sm10 col-md-10">
-		<breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs>
-		<div class="content-main" ui-view></div>
-		</div>
-		</div>
-		</div> -->
+
 		<div class="content-main" ui-view></div> 
+		<!-- 警告弹框 -->
+	<!-- 	<div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
+		    <alert>
+		        <span ng-bind="alert.msg"></span>
+		    </alert>
+		</div> -->
+
+		<%--<div ng-repeat="alert in alerts" class="alert {{alert.type}}">--%>
+		    <%--<alert>--%>
+		        <%--<span ng-bind="alert.msg"></span>--%>
+		    <%--</alert>--%>
+		<%--</div>--%>
 
 		<!-- vendor -->
 		<script src="./lib/lodash.min.js"></script>
@@ -70,9 +73,6 @@
 		<script src="./lib/layer/layer.js"></script>
 		<script src="./lib/audio1/jquery.jplayer.js"></script>
 
-		<!--<script src="./lib/audio/js/jquery.jplayer.js"></script>
-		<script src="./lib/audio/js/lrc.js"></script>-->
-		<!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script> -->
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
 		<!-- upload -->

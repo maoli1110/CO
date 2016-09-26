@@ -235,3 +235,52 @@
         <button type="button" class="btn btn-default foot-btn" ng-show="dchushow">导出</button>
     </div>
 </div>
+<div ng-if="flag.isPreview" class="pdf-sign">
+    <div class="inner">
+    <header>
+        <div class="header-operation clearfix">
+            <div ng-click="backDetail()" class="pull-left" style="margin-top:10px;">
+                <span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
+                <a href="" style="color:#69C080;text-decoration: none;">返回</a>
+            </div>
+            <div class="label_tools">
+                <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+                    <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
+                    <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+                </div>
+                <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+            </div>
+        </div>
+    </header>
+    <!-- 默认预览 -->
+    <div ng-show="flag.isGeneral">
+        <div style="width:100%;margin-top:60px" ng-show="!isEdit">
+            <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
+        </div>
+    </div>
+    <!-- 电子签名 -->
+    <div ng-show="flag.isApprove">
+        <div class="doc-edit footer footer-commom">
+            <div class="text-center">
+                <button class="btn btn-default foot-btn" ng-click="addApprove()">添加审批意见</button>
+            </div>
+        </div>
+    </div>
+    <div ng-show="flag.isPdfsign">
+        <div class="sign footer-commom" style="position:fixed;">
+            <div class="text-center">
+                <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
+                <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
+            </div>
+        </div>
+        <div class="doc-edit footer footer-commom">
+            <div class="text-center">
+                <button class="btn btn-default foot-btn" ng-click="SubmitAll()">提交</button>
+                <button class="btn btn-default new-btnFail foot-btn" ng-click="signCancel()">取消</button>
+                <button class="btn btn-default new-btnFail foot-btn" ng-click="signEmpty()">清空</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

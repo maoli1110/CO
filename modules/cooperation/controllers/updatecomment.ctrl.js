@@ -8,6 +8,8 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
     	$scope.uploadBegin = false;
     	$scope.zhenggai = false;
     	$scope.status = items.status;
+		$scope.isUpdataOK = false;
+
 		switch ($scope.status) {
 			case '空':
 				$scope.status = '11';
@@ -79,6 +81,11 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 	    }
 
        	$scope.ok = function() {
+			if(!$scope.comment){
+				$scope.isUpdataOK = true;
+				return;
+			}
+
 			$scope.status = parseInt($scope.status);
        		var data = {
     	 	coid: items.coid,
@@ -91,12 +98,11 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 	    	 	},
 	    	 	status: $scope.status
 	    	}
-
 	    	//0.全部上传
 	    	//1.上传回调给uploadList赋值
 	    	//2.每次上传回调给赋值
 	    	//点击确定保存图片和评论文字，去主页面调用更新评论reload详情页面
-	    
+
 		if(uploader1.queue.length) {
 			$scope.uploadBegin = true;
    			uploader1.uploadAll();
@@ -104,7 +110,7 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
    			$uibModalInstance.close(data);
    		}
    		//每个上传成功之后的回调函数
-   		uploader1.onSuccessItem = function(fileItem, response, status, headers) { 
+   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
 	            console.info('onSuccessItem', fileItem, response, status, headers);
 	            var unit = {};
 	            unit.name = response[0].result.fileName;
@@ -114,16 +120,17 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 	            unit.suffix = response[0].result.suffix;
 	            uploadList.push(unit);
 		};
-		//全部成功的回调函数
-		uploader1.onCompleteAll = function() {
-            onCompleteAllSignal = true;
-            data.comment.docs = uploadList;
-            if(uploader1.progress == 100) {
-        
-            	$uibModalInstance.close(data);
-            }
-            
-        };
+				//全部成功的回调函数
+				uploader1.onCompleteAll = function() {
+					onCompleteAllSignal = true;
+					data.comment.docs = uploadList;
+					if(uploader1.progress == 100) {
+						$uibModalInstance.close(data);
+					}
+
+				};
+
+
 
     }
 

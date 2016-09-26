@@ -30,7 +30,7 @@
 	
 	<!-- 配置spring-data-mongo 开始 -->
     <!-- 自动扫描以下包的有Doucment注解的类 -->
-	<mongo:mapping-converter id="mappingConverter" base-package="com.lubansoft.bimco"  type-mapper-ref="defaultMongoTypeMapper">
+	<mongo:mapping-converter id="mappingConverter" type-mapper-ref="defaultMongoTypeMapper">
 	</mongo:mapping-converter>
 	
 	<!-- 默认Mongodb类型映射 -->

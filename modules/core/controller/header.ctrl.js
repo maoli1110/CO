@@ -6,7 +6,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
     //console.info("我是头部标签")
     //   点击工具栏三角形出现二级菜单
     $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
-        $(".navbar-header").click(function(){
+        $(".header-shape").click(function(){
             $(".header_menus").slideToggle("fast");
 
             $(".header_menus ul li").hover(function(){
@@ -15,7 +15,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
             },function(){
                 $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
                 $(".header_menus").hide();
-                $('.navbar-header').removeClass('dispatcher-database')
+                $('.header-shape').removeClass('dispatcher-database')
             })
         })
 
@@ -25,8 +25,8 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
 
         $scope.menus = function(){
             //if( $scope.statusT){
-            $('.navbar-header').toggleClass("dispatcher-database");
-            if($('.navbar-header').hasClass("dispatcher-database")){
+            $('.header-shape').toggleClass("dispatcher-database");
+            if($('.header-shape').hasClass("dispatcher-database")){
                 //$scope.menus();
                 headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
                     $scope.headerMenus = data.data;

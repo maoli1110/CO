@@ -22,6 +22,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		$scope.jjueshow = true;
 		$scope.jsshow = true;
 		$scope.dchushow = true;
+		$scope.isTypePdf = true;//判断文件类型是否是pdf格式
 
 		//判断pc or bv
 		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
@@ -46,7 +47,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
 	   		$scope.collaList = data;
-			console.info('需不需要签字',$scope.collaList.relevants)
+			//console.info('需不需要签字',$scope.collaList.relevants)
+			//console.info('collaList.docs',$scope.collaList.docs)
 	   		allRelevants = data.relevants;
 	   		sliceRlevants = data.relevants.slice(0,8);
 	   		if(data.relevants.length>8){
@@ -698,5 +700,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   		}
 	   		$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId},{ location: 'replace'});
 	   	}
+
 	 
 }]);

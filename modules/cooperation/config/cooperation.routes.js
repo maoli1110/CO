@@ -7,7 +7,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 
 		$stateProvider.
 		 state('cooperation', {
-			url:"/cooperation",
+			url:"/cooperation?deptId&ppid",
 			templateUrl: 'template/cooperation/cooperation.html',
 			controller: 'coopreationCtrl',
 			data: {

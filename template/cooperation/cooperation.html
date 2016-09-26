@@ -209,12 +209,12 @@
 				 </div>
 				 <div class="col-xs-6" style="padding: 0;">
 				 	<div class="coop-detial-right">{{everyDetail.type.name}}</div>
-				 	<div class="substr deta-main coop-detial-right" title="{{everyDetail.name}}" >{{everyDetail.name}}</div>
-				 	<div class="coop-detial-right">{{everyDetail.collaborator}}</div>
-				 	<div class="coop-detial-right"><div class="mark" style="background:{{everyDetail.markerColor}}"></div>{{everyDetail.markerName}}</div>
+				 	<div class="substr deta-main coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.name}}" >{{everyDetail.name}}</div>
+				 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.collaborator}}">{{everyDetail.collaborator}}</div>
+				 	<div class="coop-detial-right substr" style="max-width:100px;text-align:left;" title="{{everyDetail.markerName}}"><div class="mark" style="background:{{everyDetail.markerColor}}"></div>{{everyDetail.markerName}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.createTime}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-				 	<div class="coop-detial-right">{{everyDetail.updater}}</div>
+				 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.updater}}">{{everyDetail.updater}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.status}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.deadline}}</div>
 				 </div>
@@ -239,8 +239,8 @@
 						<div class="count-echart">
 							<div id="data_graph" class="data_graph" style="height:360px;width:65%"></div>
 							<div class=" data_titleInfo first">
+								<h4>优先级</h4>
 								<ul>
-									<h4>优先级</h4>
 									<li ng-repeat="mostState in arrString track by $index">
 										<span class="data_raduis"></span>
 										<p class="substr" style="width:70%;text-align: left;" title="{{mostState}}">{{mostState}}</p>
@@ -254,8 +254,8 @@
 						<div class="count-echart">
 							<div id="data_graph2" class="data_graph" style="height:360px;width:65%"></div>
 							<div class=" data_titleInfo first">
+								<h4>期限</h4>
 								<ul>
-									<h4>期限</h4>
 									<li ng-repeat="deadline in deadlineStr track by $index">
 										<span class="data_raduis"></span>
 										<p class="substr" style="width: 70%;text-align: left;" title="{{deadline}}">{{deadline}}</p>
@@ -272,8 +272,8 @@
 						<div class="count-echart">
 							<div id="data_graph3" class="data_graph" style="height:360px;width:65%"></div>
 							<div class=" data_titleInfo second">
+								<h4>标识</h4>
 								<ul id="statistic_marker">
-									<h4>标识</h4>
 									<li ng-repeat="makerStatStrInfo in makerStatStr track by $index">
 										<span class="markColor"  style="border:4px solid {{makerStatStrInfo.color}};"></span>
 										<p class="substr" style="width:70%;text-align: left;" title="{{makerStatStrInfo.name}}">{{makerStatStrInfo.name}}</p>
@@ -286,8 +286,8 @@
 						<div class="count-echart">
 							<div id="data_graph4" class="data_graph" style="height:360px;width:65%"></div>
 							<div class=" data_titleInfo second">
+								<h4>协作类型</h4>
 								<ul>
-									<h4>协作类型</h4>
 									<li ng-repeat="type in typeStatStr track by $index">
 										<span class="markColor"  style="border:4px solid {{type.color}};"></span>
 										<p class="substr" style="width: 70%;text-align: left;" title="{{type.name}}">{{type.name}}</p>
@@ -301,12 +301,11 @@
 		</div>
 	</div>
 </div>
-	<!--</div>-->
-<!--</div>-->
+<!-- <div onclick="transCoManage('1','1028')">test</div> -->
 <script type="text/javascript">
 	$('.selectpicker').selectpicker({
 	  style: 'btn-default',
-	  width: '102px',
+	  width: '102px'
 	});
 
 	//调出新建
@@ -314,17 +313,17 @@
 		$('.new_cooper').click();
 	}
 	//跳转协作管理
-	function transCoManage (ppid) {
+	function transCoManage (deptId,ppid) {
 		//pc跳转传递deptId, ppid 定位到当前工程
-		document.location= '#!/coopdetail'; 
+		document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
 	}
 	//跳转协作详情
-	// function transCoDetail (coid) {
-	// 	//拼接跳转
-	// 	// alert(coid);
-	// 	// alert(success);
-	// 	document.location= '#!/coopdetail/?coid='+ coid;
-	// }
+	function transCoDetail (coid) {
+		//拼接跳转
+		// alert(coid);
+		// alert(success);
+		document.location= '#/coopdetail/?coid='+ coid;
+	}
 </script>
 
 

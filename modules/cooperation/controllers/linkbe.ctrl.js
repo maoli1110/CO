@@ -2,7 +2,7 @@
  * linkbeCtrl
  */
 var level = 0;	// 当前树状态树展开、折叠深度
-var checkAll = 0; // 是否全选 
+//var checkAll = 0; // 是否全选 
 angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items','$timeout',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items,$timeout) {
 	 	$scope.selectedOption = {};
@@ -15,6 +15,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 		$scope.projectList = {
 			availableOptions:[]
 		};
+		$scope.totalItems = 0;
 		var deptId, ppid;
 		var setting = {  
 			view:{
@@ -81,6 +82,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			};
 			Cooperation.getDocList(queryData).then(function (data) {
 				$scope.docList = data.result;
+				debugger;
 				$scope.totalItems = data.pageInfo.totalNumber;
 			});
 	 	}
@@ -98,7 +100,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			var unit = _.filter(nodes, function(o){
 				return o.type === 2
 			});
-			console.log(unit)
+//			console.log(unit)
 			var tempselectedItem = [];
 			angular.forEach(unit, function(value,key) {
 				//左侧树选中的节点
@@ -109,6 +111,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 				getDocList();
 			} else {
 				$scope.$apply(function() {
+					$scope.totalItems = 0;
 					$scope.docList = [];
 				});
 			}
@@ -190,19 +193,20 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 		Cooperation.getDocTagList(params).then(function (data) {
 	 			var treeObj = $.fn.zTree.init($("#tree"), setting, data);
 				//全部打开
-				treeObj.expandAll(false);
+//				treeObj.expandAll(false);
+	 			// 只打开第一层节点
+	 			treeObj.expandNode(treeObj.transformToArray(treeObj.getNodes())[0],true,false,true,false)
 	 		});
 	 	}
 	 	$scope.switchPpid = function (projectOption) {
-					//debugger;
-			 		ppid = projectOption;
-			 		getDocTagList(ppid);
-			 	}
+			ppid = projectOption;
+			getDocTagList(ppid);
+		}
 	 	
 
 	 	$scope.$watch('projectOption',function(newVal,oldVal){
-				$scope.switchPpid($scope.projectOption);
-	 		});
+		 	$scope.switchPpid($scope.projectOption);
+		});
 
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss();
@@ -227,7 +231,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	}
 	 	
 	 	//全选
-	 	$scope.checkAllNodes = function() {
+	 	/*$scope.checkAllNodes = function() {
 	        var treeObj = $.fn.zTree.getZTreeObj("tree");
 	        if(checkAll % 2 == 0) {
 	        	treeObj.checkAllNodes(true);
@@ -235,6 +239,6 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	        	treeObj.checkAllNodes(false);
 	        }
 	        checkAll++;
-	    }
+	    }*/
 
 }]);

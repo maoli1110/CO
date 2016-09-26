@@ -1,3 +1,4 @@
+
 /* global */
 body, ol, ul, li, dl, dd, dt, table, tr, td, div, p, img, h1, h2, h3, h4, h5, h6, i, var, em, a, input {
     margin: 0px;
@@ -6,7 +7,20 @@ body, ol, ul, li, dl, dd, dt, table, tr, td, div, p, img, h1, h2, h3, h4, h5, h6
     /*font-size: 1rem;*/
     /*color: #333;*/
 }
-
+.col-xs-7{
+    padding:0;
+}
+.col-xs-11{
+    padding:0;
+}
+.col-xs-1,.col-xs-2{
+    padding:0;
+}
+.last-time{
+    width: 113%;
+    position: absolute;
+    right: -39.5%;
+}
  .coo-detail .list .col-xs-5, .col-xs-6{
     position: relative;
     min-height: 1px;
@@ -453,7 +467,15 @@ padding: 5px 25px;
     border:0;
     background:#4a965e !important;
 }
+/*alert*/
+.alert.time-bottom {
+    color:red;
+    position: fixed;
+    bottom: 60px;
+    width: 100%;
+    text-align: center;
 
+}
 /*header*/
 .inner .change-window{
     display: inline-block;
@@ -643,8 +665,8 @@ padding: 5px 25px;
     letter-spacing:2px;
 }
 .user .header-shape{
-    margin-left:10px;
-    margin-top:35px;
+    margin-left:7px;
+    margin-top:36px;
     float:right;
 }
 .user .header_trigon{
@@ -680,6 +702,10 @@ padding: 5px 25px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
+}
+/*头部文件*/
+.about-company{
+    margin-top:4px;
 }
 .menus-icon{
     border:6px solid #fff;
@@ -731,7 +757,7 @@ padding: 5px 25px;
 .navbar-header {
     float: left;
     margin-top: 5px;
-    cursor:pointer;
+    /*cursor:pointer;*/
 }
 .navbar-header>div>div {
     color: #fff;
@@ -960,6 +986,9 @@ padding: 5px 25px;
     margin-right: 10px;
 }
 /* create */
+.con-content{
+    margin-top:30px;
+}
 .create {
     margin-bottom: 100px;
     margin-top: 100px;
@@ -976,7 +1005,6 @@ padding: 5px 25px;
     border: 1px solid #ccc;
     line-height: 40px;
     height: 40px;
-    margin-left: -5%;
     vertical-align: middle;
 }
 .create .responsible+span{
@@ -1051,6 +1079,11 @@ padding: 5px 25px;
 .create .docs ul li .glyphicon-remove {
     top: 2px;
     right: 2px;
+    color: #ddd;
+}
+.create .docs ul li .glyphicon-remove.local-remove {
+    top: 2px;
+    right: 18px;
     color: #ddd;
 }
 .create .input-group-btn button{
@@ -1391,7 +1424,6 @@ padding: 5px 25px;
     background: url(../imgs/icon/new-icon.png) no-repeat 5px -23px;
 }
 .create .coop-delete{
-    margin-left: -15px;
     margin-top: 12px;
     margin-bottom: 5px;
     /*padding:0 13px;*/
@@ -1826,9 +1858,9 @@ textarea{
     border: 1px solid #ddd;
     margin-top: 14px;
     width:241px;
-    height: 338px !important;
+    height: 356px !important;
     overflow-y:auto;
-    overflow-x:hidden;
+    overflow-x:auto;
 }
 .linkbe table tbody tr{
     cursor: pointer;
@@ -2262,6 +2294,11 @@ textarea{
     text-align: center;
     margin-right: 40px !important;
 }
+.relative-ion img{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+}
 .relative-ion  li{
     cursor:pointer;
 }
@@ -2276,7 +2313,6 @@ textarea{
     width: 120px !important;
     display: inline-block;
     vertical-align: middle;
-    border: 1px solid #ddd;
 }
 .read-book{
     margin-right:25px;
@@ -2303,8 +2339,13 @@ textarea{
     width:auto;
 }
 .updata-photo{
-    height:120px;width:120px;border:1px solid #ddd;text-align:center;overflow:hidden;
+    height:120px;
+    width:120px;
+    text-align:center;
+    overflow:hidden;
     margin:0 auto;
+    margin-right: 20px;
+    border: 1px solid #ccc;
 }
 
 .updata-photo .up-picture {
@@ -2349,16 +2390,46 @@ textarea{
 }
 /*新建页面 关联工程、图上构建、构建类别的+ - 按钮样式*/
 .openOrCloseTree {
-	padding: 0px 10px;
+	/* padding: 0px 10px; */
 	float: left;
 	border: #ccc 1px solid;
 	height: 30px;
 	width: 20px;
 	border-radius: 5px;
 	cursor: pointer;
+	text-align: center;
 }
 .openOrCloseTree span {
-	position: relative;
+	/* position: relative;
     top: 3px;
-    left: -4px;
+    left: -4px; */
+    text-align: center;
+    line-height: 28px;
+}
+.mCSB_inside > .mCSB_container{
+    margin:0 !important;
+}
+.photo-close{
+    top: 5px;
+    right: 18px !important;
+    color: #ddd;
+}
+/*添加更新*/
+.updata-ply{
+    text-align:center;
+    color:red;
+}
+/*提示信息弹框*/
+.tips {
+	width:200px;
+	height:80px;
+	line-height:80px;
+	border-bottom:1px solid #ddd;
+	text-align:center;
+}
+.tips_ok {
+	text-align:center;
+	padding:10px 0;
+	color:#4280EC;
+	cursor: pointer;
 }

@@ -11,8 +11,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 	$scope.docType = "1";
     $scope.deptInfoList = [];
     $scope.projectInfoList = [];
-    $scope.status = {};
-
     $scope.openSignal = false;
     
     $scope.openNew = function () {
@@ -71,7 +69,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
 		   	  $(" .data_count").hide();
               $scope.trentsListInfo = [];
-		   	  $scope.trentsList($(this).attr("id").split("_")[1]);	
+		   	  $scope.trentsList($(this).attr("id").split("_")[1]);
 		});
 	}
     
@@ -84,7 +82,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $(".prolist_left").hide();
         $('.manage-menus').removeClass('menusActive');
         $("span.spanwidth").removeClass("menusActive");
-
         if(!open){
         	Manage.getProjectInfoList(id).then(function (data) {
             	getimgurl(data,id);
@@ -97,9 +94,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $scope.trentsCount = data.data;
             });
         }
-
         if(!deptId){
-            queryData.deptId  = deptId;
+            deptId = deptId;
         }
         if(deptId != deptId ){
            deptId = deptId;
@@ -112,13 +108,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             var obj = JSON.stringify(params);
             Manage.getProjectTrends(obj).then(function(data){
                 $scope.trentsCount = data.data;
-                setTimeout(addProjectStyle,100);
+                //setTimeout(addProjectStyle,100);
             });
         }
         $scope.getDeptId = function(){
             if(!deptId){
                  deptId = firstdeptid;
-            }else{
+            }
+            else{
                  deptId = deptId;
             }
             var searchBox = $("#exampleInputName2").val();
@@ -238,7 +235,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                         }
                     });
                 });
-                setTimeout(addEpcStyle,100);
+                //setTimeout(addEpcStyle,100);
             });
         }
         $scope.manageSeacher = function(){
@@ -273,6 +270,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             if($("#exampleInputName2").val()!="" && keyCode==13){
                 $scope.getDeptId();
             }else if($("#exampleInputName2").val()==''){
+                $scope.trentsCount=[];
                 searchBox = $("#exampleInputName2").val();
                 searchBox=''
                 if(!deptId){
@@ -302,18 +300,19 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         var searchFlag;
         var pollingFlag = true;
         var checkSearchInterval;
-        $scope.addMoreData = function (){
-            setSearchFlagFalse();
-            if(pollingFlag){
-                pollingFlag = false;
-                checkSearchInterval = setInterval(function() {checkCanSearch()},100);
-     		}
-     		setTimeout(function() {setSearchFlagTrue()},150);
-        };
-        var setSearchFlagFalse = function(){
-        	console.log(false);
-            searchFlag = false;
-        }
+        //搜索高亮显示
+        //$scope.addMoreData = function (){
+        //    setSearchFlagFalse();
+        //    if(pollingFlag){
+        //        pollingFlag = false;
+        //        checkSearchInterval = setInterval(function() {checkCanSearch()},100);
+     	//	}
+     	//	setTimeout(function() {setSearchFlagTrue()},150);
+        //};
+        //var setSearchFlagFalse = function(){
+        //	console.log(false);
+        //    searchFlag = false;
+        //}
         var setSearchFlagTrue = function(){
         	console.log(true);
             searchFlag = true;

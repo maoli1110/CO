@@ -5,11 +5,12 @@
             <span class="close"></span>
         </div>
     </div>
+    <form name="upcommentForm">
     <div class="modal-body" style="min-height:330px;">
         <div class="row">
             <div class="col-xs-2">描述：</div>
             <div class="col-xs-10">
-                <textarea class="com-padding7" name="" id="" cols="30" rows="6" ng-model="comment" style="width:100%"></textarea>
+                <textarea class="com-padding7"  id="" cols="30" rows="6" ng-model="comment" required style="width:100%" name="desc"></textarea>
             </div>
         </div>
         <div class="row detail-state" style="margin:15px 0" ng-show="zhenggai">
@@ -58,6 +59,10 @@
                 <!--</button>-->
             </div>
         </div>
+    </div>
+    </form>
+    <div ng-show = "(upcommentForm.desc.$dirty && upcommentForm.desc.$invalid) || isUpdataOK" class="updata-ply" >
+        <span ng-if ="upcommentForm.desc.$error.required ">评论呢评论内容不能为空</span>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>

@@ -1,14 +1,14 @@
 <nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl" >
 		<div class="header clearfix">
-			<div class="navbar-header user" ng-click="menus()">
+			<div class="navbar-header user" >
 				<img ng-if="currentUser.img==''"  src="./imgs/icon/defalut.png"  alt="头像">
 				<img ng-if="currentUser.img!=''"  src="{{currentUser.img}}"  alt="头像">
-				<div class="inline" >
-					<div class="substr" style="width: 61px;float: left;text-align: left;padding-left: 3px;" title="{{currentUser.name}}">{{currentUser.name}}</div>
-					<div class="substr" style="width: 181px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
+				<div class="inline about-company" >
+					<div class="substr" style="max-width: 80px;float: left;text-align: left;padding-left: 3px;" title="{{currentUser.name}}">{{currentUser.name}}</div>
+					<div class="substr" style="max-width:181px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
 					<div class="substr" style="width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
 				</div>
-				<div class="inline header-shape" >
+				<div class="inline header-shape" ng-click="menus()">
 					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
 					<div class="header_trigon" style="margin-top: -4px;">
 
@@ -20,7 +20,6 @@
 							<p><b>{{menus.enterpriseName}}</b>
 								<!-- <span class="glyphicon glyphicon-chevron-right"></span> -->
 								<span><img alt="" src="./imgs/icon/icon-left.png"/></span>
-								
 							</p>
 							<div class="child_items">
 								<ol >

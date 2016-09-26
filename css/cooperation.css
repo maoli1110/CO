@@ -297,11 +297,13 @@ canvas{
 	margin-right:12px;
 
 }
- .data_every .data_titleInfo ul h4{
+ .data_every .data_titleInfo  h4{
 	font-weight:normal;
 	line-height:40px;
-	border-bottom:1px solid #ddd;
+	border:1px solid #ddd;
+	 border-bottom:none;
 	padding:0 20px;
+	 background:#F9F9FA;
 }
  .data_every .data_titleInfo ul{
 	background:#F9F9FA;
@@ -316,7 +318,7 @@ canvas{
 }
 .data_every .data_titleInfo ul li>p{width: 100px;}
  .data_every .data_titleInfo ul li:last-child{
-	padding-bottom:20px;
+	/*padding-bottom:20px;*/
 }
  .data_every .data_graph{
 	 /*width:100%;*/

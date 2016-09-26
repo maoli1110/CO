@@ -88,7 +88,7 @@ body {
 }
 /*工程名称长度过长时显示省略号*/
 .trends .good_list dl dt .project_name{
-    width: 103px;
+    width: 174px;
     white-space: nowrap;
     text-overflow:ellipsis;
     overflow:hidden;

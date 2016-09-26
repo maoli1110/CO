@@ -5,7 +5,7 @@
             <span class="close"></span>
         </div>
     </div>
-    <div class="modal-body" copy-radio scroll-directive style="overflow: hidden;">
+    <div class="modal-body" copy-radio>
         <div class="row" >
             <div class="col-xs-6 left">
                 <div class="select" style="margin-bottom:12px;">
@@ -49,8 +49,6 @@
                                </ul>
                            </div>
                     </div>
-                   
-
                  <!--    <select  class="identify2 selectpicker2 be-project" name=""  ng-model="projectOption" ng-change="switchPpid(projectOption)" >
                         <option value="{{item.ppid}}"
                                 data-content="<div class='substr' title='{{item.projectName}}' style='text-align:left;'>
@@ -60,17 +58,15 @@
                         </option>
                     </select> -->
                 </div>
-                <div style="margin-top:10px;">
-	                <span class="btn btn-success" style="display: inline-block;border-radius: 5px;line-height: 18px;" ng-click="checkAllNodes()">全选</span>
-	                <!-- <div style="margin-top:10px;float: right;"> -->
-		                <div ng-click="collapse()" class="openOrCloseTree" style="margin-left: 15px;float:right;">
-		                    <span>-</span>
-		                </div>
-		                <div ng-click="expand()" class="openOrCloseTree" style="margin-left: 50px;float:right;">
-		                    <span>+</span>
-		                </div>
-		                
-	                <!-- </div> -->
+                
+                <div style="margin-top: 5px;width: 90%;margin-left: 5%;margin-bottom: 36px;">
+	                <!-- <span class="btn btn-success" style="display: inline-block;border-radius: 5px;line-height: 13px;" ng-click="checkAllNodes()">全部</span> -->
+	                <div ng-click="collapse()" class="openOrCloseTree" style="margin-left: 15px;float:right;height: 20px;margin-top: 3px;line-height: 17px;border-radius: 2px;">
+	                    <span style="line-height: 17px;">-</span>
+	                </div>
+	                <div ng-click="expand()" class="openOrCloseTree" style="margin-left: 50px;float:right;height: 20px;margin-top: 3px;line-height: 17px;border-radius: 2px;">
+	                    <span style="line-height: 17px;">+</span>
+	                </div>
                 </div>
                 <div class="person-list clearfix" id="content-a6">
                     <ul id="tree" class="ztree"></ul>

@@ -233,7 +233,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                   closeBtn: 0,
                   shadeClose: true,
                   skin: 'yourclass',
-                  content: '<div style="width:200px;height:80px;line-height:80px;border-bottom:1px solid #ddd;text-align:center;">当前协作主题不能为空</div><div style="text-align:center;padding:10px 0;color:#4280EC" onclick="layer.closeAll();">好</div>'
+                  content: '<div class="tips">当前协作主题不能为空</div><div class="tips_ok" onclick="layer.closeAll();">好</div>'
                 });
             }
 

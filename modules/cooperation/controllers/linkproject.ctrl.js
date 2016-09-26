@@ -259,19 +259,26 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			 * 土建，钢筋，revit是楼层——大类——小类
 			 * 安装是楼层——专业——大类——小类
 			 * tekla是楼层——大类，tekla手机没有获取到小类
+			 * public static final Integer COMP_NODE_ALL = -1;//全部
+			 * public static final Integer COMP_NODE_FLOOR = 0;//楼层
+			 * public static final Integer COMP_NODE_PROF = 1;//专业
+			 * public static final Integer COMP_NODE_CLASS = 2;//大类
+			 * public static final Integer COMP_NODE_SUBCLASS = 3;//小类
 			 */ 
 	 		var selectedCategory = []; //组合选中数据
-			angular.forEach(selectedNodesList[0],function(value1,key1){
+			angular.forEach(selectedNodesList,function(value,key1){
 				var unit={};
-				if(value1.type === 0){
-					unit.floor = value1.value;
-				} else if(value1.type === 1){
-					unit.spec = value1.value;
-				}else if(value1.type ===2){
-					unit.compClass = value1.value;
-				} else if(value1.type ===3){
-					unit.subClass = value1.value;
-				}
+				angular.forEach(value,function(value1,key1){
+					if(value1.type === 0){
+						unit.floor = value1.value;
+					} else if(value1.type === 1){
+						unit.spec = value1.value;
+					}else if(value1.type ===2){
+						unit.compClass = value1.value;
+					} else if(value1.type ===3){
+						unit.subClass = value1.value;
+					}
+				})
 				unit.ppid = ppid;
 				unit.projType= projType;
 				selectedCategory.push(unit);
@@ -319,6 +326,8 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
 	 		}
 	 		setTimeout(function() {setSearchFlagTrue()},500);
+			//全部打开
+	 		level = Cooperation.expandAll("tree");
 	 	};
 	 	
 	 	var setSearchFlagFalse = function(){
@@ -337,7 +346,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		}
 	 	
 	 	$scope.treeSearch = function (type) {
-	 		console.log(new Date());
+//	 		console.log(new Date());
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
 			//debugger;
@@ -373,6 +382,9 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			treeObj.hideNodes(hidenodes);
 			treeObj.showNodes(showchildnodes);
 			hideparentnode();
+			
+			//全部打开
+	 		level = Cooperation.expandAll("tree");
 		}
 
 	 	function filterchild(node) {
@@ -464,6 +476,8 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	$scope.expand = function () {
 	 		var obj = {type:"expand",operObj:"tree", level: level};
 	 		level = Cooperation.openOrClose(obj);
+	 		/*debugger;
+	 		window.scrollTo(0,document.documentElement.scrollTop); */
 	 	}
 	 	
 	 	// 收起树节点

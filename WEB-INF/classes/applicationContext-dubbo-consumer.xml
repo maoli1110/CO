@@ -17,4 +17,7 @@
 	<dubbo:reference id="ProjectCommFileApiService" interface="com.lubansoft.pds.bus.mcbackend.project.api.ProjectCommFileApiService"/>
 	<dubbo:reference id="ProjectApiService" interface="com.lubansoft.pds.bus.bv.projectinfo.api.ProjectApiService"/>
 	<dubbo:reference id="LubanDocApiService" interface="com.lubansoft.pds.bus.pdsdoc.doc.api.LubanDocApiService"/>
+	<dubbo:reference id="MemoryInfoApiService" interface="com.lubansoft.pds.bus.pdsadmin.memoryinfo.api.MemoryInfoApiService"/>
+	<dubbo:reference id="PDSOnlineApiService" interface="com.lubansoft.pds.bus.cas.online.api.PDSOnlineApiService"/>
+	<dubbo:reference id="ProjectStatusApiService" interface="com.lubansoft.pds.bus.pdsadmin.project.api.ProjectStatusApiService"/>
 </beans>

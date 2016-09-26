@@ -29,7 +29,7 @@
                         <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
                     </a>
                     <ul class="sub-nav" uib-collapse="!isCollapsed">
-                        <li ng-repeat="item in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,item.username)" ng-class="{true:'grey',false:'default'}[item.add]">
+                        <li ng-repeat="item in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,item)" ng-class="{true:'grey',false:'default'}[item.add]">
                             <label class="checkA">
                                 <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
                                 <span>{{item.username}}</span>

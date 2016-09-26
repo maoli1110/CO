@@ -179,49 +179,85 @@ angular.module('core').directive('scrollDirective', function () {
                 var sideHeight = $(window).height()-124;
 
                $("#content-a2").mCustomScrollbar({
+                   mouseWheelPixels:200,
+                   scrollAmount:10,
+                   scrollSpeed:10,
                     theme:"minimal"
                 });
                 $("#content-a3").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a4").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a5").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a6").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a7").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a8").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a9").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a10").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a11").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a12").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a13").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
@@ -230,6 +266,9 @@ angular.module('core').directive('scrollDirective', function () {
                     theme:"minimal"
                 });
                 $("#content-a15").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     theme:"minimal"
                 });
                 //$("#content-a3").mCustomScrollbar({
@@ -237,15 +276,24 @@ angular.module('core').directive('scrollDirective', function () {
                 //});
                 $("#content-b1").mCustomScrollbar({
                     setHeight:sideHeight,
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     theme:"minimal"
                 });
                 $("#content-b2").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
 
-                $("#statistic_marker").mCustomScrollbar({		// 统计页面--标识
-                    setHeight:281,
+                $("#statistic_marker").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,// 统计页面--标识
+                    setHeight:240,
                     theme:"minimal"
                 });
                 
@@ -324,43 +372,43 @@ angular.module('core').directive('lightHeight', function () {
 
 
 
-            $('#exampleInputName2').bind('keyup change', function(ev) {
-                // pull in the new value
-                var searchTerm = $(this).val();
-                // remove any old highlighted terms
-                $('.project_name').removeHighlight();
-                // disable highlighting if empty
-                if ( searchTerm) {
-                // highlight the new term
-                    $('.project_name').highlight( searchTerm );
-                }
-            });
-
-
-
-            $('#exampleInputName3').bind('keyup change', function(ev) {
-                // pull in the new value
-                var searchTerm = $(this).val();
-                // remove any old highlighted terms
-                $('.menName').removeHighlight();
-                // disable highlighting if empty
-                if (searchTerm) {
-                    // highlight the new term
-                    $('.menName').highlight( searchTerm );
-                }
-            });
-            // be高亮搜索
-            $('#linkbeSear').bind('keyup change', function(ev) {
-                // pull in the new value
-                var searchTerm = $(this).val();
-                // remove any old highlighted terms
-                $('.linkbeMatter').removeHighlight();
-                // disable highlighting if empty
-                if ( searchTerm ) {
-                    // highlight the new term
-                    $('.linkbeMatter').highlight( searchTerm );
-                }
-            });
+            //$('#exampleInputName2').bind('keyup change', function(ev) {
+            //    // pull in the new value
+            //    var searchTerm = $(this).val();
+            //    // remove any old highlighted terms
+            //    $('.project_name').removeHighlight();
+            //    // disable highlighting if empty
+            //    if ( searchTerm) {
+            //    // highlight the new term
+            //        $('.project_name').highlight( searchTerm );
+            //    }
+            //});
+            //
+            //
+            //
+            //$('#exampleInputName3').bind('keyup change', function(ev) {
+            //    // pull in the new value
+            //    var searchTerm = $(this).val();
+            //    // remove any old highlighted terms
+            //    $('.menName').removeHighlight();
+            //    // disable highlighting if empty
+            //    if (searchTerm) {
+            //        // highlight the new term
+            //        $('.menName').highlight( searchTerm );
+            //    }
+            //});
+            //// be高亮搜索
+            //$('#linkbeSear').bind('keyup change', function(ev) {
+            //    // pull in the new value
+            //    var searchTerm = $(this).val();
+            //    // remove any old highlighted terms
+            //    $('.linkbeMatter').removeHighlight();
+            //    // disable highlighting if empty
+            //    if ( searchTerm ) {
+            //        // highlight the new term
+            //        $('.linkbeMatter').highlight( searchTerm );
+            //    }
+            //});
         }
     };
 });
