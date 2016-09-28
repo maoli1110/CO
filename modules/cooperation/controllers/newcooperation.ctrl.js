@@ -4,7 +4,9 @@
  */
 angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Common','Manage','$sce','alertService','headerService',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Common,Manage,$sce,alertService,headerService) {
-    //默认值 
+    //默认值
+	$scope.typeName = $stateParams.typename;
+		//console.log($stateParams.typename,'$stateParams.typeid')
     $scope.isDoc = false; //是否是doc
     $scope.priority = '1'; //优先级
     $scope.flag = {};
@@ -549,7 +551,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		// 	return;
 		// }
 		// debugger
-		console.log('data.linkProjectDptName',$scope.link.linkProjectDptName);
+//		console.log('data.linkProjectDptName',$scope.link.linkProjectDptName);
 		$scope.flag.beginCreate = true;
 		//主题为空
 		if(status==1){
@@ -577,6 +579,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			}
 		}
 
+		var createindex = layer.load(1, {
+			shade: [0.1,'#000'] //0.1透明度的黑色背景
+		});
 		
 		if(uploader.queue.length && uploader1.queue.length) {
 			//上传全部图片
@@ -696,9 +701,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    	clearInterval(checkUploadInterval);
 	    }
         function saveCooperation () {
-        	var createindex = layer.load(1, {
-			  shade: [0.1,'#000'] //0.1透明度的黑色背景
-			});
+        	
         	// var backJson = BimCo.SubmitAll();
         	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
        	

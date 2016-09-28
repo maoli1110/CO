@@ -34,20 +34,71 @@
             <div class="col-xs-2">资料：</div>
             <div class="upload-docs col-xs-10">
                 <input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
-                <ul class="list-inline">
-                    <li ng-repeat="item in uploader1.queue">
+                <ul class="list-inline updata-up">
+                    <li ng-repeat="item in uploader1.queue" style="margin-bottom:10px;" profit>
                        <!--  Name: <span ng-bind="item.file.name"></span><br/> -->
-                       <div class="updata-photo">
-	                        <div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) === 'image'" ng-thumb="{ file: item._file, height: 100 }"></div>
-	                        <div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) !== 'image'" style="width:72px;">
-	                            <img src="./imgs/icon/icon-doc.png" alt=""><br/><br/>
-	                            <div class="substr" title="{{item.file.name}}">{{item.file.name}}</div>
-	                        </div>
-                        </div>
-                        <div class="substr" style="margin-top:20px;width: 100px;" title="{{item.file.name}}">{{item.file.name}}</div>
+                       <div class="updata-photo" style="margin-bottom:10px;">
+	                        <!--<div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) === 'image'" ng-thumb="{ file: item._file, height: 100 }"></div>-->
+	                        <!--<div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) !== 'image'" style="width:72px;">-->
+	                            <!--<img src="./imgs/icon/icon-doc.png" alt=""><br/><br/>-->
+	                            <!--<div class="substr" title="{{item.file.name}}">{{item.file.name}}</div>-->
+	                        <!--</div>-->
+                           <div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) === 'image'" ng-thumb="{ file: item._file, width:120,height:120 }"  ></div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'txt'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-txt.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar"  ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'doc'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-doc.png" alt=""><br/>
+                               <span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'docx'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-docx.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'pdf'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-pdf.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'ppt'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-ppt.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'xlsx'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-xlsx.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'xls'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-xls.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'pptx'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-pptx.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'dwg'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-dwg.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'rar'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-rar.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'avi'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-avi.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'mp4'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-mp4.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'avi'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-avi.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'mov'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-mov.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'flv'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-flv.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'swf'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-swf.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'wmv'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-wmv.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'mpeg'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-mpeg.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'wmv'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-wmv.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'mpg'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-mpg.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] == 'mp3'"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-mp3.png" alt=""><br/>
+                           </div>
+                           <div class="updata-avatar" ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] != ('txt'||'doc'||'pdf'||'ppt'||'docx'||'xlsx'||'xls'||'pptx'||'jpeg'||'bmp'||'PNG'||'GIF'||'JPG'||'png'||'jpg'||'gif'||'dwg'||'rar'||'zip'||'avi'||'mp4'||'mov'||'flv'||'swf'||'wmv'||'mpeg'||'mpg'||'mp3')"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-other.png" alt=""><br/>
+                           </div>
+                           <div class="updata-hoverStyle">
+                               <span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+                           </div>
+
+                       </div>
+                        <div class="substr" style="width: 100px;right:0" title="{{item.file.name}}">{{item.file.name}}</div>
                         <!--<button ng-click="item.upload()">upload{{item.file.type.substr(0,5)}}</button>-->
                     </li>
                     <button class="btn  btn-add btn-lg" ng-click="docsUpload()"><span>+</span></button>
+
 
                 </ul>
                 <!--<button class="btn  btn-add btn-lg" ng-click="docsUpload()"><span>+</span></button>-->
@@ -62,7 +113,7 @@
     </div>
     </form>
     <div ng-show = "(upcommentForm.desc.$dirty && upcommentForm.desc.$invalid) || isUpdataOK" class="updata-ply" >
-        <span ng-if ="upcommentForm.desc.$error.required ">评论呢评论内容不能为空</span>
+        <span ng-if ="upcommentForm.desc.$error.required ">评论内容不能为空</span>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" type="button" ng-click="ok()" ng-disabled="form1.$invalid">确定</button>

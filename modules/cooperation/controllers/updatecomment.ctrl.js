@@ -137,5 +137,8 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     }
-	    
+	//$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
+	//	$(".update-comment .updata-up li:odd").css({'margin-right':'0','float':'right'})
+	//})
+
 }]);

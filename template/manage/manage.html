@@ -5,6 +5,8 @@
 	.content-scroll-container {
 	    overflow:auto;
 	}
+
+    .box img{max-width:100px;height:auto;width:expression(this.width>100?"100px":this.width);}
 </style>
 <header ng-include="'template/core/header.html'"></header>
 <div class="main-container rela" scroll-directive >
@@ -51,7 +53,8 @@
                                 <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
                                 </dt>
                                 <dd>
-                                    <div class="box" ng-click = "turnPage(trentsLiInfo.ppid)" style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:cover">
+                                    <div  class="box" onerror="this.onerror='';this.src='./imgs/icon-projectDefult.png'" ng-click = "turnPage(trentsLiInfo.ppid)" style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:120px">
+                                        <img ng-if="!trentsLiInfo.projectPicture" src="./imgs/icon/icon-projectDefult.png" alt="">
                                     </div>
                                     <div class=" data_update">
                                         <p class="updata_info" ng-click="updataBook(trentsLiInfo.adds)">资料更新</p>
@@ -69,7 +72,7 @@
                                     <span><img src="imgs/call_back.png" alt=""></span>
                                     <b>返回</b>
                                 </div>
-                                <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr(docType)">
+                                <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr()">
                                     <option value="1">全部类型</option>
                                     <option value="2">文档</option>
                                     <option value="4">图纸</option>
@@ -92,7 +95,28 @@
                                 <!--<button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>-->
                             <!--</div>-->
                         </div>
-                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true">
+                        <!--搜索无工程-->
+                        <div class="noSearch" ng-show="isNoSearchValue">
+                            <dl class="noProject">
+                                <dt>
+                                    <img src="imgs/noBook.png" alt="">
+                                    <span></span>
+                                </dt>
+                                <dd>当前无资料</dd>
+                            </dl>
+                        </div>
+                        <!--搜索无结果-->
+                        <div class="noSearch" ng-show="isNoSearchValueReject">
+                            <dl class="noProject">
+                                <dt>
+                                    <img src="imgs/noReject.png" alt="">
+                                    <span></span>
+                                </dt>
+                                <dd>当前无结果</dd>
+                            </dl>
+                        </div>
+
+                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" >
                             <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
                                 <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
                                 <li ng-repeat="getTrents in trentsListInfo track by $index" class="clearfix" style="min-width:820px;">
@@ -106,13 +130,20 @@
                                         <div class="bx-controls" >
                                             <div class="img_list actives" ng-repeat = "items in getTrents.docs">
                                                 <div ng-if="items.thumbnailUrl" class="tools_bar" style="background:url({{items.thumbnailUrl}}) no-repeat;background-size:cover">
-                                                    <!--<img ng-src="{{items.thumbnailUrl}}" alt="" style="margin-left:0;">-->
+                                                    <img onerror="this.onerror='';this.src='./imgs/pro-icon/icon-jpg.png'" style="margin-top:7px;" ng-src="{{items.thumbnailUrl}}" alt="" style="margin-left:0;" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
+                                                    <div class="bar" >
+                                                        <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
+                                                        <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123"><img src="imgs/icon_down.png"/></a>
+                                                        <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
+                                                        <em></em>
+                                                    </div>
                                                 </div>
                                                 <div ng-if="items.thumbnailUuid==''||items.thumbnailUuid==null" class="tools_bar" >
                                                     <!--文件类型-->
                                                     <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
                                                     <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
-                                                    <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">                                                <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName)" ng-if="items.fileType=='xls'">
+                                                    <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">
+                                                    <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xls'">
                                                     <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='ppt'||items.fileType=='PPT'">
                                                     <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
                                                     <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
@@ -121,7 +152,7 @@
                                                     <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pptx'||items.fileType=='PPTX'">
                                                     <!--图片类型-->
                                                     <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpeg'">
-                                                    <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='bmp'||items.fileType=='BMP'">
+                                                    <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='bmp'">
                                                     <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='PNG'">
                                                     <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='GIF'">
                                                     <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPG'">
@@ -147,9 +178,6 @@
 
 
                                                     <!--显示其他页面-->
-                                                    <!--<img src="imgs/pro-icon/icon-other.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='dll'||items.fileType=='hsf'||items.fileType=='exe'||items.fileType=='cab'||items.fileType=='MSI'||items.fileType=='ini'||items.fileType=='EDS'-->
-                                                    <!--||items.fileType =='xml'||items.docName=='EDS'||items.fileType=='ipa'||items.fileType=='pds' ||items.fileType=='lic'||items.fileType=='h' ||items.fileType=='cpp'||items.fileType=='jar' ||items.filtType=='stz'||items.fileType=='hds'|| items.fileType=='sql'||items.fileType=='kmz'||items.fileType=='stz'||items.fileType=='ndg'">-->
-                                                    <!--<img src="imgs/docType.png" alt="" >-->
                                                     <img src="imgs/pro-icon/icon-other.png" alt="" ng-if="items.fileType=='other'" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
                                                     <em></em>
                                                     <div class="bar" >
@@ -221,14 +249,15 @@
         })
     })
 
-    //调出新建
-    function transCreateCooperation () {
-        $state.go('cooperation',{})
-        $('.new_cooper').click();
-    }
-
-
 </script>
+<script>
+    //资料动态界面调出新建
+    function transCreateCooperation () {
+        document.location= '#/cooperation?newcoop=frombe';
+    }
+</script>
+
+
 
 
 

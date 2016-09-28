@@ -23,7 +23,7 @@
                     <input type="text" class="form-control" ng-model="queryForm" placeholder="搜索联系人" ng-change="responsibleSearch()"><img ng-src="imgs/seache.png" alt="">
                 </div>
             </div>
-            <div class="row person-list" id="content-a9">
+            <div class="row person-list" id="content-a9" style="margin-left: 10px;margin-right: 10px;">
                 <li ng-repeat="user in userList" class="every-list">
                     <a class="first-title" ng-click="isCollapsed = !isCollapsed">
                         <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>

@@ -1,9 +1,9 @@
 /**
  * Created by sdergt on 2016/8/16.
  */
-angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage','$timeout',
+angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage','$timeout','headerService',
 
-    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage,$timeout) {
+    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage,$timeout,headerService) {
         $scope.device = false;
         //判断pc or bv
         if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
@@ -12,6 +12,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         var coid = $stateParams.coid;
         $scope.transcoid = $stateParams.coid;
         $scope.zhenggai = false;
+        $scope.responsiblePerson = {}//选择相关人
         var contracts = [];
         //设置日期相关
         $scope.dateOptions = {
@@ -130,7 +131,27 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $(".mobile-reply,.pc-reply").css('display','block')
             }
 
-            
+            //选择负责人
+            $scope.selectResponsible = function () {
+                var modalInstance = $uibModal.open({
+                    windowClass: 'select-person-responsible-modal',
+                    backdrop : 'static',
+                    templateUrl: 'template/cooperation/select_person_responsible.html',
+                    controller:'selectpersonCtrl',
+                    resolve:{
+                        items: function () {
+                            return [];
+                        }
+                    }
+                });
+                modalInstance.result.then(function (selectedItem) {
+                    $scope.responsiblePerson = selectedItem;
+                });
+            }
+            headerService.currentUserInfo().then(function(data){
+                $scope.responsiblePerson.username = data.userName;
+                $scope.responsiblePerson.avatar = data.avatarUrl;
+            })
             var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3']; 
             angular.forEach($scope.collaList.docs, function(value, key) {
                 var imgsrc = "imgs/pro-icon/icon-";

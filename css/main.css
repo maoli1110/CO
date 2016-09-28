@@ -95,8 +95,8 @@ li {
     bottom:0;
 }
 .sidebar .mCustomScrollBox{
-    height:800px;
-}
+     height:800px;
+ }
 .monitor-border {
     border: 1px solid #e6eaf1;
 }
@@ -625,18 +625,20 @@ padding: 5px 25px;
     height:47px;
     cursor:pointer;
 }
-.cop-edit{
-    width:47px;
-    height:40px;
-    /*display:inline-block;*/
-    background:#eceef0 url(../imgs/icon/icon-edit.png) no-repeat center ;
-    /*float:left;*/
-    display:none;
-    position:absolute;
-    left:0;
-    top:3px;
+.right-content .table-list tbody tr:hover{
+    background:#f5f6f7;
 }
-
+.cop-edit{
+    width: 24px;
+    height: 40px;
+    background: url(../imgs/icon/icon-edit.png) no-repeat center;
+    position: absolute;
+    left: 4px;
+    top: 5px;
+}
+.edit-detailC .container{
+    margin-top:100px;
+}
 .right-content .table-list td .cop-add:hover{
     background: url(../imgs/icon/icon-add.png) no-repeat 0 0px;
 }
@@ -1141,7 +1143,9 @@ padding: 5px 25px;
     color: #ccc;
     border-color: #ddd;
     position:absolute;
+
 }
+
 .create .btn-default:hover {
     border-color: #ccc;
     color: #ccc;
@@ -1183,6 +1187,11 @@ padding: 5px 25px;
     margin-left:-200px;
     /*margin-top:-225px;*/
 }
+ .updata-comment .local-remove{
+     right: 196px;
+     color: #ddd;
+     top: 3px;
+ }
 .detail-state{
     margin:15px 0;
 }
@@ -1324,6 +1333,7 @@ padding: 5px 25px;
 .link-component-modal .ztree-scroll{
     height:410px !important;
     border: 1px solid #ddd;
+    overflow: auto;
 }
 .link-categoty-modal .modal-dialog{
     width:671px;
@@ -1660,11 +1670,13 @@ textarea{
    max-width:100% !important;
 }
 .select-person-responsible .row {
-    padding: 0px 15px;
+    padding: 0px;
 }
 .select-person-responsible .row.left-1{
-    padding: 0 19px;
+    padding: 0 4px;
     margin-bottom: 15px;
+    margin-left: 10px;
+    margin-right: 13px;
 }
 .select-person-responsible .select{
     padding:0;
@@ -1805,6 +1817,21 @@ textarea{
     background:#fff;
     border:1px solid #ddd;
 }
+.linkbe .right .bg-pagination{
+    text-align:center;
+}
+.linkbe .right .pagination>.active>a{
+    background:#65c17d;
+    border:#65c17d;
+    height:30px;
+    color:#fff;
+}
+.linkbe .right .pagination>li>a, .pagination>li>span{
+    color:#333;
+}
+.linkbe .right .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover{
+    outline-color:#65c17d;
+}
 /*.simulate-select{
 	background:#fff;
     border:1px solid #ddd;
@@ -1837,7 +1864,10 @@ textarea{
     height: 22px;
     position: absolute;
     top: 0;
-    left: 0;
+    left: 5px;
+}
+.public-head{
+    padding:0 10px;
 }
 .modal-content{
     border-radius:0;
@@ -2344,22 +2374,52 @@ textarea{
     text-align:center;
     overflow:hidden;
     margin:0 auto;
-    margin-right: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
 }
+.updata-photo{
+    position:relative;
+}
+.updata-photo:hover .updata-hoverStyle{
+    display:block;
+}
+.updata-photo .updata-avatar{
+    margin: 14px auto ;
+    position:relative;
+}
+.updata-photo .updata-avatar .local-remove{
+    color: #ddd;
+    top: -11px;
+    right: 0 !important;
 
+}
+.updata-hoverStyle{
+    width:118px;
+    background:#000;
+    opacity: 0.1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height:118px;
+    display:none;
+}
 .updata-photo .up-picture {
     overflow:hidden;
     vertical-align:middle;
     display:inline-block;
 }
 .updata-photo  span{
-    width: 0;
+    width: 15px;
     height: 100%;
     display: inline-block;
     vertical-align: middle;
 }
-
+.updata-photo .local-remove{
+    width: 20px;
+    height:20px;
+    display:inline-block;
+    right: 0 !important;
+    color:#ccc;
+}
 /*label弹层*/
 .layui-layer-btn .layui-layer-btn0{
     background:#65c17d !important;
@@ -2411,13 +2471,20 @@ textarea{
 }
 .photo-close{
     top: 5px;
-    right: 18px !important;
+    right: 3px !important;
     color: #ddd;
 }
 /*添加更新*/
 .updata-ply{
     text-align:center;
     color:red;
+}
+.updata-up{
+    margin-bottom:10px;
+    margin-left:0 !important;
+}
+.updata-up li{
+    margin-right: 18px;
 }
 /*提示信息弹框*/
 .tips {

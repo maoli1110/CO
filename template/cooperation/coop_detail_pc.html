@@ -87,16 +87,20 @@
                                     <dl ng-if="item.needSign ==true" ng-repeat="item in collaList.relevants" class="photoImg">
                                         <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                                         <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
-                                        <dd ng-if="!item.isReaded">未读</dd>
-                                        <dd ng-if="item.isReaded">已读</dd>
+                                        <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                        <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                                        <dd ng-if="item.isPassed">已通过</dd>
+                                        <dd ng-if="item.isRejected">已拒绝</dd>
                                     </dl>
                                     <!--修饰线-->
                                     <div class="adorn-line"></div>
                                     <dl ng-if="item.needSign ==false" ng-repeat="item in collaList.relevants" class="photoImg" style="margin-left:38px;margin-right:0">
                                         <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                                         <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
-                                        <dd ng-if="!item.isReaded">未读</dd>
-                                        <dd ng-if="item.isReaded">已读</dd>
+                                        <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                        <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                                        <dd ng-if="item.isPassed">已通过</dd>
+                                        <dd ng-if="item.isRejected">已拒绝</dd>
                                     </dl>
                                 </div>
                             </div>
@@ -106,11 +110,16 @@
                             <div class="col-xs-2 col-md-1">
                                 <p class="F16">照片：</p>
                             </div>
-                            <div class="col-xs-8 col-md-11 picInfo ">
-                                <dl class="data-list" ng-repeat="item in collaList.pictures">
-                                    <dt class="rela detail-sear" style="background:url({{item.thumbnailUrl}});background-size:cover">
-                                        <!--<img src="{{item.thumbnailUrl}}" ng-click="pcZoom(item.name,item.uuid)"/>-->
-                                        <div class="detail-search F14" ng-click="pcPreView(item.name, item.uuid)">
+                            <div class="col-xs-8 col-md-11 picInfo">
+                                <dl class="data-list" ng-repeat="item in collaList.pictures" profit>
+                                    <dt class="rela detail-sear" style="background:url({{item.thumbnailUrl}});background-size:cover" ng-if="item.thumbnailUrl" >
+                                        <div class="detail-search F14"  ng-click="previewSign(item.uuid,item.name,2)">
+                                             <img src="imgs/seache.png" alt="">
+                                        </div>
+                                    </dt>
+                                     <dt class="rela detail-sear" ng-if="item.thumbnailUrl==null">
+                                        <img ng-src="{{item.imgsrc}}" alt="">
+                                        <div class="detail-search F14"  ng-click="previewSign(item.uuid,item.name,2)">
                                              <img src="imgs/seache.png" alt="">
                                         </div>
                                     </dt>

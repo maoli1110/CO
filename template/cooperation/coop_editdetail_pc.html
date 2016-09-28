@@ -31,34 +31,23 @@
                         <div class="proInfo">
                             <div class="pro_man clearfix row">
                                 <div class="coop-theme row clearfix col-md-12">
-                                    <span class="theme-title F16" style="width:80px;text-align:left;">主题：</span>
-                                    <input type="text" style="margin-left:30px;" class="int-style F16" ng-model="collaList.name" ng-change="" maxlength="50">
+                                    <span class="theme-title F16 col-xs-1" style="width:80px;text-align:left;margin-top:3px;">主题：</span>
+                                    <input type="text"  class=" F16 col-xs-11" style="border:1px solid #ddd;padding:0 10px;" ng-model="collaList.name" ng-change="" maxlength="50">
                                 </div>
                                 <div class="col-xs-5 col-md-5 basicInfo">
                                     <div>
-                                        <span class="F16" style="width:80px;text-align:left;">负责人：</span>
-                                        <input type="text" class="int-style F16" ng-model="collaList.collaborator" disabled />
-                                    </div>
-                                    <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
-                                        <div class="inline int-style" style="margin-left: 4px;" ng-model="statusE">{{collaList.status}}</div>
+                                        <div class="inline int-style"  ng-model="statusE">{{collaList.status}}</div>
                                     </div>
                                 </div>
                                 <div class="col-xs-5 col-md-4 pad_clear basicInfo">
-                                    <div style="margin-bottom:0">
+                                    <div style="margin-bottom:25px;">
                                         <span class="edit-state F16" style="text-align:left;">优先级:</span>
-                                        <select class="selectpicker col-xs-6 priority" ng-model="priority" ng-change="switchPriority(priority)">
+                                        <select class="selectpicker col-xs-6 priority" ng-model="priority" ng-change="switchPriority(priority)" >
                                             <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
                                         </select>
                                     </div>
-                                    <div style="margin-bottom:0;" class="edit-blank">
-                                    	<span class="edit-state F16" style="text-align:left;">标识:</span>
-                                        <select class="identify selectpicker1" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
-                                           <option value="{{item.markerId}}" data-content="<span title='{{item.picMarker}}' class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
-                                           		<span title='{{item.picMarker}}' class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index">
-                                           	</option>
-                                        </select>
-                                    </div>
+
                                 </div>
                                 <div class="col-xs-2 col-md-3 pad_clear basicInfo" style="float:right">
                                     <span class="edit-state edit-date F16" >期限:</span>
@@ -67,6 +56,14 @@
                                         <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
                                         <input type="hidden" class="calder" readonly uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
                                     </div>
+                                </div>
+                                <div style="margin-bottom:0;" class="edit-blank col-xs-5">
+                                    <span class="edit-state F16" style="text-align:left;width:80px;display:inline-block;vertical-align:top">标识:</span>
+                                    <select class="identify selectpicker1" style="width:180px;" data-width="80%" ng-model="mark1" ng-change="switchMark(mark1)" >
+                                        <option value="{{item.markerId}}" data-content="<span title='{{item.picMarker}}' class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
+                                           		<span title='{{item.picMarker}}' class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index">
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <!--detail(详情描述)-->
@@ -80,6 +77,21 @@
                                     </div>
                                 </div>
                                 <div class="Avatar row pc-relate">
+                                    <!--<div>-->
+                                        <!--<span class="F16" style="width:80px;text-align:left;">负责人：</span>-->
+                                        <!--<input type="text" class="int-style F16 m-4" ng-model="collaList.collaborator" disabled />-->
+                                    <!--</div>-->
+                                    <div class="row" style="padding:0;margin-bottom:20px;">
+                                        <label for="" class="col-xs-1 align-right">负责人：</label>
+                                        <div class="inline col-xs-7">
+                                            <ul class="inline rela relative-ion">
+                                                <img ng-src="{{responsiblePerson.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="responsiblePerson.avatar"/>
+                                                <img ng-src="./imgs/icon/defalut.png" ng-if="responsiblePerson.avatar==null" alt=""/>
+                                                <li class="substr" title="{{responsiblePerson.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{responsiblePerson.username}}</li>
+                                            </ul>
+                                            <!--<button class="btn add-related edit-addRelated" ng-click="selectResponsible()"><span>+</span></button>-->
+                                        </div>
+                                    </div>
                                     <div class="col-xs-3 col-md-1">
                                         <p class="F16">相关人:</p>
                                     </div>
@@ -87,8 +99,10 @@
                                         <dl class="photoImg" style="text-align:center;"  ng-repeat="item in collaList.relevants">
                                             <dt><img ng-src="{{item.avatar}}"/></dt>
                                             <dd>{{item.username}}</dd>
-                                            <dd ng-if="!item.isReaded">未读</dd>
-                                            <dd ng-if="item.isReaded">已读</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                                            <dd ng-if="item.isPassed">已通过</dd>
+                                            <dd ng-if="item.isRejected">已拒绝</dd>
                                         </dl>
                                         <div class="inline add-chioce">
                                             <dl class="inline photoImg" ng-repeat="item in related.sign" style="text-align:center;">
@@ -149,8 +163,10 @@
                                 <div class="col-md-11 col-xs-10">
                                     <div class="say clearfix col-xs-12" ng-repeat="item in collaList.comments">
                                         <div class="col-xs-4 col-md-1 man_pic">
-                                            <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
-                                            <p class="substr" title="{{item.commentator}}">{{item.commentator}}</p>
+                                            <div>
+                                                <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
+                                                <p class="substr" title="{{item.commentator}}" style="max-width:60px;">{{item.commentator}}</p>
+                                            </div>
                                         </div>
                                         <div class="col-xs-8 col-md-11 comment">
                                             <!-- 状态 -->

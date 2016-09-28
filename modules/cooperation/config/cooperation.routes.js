@@ -21,11 +21,15 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 			}
 		})
 		.state('newcopper', {
-			'url':"/newcopper/:typeid",
+			'url':"/newcopper?typeid",
 			templateUrl: 'template/cooperation/newcopper.html',
 			controller: 'newcoopreationCtrl',
 			data: {
 				displayName: 'newcopper'
+			},
+			params:{
+				typeid:null,
+				typename:null
 			}
 		})
 		.state('coopdetail', {

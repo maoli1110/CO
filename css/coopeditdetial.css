@@ -37,6 +37,10 @@ header{
 .edit-blank  .btn-group{
     width:53% !important;
 }
+.edit-blank>span+div{
+    margin-left:-4px !important;
+    margin-bottom:20px;
+}
 .btn-group button{
     background:#fff;
     border:1px solid #ddd;
@@ -133,6 +137,10 @@ header .close{
 .proInfo .pro_man .basicInfo div .edit-state{
     float: left;
     margin-top: 3px;
+    vertical-align:top !important;
+}
+.edit-blank  .btn.dropdown-toggle{
+    width:200px !important;
 }
 .proInfo .pro_man .basicInfo  .edit-date{
     padding: 0 12px;
@@ -167,8 +175,9 @@ header .close{
     margin-bottom:23px;
 }
 .proInfo .pro_man div:nth-child(2){
-    margin-bottom:23px;
+    /*margin-bottom:23px;*/
 }
+
 /*.proInfo .pro_man .active{*/
     /*margin-top:15px;*/
     /*float: left;*/
@@ -421,6 +430,10 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .reply .man_pic{
     text-align:left;
 }
+.reply .man_pic>div{
+    text-align:center;
+    display:inline-block;
+}
 .reply .man_pic p{
     margin-top:10px;
     margin-left: 8px;
@@ -446,6 +459,9 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 }
 .reply .say .comment .say-content{
     padding-left:10px !important;
+}
+.comment-doclist .inline .substr{
+    max-width:80px;
 }
 /*.reply .say .comment .say-content div{*/
     /*width: 80px;*/
@@ -956,10 +972,11 @@ html,body{
     padding:0;
 }
 .mobile-main  .mobile-relate .mobile-relate-con dl{
-    width:45px;
+    width:50px;
     text-align:center;
     display:inline-block;
     margin-right:16px;
+    margin-bottom:20px;
 }
 
 .mobile-main  .mobile-relate .mobile-relate-con dl img{
@@ -1171,4 +1188,17 @@ html,body{
 
 .list-inline{
     margin-left:0px;
+}
+.m-4{
+    margin-left:-4px;
+}
+.edit-addRelated{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.Avatar  label{
+    font-weight:normal;
+    font-size:16px;
 }

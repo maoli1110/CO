@@ -41,8 +41,10 @@
                 <dl ng-repeat="item in collaList.relevants" class="photoImg">
                     <dt><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                     <dd class="substr" title="{{item.username}}" style="font-size:14px;">{{item.username}}</dd>
-                    <dd ng-if="!item.isReaded">未读</dd>
-                    <dd ng-if="item.isReaded">已读</dd>
+                    <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                    <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                    <dd ng-if="item.isPassed">已通过</dd>
+                    <dd ng-if="item.isRejected">已拒绝</dd>
                 </dl>
             </div>
             <div ng-show="isRevlentMore" style="margin-top:10px;">

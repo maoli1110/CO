@@ -37,7 +37,7 @@
                            <span class="bs-caret"><span class="caret"></span></span>
                         </div>
                            <div uib-collapse="!isCollapsed" class="project-list" style="margin-top:10px;">
-                               <ul style="max-height: 350px;width: 194px;background-color: #fff;padding-left:10px;" class="projectOption">
+                               <ul style="max-height: 395px;width: 194px;background-color: #fff;padding-left:10px;" class="projectOption">
                                    <li class="substr" style="width: 158px;height: 26px;text-align: left;" title="{{item.projectName}}" ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
                                    <img src="imgs/icon/1.png" alt="" ng-if="item.projectType=='土建预算'" style="width:20px">
                                    <img src="imgs/icon/2.png" alt="" ng-if="item.projectType=='钢筋预算'" style="width:20px">
@@ -72,7 +72,7 @@
                     <ul id="tree" class="ztree"></ul>
                 </div>
             </div>
-            <div class="col-xs-6 right" id="content-a7" style="margin-left:15px;">
+            <div class="col-xs-6 right" id="content-a7" style="padding:0">
                 <div class="clearfix public-head">
                     <div class="pull-left">
                         <label>
@@ -84,8 +84,8 @@
                     <!--<div class="pull-left"><label ><input type="checkbox"><span  class="book-style font16">共{{docList.length}}份资料</span></label></div>-->
                     <div class="pull-right">
                         <form>
-                            <input type="text" class="be-sear" id="linkbeSear" ng-model="searchname" placeholder="搜索资料名称、上传人" ng-change="docSearch()">
-                            <span  class="posi"><img  src="imgs/seache.png" alt=""></span>
+                            <input type="text" class="be-sear" id="linkbeSear" ng-model="searchname" placeholder="搜索资料名称、上传人" ng-keyup="myKeyup($event)">
+                            <span  ng-click="docSearch()" class="posi"><img  src="imgs/seache.png" alt=""></span>
                         </form>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                                 </td>
                                 <td><img src="imgs/pro-icon/icon-txt.png" alt=""></td>
                                 <td><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
-                                    <span class="be-proview"></span>
+                                    <!-- <span class="be-proview"></span> -->
                                 </td>
                                 <td><p class="substr linkbeMatter" style="width:57px" title="{{row.uploader}}">{{row.uploader}}</p></td>
                             </tr>

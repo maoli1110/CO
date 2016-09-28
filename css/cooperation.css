@@ -1,4 +1,4 @@
-@media screen and (min-width:1080px) {
+@media screen and (min-width:1080px) and(max-width:1081px) {
 	.data_every .data_graph{
 		margin:0px !important;
 	}
@@ -10,8 +10,15 @@
 	.count-echart{
 		margin-top:33px;
 	}
+	/*.operation .operation-mask{*/
+		/*width: 89%;*/
+	/*}*/
 }
-
+/*@media screen and (min-width:1919px) and (max-width:1920px){*/
+	/*.operation .operation-mask{*/
+		/*width:94.6% ;*/
+	/*}*/
+/*}*/
 * {
 	margin: 0;
 	padding: 0;
@@ -123,8 +130,10 @@ canvas{
 }
 .coop-countElement{
 	font-weight: normal;
-	float: right;
-	margin-right: 8px;
+	/*float: right;*/
+	/*margin-right: 8px;*/
+	position:absolute;
+	right:8px;
 }
 .coop-menusSet{
 	width: 157px;
@@ -155,9 +164,6 @@ canvas{
     left: 0px;
     line-height: 36px;
     border: 1px solid #ccc;
-}
-.comboBox .tabs .priority-check input[type=checkbox]:checked + div {
-	background: #979ba8;
 }
 
 .comboBox .tabs .check-sub1 .input-check {
@@ -226,6 +232,20 @@ canvas{
 }
 .first-list{
 	margin-left:161px;
+}
+.operation{
+	position:relative;
+}
+.operation-mask{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background: #fff;
+	z-index: 1;
+	opacity: 0.4;
+	display:none;
 }
 /*data_count(鏁版嵁缁熻椤甸潰)*/
 
@@ -409,4 +429,15 @@ canvas{
 	border: 1px solid #69C080 !important;
 	background: #fff !important;
 	color: #000 !important;
+}
+.bg-lock{
+	background:#eceef0;
+}
+
+
+.bootstrap-select > select{
+	left:0;
+}
+.m-40{
+	margin-left:40px !important;
 }

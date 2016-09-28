@@ -2,8 +2,8 @@
 /**
  * 协作管理
  */
-angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','$location',
-    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,$location) {
+angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','$location','$timeout',
+    function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,$location,$timeout) {
     var urlParams = $location.search(); //截取url参数
     $scope.flag = {};
     $scope.flag.isEmptyUrl = $.isEmptyObject(urlParams); //判断当前url参数否为空 false:有值 true：空
@@ -34,6 +34,13 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.deptIdToken = 0;//防止点击项目部多次提交
     $scope.ppidToken = 0;//防止点击工程部多次提交
     $scope.deptIdOpenToken = 0;//防止点击项目部关闭多次提交;
+    var oldSelsectType = [];//筛选旧值存储-协作类型
+	var oldPriority = [];//筛选旧值存储-优先级
+	var oldMark = [];//筛选旧值存储-标识
+	$scope.checkboxSelsectType = [];//筛选实际checkbox旧值存储-协作类型
+	$scope.checkboxPriority = [];//筛选实际checkbox旧值存储-优先级
+	$scope.checkboxMark = [];//筛选实际checkbox旧值存储-标识
+	
     $scope.openNew = function () {
     	$scope.openSignal = true;
     	Cooperation.getTypeList().then(function (data) {
@@ -56,6 +63,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
           }
         });
     		$scope.typeList = data;
+
     	});
     }
     
@@ -87,7 +95,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.flag.isDraft = true;
 		$scope.deptIdOpenToken = 0;
 		searId = id;
-		console.info('searId',searId)
+//		console.info('searId',searId)
       $scope.initScrollend(id);
 			$scope.projectInfoList = [];
 			queryData = {};
@@ -116,6 +124,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				$scope.cooperationList = data;
 				queryData.deptId = '';
 				queryData.ppid = '';
+				//console.info('$scope.cooperationList',$scope.typeList)
+				console.info('xjmifsnfw',$scope.cooperationList)
+				if($scope.cooperationList.isLock){
+					$('.table  tbody .problems-rect .problems-box').css('margin-left','40px')
+				}
 			});
 		}
 
@@ -125,6 +138,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       $('.overlay').css('display','block');
       $('.overlay').css('top','59px');
       $('.overlay').css('height','calc(100vh - 115px)');
+	  $('.operation-mask').css('display','block')
     }
     //点击蒙层隐藏筛选匡
     $scope.clicklay = function () {
@@ -143,9 +157,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       $scope.everyDetail = item;
     }
 
-    $scope.trans = function (typeId) {
-    	var url = $state.href('newcopper', {typeid: typeId});
-    	window.open(url,'_self');
+    $scope.trans = function (typeId,typeName) {
+    	$state.go('newcopper', {'typeid': typeId,'typename':typeName},{location:'replace'});
+    	//window.open(url,'_self');
     }
 
     //获取项目部列表3434
@@ -192,6 +206,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
+         $scope.flag.isDraft = false;
       $('#deptbutton_'+deptId).parent().addClass('menusActive');
       $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive'); 
       
@@ -335,7 +350,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	      	firstflag = false;
 		}
 		//协作筛选状态被改变时触发
-		//debugger;
 		if(!$scope.typeCheck ||!$scope.priorityCheck||!$scope.markCheck){
 			$('.cop-filter').addClass('filter-active');
 		}else{
@@ -371,6 +385,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
                 $(this).addClass("menusActive").siblings().removeClass("menusActive");
             });
 	})
+
 	
 	//删除草稿箱的内容
 	$scope.deleteProject = function(coid){
@@ -387,6 +402,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var token = false;
    	//点击工程获取协同列表
    $scope.getCollaborationList = function (ppid) {
+	   var createindex = layer.load(1, {
+		   shade: [0.1,'#000'] //0.1透明度的黑色背景
+	   });
 	  if(queryData.ppid==ppid && queryData.modifyTimeCount != 1){
 		  return;
 	  }else{
@@ -398,12 +416,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
           queryData.modifyTime = '';
           queryData.modifyTimeCount = 0;
 	  }
+
       $scope.initScrollend(ppid);
    	  queryData.ppid = ppid;
 	  $scope.typeStatStr=[];
    	  Cooperation.getCollaborationList(queryData).then(function (data) {
    		   $scope.cooperationList = data;
    		   $scope.ppidToken = 1;
+		  layer.close(createindex)
    	  });
    }
     
@@ -459,27 +479,30 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
              }
         }
      }
-
     $scope.updateSelection = function($event,id,signal,index){
-        var checkbox = $event.target;
+    	var checkbox = $event.target;
         var action = (checkbox.checked?'add':'remove');
         var type;
+		var obj = {index:index, flag:checkbox.checked};
         switch (signal) {
         	case 1:
         		type = queryTypeSelected;
+        		$scope.checkboxSelsectType[index] = {index:index, checkbox:checkbox};
         		break;
         	case 2:
         		type = queryPriorityselected;
+        		$scope.checkboxPriority[index] = {index:index, checkbox:checkbox};
         		break;
         	case 3:
         		type = queryMarkSelected;
+        		$scope.checkboxMark[index] = {index:index, checkbox:checkbox};
         		break;
         }
         updateSelected(action,id,type,index,signal);
     }
     
     $scope.isSelected = function(id){
-    	console.log(queryTypeSelected.indexOf(id));
+//    	console.log(queryTypeSelected.indexOf(id));
         return queryTypeSelected.indexOf(id)>=0;
     }
     //选中
@@ -494,31 +517,50 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
     //alltype全选
 	$scope.allType = function () {
+		oldSelsectType = new Array($scope.coQueryType.length);
 		if($scope.typeCheck) {
 			$('.type-check').find('input').prop('checked',true);
             queryTypeSelected = _.cloneDeep($scope.coQueryType);
-            for(var i=0;i<6;i++) {
+            for(var i=0;i<$scope.coQueryType.length;i++) {
                 $('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
+				var type = {name:$scope.coQueryType[i].name,flag:true};
+				oldSelsectType[i] = type;
             }
+
 		} else {
-            for(var j=0;j<6;j++) {
-                $('.bgs' + j).removeClass('bgs' + j).addClass('bg' + j);
+            for(var i=0;i<$scope.coQueryType.length;i++) {
+                $('.bgs' + i).removeClass('bgs' + i).addClass('bg' + i);
+				var type = {name:$scope.coQueryType[i].name,flag:false};
+				oldSelsectType[i] = type;
             }
 			$('.type-check').find('input').prop('checked',false);
 			queryTypeSelected = [];
 		}
+		
+		$scope.checkboxSelsectType = new Array(oldSelsectType.length);
 	}
 
 	//allPriority全选
     $scope.allPriority = function () {
+    	oldPriority = new Array($scope.coPriority.length);
         $('.priority-check label').addClass('input-check');
     	if($scope.priorityCheck) {
     		$('.priority-check').find('input').prop('checked',true);
     		queryPriorityselected = _.cloneDeep($scope.coPriority);
+			for(var i = 0;i<$scope.coPriority.length;i++){
+				var type = {name:$scope.coPriority[i].name,flag:true};
+				oldPriority[i] = type;
+			}
+
     	} else {
     		$('.priority-check').find('input').prop('checked',false);
     		queryPriorityselected = [];
+			for(var i = 0;i<$scope.coPriority.length;i++){
+				var type = {name:$scope.coPriority[i].name,flag:false};
+				oldPriority[i] = type;
+			}
     	}
+    	$scope.checkboxPriority = new Array(oldPriority.length);
     }
 
     //marking标识全选
@@ -526,16 +568,24 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	if($scope.markCheck) {
     		$('.mark-check').find('input').prop('checked',true);
     		queryMarkSelected = _.cloneDeep($scope.coMark);
-
+			for(var i=0;i<$scope.coMark.length;i++){
+				var type = {name:$scope.coMark[i].name,flag:true};
+				oldMark.push(type);
+			}
     	} else {
     		$('.mark-check').find('input').prop('checked',false);
     		queryMarkSelected = [];
+			for(var i=0;i<$scope.coMark.length;i++){
+				var type = {name:$scope.coMark[i].name,flag:false};
+				oldMark.push(type);
+			}
     	}
+    	$scope.checkboxMark = new Array(oldPriority.length);
     }
 
     //动态筛选-确定-按钮-搜索
     $scope.filterOk = function () {
-      console.log($scope.scrollend);
+		$('.operation-mask').css('display','none')
 		if($scope.markCheck && $scope.priorityCheck &&$scope.typeCheck){
 			isCheck()
 		}else{
@@ -547,17 +597,55 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	var type601Selected = [];
     	var type602Selected = [];
     	var type603Selected = [];
+		for(var i=0;i<oldSelsectType.length;i++) {	// 确定时 新值覆盖旧值-协作类型
+			var oldName = oldSelsectType[i].name;
+			for(var j=0;j<queryTypeSelected.length;j++) {
+				var newName = queryTypeSelected[j].name;
+				if(oldName == newName) {
+					oldSelsectType[i].flag = true;
+					break;
+				} else {
+					oldSelsectType[i].flag = false;
+				}
+			}
+		}
+		for(var i=0;i<oldPriority.length;i++) {	// 确定时 新值覆盖旧值-优先级
+			var oldName = oldPriority[i].name;
+			for(var j=0;j<queryPriorityselected.length;j++) {
+				var newName = queryPriorityselected[j].name;
+				if(oldName == newName) {
+					oldPriority[i].flag = true;
+					break;
+				} else {
+					oldPriority[i].flag = false;
+				}
+			}
+		}
+		
+		for(var i=0;i<oldMark.length;i++) {	// 确定时 新值覆盖旧值-标识
+			var oldName = oldMark[i].name;
+			for(var j=0;j<queryMarkSelected.length;j++) {
+				var newName = queryMarkSelected[j].name;
+				if(oldName == newName) {
+					oldMark[i].flag = true;
+					break;
+				} else {
+					oldMark[i].flag = false;
+				}
+			}
+		}
+		
     	angular.forEach(queryTypeSelected,function (value, key) {
 			var unit = {};
 			unit.type= 601;
 			unit.value = {key:value.key};
-			type602Selected.push(unit);
+			type601Selected.push(unit);
     	});
     	angular.forEach(queryPriorityselected,function (value, key) {
 			var unit = {};
 			unit.type= 602;
 			unit.value = {key:value.key};
-			type601Selected.push(unit);
+			type602Selected.push(unit);
     	});
     	angular.forEach(queryMarkSelected,function (value, key) {
     		var unit = {};
@@ -579,8 +667,78 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
 
     $scope.filterCancel = function () {
+		$('.operation-mask').css('display','none')
         $scope.isCollapsed = false;
         $('.overlay').css('display','none');
+        
+		var typeLength = 0;
+		for(var i=0;i<oldSelsectType.length;i++) {	// 取消时 旧值覆盖新值-协作类型(背景图片调整)
+			if(oldSelsectType[i].flag){	// 选中
+				$('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
+				typeLength++;
+			} else {	// 没选中
+				$('.bgs' + i).removeClass('bgs' + i).addClass('bg' + i);
+			}
+			for(var j=0; j < $scope.checkboxSelsectType.length; j++) {
+				if($scope.checkboxSelsectType[j] != undefined && i == j) {
+					// 实际的checkbox选中状态
+					$('.bg' + i  +' input, .bgs' + i  +' input' ).prop("checked",oldSelsectType[i].flag);
+					break;
+				}
+			}
+		}
+		// 全选按钮样式
+		if(oldSelsectType.length == typeLength){
+			$('#allTypeId').prop('checked',true);
+		} else {
+			$('#allTypeId').prop('checked',false);
+		}
+		
+		var priorityLength = 0;
+		for(var i=0;i<oldPriority.length;i++) {	// 取消时 旧值覆盖新值-优先级(背景调整)
+			if(oldPriority[i].flag){	// 选中
+				$('.priority_' + i).attr("background", "#979ba8");
+				priorityLength++;
+			} else {	// 没选中
+				$('.priority_' + i).attr("background", "#fff");
+			}
+			for(var j=0; j < $scope.checkboxPriority.length; j++) {
+				if($scope.checkboxPriority[j] != undefined && i == j) {
+					// 实际的checkbox选中状态
+					$('.checkbox_priority_' + i ).prop("checked",oldPriority[i].flag);
+					break;
+				}
+			}
+		}
+		// 全选按钮样式
+		if(oldPriority.length == priorityLength){
+			$('#allPriorityId').prop('checked',true);
+		} else {
+			$('#allPriorityId').prop('checked',false);
+		}
+		
+		var markLength = 0;
+		for(var i=0;i<oldMark.length;i++) {	// 取消时 旧值覆盖新值-标识(背景调整)
+			if(oldMark[i].flag){	// 选中
+				$('.mark_' + i).attr("background", "#979ba8");
+				markLength++;
+			} else {	// 没选中
+				$('.mark_' + i).attr("background", "#fff");
+			}
+			for(var j=0; j < $scope.checkboxMark.length; j++) {
+				if($scope.checkboxMark[j] != undefined && i == j) {
+					// 实际的checkbox选中状态
+					$('.checkbox_mark_' + i ).prop("checked",oldMark[i].flag);
+					break;
+				}
+			}
+		}
+		// 全选按钮样式
+		if(oldMark.length == markLength){
+			$('#allMarkId').prop('checked',true);
+		} else {
+			$('#allMarkId').prop('checked',false);
+		}
     }
    	//根据属性筛选
    	$scope.changeAttr = function () {
@@ -615,16 +773,22 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    	}
 	//	按enter键进行筛选
 		$scope.searchEnter = function(e){
-			console.info('131',$('#exampleInputName1').val())
 			var keyCode = e.keyCode|| e.which;
 			if($('#exampleInputName1').val()!='' && keyCode==13){
 				$scope.inputSearch();
 			}else if($('#exampleInputName1').val()==''){
 				$scope.cooperationList=[];
-				if(queryData.deptId==""){
-					queryData.deptId = firstdeptid;
+				if(searId==0){
+					queryData.deptId=searId;
+					$scope.getCollaborationListFun()
+				}else{
+					if(queryData.deptId==""){
+						queryData.deptId = firstdeptid;
+					}
+					$scope.getCollaborationListFun();
 				}
-				$scope.getCollaborationListFun();
+
+
 			}
 		}
 
@@ -1016,6 +1180,18 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
 		}
 
+    //跳转详情
+    $scope.transCoDetail = function(currentItem) {
+         $state.go('coopdetail',{'coid':currentItem.coid},{ location:'replace'});
+    }
+
+    //判断是否是从be过来的发起协作
+    if(urlParams.newcoop == 'frombe'){
+      $timeout(function() {
+                    $('.new_cooper').click();
+                });
+      
+    }
 		//服务器时间
 		$scope.currentTime= function(){
 			Cooperation.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
@@ -1026,6 +1202,23 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if($stateParams.transignal == 'be') {
 	    	$scope.openNew();
 		}
+
+		//编辑协作跳转
+	   	 $scope.allowEditTrans = function (item) {
+//	   	 	if($scope.allowEdit) {
+	   	 		Cooperation.checkOut(item.coid).then(function(data) {	
+	   	 		});
+	   	 		/*Cooperation.getCollaboration(item.coid).then(function (data) {
+	   	 			$scope.collaList = data;
+	   	 		});*/
+	   	 		//跳转主页面需要定位到当前工程（延后再说）
+//	   	 		$state.go('cooperation', {coid: item.coid});
+//	   	 		$state.go('cooperation',{'deptId':0,'status':'草稿箱'},{ location: 'replace'});
+//	   	 	} else {
+//	   	 		var r=confirm("当前协作已结束，不允许再操作");
+//	   	 	}
+
+	   	 }
 	}]);
 
 /**

@@ -275,11 +275,14 @@ angular.module('core').directive('scrollDirective', function () {
                 //    theme:"minimal"
                 //});
                 $("#content-b1").mCustomScrollbar({
-                    setHeight:sideHeight,
                     mouseWheelPixels:200,
                     scrollAmount:10,
-                    scrollSpeed:10,
-                    theme:"minimal"
+                    scrollSpeed:5,
+                    //setHeight:sideHeight,
+                    theme:"minimal",
+                    advanced:{
+                        updateOnBrowserResize:false
+                    }
                 });
                 $("#content-b2").mCustomScrollbar({
                     mouseWheelPixels:200,

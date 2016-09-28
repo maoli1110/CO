@@ -15,7 +15,7 @@
 			<div class="operation clearfix">
 				<div class="left">
 					<button  type="button" class="btn btn-default cop-filter" ng-click="openfilter()"><span ><img class="icon-sub"
-							src="imgs/icon/funnel.png" alt=""></span>筛选</button>
+							ng-src="imgs/icon/funnel.png" alt=""></span>筛选</button>
 					<select class="selectpicker cop-list" ng-change="changeAttr()" ng-model="coopattr">
 						<option value="0">全部</option>
 					  	<option value="1">我负责的</option>
@@ -25,7 +25,7 @@
 					</select>
 					<div class="rela search inline">
 						<input type="text" class="form-control coop-searchKey" id="exampleInputName1" style="height:34px;" ng-keyUp = "searchEnter($event)"placeholder="请输入关键字" ng-model="searchkey">
-						<img src="imgs/seache.png" alt="" ng-click="inputSearch()">
+						<img ng-src="imgs/seache.png" alt="" ng-click="inputSearch()">
 					</div>
 					<!-- <button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button> -->
 				</div>
@@ -33,6 +33,7 @@
                     <button type="button" id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;">统计</button>
                     <button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>
                 </div>
+				<div class="operation-mask"></div>
 			</div>
 		</div>
 		<!--筛选框-->
@@ -63,10 +64,10 @@
 									<div class="absol check-funnel"></div>
 								</label>
 							</div>
-							<div class="priority-check rela inline check-sub1" ng-repeat="item in coPriority track by $index" profit>
+							<div class="priority-check rela inline check-sub1 priority_{{$index}}" ng-repeat="item in coPriority track by $index" profit>
 								<label class="rela" style="background: none;margin-right:20px;">
 									<span>{{item.name}}</span>
-									<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 2, $index)">
+									<input type="checkbox" class="absol checkbox_priority_{{$index}}" ng-click="updateSelection($event, item, 2, $index)">
 									<div class="absol check-funnel">{{item.name}}</div>
 								</label>
 							</div>
@@ -81,10 +82,10 @@
 									</label>
 								</div>
 								<div class="marklist" style="margin-top:-7px;">
-									<div class="mark-check rela inline check-sub1" ng-repeat="item in coMark track by $index" profit>
+									<div class="mark-check rela inline check-sub1  mark_{{$index}}" ng-repeat="item in coMark track by $index" profit>
 										<label class="rela" title="{{item.name}}">
 											<span class="width50">{{item.name}}</span>
-											<input type="checkbox" class="absol" ng-click="updateSelection($event, item, 3, $index)">
+											<input type="checkbox" class="absol checkbox_mark_{{$index}}" ng-click="updateSelection($event, item, 3, $index)">
 											<div class="absol width50" >{{item.name}}</div>
 										</label>
 									</div>
@@ -102,40 +103,41 @@
 		<div class="addcoo absol overflow" ng-show="openSignal">
 			<!-- <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div> -->
 			<div class="row">
-				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId)" style="background:url('./imgs/dyfilter/co-type_{{items.typeImg}}.png') no-repeat"></a></div>
+				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_{{items.typeImg}}.png') no-repeat"></a></div>
 			</div>
 		</div>
-		<div class=" table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
-			<table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" ng-show="!flag.isDraft">
+		<div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
+			<table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
 				<thead>
 					<tr style="background:#d2d7de;height:47px;">
 						<th>协做类型</th>
 						<th>主题</th>
 						<th>优先级</th>
 						<th>最后更新时间</th>
-						<th>更新人</th>
+						<th ng-show="!flag.isDraft">更新人</th>
+						<th ng-show="flag.isDraft">删除</th>
 						<th>详情</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead}">
-						<!--<td></td>-->
-						<td ui-sref="coopdetail({coid: item.coid})" width="15%" style="border:none;position:relative;" >
-							<span class="cop-edit"></span>
-							<div style="background:{{item.type.color}}">{{item.type.name}}</div>
+					<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}">
+						<td class="problems-rect" ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
+							<span class="cop-edit" ng-show="item.isLock"></span>
+							<div class='problems-box' style="background:{{item.type.color}};">{{item.type.name}}</div>
 						</td>
-						<td ui-sref="coopdetail({coid: item.coid})" style="border:none;text-align:left;">{{item.name}}</td>
-						<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.priority}}</td>
-						<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-						<td class="edit-click">{{item.updater}}</td>
+						<td ng-click="transCoDetail(item)" style="border:none;text-align:left;">{{item.name}}</td>
+						<td ng-click="transCoDetail(item)" style="border:none;">{{item.priority}}</td>
+						<td ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						<td ng-show="!flag.isDraft" class="edit-click">{{item.updater}}</td>
+						<td ng-show="flag.isDraft" class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
 						<td ng-click="openDetail(item)">
-							<!--<img src="imgs/icon/detail.png" alt="">-->
+							<!--<img ng-src="imgs/icon/detail.png" alt="">-->
 							<span class="cop-add"></span>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<table class="table" class="info_list content-container content-scroll-container" ng-show="flag.isDraft">
+			<!-- <table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" ng-show="flag.isDraft">
  				<thead>
  				<tr style="background:#d2d7de;height:47px;">
  					<th>协做类型</th>
@@ -146,53 +148,23 @@
  					<th>详情</th>
  				</tr>
  				</thead>
- 				<tbody infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="false">
+ 				<tbody infinite-scroll="addMoreData()"  infinite-scroll-immediate-check="false"  infinite-scroll-distance="0" infinite-scroll-disabled="false">
  				<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead}">
- 					<td ui-sref="coopdetail({coid: item.coid})" width="15%" style="border:none;position:relative;" >
- 						<span class="cop-edit"></span>
+ 					<td ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
+ 						<span class="cop-edit" ng-show="item.isLock"></span>
  						<div style="background:{{item.type.color}}">{{item.type.name}}</div>
  					</td>
- 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;text-align:left;">{{item.name}}</td>
- 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.priority}}</td>
- 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+ 					<td ng-click="transCoDetail(item)" style="border:none;text-align:left;">{{item.name}}</td>
+ 					<td ng-click="transCoDetail(item)" style="border:none;">{{item.priority}}</td>
+ 					<td ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
  					<td class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
  					<td ng-click="openDetail(item)" >
  						<span class="cop-add"></span>
  					</td>
  				</tr>
  				</tbody>
- 			</table>
+ 			</table> -->
 		</div>
-		<!--草稿箱-->
- 		<!-- <div class="table-list draft-box">
- 			<table class="table" class="info_list content-container content-scroll-container">
- 				<thead>
- 				<tr style="background:#d2d7de;height:47px;">
- 					<th>协做类型</th>
- 					<th>主题</th>
- 					<th>优先级</th>
- 					<th>最后更新时间</th>
- 					<th>删除</th>
- 					<th>详情</th>
- 				</tr>
- 				</thead>
- 				<tbody infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="false">
- 				<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead}">
- 					<td ui-sref="coopdetail({coid: item.coid})" width="15%" style="border:none;position:relative;" >
- 						<span class="cop-edit"></span>
- 						<div style="background:{{item.type.color}}">{{item.type.name}}</div>
- 					</td>
- 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;text-align:left;">{{item.name}}</td>
- 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.priority}}</td>
- 					<td ui-sref="coopdetail({coid: item.coid})" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
- 					<td class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
- 					<td ng-click="openDetail(item)" >
- 						<span class="cop-add"></span>
- 					</td>
- 				</tr>
- 				</tbody>
- 			</table>
- 		</div> -->
 		<div class="coo-detail absol" ng-show="detailSignal">
 			<div class="title">协作详情</div>
 			<div class="row list">
@@ -224,7 +196,7 @@
 		<div class="data_count" scroll-directive>
 			<div class="data_Totle">
 				<div class="data_back" ng-click ="">
-					<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span><a href="" style="color:#69C080;">返回</a>
+					<span class="" style="margin-left:15px;"><img ng-src="imgs/call_back.png" alt=""></span><a href="" style="color:#69C080;">返回</a>
 				</div>
 				<!--<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>-->
 				<button type="button" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>
@@ -307,8 +279,9 @@
 	  style: 'btn-default',
 	  width: '102px'
 	});
-
-	//调出新建
+</script>
+<script>
+	//协作管理界面调出新建
 	function transCreateCooperation () {
 		$('.new_cooper').click();
 	}

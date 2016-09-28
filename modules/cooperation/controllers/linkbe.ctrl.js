@@ -6,7 +6,7 @@ var level = 0;	// 当前树状态树展开、折叠深度
 angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items','$timeout',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items,$timeout) {
 	 	$scope.selectedOption = {};
-	 	$scope.projectOption = {};
+	 	$scope.projectOption = null;
 	 	$scope.projectSelected = {};
 		$scope.currentPage = 1; //默认第一页
 		$scope.deptInfo = {
@@ -66,7 +66,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
                      }
                     initProjectSelected(data[0]);
 					//获取BE资料树
-					getDocTagList(ppid);
+					//getDocTagList(ppid);
 			});
 		});
 
@@ -82,7 +82,6 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			};
 			Cooperation.getDocList(queryData).then(function (data) {
 				$scope.docList = data.result;
-				debugger;
 				$scope.totalItems = data.pageInfo.totalNumber;
 			});
 	 	}
@@ -141,7 +140,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
         }
  
         $scope.isSelected = function(id){
-        	console.log('id', _.findIndex(docSelected,id))
+//        	console.log('id', _.findIndex(docSelected,id))
             return _.findIndex(docSelected,id)>=0;
         }
 
@@ -156,9 +155,10 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	$scope.switchDept = function (params) {
 	 		deptId = params;
 			Cooperation.projectList(params).then(function (data) {
+				//debugger
 				$scope.projectList.availableOptions = data;
 				$scope.projectOption = data[0].ppid+'';
-				getDocTagList(data[0].ppid);
+				//getDocTagList(data[0].ppid);
 				initProjectSelected(data[0]);
 			  	
 			});
@@ -205,7 +205,9 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	
 
 	 	$scope.$watch('projectOption',function(newVal,oldVal){
-		 	$scope.switchPpid($scope.projectOption);
+	 		if(newVal != null){
+	 			$scope.switchPpid($scope.projectOption);
+	 		}
 		});
 
 		$scope.cancel = function () {
@@ -240,5 +242,10 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	        }
 	        checkAll++;
 	    }*/
-
+	 	$scope.myKeyup = function(e){
+            var keycode = window.event?e.keyCode:e.which;
+            if(keycode==13 || $('#linkbeSear').val()==''){
+            	$scope.docSearch();
+            }
+        };
 }]);

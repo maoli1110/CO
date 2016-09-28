@@ -206,7 +206,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	}
 
 	 	$scope.ok4 = function () {
-
+	 		//debugger
 	 		//选中节点的组合数组(checkbox选中状态)
 			var selectedNodes = [];
 			var selectedNodesList = [];
@@ -216,7 +216,10 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			selectedNodes = treeObj.getCheckedNodes(true);
 			
 			var lastNodeList = _.filter(selectedNodes,function(value,key){
-				return value.type == 3;
+				if(projType!=5){
+					return value.type == 3;
+				}
+				return value.type == 2;
 			});
 			angular.forEach(lastNodeList,function(value,key){
 				//遍历type=3的结合，递归获取父级的集合并且拼接上自己的集合

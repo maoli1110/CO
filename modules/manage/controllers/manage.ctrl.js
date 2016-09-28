@@ -8,11 +8,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 	var firstdeptid; //第一个项目部id
     var searchId = $stateParams.ppid?$stateParams.ppid:'';//工程ppid
 	var deptId = $stateParams.deptId?$stateParams.deptId:'';
+	var changeProj = false;
 	$scope.docType = "1";
     $scope.deptInfoList = [];
     $scope.projectInfoList = [];
     $scope.openSignal = false;
-    
+    $scope.isNoSearchValue = false;//搜索无工程
+    $scope.isNoSearchValueBook = false;//搜索资料
+    $scope.isNoSearchValueReject = false;//搜索无结果
     $scope.openNew = function () {
     	$scope.openSignal = true;
     }
@@ -47,6 +50,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
   
     //点击项目部追加工程列表，并且绑定click事件
     function getimgurl(treeItems,deptId){
+    	$("#dept_"+deptId).empty();
 		for(var i = 0 ; i< treeItems.length;i++){
 			if(treeItems[i].projectType=="土建预算"){
 				treeItems[i].imgsrc="imgs/icon/1.png";
@@ -69,6 +73,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 		   	  $(this).addClass("menusActive").siblings().removeClass("menusActive");
 		   	  $(" .data_count").hide();
               $scope.trentsListInfo = [];
+              changeProj = true;
 		   	  $scope.trentsList($(this).attr("id").split("_")[1]);
 		});
 	}
@@ -82,16 +87,26 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $(".prolist_left").hide();
         $('.manage-menus').removeClass('menusActive');
         $("span.spanwidth").removeClass("menusActive");
+        if( $scope.isNoSearchValue){
+            $(".good_list").css({'display':'none'});
+        }
         if(!open){
         	Manage.getProjectInfoList(id).then(function (data) {
             	getimgurl(data,id);
             });
             deptId = id;
             //获取项目统计列表
-            var params = {deptId:id,searchText:searchBox}
-            var obj = JSON.stringify(params)
+            var params = {deptId:id,searchText:searchBox};
+            var obj = JSON.stringify(params);
             Manage.getProjectTrends(obj).then(function(data){
                 $scope.trentsCount = data.data;
+               if(data.data.length==0){
+                    $scope.isNoSearchValue = true;
+                    $(".good_list").css({'display':'none'});
+                }else{
+                   $scope.isNoSearchValue = false;
+                   $(".good_list").css({'display':'block'})
+               }
             });
         }
         if(!deptId){
@@ -109,6 +124,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             Manage.getProjectTrends(obj).then(function(data){
                 $scope.trentsCount = data.data;
                 //setTimeout(addProjectStyle,100);
+                if($scope.trentsCount.length==0){
+                    $scope.isNoSearchValue = true;
+                    $(".good_list").css({'display':'none'})
+                }else{
+                    $scope.isNoSearchValue = false;
+                    $(".good_list").css({'display':'block'})
+                }
             });
         }
         $scope.getDeptId = function(){
@@ -121,6 +143,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             var searchBox = $("#exampleInputName2").val();
             if(searchBox.length>0){
                 $scope.searchProject(deptId,searchBox);
+
             }else if(searchBox.length==0){
                 if(!deptId){
                     deptId = firstdeptid;
@@ -129,6 +152,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 }
                 searchBox='';
                 $scope.searchProject(deptId,searchBox);
+
             }
         }
 
@@ -236,6 +260,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     });
                 });
                 //setTimeout(addEpcStyle,100);
+                if(data.data.length==0 ){
+                    $scope.isNoSearchValueReject =true;
+                    $('.pro_list').css('display','none');
+                }else{
+                    $scope.isNoSearchValueReject =false;
+                    $('.pro_list').css('display','block');
+                }
             });
         }
         $scope.manageSeacher = function(){
@@ -250,17 +281,37 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $scope.trentsSearch( $scope.seacherKey)
         }
 
-        $scope.changeAttr = function () {
+        $scope.changeAttr = function (docType) {
+            $scope.trentsListInfo = [];
             $scope.seacherKey = $("#exampleInputName3").val();
             if(!$scope.docType){
                 $scope.docType=1;
             }else{
                 $scope.docType=$scope.docType;
             }
-            
-            Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
                 $scope.trentsListInfo = data.data;
+                var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+                angular.forEach(data.data, function (value, key) {
+                    angular.forEach(value.docs, function (value1, key1) {
+                        if(typeArr.indexOf(value1.fileType) == -1) {
+                            $scope.trentsListInfo[key].docs[key1].fileType = 'other';
+                            console.log( 'qqqqq',$scope.trentsListInfo[key].docs[key1].fileType );
+                        }
+                    });
+                });
+                //setTimeout(addEpcStyle,100);
+                if(data.data.length==0){
+                    $scope.isNoSearchValueReject = true;
+                    $('.pro_list').css('display','none')
+                }else{
+                    $scope.isNoSearchValueReject =false;
+                    $('.pro_list').css('display','block')
+                }
             });
+            //Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+            //    $scope.trentsListInfo = data.data;
+            //});
         }
         //判断是否按下enter键进行搜索（动态工程列表页面）
         //工程列表enter键搜索
@@ -301,18 +352,18 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         var pollingFlag = true;
         var checkSearchInterval;
         //搜索高亮显示
-        //$scope.addMoreData = function (){
-        //    setSearchFlagFalse();
-        //    if(pollingFlag){
-        //        pollingFlag = false;
-        //        checkSearchInterval = setInterval(function() {checkCanSearch()},100);
-     	//	}
-     	//	setTimeout(function() {setSearchFlagTrue()},150);
-        //};
-        //var setSearchFlagFalse = function(){
-        //	console.log(false);
-        //    searchFlag = false;
-        //}
+        $scope.addMoreData = function (){
+            setSearchFlagFalse();
+            if(pollingFlag){
+                pollingFlag = false;
+                checkSearchInterval = setInterval(function() {checkCanSearch()},100);
+     		}
+     		setTimeout(function() {setSearchFlagTrue()},150);
+        };
+        var setSearchFlagFalse = function(){
+        	console.log(false);
+            searchFlag = false;
+        }
         var setSearchFlagTrue = function(){
         	console.log(true);
             searchFlag = true;
@@ -339,7 +390,12 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $scope.trentsList = function(id) {
             //如过却换工程 scrollend需要初始化设置
             $(".manage-menus").removeClass("menusActive");
-            $scope.initScrollend(id);
+            //$scope.initScrollend(id);
+            if(changeProj){
+            	 $scope.scrollend = false;
+                 lastUploadTime = '';
+                 lastUsername = '';
+            }
         	if(!id){
         		console.log("无id,查询失败");
         		return;
@@ -349,6 +405,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".pro_list").show();
             $(".goodlist_left").hide();
             $(".prolist_left").show();
+            var createindex = layer.load(1, {
+                shade: [0.1,'#000'] //0.1透明度的黑色背景
+            });
             $scope.seacherKey = $("#exampleInputName3").val();
             if(!$scope.docType){
                 $scope.docType =1;
@@ -363,6 +422,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 searchKey:$scope.seacherKey,
                 searchType:$scope.docType
             }).then(function (data) {
+                if(data.data.length==0){
+                    $(".pro_list").css('display','none');
+                    $scope.isNoSearchValueReject = true;
+                } else{
+                    $(".pro_list").css('display','block');
+                    $scope.isNoSearchValueReject = false;
+                }
                 if(data.data.length!=0){
                     for(var i=0 ;i<data.data.length;i++){
                         $scope.trentsListInfo.push(data.data[i])
@@ -383,6 +449,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                         }
                     });
                 });
+                layer.close(createindex);
             });
             $scope.id = id;
         }
