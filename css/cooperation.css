@@ -10,15 +10,8 @@
 	.count-echart{
 		margin-top:33px;
 	}
-	/*.operation .operation-mask{*/
-		/*width: 89%;*/
-	/*}*/
 }
-/*@media screen and (min-width:1919px) and (max-width:1920px){*/
-	/*.operation .operation-mask{*/
-		/*width:94.6% ;*/
-	/*}*/
-/*}*/
+
 * {
 	margin: 0;
 	padding: 0;
@@ -29,9 +22,6 @@ html,body{
 }
 canvas{
 	display:block;
-}
-.main-container{
-	min-width:1080px;
 }
 .comboBox{
 	background:#fff;
@@ -90,15 +80,13 @@ canvas{
 	background:#666;
 }
 .comboBox .tabs .check-sub label {
-	margin-right: 20px;
+	margin-right: 15px;
 	width: 90px;
-/*	background: green;*/
 	text-align: center;
     padding: 10px;
     height: 36px;
     width: 100px;
     background: #fff;
-    border: 1px solid #ccc;
 }
 .comboBox .tabs .check-sub1 label {
 	margin-right: 10px;
@@ -109,7 +97,7 @@ canvas{
     height: 36px;
     width: 100px;
     background: #fff;
-	margin-right:20px;
+	margin-right:15px;
 	margin-bottom:10px;
 }
 .comboBox .width50{
@@ -118,6 +106,7 @@ canvas{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: inline-block;
+	padding:0 10px;
 }
 .comboBox .tabs .priority-check label {
 	margin-right: 10px;
@@ -142,6 +131,7 @@ canvas{
 }
 .comboBox .tabs .priority-check input[type=checkbox]:checked + div {
 	background: #979ba8;
+	color:#fff;
 }
 .comboBox .tabs .priority-check label > div {
 	background: #fff;
@@ -150,10 +140,12 @@ canvas{
     top: 0px;
     left: 0px;
     line-height: 36px;
-    border: 1px solid #ccc;
+    border: 1px solid #979ba8;
+	color:#979ba8;
 }
 .comboBox .tabs .mark-check input[type=checkbox]:checked + div {
 	background: #979ba8;
+	color:#fff;
 }
 
 .comboBox .tabs .mark-check  label > div {
@@ -163,7 +155,8 @@ canvas{
     top: 0px;
     left: 0px;
     line-height: 36px;
-    border: 1px solid #ccc;
+    border: 1px solid #979ba8;
+	color:#979ba8;
 }
 
 .comboBox .tabs .check-sub1 .input-check {
@@ -215,8 +208,8 @@ canvas{
     left: 77px;
 }
 .comboBox .marking .marklist {
-	margin-left: 161px;
-	max-width: 80%;
+	margin-left: 138px;
+	max-width: 100%;
 	margin-top: -34px;
 }
 .comboBox .filter-table .tabs .checkbox {
@@ -231,7 +224,7 @@ canvas{
 	float:left;
 }
 .first-list{
-	margin-left:161px;
+	margin-left:138px;
 }
 .operation{
 	position:relative;
@@ -404,7 +397,7 @@ canvas{
 .comboBox .type-check{
 	margin-top:0;
 }
-.left .btn.btn-default.cop-filter{
+.main-container .left .btn.btn-default.cop-filter{
 	margin-top: 0px;
 	padding: 2px 12px;
 	height: 30px !important;
@@ -413,13 +406,17 @@ canvas{
 	color: #fff;
 	border: 0;
 	border-radius: 5px;
-	line-height:24px ;
+	line-height:16px ;
+	margin-right:10px;
 }
-.left .btn.btn-default.cop-filter:hover{
+.main-container .left .btn.btn-default.cop-filter:hover{
 	background:#55ad6c;
 }
-.left .btn.btn-default.cop-filter:active{
+.main-container .left .btn.btn-default.cop-filter:active{
 	background:#4a965e;
+}
+.main-container .cop-list{
+	margin-right:9px;
 }
 .coop-searchKey{
 	height:30px !important;
@@ -440,4 +437,57 @@ canvas{
 }
 .m-40{
 	margin-left:40px !important;
+}
+.trent-branch{
+	width:314px;
+	max-height:413px;
+	background: url(../imgs/menus-head.png) no-repeat center top;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-157px;
+	margin-top:-202px;
+	z-index:103;
+	box-shadow: -1px 3px 9px #333;
+}
+.trent-branch h3+div{
+	background:#fff;
+}
+.trent-branch .branch-title{
+	font-size: 18px;
+	line-height: 50px;
+	text-align: left;
+	color: #fff;
+	padding: 0 20px;
+}
+.trent-branch ul{
+	width:314px;
+	padding:0 20px;
+	max-height:363px;
+}
+.trent-branch ul li{
+	color:#333;
+	font-size:14px;
+	border-bottom:1px solid #ddd;
+	padding:10px 20px;
+	line-height:25px;
+	text-align:left;
+	list-style:none;
+	background:#fff;
+}
+.trent-branch ul li:last-child{
+	border:0;
+}
+.trent-branch ul li:hover{
+	color:#65c17d;
+}
+.trent-branch-mask{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:#000;
+	opacity:0.4;
+	z-index:101;
 }

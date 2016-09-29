@@ -25,7 +25,13 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 				enable: true
 			},
 			callback:{
-				onCheck: onCheck
+				onCheck: onCheck,
+				onCollapse: function (event, treeId, treeNode) {
+				    level=treeNode.level;
+				},
+				onExpand: function (event, treeId, treeNode) {
+				    level=treeNode.level;
+				}
 			}
          };
 	     var treeObj,nodes,params;
@@ -224,12 +230,14 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	$scope.expand = function () {
 	 		var obj = {type:"expand",operObj:"tree", level: level};
 	 		level = Cooperation.openOrClose(obj);
+	 		$('#content-a6')[0].scrollTop=0;
 	 	}
 	 	
 	 	// 收起树节点
 	 	$scope.collapse = function () {
 	 		var obj = {type:"collapse",operObj:"tree", level: level};
 	 		level = Cooperation.openOrClose(obj);
+	 		$('#content-a6')[0].scrollTop=0;
 	 	}
 	 	
 	 	//全选

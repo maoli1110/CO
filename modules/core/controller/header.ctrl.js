@@ -2,13 +2,25 @@
  * Created by sdergt on 2016/8/24.
  */
 //var app = angular.module("myApp",[]);
+var clickCount = 0;		// 头部小三角点击次数
 angular.module("core").controller("headerCtrl",function($scope,headerService){
     //console.info("我是头部标签")
+    //分公司列表的状态
     //   点击工具栏三角形出现二级菜单
     $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
-        $(".header-shape").click(function(){
+    	if(clickCount > 0) {		// 第一次点击也要显示
+    		$(".header_menus").slideToggle("fast");
+            $(".header_menus ul li").hover(function(){
+                $(".header_menus").show();
+                $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
+            },function(){
+                $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
+                $(".header_menus").hide();
+                $('.header-shape').removeClass('dispatcher-database')
+            })
+    	}
+    	$(".header-shape").click(function(){
             $(".header_menus").slideToggle("fast");
-
             $(".header_menus ul li").hover(function(){
                 $(".header_menus").show();
                 $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
@@ -18,17 +30,14 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
                 $('.header-shape').removeClass('dispatcher-database')
             })
         })
-
     })
     $scope.headerMenus=[];
     //  头部信息的数据显示
-
         $scope.menus = function(){
-            //if( $scope.statusT){
             $('.header-shape').toggleClass("dispatcher-database");
             if($('.header-shape').hasClass("dispatcher-database")){
-                //$scope.menus();
-                headerService.enterpriseInfoList({epid:0,isAll:3}).then(function(data){
+            	clickCount++;
+                headerService.enterpriseInfoList({epid:0,isAll:3,queryFromBV:false}).then(function(data){
                     $scope.headerMenus = data.data;
                 });
             }
@@ -80,6 +89,8 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
     $scope.close = function () {
         BimCo.SysCommand('SC_CLOSE');
     }
+    //分公司下拉列表
+
 
 })
  

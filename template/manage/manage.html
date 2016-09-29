@@ -102,7 +102,7 @@
                                     <img src="imgs/noBook.png" alt="">
                                     <span></span>
                                 </dt>
-                                <dd>当前无资料</dd>
+                                <dd>当前项目部无资料</dd>
                             </dl>
                         </div>
                         <!--搜索无结果-->
@@ -130,7 +130,7 @@
                                         <div class="bx-controls" >
                                             <div class="img_list actives" ng-repeat = "items in getTrents.docs">
                                                 <div ng-if="items.thumbnailUrl" class="tools_bar" style="background:url({{items.thumbnailUrl}}) no-repeat;background-size:cover">
-                                                    <img onerror="this.onerror='';this.src='./imgs/pro-icon/icon-jpg.png'" style="margin-top:7px;" ng-src="{{items.thumbnailUrl}}" alt="" style="margin-left:0;" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
+                                                    <img  onerror="this.onerror='';this.src='./imgs/icon/interError.png'" style="margin-top:7px;margin-left:0" ng-src="{{items.thumbnailUrl}}" alt="" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
                                                     <div class="bar" >
                                                         <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
                                                         <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123"><img src="imgs/icon_down.png"/></a>
@@ -204,35 +204,6 @@
 
 </div>
 <input type="hidden" value="" ng-click="transCooperation()">
-
-<!--图片选择器-->
-<!--<div class="top_slide_wrap" >-->
-    <!--<div class="bx-wrapper" >-->
-        <!--<div class="showImg">-->
-            <!--<ul class="slide_box">-->
-                <!--<li>-->
-                    <!--<a href="#"><img src="{{previewImg}}" alt="">-->
-
-                    <!--</a>-->
-                <!--</li>-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a href="#"><img src="imgs/show/0/2.jpg" alt=""></a>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a href="#"><img src="imgs/show/0/3.jpg" alt=""></a>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a href="#"><img src="imgs/show/0/4.jpg" alt=""></a>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-            <!--</ul>-->
-            <!--<span class="turnDown"><img src="imgs/close.png" style="width:30px;height:30px;" ng-click = "closeSelector()"></span>-->
-            <!--<a class="options pre" href="javascript:;" data-drec="pre"><i class="pre glyphicon glyphicon-chevron-left"></i></a>-->
-            <!--<a class="options next" href="javascript:;" data-drex="next"><i class="next glyphicon glyphicon-chevron-right"></i></a>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-<!--<div class="mask"></div>-->
-<!--<script src="js/goods.js"></script>-->
 <script type="text/javascript">
 
     $('.selectpicker').selectpicker({
@@ -254,6 +225,10 @@
     //资料动态界面调出新建
     function transCreateCooperation () {
         document.location= '#/cooperation?newcoop=frombe';
+    }
+    //跳转协作详情
+    function transCoDetail (coid) {
+        document.location= '#/coopdetail/?coid='+ coid;
     }
 </script>
 

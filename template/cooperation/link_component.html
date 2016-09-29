@@ -10,7 +10,7 @@
         <div class="row left">
             <div class="form-inline">
                 <div class="form-group col-xs-3">
-                    <select class="form-control" ng-change="treeSearch(1, 1)" ng-model="projtype">
+                    <select class="form-control" ng-change="treeSearch(1)" ng-model="projtype">
                       <option value="0">全部专业</option>
                       <option value="1">土建预算</option>
                       <option value="2">钢筋预算</option>
@@ -21,7 +21,7 @@
                     </select>
                 </div>
                 <div class="form-group col-xs-3" style="padding-left:0;">
-                    <select class="form-control" ng-change="treeSearch(2, 1)" ng-model="functionOption">
+                    <select class="form-control" ng-change="treeSearch(2)" ng-model="functionOption">
                         <option value="0">全部功能</option>
                         <option value="1">iBan照片</option>
                         <option value="2">LE模型</option>
@@ -35,13 +35,13 @@
                     </select>
                 </div>
                 <div class="form-group col-xs-4 link-inputSear" style="padding-left:0;">
-                    <input type="text" class="form-control" placeholder="请输入工程名称搜索" ng-model="formText" ng-change="delayTreeSearch(3, 1)">
+                    <input type="text" class="form-control" placeholder="请输入工程名称搜索" ng-model="formText" ng-change="delayTreeSearch(3)">
                     <div class="link-search"><img src="imgs/seache.png" alt="" style="width:20px;"></div>
                 </div>
-                <div ng-click="expand(1)" class="openOrCloseTree">
+                <div ng-click="expand()" class="openOrCloseTree">
                     <span>+</span>
                 </div>
-                <div ng-click="collapse(1)" class="openOrCloseTree" style="margin-left: 15px;">
+                <div ng-click="collapse()" class="openOrCloseTree" style="margin-left: 15px;">
                     <span>-</span>
                 </div>
             </div>

@@ -7,7 +7,7 @@
 	<div class="inner">
 		<header>
 	        <div class="header-operation clearfix">
-	        	<div ui-sref="cooperation" class="pull-left" style="margin-top:10px;">
+	        	<div ng-click="backCooperation()" class="pull-left" style="margin-top:10px;">
                    	<span class="" style="margin-left:15px;"><img ng-src="imgs/call_back.png" alt=""></span>
                    	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
                 </div>
@@ -303,10 +303,29 @@
 		</div>
 </div>
 </div>
-<div></div>
+<!-- 存储pc端过来的coid -->
+<input type="hidden" id="checkformbe" ng-click="checkFromBe()">
+
+<!-- <div onclick="transCoDetail()" style="position:fixed;z-index:1000;top:20px">transCoDetail</div> -->
+
 <script type="text/javascript">
 	$('.selectpicker').selectpicker({
 		  style: '',
 		  size: 'auto'
 		});
+</script>
+
+<script>
+	//跳转协作管理
+	function transCoManage (deptId,ppid) {
+		//pc跳转传递deptId, ppid 定位到当前工程
+		document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
+	}
+
+	//跳转协作详情-第二版
+	function transCoDetail (coid) {
+		// document.location= '#/coopdetail/?coid='+ coid;
+		$('#checkformbe').val(coid);
+		$('#checkformbe').click();
+	}
 </script>

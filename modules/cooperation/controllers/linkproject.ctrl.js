@@ -3,6 +3,7 @@
  */
 var level = 1;	// 当前树状态树展开、折叠深度
 var maxLevel = -1;	
+var levelCategory = 1;	// 构建类别树状态树展开、折叠深度
 angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '$uibModalInstance','Cooperation',
 	function ($scope, $http, $uibModalInstance,Cooperation) {
 		$scope.openSignal = true;
@@ -30,7 +31,15 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				selectedMulti: false
 			},
 			callback:{
-				onClick: zTreeOnClick
+				onClick: zTreeOnClick,
+				onCollapse: function (event, treeId, treeNode) {
+				    level=treeNode.level;
+				    levelCategory=treeNode.level;
+				},
+				onExpand: function (event, treeId, treeNode) {
+				    level=treeNode.level;
+				    levelCategory=treeNode.level;
+				}
 			}
          };
 		$scope.projectTree = [];
@@ -55,6 +64,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				}
 			}
 			level = maxLevel;
+			levelCategory = maxLevel;
 		});
 
 
@@ -322,15 +332,19 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	var pollingFlag = true;
 	 	var checkSearchInterval;
 	 	
-	 	$scope.delayTreeSearch = function (type){
+	 	$scope.delayTreeSearch = function (type,status){
 	 		setSearchFlagFalse();
 	 		if(pollingFlag){
 	 			pollingFlag = false;
 	 			checkSearchInterval = setInterval(function() {checkCanSearch(type)},250);
 	 		}
 	 		setTimeout(function() {setSearchFlagTrue()},500);
-			//全部打开
-	 		level = Cooperation.expandAll("tree");
+	 		//全部打开
+	 		if(status == 1) {	// 工程相关
+		 		level = Cooperation.expandAll("tree");
+	 		} else if(status == 2) {	// 构件类别
+	 			levelCategory = Cooperation.expandAll("tree");
+	 		}
 	 	};
 	 	
 	 	var setSearchFlagFalse = function(){
@@ -348,7 +362,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			}
 		}
 	 	
-	 	$scope.treeSearch = function (type) {
+	 	$scope.treeSearch = function (type,status) {
 //	 		console.log(new Date());
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
@@ -385,9 +399,12 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			treeObj.hideNodes(hidenodes);
 			treeObj.showNodes(showchildnodes);
 			hideparentnode();
-			
 			//全部打开
-	 		level = Cooperation.expandAll("tree");
+	 		if(status == 1) {	// 图上构件
+		 		level = Cooperation.expandAll("tree");
+	 		} else if(status == 2) {	// 构件类别
+	 			levelCategory = Cooperation.expandAll("tree");
+	 		}
 		}
 
 	 	function filterchild(node) {
@@ -476,16 +493,28 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	}
 	 	
 	 	// 展开树节点
-	 	$scope.expand = function () {
-	 		var obj = {type:"expand",operObj:"tree", level: level};
-	 		level = Cooperation.openOrClose(obj);
-	 		/*debugger;
-	 		window.scrollTo(0,document.documentElement.scrollTop); */
+	 	$scope.expand = function (status) {
+	 		if(status == 1) {	// 工程相关
+	 			var obj = {type:"expand",operObj:"tree", level: level};
+		 		level = Cooperation.openOrClose(obj);
+		 		$('#content-a11')[0].scrollTop=0;
+	 		} else if(status == 2) {	// 构件类别
+	 			var obj = {type:"expand",operObj:"tree", level: levelCategory};
+		 		levelCategory = Cooperation.openOrClose(obj);
+		 		$('#content-a13')[0].scrollTop=0;
+	 		}
 	 	}
 	 	
 	 	// 收起树节点
-	 	$scope.collapse = function () {
-	 		var obj = {type:"collapse",operObj:"tree", level: level};
-	 		level = Cooperation.openOrClose(obj);
+	 	$scope.collapse = function (status) {
+	 		if(status == 1) {	// 工程相关
+	 			var obj = {type:"collapse",operObj:"tree", level: level};
+		 		level = Cooperation.openOrClose(obj);
+		 		$('#content-a11')[0].scrollTop=0;
+	 		} else if(status == 2) {	// 构件类别
+	 			var obj = {type:"collapse",operObj:"tree", level: levelCategory};
+		 		levelCategory = Cooperation.openOrClose(obj);
+		 		$('#content-a13')[0].scrollTop=0;
+	 		}
 	 	}
 }]);

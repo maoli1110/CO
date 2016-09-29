@@ -39,17 +39,35 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         var coid = $stateParams.coid;
         var allRelevants = [];
         var sliceRlevants = [];
+        $scope.related = {
+                sign:[],
+                noSign:[],
+            };
         Cooperation.getCollaboration(coid).then(function (data) {
+        	
+        	angular.forEach(data.relevants,function(value,key){
+        		value.mustExist = true;
+        		value.canSign = false;
+        		if(value.needSign){
+        			$scope.related.sign.push(value);
+        		}else{
+        			$scope.related.noSign.push(value);
+        		}
+        	});
+        	console.log($scope.related);
             var currentMarkInfo = data.markerInfo.id;
 //            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
             $scope.priority =  data.priority;
-            allRelevants = _.cloneDeep(data.relevants);
-            sliceRlevants = _.cloneDeep(data.relevants.slice(0,8));
-            if(data.relevants.length>8){
-                $scope.collaList.relevants =sliceRlevants;
-                $scope.isRevlentMore = true;
+            if($scope.device){
+            	  allRelevants = _.cloneDeep(data.relevants);
+            	  sliceRlevants = _.cloneDeep(data.relevants.slice(0,8));
+            	 if(data.relevants.length>8){
+	                $scope.collaList.relevants =sliceRlevants;
+	                $scope.isRevlentMore = true;
+	            }
             }
+           
             if(data.priority == "I") {
                 $scope.priority = "1";
             } else if (data.priority == "II") {
@@ -342,10 +360,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 
         //选择相关人
         //选择相关人
-        $scope.related = {
-            sign:[],
-            noSign:[],
-        };
+      
         
         $scope.selectRelated = function () {
             var modalInstance = $uibModal.open({
@@ -360,17 +375,17 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     }
                 }
             });
-            modalInstance.result.then(function (selectedItem) {
+            modalInstance.result.then(function (selectedItem) {	// 向后台发送需要保存的数据
                 $scope.related.noSign = selectedItem.noSign;
                 $scope.related.sign = selectedItem.sign;
-                angular.forEach(selectedItem.noSign, function (value ,key) {
+                angular.forEach(selectedItem.noSign, function (value ,key) {	// 不需要签字
                     var needSign = false;
                     var a = {}
                     a.needSign = needSign;
                     a.username = value.username;
                     contracts.push(a);
                 });
-                angular.forEach(selectedItem.sign, function (value ,key) {
+                angular.forEach(selectedItem.sign, function (value ,key) {	// 需要签字
                     var needSign = true;
                     var a = {}
                     a.needSign = needSign;
@@ -455,6 +470,19 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $scope.collaList.relevants = sliceRlevants;
                 $scope.showMore = false;
             }
+        }
+
+        //反查formbe,跳转详情页面
+        var currentPage = 'editdetail';
+        $scope.checkFromBe = function() {
+            var coid = $('#checkformbe').val();
+            if(currentPage == 'editdetail'){
+                var r = confirm('当前正在编辑协作，是否跳转？');
+                if(r){
+                    $state.go('coopdetail',{'coid':coid})
+                }
+            }
+            
         }
 
     

@@ -353,12 +353,17 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         var checkSearchInterval;
         //搜索高亮显示
         $scope.addMoreData = function (){
-            setSearchFlagFalse();
-            if(pollingFlag){
-                pollingFlag = false;
-                checkSearchInterval = setInterval(function() {checkCanSearch()},100);
-     		}
-     		setTimeout(function() {setSearchFlagTrue()},150);
+        	if(!changeProj){
+        		setSearchFlagFalse();
+                if(pollingFlag){
+                    pollingFlag = false;
+                    checkSearchInterval = setInterval(function() {checkCanSearch()},100);
+         		}
+         		setTimeout(function() {setSearchFlagTrue()},150);
+        	}else{
+        		changeProj = false;
+        	}
+            
         };
         var setSearchFlagFalse = function(){
         	console.log(false);
@@ -395,6 +400,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             	 $scope.scrollend = false;
                  lastUploadTime = '';
                  lastUsername = '';
+                 //changeProj = false;
             }
         	if(!id){
         		console.log("无id,查询失败");
@@ -440,12 +446,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 if(data.data.length<10){
                     $scope.scrollend = true;
                 }
+                debugger;
                 var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
                     angular.forEach(value.docs, function (value1, key1) {
                         if(typeArr.indexOf(value1.fileType) == -1) {
                             $scope.trentsListInfo[key].docs[key1].fileType = 'other';
-                            console.log( $scope.trentsListInfo[key].docs[key1].fileType );
+                            console.log( '格式数组',$scope.trentsListInfo[key].docs[key1].fileType );
                         }
                     });
                 });

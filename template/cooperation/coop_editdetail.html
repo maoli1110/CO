@@ -9,7 +9,8 @@
 <div ng-include="'template/cooperation/coop_editdetail_pc.html'" scope="" onload=""></div>
 <!--手机端-->
 <div ng-include="'template/cooperation/coop_editdetail_bv.html'" scope="" onload=""></div>
-<!-- <div id="test">test44444</div> -->
+<!-- 存储pc端过来的coid -->
+<input type="hidden" id="checkformbe" ng-click="checkFromBe()">
 <script>
     //手机端协作编辑调用确定按钮
     function coEditSave () {
@@ -22,13 +23,15 @@
         var param = '{"optType":'+8+',"title":"'+title+'"}';
         document.location = 'http://localhost:8080/bv/?param='+param;
     }
-
-    // $(function() {
-    //     $("#test").click(function() {
-    //         coEditTitle();
-    //     })
-    // })
-
 </script>
+<script>
+    //跳转协作详情-第二版
+    function transCoDetail (coid) {
+        // document.location= '#/coopdetail/?coid='+ coid;
+        $('#checkformbe').val(coid);
+        $('#checkformbe').click();
+    }
+</script>
+
 </body>
 </html>

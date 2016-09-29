@@ -7,8 +7,36 @@
 	}
 </style>
 <header ng-include="'template/core/header.html'"></header>
-<div class="main-container rela">
+<!--分公司遮罩弹层-->
+<div ng-if="branchList" class="branch-list" scroll-directive>
+	<div class="trent-branch" >
+		<!--标题-->
+		<h3 class="branch-title">选择分公司</h3>
+		<div>
+			<ul id="content-a15" style="overflow:auto;">
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+				<li class="substr">上海鲁班软件有限公司</li>
+			</ul>
+		</div>
+	</div>
+	<div class="trent-branch-mask"></div>
+</div>
+<div class="main-container rela" >
 	<div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
+
 	<div class="right-content rela" >
 		<!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
 		<div class="container-fluid rela">
@@ -50,8 +78,8 @@
 							</div>
 							<div class="first-list">
 								<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index" profit>
-									 <label class="rela bg{{$index}}">
-										 <input type="checkbox" class="absol"  ng-click="updateSelection($event, item, 1, $index)" style="opacity:0">
+									<label class="rela bg{{$index}} bg-isCheck">
+										<input type="checkbox" class="absol"  ng-click="updateSelection($event, item, 1, $index)" style="opacity:0">
 									</label>
 								</div>
 							</div>
@@ -64,12 +92,14 @@
 									<div class="absol check-funnel"></div>
 								</label>
 							</div>
-							<div class="priority-check rela inline check-sub1 priority_{{$index}}" ng-repeat="item in coPriority track by $index" profit>
-								<label class="rela" style="background: none;margin-right:20px;">
-									<span>{{item.name}}</span>
-									<input type="checkbox" class="absol checkbox_priority_{{$index}}" ng-click="updateSelection($event, item, 2, $index)">
-									<div class="absol check-funnel">{{item.name}}</div>
-								</label>
+							<div  class="marklist second-level" style="margin-left:138px;margin-top:-34px;">
+								<div class="priority-check   rela inline check-sub1 priority_{{$index}}" ng-repeat="item in coPriority track by $index" profit>
+									<label class="rela " style="background: none;margin-right:15px;">
+										<span>{{item.name}}</span>
+										<input type="checkbox" class="absol checkbox_priority_{{$index}}" ng-click="updateSelection($event, item, 2, $index)">
+										<div class="absol check-funnel bg-goodLevel">{{item.name}}</div>
+									</label>
+								</div>
 							</div>
 						</div>
 						<!--marking标识-->
@@ -99,7 +129,7 @@
 		</div>
 		</div>
 		<div class="overlay" style="display:none;top:59px;" ng-click="clicklay()"></div>
-		<!---->
+		<!--新建类型列表-->
 		<div class="addcoo absol overflow" ng-show="openSignal">
 			<!-- <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div> -->
 			<div class="row">
@@ -113,7 +143,7 @@
 						<th>协做类型</th>
 						<th>主题</th>
 						<th>优先级</th>
-						<th>最后更新时间</th>
+						<th>更新时间</th>
 						<th ng-show="!flag.isDraft">更新人</th>
 						<th ng-show="flag.isDraft">删除</th>
 						<th>详情</th>
@@ -168,14 +198,14 @@
 		<div class="coo-detail absol" ng-show="detailSignal">
 			<div class="title">协作详情</div>
 			<div class="row list">
-				 <div class="col-xs-6">
+				 <div class="col-xs-6 them-title">
 				 	<div>类型：</div>
 				 	<div>主题：</div>
 				 	<div>负责人：</div>
 				 	<div>标识：</div>
 				 	<div>发起时间：</div>
-				 	<div>最后更新时间：</div>
-				 	<div>最后更新人：</div>
+				 	<div>更新时间：</div>
+				 	<div>更新人：</div>
 				 	<div>当前状态：</div>
 				 	<div>期限：</div>
 				 </div>
@@ -285,16 +315,8 @@
 	function transCreateCooperation () {
 		$('.new_cooper').click();
 	}
-	//跳转协作管理
-	function transCoManage (deptId,ppid) {
-		//pc跳转传递deptId, ppid 定位到当前工程
-		document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
-	}
 	//跳转协作详情
 	function transCoDetail (coid) {
-		//拼接跳转
-		// alert(coid);
-		// alert(success);
 		document.location= '#/coopdetail/?coid='+ coid;
 	}
 </script>

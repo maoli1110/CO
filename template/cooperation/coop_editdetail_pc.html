@@ -96,25 +96,27 @@
                                         <p class="F16">相关人:</p>
                                     </div>
                                     <div class="photo col-xs-8 col-md-10">
-                                        <dl class="photoImg" style="text-align:center;"  ng-repeat="item in collaList.relevants">
-                                            <dt><img ng-src="{{item.avatar}}"/></dt>
-                                            <dd>{{item.username}}</dd>
-                                            <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                        <div class="inline add-chioce">
+                                            <dl class="inline photoImg" ng-repeat="item in related.sign" style="text-align:center;">
+                                                <dt class="rela">
+                                                	<img ng-src="{{item.avatar}}" alt="">
+                                                	<!-- <span class="absol glyphicon glyphicon-pencil" style="right:5px;top:28px;color:#1298DD"></span> -->
+                                                </dt>
+                                                <dd>{{item.username}}</dd>
+												<dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
                                             <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
                                             <dd ng-if="item.isPassed">已通过</dd>
                                             <dd ng-if="item.isRejected">已拒绝</dd>
-                                        </dl>
-                                        <div class="inline add-chioce">
-                                            <dl class="inline photoImg" ng-repeat="item in related.sign" style="text-align:center;">
-                                                <dt class="rela"><img ng-src="{{item.avatar}}" alt=""><span class="absol glyphicon glyphicon-pencil" style="right:5px;top:28px;color:#1298DD"></span></dt>
-                                                <dd>{{item.username}}</dd>
-
                                             </dl>
                                         </div>
                                         <div class="inline add-chioce">
                                             <dl class="inline photoImg" ng-repeat="item in related.noSign ">
                                                 <dt><img ng-src="{{item.avatar}}" alt=""></dt>
                                                 <dd>{{item.username}}</dd>
+                                                 <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                                            <dd ng-if="item.isPassed">已通过</dd>
+                                            <dd ng-if="item.isRejected">已拒绝</dd>
                                             </dl>
                                         </div>
                                         <button class="btn add-related " ng-click="selectRelated()"><span>+</span></button>

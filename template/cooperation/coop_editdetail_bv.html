@@ -67,7 +67,7 @@
             </div>
             <div class="col-xs-9 mobile-relate-con clearfix m-con" style="width:82%;float:right;margin-bottom:15px;">
                 <dl ng-repeat="item in collaList.relevants" class="photoImg ">
-                    <dt><img ng-src="{{item.avatar}}" ng-if="item.avatar"/ onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
+                    <dt><img ng-src="{{item.avatar}}" ng-if="item.avatar" onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                     <dd class="substr" style="font-size:14px;">{{item.username}}</dd>
                     <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
                     <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
@@ -83,7 +83,7 @@
         <!--照片-->
         <div class="mobile-photo col-xs-12 clearfix">
             <div class="photo-title col-xs-2 F14"> 照片: </div>
-            <div class="photo-con col-xs-10">
+            <div class="photo-con col-xs-10" style="padding:0;">
                 <dl class="photo-list" ng-repeat="item in collaList.pictures">
                     <dt class="rela detail-sear" style="background:url('{{item.fileUrl}}');background-size:cover;">
                         <!--<img src="{{item.fileUrl}}"/>-->

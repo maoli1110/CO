@@ -1,5 +1,8 @@
-<div style="height:calc(100vh - 80px);overflow:hidden;">
-	<div class="ng-scope menusFont14 currentTime system-time">{{serviceTime.sysTime}}<span class="">{{serviceTime.sysWeek}}</span></div>
+<div style="height:calc(100vh - 80px);overflow:hidden;" class="trents">
+<!--公司子公司-->
+	<!--<div class="ng-scope menusFont14 currentTime system-time">{{serviceTime.sysTime}}<span class="">{{serviceTime.sysWeek}}</span></div>-->
+	<div class="ng-scope menusFont14 currentTime system-time"><span class="">贵州施工有限公司</span><span class="trent-type" ng-click="branchType()"><img
+			src="imgs/icon/icon-menus.png" alt=""></span></div>
 	<div scroll-directive id="content-b1" style="overflow:auto;" class="manage_bar" copy-radio>
 		<uib-accordion close-others="true" class="sider-bar">
 			<div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="item in deptInfoList track by $index"  profit-dept>

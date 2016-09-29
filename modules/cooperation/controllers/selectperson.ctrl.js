@@ -18,8 +18,9 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		$scope.responsiblePerson = ''; //当前负责人
 		$scope.trans_selected = {
         	noSign: [], //不需要签字的相关人
-        	sign: [] //需要签字的相关人
+        	sign: items.sign //需要签字的相关人
         };
+//		$scope.trans_selected.sign = items.sign;
 		//保存联系人的值
 //		$scope.avatar = [];
 //		$scope.downUrl = [];
@@ -135,7 +136,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		
 		//切换项目部切换联系人
 		$scope.switchUsers = function (params) {
-			//debugger;
 			queryData = {
 					deptId: params,
 					searchText: $scope.queryForm
@@ -192,12 +192,21 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		$scope.relatedSelected = a ? a : [];
 
 		$scope.addRelated = function (current) {
-//			debugger
 //			var url = $scope.getDownUrl(current.uuid);
 //			if(url){
 //				current.avatar = url;
 //			}
-			$scope.relatedSelected.push(current);
+			var currentUser = {avatar:	current.avatar,
+					avatarUuid:current.uuid,
+					isPassed	:false,
+					isReaded:false,
+					isRejected	:false,
+					isSigned:false,
+					needSign:false,
+					username:current.username,
+					mustExist:false,
+					canSign:true};
+			$scope.relatedSelected.push(currentUser);
 			//数组去重
 			var unique = _.uniqBy($scope.relatedSelected, 'username');
 			$scope.relatedSelected = unique;
@@ -216,13 +225,16 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 
 		//选择需要签字的相关人
 		var signSelected = temp.sign ? temp.sign : [];
+		
 		var nosignSelected = temp.noSign ? temp.noSign :[];
         var updateSelected = function(action,id){
             if(action == 'add' && signSelected.indexOf(id) == -1){
+               id.needSign = true;
                signSelected.push(id);
                $scope.trans_selected.sign =signSelected;
            	}
             if(action == 'remove' && signSelected.indexOf(id)!=-1){
+            	id.needSign = false;
                var idx = signSelected.indexOf(id);
                signSelected.splice(idx,1);
                $scope.trans_selected.sign =signSelected;
@@ -252,7 +264,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 
         //选择负责人-确定按钮
 		$scope.ok = function () {
-			console.log('relatedSelected', $scope.responsiblePerson);
+//			console.log('relatedSelected', $scope.responsiblePerson);
 			if($scope.responsiblePerson != '') {
 				$uibModalInstance.close($scope.responsiblePerson);
 			} else {
@@ -264,7 +276,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		$scope.ok1 = function () {
 			noSign();
 			$scope.trans_selected.noSign = nosignSelected;
-			$uibModalInstance.close($scope.trans_selected);
+			$uibModalInstance.close($scope.trans_selected);	// 关闭弹框
 		}
 
 		//全选
@@ -293,11 +305,20 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			}*/
 		}
 		$scope.delAll = function(){
-			$scope.relatedSelected =[];
-			$scope.trans_selected.sign = [];
-			signSelected = [];
-			$scope.flag.allSelected = false;
-			$scope.flag.forbidAll = false;
+			var noDelete = [];
+			var needSign = [];
+			for(var i=0; i < $scope.relatedSelected.length; i++) {
+				if($scope.relatedSelected[i].mustExist) {		// 如果该相关人之前已经存在，不让删
+					noDelete.push($scope.relatedSelected[i]);
+					if($scope.relatedSelected[i].needSign) {	
+						needSign.push($scope.relatedSelected[i]);
+					}
+				}
+			}
+			$scope.relatedSelected =noDelete;
+			$scope.trans_selected.sign = needSign;
+			signSelected = needSign;
+//			$scope.flag.forbidAll = false;
 		}
 
 		$scope.cancel = function () {

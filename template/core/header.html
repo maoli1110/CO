@@ -4,13 +4,13 @@
 				<img ng-if="currentUser.img==''"  ng-src="./imgs/icon/defalut.png"  alt="头像">
 				<img ng-if="currentUser.img!=''"  ng-src="{{currentUser.img}}"  alt="头像">
 				<div class="inline about-company" >
-					<div class="substr" style="max-width: 80px;float: left;text-align: left;padding-left: 3px;" title="{{currentUser.name}}">{{currentUser.name}}</div>
-					<div class="substr" style="max-width:181px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
+					<div class="substr header-avatar"  title="{{currentUser.name}}">{{currentUser.name}}</div>
+					<div class="substr header-role" style="max-width:181px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
 					<div class="substr" style="width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
 				</div>
 				<div class="inline header-shape" ng-click="menus()">
 					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
-					<div class="header_trigon" style="margin-top: -4px;">
+					<div class="header_trigon" style="margin-top: -4px;cursor: pointer;">
 
 					</div>
 				</div>
@@ -23,8 +23,8 @@
 							</p>
 							<div class="child_items">
 								<ol >
-									<li>动态({{menus.trendsCount}})</li>
-									<li>协作({{menus.coCount}})</li>
+									<li class="substr">动态({{menus.trendsCount}})</li>
+									<li class="substr">协作({{menus.coCount}})</li>
 								</ol>
 							</div>
 						</li>
@@ -42,8 +42,10 @@
 				</li>
 			</ul>
 			<div class="label_tools">
-				<img ng-src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
-				<div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+				<span class="min-window">
+					<img ng-src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+				</span>
+				<div  class="max-window" ng-click="maxRestore($event)" class="inline" >
 					<img ng-src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
 					<img ng-src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
 				</div>

@@ -12,6 +12,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.scrollend = false;//停止滚动加载
     var firstdeptid; //第一个项目部id;
 	var searId;
+	$scope.branchList = false;//子公司弹窗列表初始状态
     //查询列表初始值
     $scope.currentDate =  Cooperation.getCurrentDate();
     $scope.cooperationList = [];
@@ -71,7 +72,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         $scope.flag.isDraft = false;
 		$scope.deptIdOpenToken = 0;
 		//searId =id;
-		console.info('searId',searId)
+//		console.info('searId',searId)
         $scope.initScrollend(id);
 		$scope.projectInfoList = [];
 		queryData.groups = [];
@@ -125,7 +126,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				queryData.deptId = '';
 				queryData.ppid = '';
 				//console.info('$scope.cooperationList',$scope.typeList)
-				console.info('xjmifsnfw',$scope.cooperationList)
+//				console.info('xjmifsnfw',$scope.cooperationList)
 				if($scope.cooperationList.isLock){
 					$('.table  tbody .problems-rect .problems-box').css('margin-left','40px')
 				}
@@ -146,6 +147,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       $scope.detailSignal = false;
       $scope.openSignal = false;
       $('.overlay').css('display','none');
+	  $(".operation-mask").hide()
     }
 
     //点击显示列表每条协作的详情
@@ -158,7 +160,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
 
     $scope.trans = function (typeId,typeName) {
-    	$state.go('newcopper', {'typeid': typeId,'typename':typeName},{location:'replace'});
+    	$state.go('newcopper', {'typeid': typeId,'typename':typeName,'deptId':queryData.deptId,'ppid':queryData.ppid},{location:'replace'});
     	//window.open(url,'_self');
     }
 
@@ -355,8 +357,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		}else{
 			$('.cop-filter').removeClass('filter-active');
 		}
+
 	})
-	
+		//选择子公司关闭子公司列表弹框
+		//$('.trent-branch ul li').click(function(){
+		//	$scope.branchList = false;
+		//})
+		//console.info($('.trent-branch ul li'))
+
 	$scope.$on('ngRepeatFinishedDept',function(ngRepeatFinishedEvent){
 
 		if(firstreackflag){
@@ -1219,6 +1227,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 //	   	 	}
 
 	   	 }
+		//分公司列表
+		$scope.branchType = function(){
+			$scope.branchList = false;
+		}
 	}]);
 
 /**

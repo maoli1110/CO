@@ -323,12 +323,11 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + "rs/co/doCollaboration";
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
-            //console.info("统计页面",data)
-        },function(err){
-            delay.reject(err)
-        })
+        }).error(function (data) {
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
@@ -363,12 +362,11 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + "rs/co/checkIn/"+coid;
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
-            //console.info("统计页面",data)
-        },function(err){
-            delay.reject(err)
-        })
+        }).error(function (data) {
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
@@ -379,12 +377,11 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var params;
         // var params={"coid":coid}
         // var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+       $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
-            //console.info("统计页面",data)
-        },function(err){
-            delay.reject(err)
-        })
+        }).error(function (data) {
+            delay.reject(data);
+        });
         return delay.promise;
     }
 //    草稿箱信息删除
@@ -410,6 +407,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         })
         return delay.promise;
     }
+    //选择分公司
 
     //获取指定的UUID的下载地址
 //    this.getDownFileUrl = function (uuids){
@@ -489,4 +487,6 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
 		}
     	return maxLevel;
     }
+
+
 });

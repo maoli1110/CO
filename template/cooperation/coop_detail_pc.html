@@ -272,7 +272,7 @@
     <div ng-show="flag.isApprove">
         <div class="doc-edit footer footer-commom">
             <div class="text-center">
-                <button class="btn btn-default foot-btn" ng-click="addApprove()">添加审批意见</button>
+                <button class="btn btn-default foot-btn" ng-click="addApprove()" ng-hide="flag.noNeedSign">添加审批意见</button>
             </div>
         </div>
     </div>

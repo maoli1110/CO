@@ -177,7 +177,6 @@ angular.module('core').directive('scrollDirective', function () {
             restrict: 'AE',
             link: function (scope, ele, attr) {
                 var sideHeight = $(window).height()-124;
-
                $("#content-a2").mCustomScrollbar({
                    mouseWheelPixels:200,
                    scrollAmount:10,
@@ -304,7 +303,9 @@ angular.module('core').directive('scrollDirective', function () {
                     setHeight:sideHeight,
                     theme:"minimal"
                 });
-
+                $("#content-b8").mCustomScrollbar({
+                    theme:"minimal"
+                });
 
 
                 //});
