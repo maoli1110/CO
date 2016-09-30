@@ -31,7 +31,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 				typeid:null,
 				typename:null,
 				deptId:null,
-				ppid:null
+				ppid:null,
+				deptName:null,
+				ppidName:null
 			}
 		})
 		.state('coopdetail', {

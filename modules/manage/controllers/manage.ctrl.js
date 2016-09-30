@@ -428,6 +428,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 searchKey:$scope.seacherKey,
                 searchType:$scope.docType
             }).then(function (data) {
+            	var size = 0;
                 if(data.data.length==0){
                     $(".pro_list").css('display','none');
                     $scope.isNoSearchValueReject = true;
@@ -437,6 +438,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 }
                 if(data.data.length!=0){
                     for(var i=0 ;i<data.data.length;i++){
+                    	size++;
                         $scope.trentsListInfo.push(data.data[i])
                     }
                     lastUploadTime = data.data[data.data.length-1].updateTime;
@@ -446,13 +448,18 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 if(data.data.length<10){
                     $scope.scrollend = true;
                 }
-                debugger;
+               // debugger;
+                var lh = 0;
+                if($scope.trentsListInfo.length > 10){
+                	lh = $scope.trentsListInfo.length - size;
+                }
                 var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
                     angular.forEach(value.docs, function (value1, key1) {
                         if(typeArr.indexOf(value1.fileType) == -1) {
-                            $scope.trentsListInfo[key].docs[key1].fileType = 'other';
-                            console.log( '格式数组',$scope.trentsListInfo[key].docs[key1].fileType );
+                        	var keys = lh + key;
+                            $scope.trentsListInfo[keys].docs[key1].fileType = 'other';
+                            //console.log( '格式数组',$scope.trentsListInfo[keys].docs[key1].fileType );
                         }
                     });
                 });

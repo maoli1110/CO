@@ -19,11 +19,12 @@
 					   <i style="display:inline;font-style:normal">({{item.count}})</i>
 					   <b class="menus-icon"></b>
 				   </div>
-				   <div ng-if="item.deptId ==0" ng-click="drafts(item.deptId)" id="draft" class="manage-menus">
+				   <!-- 草稿箱勿动 -->
+				  <!--  <div ng-if="item.deptId ==0" ng-click="drafts(item.deptId)" id="draft" class="manage-menus">
 					   <span title="{{deptInList.deptName}}" class="substr-sideMenus" title="{{item.deptName}}">{{item.deptName}}</span>
 					   <i style="display:inline;font-style:normal">({{item.count}})</i>
 					   <b class="menus-icon"></b>
-				   </div>
+				   </div> -->
 			   </uib-accordion-heading>
 				<div id="dept_{{item.deptId}}" class="manage_proList">
 					<div ng-if="item.deptId != -1 && item.deptId != 0">

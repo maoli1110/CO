@@ -104,9 +104,9 @@ li {
     background:#353944;
     bottom:0;
 }
-.sidebar .mCustomScrollBox{
-     height:800px;
- }
+/*.sidebar .mCustomScrollBox{*/
+     /*height:800px;*/
+ /*}*/
 .monitor-border {
     border: 1px solid #e6eaf1;
 }
@@ -646,9 +646,7 @@ padding: 5px 25px;
     display: inline-block;
     background: url(../imgs/icon/icon-add.png) no-repeat 0 -21px;
     line-height: 38px;
-    margin-top: 1px;
-    /*float: left;*/
-    /*position:absolute;*/
+    margin-top: 7px;
     margin-left:6px;
 }
 .right-content .table-list tbody tr{
@@ -673,6 +671,9 @@ padding: 5px 25px;
     background: url(../imgs/icon/icon-add.png) no-repeat 0 0px;
 }
 /*nav-bar*/
+.navbar{
+
+}
 .navbar .header {
     padding: 0px 10px;
     position:relative;
@@ -802,9 +803,7 @@ padding: 5px 25px;
     padding-left: 13px;
     background-color: #434752;
 }
- header{
-     border-bottom:2px solid #73e67e;
- }
+
 .header .header_menus ul li span{
     /*font-size:20px;*/
     float:right;
@@ -831,6 +830,7 @@ padding: 5px 25px;
     min-width: 768px;
     margin-bottom: 0;
     border-radius: 0;
+    border-bottom:2px solid #73e67e !important;
 }
 .navbar-default {
     background-color: #69c080;
@@ -1081,15 +1081,20 @@ padding: 5px 25px;
     z-index: 102;
     height: calc(100vh - 65px);
 }
-.right-content .coo-detail .list .them-title div{
+.right-content .coo-detail .list{
+    margin-top:20px;
+}
+.right-content .coo-detail .list .them-title div span{
+    display:inline-block;
+    width:100px;
     border-right:1px solid #979ba8;
-    margin:10px 0;
 }
 .right-content .coo-detail .list .coop-detial-right{
     height:38px;
 }
 .right-content .coo-detail .list div >div {
-   padding:10px 0 ;
+   /*padding:10px 0 ;*/
+    height:38px;
 }
 .coo-detail .row {
     margin-left: 0;
@@ -1105,11 +1110,12 @@ padding: 5px 25px;
 }
 .coo-detail .list .mark {
     width: 20px;
-    height: 20px;
+    height: 16px;
     display: inline-block;
     vertical-align: middle;
     /* line-height: 28px; */
     margin-right: 10px;
+    margin-top:-3px;
 }
 /* create */
 .con-content{
@@ -2106,6 +2112,7 @@ textarea{
 .pull-left label{
     position:relative;
 }
+
 .pull-left label .linkbe-check{
     width: 22px;
     height: 27px;

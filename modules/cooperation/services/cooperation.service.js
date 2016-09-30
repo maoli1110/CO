@@ -408,7 +408,17 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
     //选择分公司
-
+    this.getOrgInfo = function(){
+        var delay = $q.defer();
+        var url_join = url+'rs/co/orgInfo';
+        $http.get(url_join,{},{transformRequest: angular.identity, transformResponse: angular.identity}).success(function(data){
+            delay.reject(data)
+            console.info('rerrwrwr',data)
+        }).error(function(err){
+            delay.resolve(err)
+        })
+        return delay.promise;
+    }
     //获取指定的UUID的下载地址
 //    this.getDownFileUrl = function (uuids){
 //    	var delay = $q.defer();

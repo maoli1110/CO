@@ -79,7 +79,7 @@
 							<div class="first-list">
 								<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index" profit>
 									<label class="rela bg{{$index}} bg-isCheck">
-										<input type="checkbox" class="absol"  ng-click="updateSelection($event, item, 1, $index)" style="opacity:0">
+										<input type="checkbox" class="absol checkbox_type_{{$index}}"  ng-click="updateSelection($event, item, 1, $index)" style="opacity:0;">
 									</label>
 								</div>
 							</div>
@@ -113,7 +113,7 @@
 								</div>
 								<div class="marklist" style="margin-top:-7px;">
 									<div class="mark-check rela inline check-sub1  mark_{{$index}}" ng-repeat="item in coMark track by $index" profit>
-										<label class="rela" title="{{item.name}}">
+										<label class="rela" style="z-index:1;" title="{{item.name}}">
 											<span class="width50">{{item.name}}</span>
 											<input type="checkbox" class="absol checkbox_mark_{{$index}}" ng-click="updateSelection($event, item, 3, $index)">
 											<div class="absol width50" >{{item.name}}</div>
@@ -199,21 +199,21 @@
 			<div class="title">协作详情</div>
 			<div class="row list">
 				 <div class="col-xs-6 them-title">
-				 	<div>类型：</div>
-				 	<div>主题：</div>
-				 	<div>负责人：</div>
-				 	<div>标识：</div>
-				 	<div>发起时间：</div>
-				 	<div>更新时间：</div>
-				 	<div>更新人：</div>
-				 	<div>当前状态：</div>
-				 	<div>期限：</div>
+				 	<div><span>类型：</span></div>
+				 	<div><span>主题：</span></div>
+				 	<div><span>负责人：</span></div>
+				 	<div><span>标识：</span></div>
+				 	<div><span>发起时间：</span></div>
+				 	<div><span>更新时间：</span></div>
+				 	<div><span>更新人：</span></div>
+				 	<div><span>当前状态：</span></div>
+				 	<div><span>期限：</span></div>
 				 </div>
 				 <div class="col-xs-6" style="padding: 0;">
 				 	<div class="coop-detial-right">{{everyDetail.type.name}}</div>
 				 	<div class="substr deta-main coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.name}}" >{{everyDetail.name}}</div>
 				 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.collaborator}}">{{everyDetail.collaborator}}</div>
-				 	<div class="coop-detial-right substr" style="max-width:100px;text-align:left;" title="{{everyDetail.markerName}}"><div class="mark" style="background:{{everyDetail.markerColor}}"></div>{{everyDetail.markerName}}</div>
+				 	<div class="coop-detial-right substr" style="max-width:100px;text-align:left;" title="{{everyDetail.markerName}}"><span class="mark" style="background:{{everyDetail.markerColor}}"></span>{{everyDetail.markerName}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.createTime}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 				 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.updater}}">{{everyDetail.updater}}</div>

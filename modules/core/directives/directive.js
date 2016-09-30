@@ -187,7 +187,7 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:10,
-                    setHeight:sideHeight,
+                     setHeight:$(window).height(),
                     theme:"minimal"
                 });
                 $("#content-a4").mCustomScrollbar({
@@ -309,6 +309,7 @@ angular.module('core').directive('scrollDirective', function () {
 
 
                 //});
+
             }
         };
     });
@@ -535,7 +536,10 @@ angular.module('core').directive('bvOperation', function($document) {
         }
     };
 });
-
+//$(" #content-a3").height($(window).height()-125)
+window.onresize = function(){
+    $(" #content-a3").height($(window).height()-125);
+}
 //angular.module('core').directive('canvas', function($timeout) {
 //    return {
 //        restrict: 'AE',

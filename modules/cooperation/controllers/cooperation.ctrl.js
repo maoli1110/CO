@@ -247,6 +247,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       Cooperation.getCollaborationList(queryData).then(function (data) {
         $scope.cooperationList = data;
         $scope.deptIdToken = 1;
+        $scope.deptIdOpenToken = 0;
       });
     $(" .data_count").hide();
     }
@@ -346,9 +347,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	        $scope.typeCheck = true;
 	        $scope.priorityCheck = true;
 	    	$scope.markCheck = true;
-	    	$scope.allType();
-	      	$scope.allPriority();
-	      	$scope.allMark();
+	    	$scope.allType(firstflag);
+	      	$scope.allPriority(firstflag);
+	      	$scope.allMark(firstflag);
 	      	firstflag = false;
 		}
 		//协作筛选状态被改变时触发
@@ -524,71 +525,100 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$(".icon-sub").attr("src",'imgs/icon/funnel-1.png');
 	}
     //alltype全选
-	$scope.allType = function () {
-		oldSelsectType = new Array($scope.coQueryType.length);
+	$scope.allType = function (firstflag) {
+		$scope.checkboxSelsectType = new Array($scope.coQueryType.length);
+		if(firstflag) {
+			oldSelsectType = new Array($scope.coQueryType.length);
+		} else {
+			for(var i = 0; i<$scope.checkboxSelsectType.length;i++) {
+				$scope.checkboxSelsectType[i] = $('.checkbox_type_' + i );
+			}
+		}
 		if($scope.typeCheck) {
 			$('.type-check').find('input').prop('checked',true);
             queryTypeSelected = _.cloneDeep($scope.coQueryType);
             for(var i=0;i<$scope.coQueryType.length;i++) {
                 $('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
-				var type = {name:$scope.coQueryType[i].name,flag:true};
-				oldSelsectType[i] = type;
+                if(firstflag) {
+                	var type = {name:$scope.coQueryType[i].name,flag:true};
+					oldSelsectType[i] = type;
+				}
             }
-
 		} else {
             for(var i=0;i<$scope.coQueryType.length;i++) {
                 $('.bgs' + i).removeClass('bgs' + i).addClass('bg' + i);
-				var type = {name:$scope.coQueryType[i].name,flag:false};
-				oldSelsectType[i] = type;
+                if(firstflag) {
+                	var type = {name:$scope.coQueryType[i].name,flag:false};
+					oldSelsectType[i] = type;
+				}
             }
 			$('.type-check').find('input').prop('checked',false);
 			queryTypeSelected = [];
 		}
-		
-		$scope.checkboxSelsectType = new Array(oldSelsectType.length);
 	}
 
-	//allPriority全选
-    $scope.allPriority = function () {
-    	oldPriority = new Array($scope.coPriority.length);
+	//allPriority全选-优先级
+    $scope.allPriority = function (firstflag) {
+    	$scope.checkboxPriority = new Array($scope.coPriority.length);
+    	if(firstflag) {
+    		oldPriority = new Array($scope.coPriority.length);
+		} else {
+			for(var i = 0; i<$scope.checkboxPriority.length;i++) {
+				$scope.checkboxPriority[i] = $('.checkbox_priority_' + i );
+			}
+		}
         $('.priority-check label').addClass('input-check');
     	if($scope.priorityCheck) {
     		$('.priority-check').find('input').prop('checked',true);
     		queryPriorityselected = _.cloneDeep($scope.coPriority);
-			for(var i = 0;i<$scope.coPriority.length;i++){
-				var type = {name:$scope.coPriority[i].name,flag:true};
-				oldPriority[i] = type;
-			}
+    		if(firstflag) {
+    			for(var i = 0;i<$scope.coPriority.length;i++){
+    				var type = {name:$scope.coPriority[i].name,flag:true};
+    				oldPriority[i] = type;
+    			}
+    		}
 
     	} else {
     		$('.priority-check').find('input').prop('checked',false);
     		queryPriorityselected = [];
-			for(var i = 0;i<$scope.coPriority.length;i++){
-				var type = {name:$scope.coPriority[i].name,flag:false};
-				oldPriority[i] = type;
-			}
+    		if(firstflag) {
+    			for(var i = 0;i<$scope.coPriority.length;i++){
+    				var type = {name:$scope.coPriority[i].name,flag:false};
+    				oldPriority[i] = type;
+    			}
+    		}
     	}
-    	$scope.checkboxPriority = new Array(oldPriority.length);
     }
 
     //marking标识全选
-    $scope.allMark = function () {
+    $scope.allMark = function (firstflag) {
+    	$scope.checkboxMark = new Array($scope.coMark.length);
+    	if(firstflag) {
+    		oldMark = new Array($scope.coMark.length);
+		} else {
+			for(var i = 0; i<$scope.checkboxMark.length;i++) {
+				$scope.checkboxMark[i] = $('.checkbox_mark_' + i );
+			}
+		}
     	if($scope.markCheck) {
     		$('.mark-check').find('input').prop('checked',true);
     		queryMarkSelected = _.cloneDeep($scope.coMark);
-			for(var i=0;i<$scope.coMark.length;i++){
-				var type = {name:$scope.coMark[i].name,flag:true};
-				oldMark.push(type);
-			}
+    		if(firstflag) {
+    			for(var i=0;i<$scope.coMark.length;i++){
+    				var type = {name:$scope.coMark[i].name,flag:true};
+    				oldMark[i] = type;
+    			}
+    		}
     	} else {
     		$('.mark-check').find('input').prop('checked',false);
     		queryMarkSelected = [];
-			for(var i=0;i<$scope.coMark.length;i++){
-				var type = {name:$scope.coMark[i].name,flag:false};
-				oldMark.push(type);
-			}
+    		if(firstflag) {
+    			for(var i=0;i<$scope.coMark.length;i++){
+    				var type = {name:$scope.coMark[i].name,flag:false};
+    				oldMark[i] = type;
+    			}
+    		}
     	}
-    	$scope.checkboxMark = new Array(oldPriority.length);
     }
 
     //动态筛选-确定-按钮-搜索
@@ -1231,8 +1261,17 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$scope.branchType = function(){
 			$scope.branchList = false;
 		}
+		
+		$scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
+			// 页面渲染完成后 设置左侧sidebar的高度
+			$(".sidebar").css("height", document.documentElement.clientHeight-$("header").height()-2);
+	    })
 	}]);
 
+$(window).resize(function () {          //当浏览器大小变化时
+	// 设置左侧sidebar的高度
+	$(".sidebar").css("height", document.documentElement.clientHeight-$("header").height()-2);
+});
 /**
  * 拼接百分数 结果： xx.xx%
  * @param number

@@ -42,7 +42,10 @@
 		</head>
 		<body>
 
-		<div class="content-main" ui-view></div> 
+		<div class="content-main" ui-view>
+			
+		</div> 
+		
 		<!-- 警告弹框 -->
 	<!-- 	<div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
 		    <alert>
@@ -120,7 +123,14 @@
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
 		<script src="js/jquery.mousewheel.min.js"></script>
-		
+		<script>
+		    //跳转协作管理（公用）
+		    function transCoManage (deptId,ppid) {
+		        //pc跳转传递deptId, ppid 定位到当前工程
+		        document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
+		    }
+		</script>
+
 
 		</body>
 		</html>

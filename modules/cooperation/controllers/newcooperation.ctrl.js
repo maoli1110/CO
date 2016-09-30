@@ -20,6 +20,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.desc = '';
 	$scope.isClick = true;//启用编辑按钮是否被按下
 	$scope.responsiblePerson = {};//重组负责人
+	$scope.createUser = {};
 	
 //    console.log($stateParams.typeid);
    	//获取当前用户信息
@@ -39,6 +40,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	headerService.currentUserInfo().then(function(data){
 		$scope.responsiblePerson.username = data.userName;
 		$scope.responsiblePerson.avatar = data.avatarUrl;
+		$scope.createUser = $scope.responsiblePerson;
 		var relateUser = {};
 		relateUser.username = data.userName;
 		relateUser.avatar = data.avatarUrl;
@@ -46,6 +48,15 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		relateUser.canSign = true;
 		$scope.related.noSign[0]=relateUser;
 	})
+	
+	
+	Array.prototype.del=function(n) {
+		if(n<0)
+			return this;
+		else
+			return this.slice(0,n).concat(this.slice(n+1,this.length));
+};
+	
     //选择负责人
     $scope.selectResponsible = function () {
     	//alert('111');
@@ -61,12 +72,36 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		}
     	});
     	modalInstance.result.then(function (selectedItem) {
-    		if($scope.responsiblePerson.username == selectedItem.username) {
+    		var responsiblePersonName = $scope.responsiblePerson.username;
+    		//如果选择的用户和负责人一样，什么都不做
+    		if(responsiblePersonName == selectedItem.username) {
     			return;
     		}
-			
-			for(var i = 0;i < $scope.related.sign.length;i++) {	// TODO
+    		//查询原先负责人在相关人中的位置
+    		var signIndex = null;
+    		var noSignIndex = null;
+    		for(var i = 0;i < $scope.related.sign.length;i++) {	
+    			if($scope.related.sign[i].username == responsiblePersonName){
+    				signIndex = i;
+    				break;
+    			}
+    		}
+    		for(var i = 0;i < $scope.related.noSign.length;i++) {	
+    			if($scope.related.noSign[i].username == responsiblePersonName){
+    				noSignIndex = i;
+    				break;
+    			}
+    		}
+    		
+			//如果相关人里面有选择的用户，需要把原先的负责人删除
+    		for(var i = 0;i < $scope.related.sign.length;i++) {	// TODO
 				if($scope.related.sign[i].username == selectedItem.username){
+		    		if((signIndex != null) && (responsiblePersonName != $scope.createUser.username)){
+		    			$scope.related.sign = $scope.related.sign.del(signIndex);
+		    		}
+		    		if(noSignIndex != null && (responsiblePersonName != $scope.createUser.username)){
+		    			$scope.related.noSign = $scope.related.noSign.del(noSignIndex);
+		    		}
 					$scope.responsiblePerson = selectedItem;
 					return;
 				}
@@ -75,6 +110,29 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			
 			for(var i = 0;i < $scope.related.noSign.length;i++) {
 				if($scope.related.noSign[i].username == selectedItem.username){
+					if(signIndex != null){
+						$scope.related.sign = $scope.related.sign.del(signIndex);
+		    		}
+		    		if(noSignIndex != null){
+		    			$scope.related.noSign = $scope.related.noSign.del(noSignIndex);
+		    		}
+					$scope.responsiblePerson = selectedItem;
+					return;
+				}
+			}
+    		
+			for(var i = 0;i < $scope.related.sign.length;i++) {	// TODO
+				if(($scope.related.sign[i].username == responsiblePersonName)&&(responsiblePersonName != $scope.createUser.username)){
+					$scope.related.sign[i] = selectedItem;
+					$scope.responsiblePerson = selectedItem;
+					return;
+				}
+				
+			}
+			
+			for(var i = 0;i < $scope.related.noSign.length;i++) {
+				if(($scope.related.noSign[i].username == responsiblePersonName)&&(responsiblePersonName != $scope.createUser.username)){
+					$scope.related.noSign[i] = selectedItem;
 					$scope.responsiblePerson = selectedItem;
 					return;
 				}
@@ -99,6 +157,18 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		controller:'selectpersonCtrl',
     		resolve:{
     			items: function () {
+    				for(var i=0;i<$scope.related.sign.length;i++){
+    					if($scope.related.sign[i].username == $scope.responsiblePerson.username){
+    						$scope.related.sign[i].mustExist = true;
+    					}
+    					$scope.related.sign[i].canSign = true;
+    				}
+    				for(var i=0;i<$scope.related.noSign.length;i++){
+    					if($scope.related.noSign[i].username == $scope.responsiblePerson.username){
+    						$scope.related.noSign[i].mustExist = true;
+    					}
+    					$scope.related.noSign[i].canSign = true;
+    				}
     				return $scope.related;
     			}
     		}
@@ -866,7 +936,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     var currentReact = '60,80,1200,720';
     var backJson = '';
     var handle = '';
-    var coid = '';
+    var coid = "";
 	$scope.isTypePdf = false;;//判断是不是PDF格式的文件
 	$scope.preView = function (uuid,docName,fileType,index,docSource) {
 			//可编辑表单当前index & uuid
@@ -915,9 +985,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.CommentSign = function () {
 		if($scope.isClick){
 			$('.edit-material').css('color','#c5c5c5');
+			$scope.isClick = false;
 			BimCo.CommentSign(currentEditOfficeUuid,currentSuffix);
 		}
-		$scope.isClick = false;
     }
     //保存编辑
     $scope.saveOffice = function () {

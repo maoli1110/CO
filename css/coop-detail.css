@@ -1,6 +1,9 @@
 @media (min-width: 993px) and (max-width: 1150px){
-    .container {
+    .coop-detail .container {
         width: 890px;
+    }
+    .action.pc-photo .picInfo{
+        width:80% !important;
     }
 }
 
@@ -10,7 +13,9 @@
     position:relative;
 
 }
-
+.detail-computer .margin-12{
+    padding-bottom:12px;
+}
 .detail-computer .F16{
     font-size:16px;
 }
@@ -82,8 +87,18 @@
     margin-top:36px;
     padding-bottom: 2px;
 }
-.proInfo .pro_man div:nth-child(1){
-    margin-bottom:23px;
+.proInfo .pro_man .col-md-5{
+    padding:0;
+}
+.proInfo .pro_man >div{
+    margin-bottom:20px;
+}
+.coop-detail .proInfo .pro_man span.F16{
+    width:80px;
+    display:inline-block;
+}
+.header-operation .pull-left a{
+    color:#00B83F;
 }
 /*.proInfo .pro_man div:nth-child(2){
     margin-bottom:23px;
@@ -112,7 +127,6 @@
 }
 .proInfo .pro_man .coop-name{
     display: inline-block;
-    margin-left: 20px;
 }
 .proInfo .pro_man div:nth-child(1) .look-model{
     /*background:url(../imgs/show_model.png) 5px center no-repeat;*/
@@ -252,16 +266,20 @@ a:hover{color:#c00;text-decoration:underline;}
     height:130px;
 }
 .detail {
-    margin-top:30px;
+    margin-top:32px;
     border-bottom:1px solid #ddd;
-    padding:10px 0;
 }
 .detail .blank{
     margin-bottom:20px;
 }
 .Avatar{
     /*clear:both;*/
-    margin:40px 0;
+    margin:33px 0;
+}
+.detail .pc-job-descrition{
+    border-bottom:1px solid #ddd;
+    padding-bottom:40px;
+    padding-bottom:40px;
 }
 .Avatar .photo dl{
     height: 100px;
@@ -305,7 +323,7 @@ a:hover{color:#c00;text-decoration:underline;}
 /*-----------------------action--------------*/
 .action{
     /*padding:40px 0;*/
-    padding-top:40px;
+    padding-top:38px;
     padding-bottom:20px;
     border-bottom:1px solid #ddd;
 }
@@ -325,7 +343,7 @@ a:hover{color:#c00;text-decoration:underline;}
 }
 .action dl dd{
     line-height:40px;
-    margin-bottom:10px;
+    margin-top:10px;
 }
 .action .show-icon .detail-down{
     width:20px;
@@ -380,7 +398,8 @@ a:hover{color:#c00;text-decoration:underline;}
 }
 /*-------------reply---------------------------*/
 .reply{
-margin:34px 0;
+/*margin:34px 0;*/
+    margin-top:40px;
 }
 .reply .man_pic{
     text-align:left;
@@ -396,15 +415,17 @@ margin:34px 0;
     border-radius: 50%;
 }
 .reply .say{
-    margin-bottom:40px;
+    margin-bottom:34px;
 }
 .reply .comment {
     border: 1px solid #ddd;
     min-height: 70px;
-    margin-bottom:10px;
     border-radius:5px;
     padding: 0 20px;
 /*    width:auto !important;*/
+}
+.coop-detail .coop-detail-con{
+    margin-top:84px;
 }
 .reply .comment .comment-doclist >div {
     width: 75px;
@@ -457,6 +478,9 @@ margin:34px 0;
     bottom:0;
     z-index:2;
     /*box-shadow: 0px 3px 23px 3px;*/
+}
+.coop-theme .theme-title.span.F16{
+    width:61px !important;
 }
 /*-------bttn(侧边栏样式)-----------------------------------*/
  .btn_box_pc{
@@ -536,6 +560,7 @@ margin:34px 0;
 .mobile-devices .state::before {
     background: #5c58f9;
 }
+
 .state ul{
     width: 100%;
     position: relative;
@@ -586,6 +611,7 @@ margin:34px 0;
     padding: 0 5px;
     height: 27px;
 }
+
 .state ul li .handle p{
     display:inline-block;
     font-size:14px;
@@ -595,6 +621,9 @@ margin:34px 0;
     width:24px;
     height:24px;
     border-radius: 50%;
+}
+.label_tools img:hover{
+    opacity:0.5;
 }
 /*------------------footer---------------------*/
 
@@ -747,7 +776,7 @@ html,body{
     margin-bottom:10px;
 }
 .mobile-main .mobile-main-principal p .oSpan{
-    width:65px;
+    width:81px;
     text-align:left;
     display:inline-block;
 }
@@ -1125,9 +1154,7 @@ textarea{
     top:40px;
 }
 .state ul li .handle p{
-    /*line-height:10px;*/
     font-size:16px;
-    /*padding:0 5px;*/
     margin-left:5px;
 }
 .mobile-devices .menus-time{

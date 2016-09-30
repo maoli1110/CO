@@ -39,6 +39,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         var coid = $stateParams.coid;
         var allRelevants = [];
         var sliceRlevants = [];
+        var pcAllRelevants = [];
         $scope.related = {
                 sign:[],
                 noSign:[],
@@ -66,6 +67,20 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 	                $scope.collaList.relevants =sliceRlevants;
 	                $scope.isRevlentMore = true;
 	            }
+            	 angular.forEach(allRelevants, function (value, key) {
+                     var unit = {};
+                     unit.username = value.username;
+                     unit.needSign = value.needSign;
+                     contracts.push(unit);
+                 });
+            } else {
+            	pcAllRelevants = data.relevants;
+            	angular.forEach(pcAllRelevants, function (value, key) {
+                    var unit = {};
+                    unit.username = value.username;
+                    unit.needSign = value.needSign;
+                    contracts.push(unit);
+                });
             }
            
             if(data.priority == "I") {
@@ -84,13 +99,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             if( data.deadline && data.isDeadline==3){
                 $scope.deadlineStyle = 'red';
             }
-
-            angular.forEach(allRelevants, function (value, key) {
-                var unit = {};
-                unit.username = value.username;
-                unit.needSign = value.needSign;
-                contracts.push(unit);
-            });
+           
             
             if(data){
                 //获取标识
@@ -378,6 +387,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             modalInstance.result.then(function (selectedItem) {	// 向后台发送需要保存的数据
                 $scope.related.noSign = selectedItem.noSign;
                 $scope.related.sign = selectedItem.sign;
+                if(contracts.length){
+                	contracts = [];
+                }
                 angular.forEach(selectedItem.noSign, function (value ,key) {	// 不需要签字
                     var needSign = false;
                     var a = {}

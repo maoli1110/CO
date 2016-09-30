@@ -7,15 +7,15 @@
                 <div class="header-operation clearfix">
                     <div class="pull-left" style="" ng-click="backCooperation()">
                     	<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
-                    	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
+                    	<a  style="text-decoration: none;">返回</a>
                     </div>
                     <div class="label_tools">
-                        <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()">
+                        <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
                         <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-                            <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
-                            <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+                            <img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
+                            <img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
                         </div>
-                        <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+                        <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
                     </div>
                 </div>
                 <div class="header-title">
@@ -25,7 +25,7 @@
                 </div>
             </header>
             <div class="clearfix" style="margin:0 auto;width:1360px;min-width:1000px;">
-                <div class="" style="height:100%;float:left;margin-top:100px;">
+                <div class="" style="height:100%;float:left;margin-top:120px;">
                     <img ng-if="collaList.coTypeVo.name=='问题整改'"  src="imgs/pro_solve.png" alt="">
                     <img ng-if="collaList.coTypeVo.name=='图纸变更'"  src="imgs/term-cad.png" alt="">
                     <img ng-if="collaList.coTypeVo.name=='现场签证'"  src="imgs/term-visa.png" alt="">
@@ -40,31 +40,33 @@
                     <div class="proInfo">
                         <div class="pro_man clearfix row">
 
-                            <div class=" col-md-5">
-                               <div class="F16"> <span>负责人:</span><span class="coop-name" >{{collaList.collaborator}}</span></div>
-                               <div  class="F16"> <span>状态:</span><span class="coop-name" ng-model="status">{{collaList.status}}</span></div>
+                            <div class="  col-xs-5">
+                               <div class="F16"> <span class="F16">负责人:</span><span class="coop-name" >{{collaList.collaborator}}</span></div>
                             </div>
-                            <div class=" col-xs-5 col-md-5 pad_clear">
-                                <div  class="F16"> <span>优先级:</span><span class="coop-name">{{collaList.priority}}</span></div>
-                                <div  class="F16"> <span>标识:</span><span class="coop-name substr" title="{{collaList.markerInfo.name}}" style="max-width:100px;position:absolute"><i class ="chara"style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></div>
+                            <div class=" col-xs-4  pad_clear">
+                                <div  class="F16"> <span class="F16">优先级:</span><span class="coop-name">{{collaList.priority}}</span></div>
                             </div>
-                            <div class="col-xs-2 col-md-2 pad_clear">
-                                <span  class="F16">限期:</span><p class="coop-name" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</p>
+                            <div class="col-xs-3 col-md-2  pad_clear">
+                                <span  class="F16">限期:</span><p class="coop-name F16" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</p>
+                            </div>
+                            <div class="col-xs-5">
+                                <div  class="F16"> <span class="F16">状态:</span><span class="coop-name" ng-model="status">{{collaList.status}}</span></div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="F16"> <span class="F16">标识:</span><span class="coop-name substr" title="{{collaList.markerInfo.name}}" style="max-width:100px;position:absolute"><i class ="chara"style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></div>
+                            </div>
+                            <div class="col-xs-3">
+                                <p class="F16"><span class="F16">发起时间：</span><span class=" " style=" display:inline-block;position: absolute;">{{collaList.createTime.split(' ')[0]}}</span></p>
+                            </div>
+                            <div class="col-xs-5">
+                                <p class="F16"><span class="F16 oSpan">更新时间：</span><span class=" " style=" display:inline-block;position: absolute;">{{collaList.updateTime.split(' ')[0]}}</span></p>
                             </div>
                         </div>
-                        <div class="row">
-                            <!---->
-                            <!-- <div class="pro_man col-xs-5" ng-if="link">
+                        <div class="row" style="border-bottom:1px solid #ddd;" ng-class="{'margin-12':!link}">
+                             <div class="pro_man col-xs-5" ng-if="link" style="margin-bottom:38px;">
                                  <button  type="button" class="btn btn-default look-model" ng-click="checkModelpc()"><img src="imgs/show_model.png">查看模型关联</button>
                             </div>
-                            <div class="pro_man col-xs-7" ng-if="speachShow">
-                               <button  type="button" class="btn btn-default play-audio" ng-click="play()"><img src="imgs/play.png"/>播放录音</button>
-                            </div> -->
-
-                             <div class="pro_man col-xs-5" ng-if="link">
-                                 <button  type="button" class="btn btn-default look-model" ng-click="checkModelpc()"><img src="imgs/show_model.png">查看模型关联</button>
-                            </div>
-                            <div class="pro_man col-xs-7" ng-if="speachShow">
+                            <div class="pro_man col-xs-7" ng-if="speachShow" style="margin-bottom:38px;">
                                <button type="button" class="btn btn-default play-audio"  ng-click="play(speachUrl)"><input type="hidden" ng-model="speachUrl"><img src="imgs/play.png">播放录音</button>
                             </div>
                             
@@ -80,28 +82,36 @@
                                 </div>
                            </div>
                             <div class="Avatar row mobile-relate">
-                                <div class="col-xs-3 col-md-1">
-                                    <p class="F16">相关人:</p>
-                                </div>
-                                <div class="photo col-xs-8 col-md-10">
-                                    <dl ng-if="item.needSign ==true" ng-repeat="item in collaList.relevants" class="photoImg">
-                                        <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                                        <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
-                                        <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
-                                        <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
-                                        <dd ng-if="item.isPassed">已通过</dd>
-                                        <dd ng-if="item.isRejected">已拒绝</dd>
-                                    </dl>
-                                    <!--修饰线-->
-                                    <div class="adorn-line"></div>
-                                    <dl ng-if="item.needSign ==false" ng-repeat="item in collaList.relevants" class="photoImg" style="margin-left:38px;margin-right:0">
-                                        <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                                        <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
-                                        <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
-                                        <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
-                                        <dd ng-if="item.isPassed">已通过</dd>
-                                        <dd ng-if="item.isRejected">已拒绝</dd>
-                                    </dl>
+                                <div class="col-xs-12" style="margin-bottom: 20px;">
+                                    <div class="col-xs-2 col-md-1">
+                                        <p class="F16">相关人:</p>
+                                    </div>
+                                    <div class="photo col-xs-8 col-md-10">
+                                        <dl ng-if="item.needSign ==false" ng-repeat="item in collaList.relevants" class="photoImg">
+                                            <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
+                                            <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                                            <dd ng-if="item.isPassed">已通过</dd>
+                                            <dd ng-if="item.isRejected">已拒绝</dd>
+                                        </dl>
+                                       </div>
+                                    </div>
+                                <!--&lt;!&ndash;需签字&ndash;&gt;-->
+                                <div class="col-xs-12">
+                                    <div class="col-xs-2 col-md-1">
+                                        <p class="F16">需签字:</p>
+                                    </div>
+                                    <div class="photo col-xs-8 col-md-10">
+                                        <dl ng-if="item.needSign ==true" ng-repeat="item in collaList.relevants" class="photoImg" style="margin-right:38px">
+                                            <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
+                                            <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                                            <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                                            <dd ng-if="item.isPassed">已通过</dd>
+                                            <dd ng-if="item.isRejected">已拒绝</dd>
+                                        </dl>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -148,13 +158,13 @@
                             <div class="col-md-1 col-xs-2">
                                 <p class="F16">回复:</p>
                             </div>
-                            <div class="col-md-11 col-xs-10">
+                            <div class="col-md-11 col-xs-10" style="padding:0;">
                                 <div class="say clearfix col-xs-12" ng-repeat="item in collaList.comments">
-                                    <div class="col-xs-4 col-md-1 man_pic">
+                                    <div class="col-xs-2 col-md-1 man_pic">
                                         <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
                                         <p class="substr" title="{{item.commentator}}">{{item.commentator}}</p>
                                     </div>
-                                    <div class="col-xs-8 col-md-11 comment">
+                                    <div class="col-xs-10 col-md-11 comment">
                                         <!-- 状态 -->
                                         <div class="dashed" ng-if="item.status">更新状态为：<span style="color:#65c17d">"{{item.status}}"</span></div>
                                         <!-- 评论 -->
@@ -218,13 +228,25 @@
                                 </div>
                                 <div class="handle">
                                     <div class="icon_man">
-                                    	<!-- <img ng-src="{{item.avatar}}"/> -->
-                                    	<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
-										<img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+                                        <div style="">
+                                            <div style="display:inline-block">
+                                                <img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
+                                                <img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+                                            </div>
+                                            <p class="substr menus-name">{{item.username}}</p>
+                                        </div>
                                     </div>
-                                    <p class="ng-binding substr" style="width: 120px;" title="{{item.username}}{{item.operation}}本次协作">
+                                    <p class="substr" style="width: 120px;margin-top:10px;" title="{{item.username}}{{item.operation}}本次协作">
                                     	{{item.username}}{{item.operation}}<span>本次协作</span>
                                     </p>
+                                    <p class="menus-time">{{item.operationTime}}</p>
+                                    <!--<p class="">{{item.operationTime}}</p>-->
+                                    <!--<div class="menus-head">-->
+                                        <!--<div class="icon_man"><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></div>-->
+                                        <!--<p class="substr menus-name">{{item.username}}</p>-->
+                                    <!--</div>-->
+                                    <!--<p class="substr" style="width:100px;">{{item.operation}}<span>本次协作</span></p>-->
+                                    <!--<p class="menus-time">{{item.operationTime}}</p>-->
                                 </div>
                             </li>
                         </ul>

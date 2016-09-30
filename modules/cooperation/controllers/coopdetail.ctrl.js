@@ -154,6 +154,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.tgshow = false;
 				$scope.jjueshow = false;
 				$scope.jsshow = false;
+				$scope.flag.noNeedSign = true;
 			}
 
 			//判断当前用户已经点过通过/拒绝按钮
@@ -667,12 +668,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    $scope.signCancel = function () {
 	    	var rtn = BimCo.MessageBox("提示" ,"放弃编辑？", 0x31);
 	    	if(rtn==1) {
-	    		$scope.flag.isPreview = false;
 	    		//取消调用签入
 	    		Cooperation.checkIn(coid).then(function(data){
 	    		});
 	    		BimCo.SignCancel();
 	    		BimCo.CancelSubmitAll();
+	    		$scope.flag.isPreview = false;
 	    	}
 	    }
 

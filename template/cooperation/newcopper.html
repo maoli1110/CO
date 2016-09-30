@@ -261,7 +261,7 @@
 	</div>
 	<div class="create-btn-submit footer footer-commom">
 		<div class="text-center">
-			<button class="btn btn-default foot-btn" ng-click="save(0)">存草稿</button>
+			<!--<button class="btn btn-default foot-btn" ng-click="save(0)">存草稿</button>-->
 			<button class="btn btn-default foot-btn" ng-click="save(1)">提交</button>
 			<button class="btn btn-default new-btnFail" ng-click="cancelCreate()">取消</button>
 		</div>
@@ -284,7 +284,7 @@
                 </div>
                 <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
             </div>
-            <div  ng-if="isTypePdf" class="pull-right edit-material" ng-click="CommentSign()" style="color:#69C080;margin-right:100px;margin-top: 10px;">启用编辑</div>
+           <!--  <div  ng-if="isTypePdf" class="pull-right edit-material" ng-click="CommentSign()" style="color:#69C080;margin-right:100px;margin-top: 10px;">启用编辑</div> -->
         </div>
     </header>
     <!-- 默认预览 -->
@@ -297,6 +297,7 @@
 		<div class="doc-edit" ng-show="flag.isPdfsign">
 			<div id="edit-office" style="min-height:300px">editOffice</div>
 			<div class="text-center footer footer-commom">
+				<button class="btn btn-default foot-btn" type="button" ng-click="CommentSign()" ng-disabled="!isClick">编辑</button>
 				<button class="btn btn-default foot-btn" type="button" ng-click="saveOffice()">保存</button>
 				<button class="btn btn-default foot-btn" type="button" ng-click="cancelEditOffice()">取消</button>
 			</div>

@@ -284,7 +284,17 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			$scope.flag.forbidAll = true;
 			angular.forEach($scope.userList,function (value, key) {
 				angular.forEach(value.users, function (value1,key) {
-					$scope.relatedSelected.push(value1);
+					var currentUser = {avatar:	value1.avatar,
+							avatarUuid:value1.uuid,
+							isPassed	:false,
+							isReaded:false,
+							isRejected	:false,
+							isSigned:false,
+							needSign:false,
+							username:value1.username,
+							mustExist:false,
+							canSign:true};
+					$scope.relatedSelected.push(currentUser);
 				})
 			});
 			$scope.relatedSelected = _.uniqBy($scope.relatedSelected, 'username');
