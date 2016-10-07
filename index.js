@@ -5,3 +5,4 @@ require("./modules/core/directives/directive.js");
 require("./modules/core/services/common.service.js");
 require("./modules/core/controller/header.ctrl.js");
 require("./modules/core/services/header.service.js");
+require（"./modules/manage/manage.module.js");

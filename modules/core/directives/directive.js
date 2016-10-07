@@ -277,7 +277,7 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:5,
-                    //setHeight:sideHeight,
+                    setHeight:'90%',
                     theme:"minimal",
                     advanced:{
                         updateOnBrowserResize:false

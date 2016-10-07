@@ -5,12 +5,16 @@ var webpack = require('webpack');
 var env = process.env.NODE_ENV;
 
 var config = {
-  entry: ['./index'],
+  entry: {
+    script: './script.js',
+    css: './css.js'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
+  devtool:'sourcemap',
   plugins: [],
   module: {
     loaders: [{
