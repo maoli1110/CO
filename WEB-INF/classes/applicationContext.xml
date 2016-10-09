@@ -1,53 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-	xmlns:cxf="http://cxf.apache.org/core"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
-        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
-	
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">  
-            <list>  
-				<value>classpath:all-luban-application-config.properties</value>
-            </list>  
-        </property>
-	</bean>
-	<aop:aspectj-autoproxy proxy-target-class="true"/>
-	<!--  -->
-	<!-- 使Spring关注Annotation -->
-	<context:annotation-config />
 
-	<!-- 让Spring通过自动扫描来查询和管理Bean -->
- 	<context:component-scan base-package="com.lubansoft" />
-	
-	<!-- 配置spring-data-mongo 开始 -->
-    <!-- 自动扫描以下包的有Doucment注解的类 -->
-	<mongo:mapping-converter id="mappingConverter" type-mapper-ref="defaultMongoTypeMapper">
-	</mongo:mapping-converter>
-	
-	<!-- 默认Mongodb类型映射 -->
-	<bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
-		<constructor-arg name="typeKey">
-			<null/>
-		</constructor-arg>
-	</bean>
-	
-	<!-- mongodb的主要操作对象，所有对mongodb的增删改查的操作都是通过它完成 -->
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
-		<constructor-arg name="mongoConverter" ref="mappingConverter" />
-	</bean>
-	
-	<!-- repository所在包 -->
-	<mongo:repositories base-package="com.lubansoft.bimco" />
-	<!-- 配置spring-data-mongo 结束 -->
-	
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo" xmlns:cxf="http://cxf.apache.org/core" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">  
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+    <property name="locations"> 
+      <list> 
+        <value>classpath:all-luban-application-config.properties</value> 
+      </list> 
+    </property> 
+  </bean>  
+  <aop:aspectj-autoproxy proxy-target-class="true"/>  
+  <!--  -->  
+  <!-- 使Spring关注Annotation -->  
+  <context:annotation-config/>  
+  <!-- 让Spring通过自动扫描来查询和管理Bean -->  
+  <context:component-scan base-package="com.lubansoft"/>  
+  <!-- 配置spring-data-mongo 开始 -->  
+  <!-- 自动扫描以下包的有Doucment注解的类 -->  
+  <mongo:mapping-converter id="mappingConverter" type-mapper-ref="defaultMongoTypeMapper"></mongo:mapping-converter>  
+  <!-- 默认Mongodb类型映射 -->  
+  <bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper"> 
+    <constructor-arg name="typeKey"> 
+      <null/> 
+    </constructor-arg> 
+  </bean>  
+  <!-- mongodb的主要操作对象，所有对mongodb的增删改查的操作都是通过它完成 -->  
+  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> 
+    <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>  
+    <constructor-arg name="mongoConverter" ref="mappingConverter"/> 
+  </bean>  
+  <!-- repository所在包 -->  
+  <mongo:repositories base-package="com.lubansoft.bimco"/>  
+  <!-- 配置spring-data-mongo 结束 -->  
+  <mongo:mongo id="mongo" replica-set="192.168.3.20:10001">
+    <mongo:options connections-per-host="500" threads-allowed-to-block-for-connection-multiplier="10" connect-timeout="10000" max-wait-time="60000" auto-connect-retry="true" socket-keep-alive="true" socket-timeout="60000" slave-ok="true" write-number="1" write-timeout="0" write-fsync="true"/>
+  </mongo:mongo>
+  <mongo:db-factory id="mongoDbFactory" dbname="bimco" mongo-ref="mongo" username="pdstest" password="pdstest@)!%"/>
 </beans>

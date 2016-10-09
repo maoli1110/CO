@@ -17,7 +17,8 @@
 				<div class="header_menus" style="width: 251px;">
 					<ul>
 						<li ng-repeat="menus in headerMenus track by $index" profit>
-							<p><b>{{menus.enterpriseName}}</b>
+							<p ng-click="switchCompany(menus.enterpriseId)">
+								<b>{{menus.enterpriseName}}</b>
 								<!-- <span class="glyphicon glyphicon-chevron-right"></span> -->
 								<span><img alt="" ng-src="./imgs/icon/icon-left.png"/></span>
 							</p>
@@ -42,15 +43,20 @@
 				</li>
 			</ul>
 			<div class="label_tools">
-				<span class="min-window">
-					<img ng-src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+				<span class="min-window" ng-click="minimize()">
+					<img ng-src="imgs/icon/icon-small.png" alt=""  >
 				</span>
 				<div  class="max-window" ng-click="maxRestore($event)" class="inline" >
 					<img ng-src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
 					<img ng-src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
 				</div>
 				
-				<span class="change-window"><img ng-src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+				<span class="change-window" ng-click="close()"><img ng-src="imgs/icon/icon-close.png" alt="" ></span>
 			</div>
 		</div>
+		<input id="deptId_formbe" type="hidden" ng-click="transCoManageFrombe()">
+		<input id="ppid_formbe" type="hidden">
+		<!-- <div onclick="transCoManage()" style="position:fixed;z-index:1000;top:20px">transCoManage</div> -->
 </nav>
+
+

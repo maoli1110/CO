@@ -5,25 +5,22 @@
 		<meta name="renderer" content="webkit">
 		<!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
 		<title></title>
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
-		<!--  Bootstrap select CSS	-->
+		<!-- Bootstrap select CSS	-->
 		<link rel="stylesheet" href="./lib/bootstrap-select/dist/css/bootstrap-select.css">
+		<!-- ztree -->
 		<link rel="stylesheet" href="./lib/ztree/css/zTreeStyle_new.css">
 		<!-- project core CSS -->
 		<link rel="stylesheet" href="./css/main.css">
-		<link rel="stylesheet" href="./css/goods.css">
-		<link rel="stylesheet" href="./css/style.css">
+		<link rel="stylesheet" href="./css/trend.css">
 		<link rel="stylesheet" href="./css/cooperation.css">
-		<link rel="stylesheet" href="./css/cooperation.css">
-		<link rel="stylesheet" href="./lib/font-awesome-4.5.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="./css/animate.css">
 		<!--滚动条-->
-		<!-- stylesheet for demo and examples -->
 		<!-- custom scrollbar stylesheet -->
 		<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+
 		<script type="text/javascript">
 		<%@page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 		<%
@@ -37,8 +34,6 @@
 			//console.log(basePath);
 		</script>
 		
-		<!-- <base href="<%=basePath %>"> -->
-
 		</head>
 		<body>
 
@@ -46,18 +41,19 @@
 			
 		</div> 
 		
+		
 		<!-- 警告弹框 -->
-	<!-- 	<div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
+		<!-- <div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
 		    <alert>
 		        <span ng-bind="alert.msg"></span>
 		    </alert>
 		</div> -->
 
-		<%--<div ng-repeat="alert in alerts" class="alert {{alert.type}}">--%>
-		    <%--<alert>--%>
-		        <%--<span ng-bind="alert.msg"></span>--%>
-		    <%--</alert>--%>
-		<%--</div>--%>
+		<!-- <div ng-repeat="alert in alerts" class="alert {{alert.type}}">
+		    <alert>
+		       <span ng-bind="alert.msg"></span>
+		    </alert>
+		</div> -->
 
 		<!-- vendor -->
 		<script src="./lib/lodash.min.js"></script>
@@ -67,15 +63,13 @@
 		<script type="text/javascript" src="./lib/angular/angular.min.js"></script>
 		
 		<script type="text/javascript" src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="./lib/angular-i18n.js"></script>
+		<script type="text/javascript" src="./lib/angular-i18n.js"></script>
 		<script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
 		<script type="text/javascript" src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="./lib/echart/echarts.min.js"></script>
-		<script src="./lib/nginfinite/ng-infinite-scroll.js"></script>
-		<script src="./lib/jquery.imgbox.pack.js"></script>
-		<script src="./lib/layer/layer.js"></script>
-		<script src="./lib/audio1/jquery.jplayer.js"></script>
-
+		<script type="text/javascript" src="./lib/echart/echarts.min.js"></script>
+		<script type="text/javascript" src="./lib/nginfinite/ng-infinite-scroll.js"></script>
+		<script type="text/javascript" src="./lib/layer/layer.js"></script>
+		<script type="text/javascript" src="./lib/audio1/jquery.jplayer.js"></script>
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
 		<!-- upload -->
@@ -125,12 +119,16 @@
 		<script src="js/jquery.mousewheel.min.js"></script>
 		<script>
 		    //跳转协作管理（公用）
+		    // function transCoManage (deptId,ppid) {
+		    //     //pc跳转传递deptId, ppid 定位到当前工程
+		    //     document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
+		    // }
 		    function transCoManage (deptId,ppid) {
 		        //pc跳转传递deptId, ppid 定位到当前工程
-		        document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
+		       $('#deptId_formbe').val(deptId);
+		       $('#ppid_formbe').val(ppid);
+		       $('#deptId_formbe').click();
 		    }
 		</script>
-
-
 		</body>
 		</html>

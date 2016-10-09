@@ -47,6 +47,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		//获取工程树
 		Cooperation.getProjectTree().then(function (data) {
 //			console.log(data);
+			findAllChilds(data);
 			$scope.projectTree = data;
 			treeObj = $.fn.zTree.init($("#tree"), setting, $scope.projectTree);
 			//全部打开
@@ -66,6 +67,32 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			level = maxLevel;
 			levelCategory = maxLevel;
 		});
+		
+		function findAllChilds (data)
+		{
+	        //递归遍历子节点
+			for(var x = 0; x < data.length; x++) {
+				if (data[x].type == 1) {	// 组织
+					data[x].iconSkin = "org";
+				} else if(data[x].type == 2) {	// 项目部
+					data[x].iconSkin = "dept";
+				} else if(data[x].type == 3 && data[x].value.indexOf("1-3-") == 0 ) {					// 土建预算
+					data[x].iconSkin = "tj";		// imgs/icon/1.png
+				} else if(data[x].type == 3 && data[x].value.indexOf("2-3-") == 0 ) {					// 钢筋预算
+					data[x].iconSkin = "gj";		//imgs/icon/2.png
+				} else if(data[x].type == 3 && data[x].value.indexOf("3-3-") == 0 ) {					// 安装预算
+					data[x].iconSkin = "az";//"imgs/icon/3.png";
+				} else if(data[x].type == 3 && data[x].value.indexOf("4-3-") == 0 ) {					// Revit
+					data[x].iconSkin = "revit";//"imgs/icon/4.png";
+				} else if(data[x].type == 3 && data[x].value.indexOf("5-3-") == 0 ) {					// Tekla
+					data[x].iconSkin = "tekla"; //"imgs/icon/5.png";
+				}
+				if (data[x].children != null && data[x].children.length>0)
+				{
+					findAllChilds(data[x].children);
+				}
+			}
+	}
 
 
 		//工程分类处理
@@ -103,7 +130,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			dataList.assembleLps = treeNode;
 			ppid = dataList.assembleLps.value.split('-')[2];
 			projType = dataList.assembleLps.value.split('-')[0];
-			console.log('treeNode',treeNode);
+//			console.log('treeNode',treeNode);
 			if((treeNode.name === 'PDS内网测试') || (treeNode.name === '临时')) {
 				$('.confirm').attr('disabled', true);
 			} else {
@@ -443,7 +470,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				dataType : 'json',
 				type: "post",
 				data:data,
-				url: 'http://172.16.21.69:8080/bimco/rs/co/getProjTipInfo',
+				url: basePath + 'rs/co/getProjTipInfo',
 			    async : false,
 			    success: function (data) {
 			    	for(var i=0;i<data.length;i++){

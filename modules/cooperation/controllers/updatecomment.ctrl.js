@@ -31,7 +31,7 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 				break;
 		}
 		//如果是问题整改则显示状态
-		var isShowArr = ["已结束","已通过","已通过","进行中"];
+		var isShowArr = ["已结束","已通过","已通过","进行中","待确认"];
 		//debugger
 		if(isShowArr.indexOf($scope.status) == -1) {
 			$scope.zhenggai = true;
@@ -62,7 +62,7 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 
     	//上传资料
 	    var uploader1 = $scope.uploader1 = new FileUploader({
-	    		url: '/bimco/fileupload/upload.do'
+	    		url: basePath + 'fileupload/upload.do'
 	    });
 
 	    //FILTERS

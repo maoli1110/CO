@@ -99,7 +99,45 @@
                                     <span class="checkbox"></span>
                                 </label>
                                 </td>
-                                <td><img src="imgs/pro-icon/icon-txt.png" alt=""></td>
+                                <td>
+                                    <!--文件类型-->
+                                    <img src="imgs/pro-icon/icon-txt.png"  ng-if="row.fileType=='txt'||row.fileType=='TXT'">
+                                    <img src="imgs/pro-icon/icon-doc-s.png"  ng-if="row.fileType=='doc'||row.fileType=='DOC'">
+                                    <img src="imgs/pro-icon/icon-pdf.png"  ng-if="row.fileType=='pdf'||row.fileType=='PDF'">
+                                    <img src="imgs/pro-icon/icon-xls.png"  ng-if="row.fileType=='xls'">
+                                    <img src="imgs/pro-icon/icon-ppt.png"  ng-if="row.fileType=='ppt'||row.fileType=='PPT'">
+                                    <img src="imgs/pro-icon/icon-docx.png" ng-if="row.fileType=='docx'||row.fileType=='DOCX'">
+                                    <img src="imgs/pro-icon/icon-xlsx.png" ng-if="row.fileType=='xlsx'||row.fileType=='XLSX'">
+                                    <img src="imgs/pro-icon/icon-xls.png"  ng-if="row.fileType=='XLS'" >
+                                    <img src="imgs/pro-icon/icon-xls.png"  ng-if="row.fileType=='JPEG'" >
+                                    <img src="imgs/pro-icon/icon-pptx.png" ng-if="row.fileType=='pptx'||items.fileType=='PPTX'">
+                                    <!--图片类型-->
+                                    <img src="imgs/pro-icon/icon-jpeg-s.png" ng-if="row.fileType=='jpeg'">
+                                    <img src="imgs/pro-icon/icon-bmp-s.png"  ng-if="row.fileType=='bmp'">
+                                    <img src="imgs/pro-icon/icon-png-s.png"  ng-if="row.fileType=='PNG'">
+                                    <img src="imgs/pro-icon/icon-gif.png"  ng-if="row.fileType=='GIF'">
+                                    <img src="imgs/pro-icon/icon-jpg-s.png"  ng-if="row.fileType=='JPG'">
+                                    <img src="imgs/pro-icon/icon-png-s.png"  ng-if="row.fileType=='png'">
+                                    <img src="imgs/pro-icon/icon-jpg.png"  ng-if="row.fileType=='jpg'">
+                                    <img src="imgs/pro-icon/icon-gif.png"  ng-if="row.fileType=='gif'">
+
+                                    <img src="imgs/pro-icon/icon-dwg.png"  ng-if="row.fileType=='dwg'">
+                                    <img src="imgs/pro-icon/icon-rar.png"  ng-if="row.fileType=='rar'">
+                                    <img src="imgs/pro-icon/icon-zip.png"  ng-if="row.fileType=='zip'">
+
+                                    <!--视频-->
+                                    <img src="imgs/pro-icon/icon-avi.png"  ng-if="row.fileType=='avi'">
+                                    <img src="imgs/pro-icon/icon-mp4.png"  ng-if="row.fileType=='mp4'">
+                                    <img src="imgs/pro-icon/icon-mov.png"  ng-if="row.fileType=='mov'">
+                                    <img src="imgs/pro-icon/icon-flv.png"  ng-if="row.fileType=='flv'">
+                                    <img src="imgs/pro-icon/icon-swf.png"  ng-if="row.fileType=='swf'">
+                                    <img src="imgs/pro-icon/icon-wmv.png"  ng-if="row.fileType=='wmv'">
+                                    <img src="imgs/pro-icon/icon-mpeg.png"  ng-if="row.fileType=='mpeg'">
+                                    <img src="imgs/pro-icon/icon-mpg.png"  ng-if="row.fileType=='mpg'">
+                                    <!--音频-->
+                                    <img src="imgs/pro-icon/icon-mp3.png" ng-if="row.fileType=='mp3'">
+                                    <img ng-if="row.fileType=='other'" src="imgs/pro-icon/icon-other.png" alt="">
+                                </td>
                                 <td><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
                                     <!-- <span class="be-proview"></span> -->
                                 </td>

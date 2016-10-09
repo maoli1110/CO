@@ -68,9 +68,13 @@
                         <!--工具栏-->
                         <div class="operation clearfix prolist_left">
                             <div class="left proLeft">
-                                <div class="manage_back" ng-click="listBack()">
-                                    <span><img src="imgs/call_back.png" alt=""></span>
-                                    <b>返回</b>
+                                <!--<div class="manage_back" ng-click="listBack()">-->
+                                    <!--<span><img src="imgs/call_back.png" alt=""></span>-->
+                                    <!--<b>返回</b>-->
+                                <!--</div>-->
+                                <div class="pull-left detail-return" style="margin-left: -17px; margin-right: 10px;"  ng-click="listBack()">
+                                    <span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
+                                    <a  style="text-decoration: none;">返回</a>
                                 </div>
                                 <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr()">
                                     <option value="1">全部类型</option>
@@ -81,13 +85,6 @@
                                     <option value="64">压缩文件</option>
                                     <option value="128">其他</option>
                                 </select>
-                                <!--<select class="selectpicker" >-->
-                                    <!--<option value="0">全部</option>-->
-                                    <!--<option value="1">我负责</option>-->
-                                    <!--<option value="2">我签署</option>-->
-                                    <!--<option value="3">我相关</option>-->
-                                    <!--<option value="4">已结束</option>-->
-                                <!--</select>-->
                                     <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)">
                                     <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
                                 </div>
@@ -116,7 +113,8 @@
                             </dl>
                         </div>
 
-                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" >
+                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject">
+
                             <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
                                 <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
                                 <li ng-repeat="getTrents in trentsListInfo track by $index" class="clearfix" style="min-width:820px;">

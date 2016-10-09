@@ -187,7 +187,7 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:10,
-                     setHeight:$(window).height(),
+                     setHeight:$(window).height()-128,
                     theme:"minimal"
                 });
                 $("#content-a4").mCustomScrollbar({
@@ -277,7 +277,7 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:5,
-                    setHeight:'90%',
+                    setHeight:$(window).height()-128,
                     theme:"minimal",
                     advanced:{
                         updateOnBrowserResize:false
@@ -501,13 +501,14 @@ angular.module('core').directive('bvOperation', function($document) {
                         //通过判断这个class的状态来决定是开操作还是关操作
                         $(".content_right_bv").toggleClass("menus");
                 if($(".content_right_bv").hasClass("menus")){
-
+                	$('body').css('overflow-y','hidden');
                     $(".btn_box_bv").animate({right:rightDistance})
                     $(".content_right_bv").animate({right:"0"})
                     $(".glyphicon-menu-right").css("display",'inline-block');
                     $(".mobile-mark").show();
 
                 }else{
+                	$('body').css('overflow-y','auto');
                      $(".btn_box_bv").animate({"right":"0"});
                      $(".content_right_bv").animate({"right": -rightDistance});
                     $(".glyphicon-menu-right").css('display','none');
@@ -520,13 +521,14 @@ angular.module('core').directive('bvOperation', function($document) {
                         //通过判断这个class的状态来决定是开操作还是关操作
                         $(".content_right_bv").toggleClass("menus");
                 if($(".content_right_bv").hasClass("menus")){
-
+                	$('body').css('overflow-y','hidden');
                     $(".btn_box_bv").animate({right:rightDistance})
                     $(".content_right_bv").animate({right:"0"})
                     $(".glyphicon-menu-right").css("display",'inline-block');
                     $(".mobile-mark").show();
 
                 }else{
+                	$('body').css('overflow-y','auto');
                      $(".btn_box_bv").animate({"right":"0"});
                      $(".content_right_bv").animate({"right": -rightDistance});
                     $(".glyphicon-menu-right").css('display','none');
@@ -539,12 +541,17 @@ angular.module('core').directive('bvOperation', function($document) {
 //$(" #content-a3").height($(window).height()-125)
 window.onresize = function(){
     $(" #content-a3").height($(window).height()-125);
+    $(" #content-b1").height($(window).height()-125);
 }
-//angular.module('core').directive('canvas', function($timeout) {
+//angular.module('core').directive(' globalDown', function($timeout) {
 //    return {
 //        restrict: 'AE',
 //        link: function(scope, element, attr) {
-//
+//            $('.replay-down').hover(function(){
+//                $(this).find('img').css('display','none')
+//            },function(){
+//                $(this).find('img').css('display','block')
+//            })
 //        }
 //    };
 //});

@@ -408,3 +408,31 @@ ul.ztree.zTreeDragUL {
 	padding:0;
 	background:none;
 }*/
+
+.ztree li span.button.org_ico_open {
+	background: url(../../../imgs/icon/org.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.org_ico_close {
+	background: url(../../../imgs/icon/org.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.dept_ico_open {
+	background: url(../../../imgs/icon/dept.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.dept_ico_close {
+	background: url(../../../imgs/icon/dept.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.tj_ico_docu {
+	background: url(../../../imgs/icon/tj.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.gj_ico_docu {
+	background: url(../../../imgs/icon/gj.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.az_ico_docu {
+	background: url(../../../imgs/icon/az.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.revit_ico_docu {
+	background: url(../../../imgs/icon/revit.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.tekla_ico_docu {
+	background: url(../../../imgs/icon/tekla.png) no-repeat scroll 0 0 transparent;
+}

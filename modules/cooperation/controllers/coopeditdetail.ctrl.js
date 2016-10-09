@@ -20,7 +20,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             maxDate: new Date(2020, 5, 22),
             startingDay: 1,
             showWeeks: false,
-            minDate: new Date()
+            minDate: new Date(),
+            yearRows  :3,
+            yearColumns:3
         };
 
         $scope.open2 = function () {
@@ -44,26 +46,29 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 sign:[],
                 noSign:[],
             };
+     	var totalPage = 0;
+	   	var pageSize = 8;
+	   	var currentShowPage = 1;
         Cooperation.getCollaboration(coid).then(function (data) {
         	
         	angular.forEach(data.relevants,function(value,key){
-        		value.mustExist = true;
-        		value.canSign = false;
+        		value.mustExist = true;	// 编辑时原有的相关人是否必须存在 true必须存在  false可以不存在
+        		value.canSign = true;	// 编辑时原有的相关人是否可以修改签字 true可以  false不可以
         		if(value.needSign){
         			$scope.related.sign.push(value);
         		}else{
         			$scope.related.noSign.push(value);
         		}
         	});
-        	console.log($scope.related);
             var currentMarkInfo = data.markerInfo.id;
 //            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
             $scope.priority =  data.priority;
             if($scope.device){
             	  allRelevants = _.cloneDeep(data.relevants);
-            	  sliceRlevants = _.cloneDeep(data.relevants.slice(0,8));
-            	 if(data.relevants.length>8){
+            	  totalPage = parseInt((allRelevants.length + pageSize -1) / pageSize);
+            	 if(totalPage > 1){
+            		sliceRlevants = _.cloneDeep(data.relevants.slice(0,currentShowPage*pageSize));
 	                $scope.collaList.relevants =sliceRlevants;
 	                $scope.isRevlentMore = true;
 	            }
@@ -327,7 +332,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
-                    console.log(message);
+//                    console.log(message);
                 }
             });
           
@@ -415,7 +420,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.pcPreView = function (docName, uuid) {
                 var data = {fileName:docName,uuid:uuid};
                 Manage.getTrendsFileViewUrl(data).then(function (result) {
-                console.log(typeof result)
+//                console.log(typeof result)
                 $scope.isPreview = true;
                 $scope.previewUrl =result;
                 layer.open({
@@ -430,7 +435,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     });
             },function (data) {
                 var obj = JSON.parse(data);
-                console.log(obj);
+//                console.log(obj);
                 alert(obj.message);
             });
             
@@ -452,14 +457,14 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.max = true;
         $scope.maxRestore = function ($event) {
             if(num++ %2 == 0){ 
-                console.log('max');
+//                console.log('max');
                 $scope.max = false;
                 $scope.restore = true;
                 //对接pc
                 BimCo.SysCommand('SC_MAXIMIZE');
 
             } else { 
-                console.log('restore');
+//                console.log('restore');
                 $scope.max = true;
                 $scope.restore = false;
                 //对接pc
@@ -475,14 +480,18 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //显示更多相关人
         $scope.showMore = false;
         $scope.showMorePerson = function() {
-            if(!$scope.showMore){
-                $scope.collaList.relevants = allRelevants;
-                $scope.showMore = true;
-            } else {
-                $scope.collaList.relevants = sliceRlevants;
-                $scope.showMore = false;
-            }
-        }
+	    	if(!$scope.showMore){
+	    		currentShowPage++;
+	    		$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
+	    		if(currentShowPage >= totalPage){
+	    			$scope.showMore = true;
+	    		}
+	    	} else {
+	    		$scope.collaList.relevants = sliceRlevants;
+	    		$scope.showMore = false;
+	    		currentShowPage = 1;
+	    	}
+	    }
 
         //反查formbe,跳转详情页面
         var currentPage = 'editdetail';
@@ -494,8 +503,17 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     $state.go('coopdetail',{'coid':coid})
                 }
             }
-            
         }
 
-    
+        //调用心跳机制
+        if(!$scope.device){
+            Cooperation.heartBeat();
+        }
+        //跳转新页面去除心跳机制
+        $scope.$on('$stateChangeStart', 
+            function(event, toState, toParams, fromState, fromParams){
+                console.log(toState, toParams, fromState);
+                clearInterval(ApplicationConfiguration.refreshID);
+        });
+     
 }]);

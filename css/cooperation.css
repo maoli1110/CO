@@ -3,7 +3,7 @@
 		margin:0px !important;
 	}
 	.data_list .data_every .data_titleInfo{
-		min-width:122px;
+		min-width:122px !important;
 		padding:0 !important;
 		margin-top:100px;
 	}
@@ -329,7 +329,7 @@ canvas{
 	padding:0 10px;
 	 /*cursor: pointer;*/
 }
-.data_every .data_titleInfo ul li>p{width: 100px;}
+/*.data_every .data_titleInfo ul li>p{width: 100px;}*/
  .data_every .data_titleInfo ul li:last-child{
 	/*padding-bottom:20px;*/
 }
@@ -440,7 +440,7 @@ canvas{
 }
 .trent-branch{
 	width:314px;
-	max-height:413px;
+	height:413px;
 	background: url(../imgs/menus-head.png) no-repeat center top;
 	position:absolute;
 	left:50%;
@@ -449,6 +449,10 @@ canvas{
 	margin-top:-202px;
 	z-index:103;
 	box-shadow: -1px 3px 9px #333;
+}
+.trent-branch h3{
+	display:inline-block;
+	float:left;
 }
 .trent-branch h3+div{
 	background:#fff;
@@ -468,7 +472,7 @@ canvas{
 .trent-branch ul li{
 	color:#333;
 	font-size:14px;
-	border-bottom:1px solid #ddd;
+	border-bottom:1px solid #ddd !important;
 	padding:10px 20px;
 	line-height:25px;
 	text-align:left;
@@ -490,4 +494,13 @@ canvas{
 	background:#000;
 	opacity:0.4;
 	z-index:101;
+}
+.trent-branch div .close{
+	background: url('../imgs/icon/new-icon.png') 8px 7px no-repeat !important;
+	padding: -19px;
+	width: 34px;
+	height: 29px;
+	margin-top: 6px;
+	float:right;
+	display:inline-block;
 }

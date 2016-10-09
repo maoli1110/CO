@@ -9,7 +9,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		var currentEditOfficeUuid = '';
 	    var currentSuffix = '';
 	    var currentReact = '45,100,1080,720';
-		var signature = '';
 		$scope.link = false;
 		$scope.speachShow = false;
 		$scope.device = false;
@@ -44,20 +43,33 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	var currentTimestamp = Date.parse(new Date());
 	   	var allRelevants = [];
 	   	var sliceRlevants = [];
+	   	var totalPage = 0;
+	   	var pageSize = 8;
+		var pageSizePc = 16;
+	   	var currentShowPage = 1;
 	   	$scope.transcoid = coid;
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
 	   		$scope.collaList = data;
-			//console.info('需不需要签字',$scope.collaList.relevants)
+//			console.info('需不需要签字',$scope.collaList.relevants)
 			//console.info('collaList.docs',$scope.collaList.docs)
 	   		if($scope.device){
 	   			allRelevants = data.relevants;
-		   		sliceRlevants = data.relevants.slice(0,8);
-		   		if(data.relevants.length>8){
-		   			$scope.collaList.relevants =sliceRlevants;
+	   			totalPage = parseInt((allRelevants.length + pageSize -1) / pageSize);
+		   		if(totalPage > 1){
+		   			sliceRlevants = data.relevants.slice(0,currentShowPage*pageSize);
+		   			$scope.collaList.relevants = sliceRlevants;
 		   			$scope.isRevlentMore = true;
 		   		}
-	   		}
+	   		}else if(!$scope.device){
+				allRelevants = data.relevants;
+				totalPage = parseInt((allRelevants.length + pageSizePc -1) / pageSizePc);
+				if(totalPage > 1){
+					sliceRlevants = data.relevants.slice(0,currentShowPage*pageSizePc);
+					$scope.collaList.relevants = sliceRlevants;
+					$scope.isRevlentMore = true;
+				}
+			}
 			if(data.coTypeVo) {
 				coTypeVo = data.coTypeVo.type;
 			}
@@ -313,12 +325,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		              }
 		        });
 				clickSpeechMap.put(speechUrl, datamp3url);
+				bubble.mp3 = clickSpeechMap.get(speechUrl);
+				myAndroidFix.setMedia(bubble).play();
+			}else{
+				myAndroidFix.play();
 			}
 
-			bubble.mp3 = clickSpeechMap.get(speechUrl);
-			myAndroidFix.setMedia(bubble).play();
-				
-			
 		}
 		
 		function jMap(){
@@ -375,11 +387,19 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 	   	//pc端交互
 	   	$scope.checkModelpc = function () {
+	   		//判断是否在播放中
+	   		if($(".detail-voice").css("display") == "block"){
+	   			$scope.audioClose();
+	   		}
 	   		BimCo.LocateComponent(ppid,coid);
 	   	}
 
 	   	//移动端交互
 	   	$scope.checkModel = function () {
+	   		//判断是否在播放中
+	   		if($(".detail-voice").css("display") == "block"){
+	   			$scope.audioClose();
+	   		}
 	   		sendCommand(1,coid);
 	   	}
 
@@ -431,10 +451,71 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 		//侧边栏获取动态列表
 		var trendflag = true;
+	   	
+	   	/*滚动加载只防止多次提交请求问题start*/
+	    //可以查询
+	 	var searchFlag;
+	 	var pollingFlag = true;
+	 	var checkSearchInterval;
+	 	$scope.scrollend = false;
+		 $scope.addMoreData = function (){
+			 if(!token){
+				 return;
+			 }
+			 setSearchFlagFalse();
+			 if(pollingFlag){
+		 			pollingFlag = false;
+		 			checkSearchInterval = setInterval(function() {checkCanSearch()},100);
+		 		}
+		 		setTimeout(function() {setSearchFlagTrue()},150);
+		 }
+		 
+		 var setSearchFlagFalse = function(){
+		 		searchFlag = false;
+		 	}
+			var setSearchFlagTrue = function(){
+				searchFlag = true;
+		 	}
+			var checkCanSearch = function(){
+				if(searchFlag){
+					clearInterval(checkSearchInterval);
+					$scope.getOperation();
+					pollingFlag = true;
+				}
+			}
+			
+			$scope.getOperation = function(){
+				var size = $scope.operationList.length;
+				if(size%pageSize!=0 || size == $scope.operationAllList.length){
+					$scope.scrollend = true;
+					return;
+				}
+				var l = size/pageSize;
+				var result = $scope.operationAllList.slice(pageSize*l,(l+1)*pageSize);
+				for(var i=0;i<result.length;i++){
+					
+					$scope.operationList.push(result[i]);
+				}
+				$scope.$apply();
+				console.log($scope.operationList);
+				return;
+			}
+			
+			$scope.operationAllList = [];
+			var pageSize = 10;
+			var currentShowPage = 1;
+			var token = false;
 		$scope.getOperationList = function() {
 			if(trendflag){
+				$scope.scrollend = false;
 				Cooperation.getOperationList(coid).then(function (data) {
-                	$scope.operationList = data;
+					$scope.operationAllList = data;
+					$scope.operationList = data.slice(0,currentShowPage*pageSize);
+					var size = $scope.operationList.length;
+					if(size%pageSize!=0 || size == $scope.operationAllList.length){
+						$scope.scrollend = true;
+					}
+					token = true;
           		});
 			}
 			trendflag = false;
@@ -483,6 +564,11 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			},function(){
 				$(this).find(".detail-search").stop().animate({"bottom":"-38px"})
 			});
+			$(".replay-down").hover(function(){
+				$(this).find('.user-down').animate({"bottom":'0'})
+			},function(){
+				$(this).find('.user-down').animate({"bottom":'-30px'})
+			})
 
 		////	手机端照片搜索按钮的显示
 		//	$(".means-down").click(function(){
@@ -547,10 +633,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		//pc对接
 		//进入页面
 		$scope.previewSign = function (uuid,docName,isPdfsign) {
-            var suffix = '';
-            if(docName.indexOf('.')!=-1){
+				var suffix = '';
+				if(docName && docName.indexOf('.')!=-1){
+					suffix = docName.split('.')[docName.split('.').length-1];
+				} else {
+					suffix = '';
+				}
             	//获取电子签名uuid
-            	suffix = docName.split('.')[docName.split('.').length-1];
             	if(suffix=='pdf' && isPdfsign == 1){
             		//pdf签署（客户端）
             		$scope.flag.isPreview = true;
@@ -579,7 +668,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		                alert(obj.message);
 		            });
 	            }
-            }
     	}
 
     	//添加审批意见
@@ -611,11 +699,28 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    //电子签名
 	    $scope.signElectronic = function () {
 	    	//获取电子签名
-	    	Cooperation.getSignature().then(function (data) {
-				signature = data.uuid;
-			});
-	    	$scope.isEleSign = true;
-	       	BimCo.ElectronicSign(signature);
+	  //   	Cooperation.getSignature().then(function (data) {
+			// 	var signature = data.uuid;
+			// 	$scope.isEleSign = true;
+			// 	//调用电子签名（pc客户端）
+			// 	alert(signature);
+	  //      		BimCo.ElectronicSign(signature);
+			// });
+	    	$.ajax({
+	    		contentType: "application/json; charset=utf-8",
+				dataType : 'json',
+				type: "get",
+				url: basePath+'rs/co/signature',
+			    async : false,
+			    success: function (data) {
+			    	var signature = data.uuid;
+					$scope.isEleSign = true;
+			    },
+			    error: function () {
+			    }
+	    	});
+
+	    	BimCo.ElectronicSign(signature);
 
 	    }
 	    //提交
@@ -716,11 +821,15 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    $scope.showMore = false;
 	    $scope.showMorePerson = function() {
 	    	if(!$scope.showMore){
-	    		$scope.collaList.relevants = allRelevants;
-	    		$scope.showMore = true;
+	    		currentShowPage++;
+	    		$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
+	    		if(currentShowPage >= totalPage){
+	    			$scope.showMore = true;
+	    		}
 	    	} else {
 	    		$scope.collaList.relevants = sliceRlevants;
 	    		$scope.showMore = false;
+	    		currentShowPage = 1;
 	    	}
 	    }
 
@@ -767,5 +876,16 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   		}
 	   		
 	   	}
+
+	   	//调用心跳机制
+	   	if(!$scope.device){
+	   		Cooperation.heartBeat();
+	   	}
+        //跳转新页面去除心跳机制
+        $scope.$on('$stateChangeStart', 
+            function(event, toState, toParams, fromState, fromParams){
+                console.log(toState, toParams, fromState);
+                clearInterval(ApplicationConfiguration.refreshID);
+        });
 	 
 }]);

@@ -6,17 +6,17 @@
             <header >
             	<div class="header-operation clearfix">
             	<!-- #/coopdetail/?coid=57e0c5f3807cdce43f15c48b -->
-                    <div class="pull-left" style="margin-top:10px;width:10%;" ng-click="backDetail()">
-                    	<span class="" style="margin-left:15px;"><img src="imgs/call_back.png" alt=""></span>
-                    	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
+                    <div class="pull-left detail-return" style="margin-top:10px;width:10%;" ng-click="backDetail()">
+                    	<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
+                    	<a href="" style="text-decoration: none;">返回</a>
                     </div>
                     <div class="label_tools">
-                        <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
+                        <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
                         <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-                            <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
-                            <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
+                            <img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
+                            <img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
                         </div>
-                        <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
+                        <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
                     </div>
                 </div>
 	            <div class="header-title">
@@ -32,18 +32,18 @@
                             <div class="pro_man clearfix row">
                                 <div class="coop-theme row clearfix col-md-12">
                                     <span class="theme-title F16 col-xs-1" style="width:80px;text-align:left;margin-top:3px;">主题：</span>
-                                    <input type="text"  class=" F16 col-xs-11" style="border:1px solid #ddd;padding:0 10px;" ng-model="collaList.name" ng-change="" maxlength="50">
+                                    <input type="text"  class="F14 col-xs-11" style="border:1px solid #ddd;padding:0 10px;" ng-model="collaList.name" ng-change="" maxlength="50">
                                 </div>
                                 <div class="col-xs-5 col-md-5 basicInfo">
                                     <div>
                                         <span class="edit-state F16" style="width:80px;text-align:left;">状态：</span>
-                                        <div class="inline int-style"  ng-model="statusE">{{collaList.status}}</div>
+                                        <div class="inline int-style F14"  ng-model="statusE">{{collaList.status}}</div>
                                     </div>
                                 </div>
                                 <div class="col-xs-5 col-md-4 pad_clear basicInfo">
                                     <div style="margin-bottom:25px;">
                                         <span class="edit-state F16" style="text-align:left;">优先级:</span>
-                                        <select class="selectpicker col-xs-6 priority" ng-model="priority" ng-change="switchPriority(priority)" >
+                                        <select class="selectpicker col-xs-6 priority F14" ng-model="priority" ng-change="switchPriority(priority)" >
                                             <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
                                         </select>
                                     </div>
@@ -51,15 +51,15 @@
                                 </div>
                                 <div class="col-xs-2 col-md-3 pad_clear basicInfo" style="float:right">
                                     <span class="edit-state edit-date F16" >期限:</span>
-                                    <div class="input-group col-md-9 row" style="display:inline-block;">
+                                    <div class="input-group col-md-9 row F14" style="display:inline-block;">
                                         <div class="calder date-value"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}">{{dt | date:'yyyy-MM-dd'}}</div>
                                         <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
                                         <input type="hidden" class="calder" readonly uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
                                     </div>
                                 </div>
-                                <div style="margin-bottom:0;" class="edit-blank col-xs-5">
-                                    <span class="edit-state F16" style="text-align:left;width:80px;display:inline-block;vertical-align:top">标识:</span>
-                                    <select class="identify selectpicker1" style="width:180px;" data-width="80%" ng-model="mark1" ng-change="switchMark(mark1)" >
+                                <div style="margin-bottom:0;margin-top:-23px;" class="edit-blank col-xs-5" >
+                                    <span class="edit-state F16" style="text-align:left;width:80px;display:inline-block;vertical-align:top;">标识:</span>
+                                    <select class="identify selectpicker1 F14" style="width:180px;" data-width="80%" ng-model="mark1" ng-change="switchMark(mark1)" >
                                         <option value="{{item.markerId}}" data-content="<span title='{{item.picMarker}}' class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
                                            		<span title='{{item.picMarker}}' class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index">
                                         </option>
@@ -72,7 +72,7 @@
                                     <div class="blank col-xs-12 ">
                                         <p class="F16">详情描述:</p>
                                     </div>
-                                    <div class="col-xs-12 col-md-12">
+                                    <div class="col-xs-12 col-md-12" >
                                         <textarea class="form-control edit-dis" rows="5" ng-model="collaList.desc" maxlength="255"></textarea>
                                     </div>
                                 </div>
@@ -99,24 +99,30 @@
                                         <div class="inline add-chioce">
                                             <dl class="inline photoImg" ng-repeat="item in related.sign" style="text-align:center;">
                                                 <dt class="rela">
-                                                	<img ng-src="{{item.avatar}}" alt="">
+                                                    <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
                                                 	<!-- <span class="absol glyphicon glyphicon-pencil" style="right:5px;top:28px;color:#1298DD"></span> -->
                                                 </dt>
-                                                <dd>{{item.username}}</dd>
+                                                <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
 												<dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
                                             <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
                                             <dd ng-if="item.isPassed">已通过</dd>
                                             <dd ng-if="item.isRejected">已拒绝</dd>
+                                                <div class="detail-sign" ng-if="item.needSign">
+                                                    <img src="imgs/detail-icon-sign.png" alt="">
+                                                </div>
                                             </dl>
                                         </div>
                                         <div class="inline add-chioce">
                                             <dl class="inline photoImg" ng-repeat="item in related.noSign ">
-                                                <dt><img ng-src="{{item.avatar}}" alt=""></dt>
-                                                <dd>{{item.username}}</dd>
+                                                <dt> <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
+                                                <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
                                                  <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
                                             <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
                                             <dd ng-if="item.isPassed">已通过</dd>
                                             <dd ng-if="item.isRejected">已拒绝</dd>
+                                                <div class="detail-sign" ng-if="item.needSign">
+                                                    <img src="imgs/detail-icon-sign.png" alt="">
+                                                </div>
                                             </dl>
                                         </div>
                                         <button class="btn add-related " ng-click="selectRelated()"><span>+</span></button>

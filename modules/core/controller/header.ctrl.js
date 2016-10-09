@@ -3,7 +3,7 @@
  */
 //var app = angular.module("myApp",[]);
 var clickCount = 0;		// 头部小三角点击次数
-angular.module("core").controller("headerCtrl",function($scope,headerService){
+angular.module("core").controller("headerCtrl",function($scope,headerService,$state,Cooperation){
     //console.info("我是头部标签")
     //分公司列表的状态
     //   点击工具栏三角形出现二级菜单
@@ -62,6 +62,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
     //窗口缩小
     $scope.minimize = function () {
         BimCo.SysCommand('SC_MINIMIZE');
+
     }
 
     //窗口放大还原
@@ -84,13 +85,33 @@ angular.module("core").controller("headerCtrl",function($scope,headerService){
         }
     }
     
-
     //窗口关闭
     $scope.close = function () {
         BimCo.SysCommand('SC_CLOSE');
     }
-    //分公司下拉列表
 
+    //切换企业
+    $scope.switchCompany = function(enterpriseId){
+        BimCo.ChangeEnterprise(enterpriseId)
+    }
+    
+    //协作跳转
+    $scope.transCoManageFrombe = function() {
+        var deptId = $('#deptId_formbe').val();
+        var ppid = $('#ppid_formbe').val();
+        $state.go('cooperation',{'deptId':deptId, 'ppid':ppid},{ reload:true});
+    }
+
+    //调用心跳机制
+    Cooperation.heartBeat();
+    //跳转新页面去除心跳机制
+    $scope.$on('$stateChangeStart', 
+        function(event, toState, toParams, fromState, fromParams){
+            console.log(toState, toParams, fromState);
+            clearInterval(ApplicationConfiguration.refreshID);
+    })
+
+   
 
 })
  

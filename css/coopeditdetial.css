@@ -134,10 +134,26 @@ header .close{
     display:inline-block;
     text-align:left;
 }
+.proInfo .pro_man .basicInfo div> div{
+    outline-color:#65C17D;
+}
+.proInfo .pro_man .basicInfo div> div button:focus{
+    outline-color:#65C17D !important;
+}
+.proInfo .pro_man .edit-blank div>div button:focus{
+    outline-color:#65C17D !important;
+}
+.proInfo .pro_man .edit-blank button:focus{
+    outline-color:#65C17D !important;
+}
+
 .proInfo .pro_man .basicInfo div .edit-state{
     float: left;
     margin-top: 3px;
     vertical-align:top !important;
+}
+.edit-state+div >button{
+    outline-style:none !important;
 }
 .edit-blank  .btn.dropdown-toggle{
     width:200px !important;
@@ -171,11 +187,14 @@ header .close{
     padding-left: 10px;
 }
 
-.proInfo .pro_man div:nth-child(1){
+.proInfo .pro_man> div{
     margin-bottom:23px;
 }
 .proInfo .pro_man div:nth-child(2){
     /*margin-bottom:23px;*/
+}
+.proInfo .pro_man div .uib-datepicker{
+    margin-bottom:0 !important;
 }
 
 /*.proInfo .pro_man .active{*/
@@ -232,7 +251,6 @@ header .close{
 }
 input,button{margin:0;font-size:12px;vertical-align:middle;}
 table{border-collapse:collapse;border-spacing:0;}
-
 a{color:#333;text-decoration:none;}
 a:hover{/*color:#000;text-decoration:underline;*/}
 
@@ -334,7 +352,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     height:597px !important;
 }
 .edit-raltive-person .modal-body .right{
-    height:563px !important;
+    height:523px !important;
 }
 
 /*-----------------------action--------------*/
@@ -644,17 +662,27 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     margin:0 10px;
 
 }
-.footer .btn-default:focus ,.footer .btn-default:hover, .footer .btn-default:visited{
-    background:#65C17D;
-    color:#FFF;
+/*.footer .btn-default:focus ,.footer .btn-default:hover, .footer .btn-default:visited{*/
+    /*!*background:#65C17D;*!*/
+    /*color:#FFF;*/
+/*}*/
+
+.footer .btn-default{
+    background:#65c17d;
+    color:#fff;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    border:0;
+}
+.btn-success:not(.btn-sm):active{
+    background:#449d44 !important;
 }
 .footer .btn:hover{
     color:#fff !important;
 }
-.footer .btn-default{
-    background:#65c17d;
-    color:#fff;
-
+.footer .btn-default:active{
+    background:#449d44 !important;
 }
 .show-icon {
     bottom: -38px;
@@ -835,6 +863,7 @@ html,body{
 }
 .mobile-main .uib-datepicker-popup.dropdown-menu {
     left: -42px !important;
+    width:92%;
 }
 .line-h22{
     margin-top:15px;

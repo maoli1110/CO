@@ -2,6 +2,7 @@
 
 var ApplicationConfiguration = (function(){
 	// 应用程序名和依赖
+    var refreshId; 
 	var applicationModuleName = 'appname';
 	var applicationModuleVendorDependencies = ['ui.router','ui.bootstrap', 'angularFileUpload', 'i18n', 'alert', 'z.breadcrumbs','infinite-scroll'];
 
@@ -25,7 +26,7 @@ var ApplicationConfiguration = (function(){
 		applicationModuleName: applicationModuleName,
 		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
 		registerModule: registerModule,
-		urls:urls
+		urls:urls,
 
 	};
 
@@ -307,7 +308,6 @@ var jPlayerAndroidFix = (function($) {
         play: function() {
             // Apply Android fixes
             if($.jPlayer.platform.android && this.playFixRequired) {
-                debugger
                 // Apply Android play fix, if it is required.
                 this.playFix = true;
                 this.player.jPlayer("play");

@@ -7,21 +7,21 @@
 	<div class="inner">
 		<header>
 	        <div class="header-operation clearfix">
-	        	<div ng-click="backCooperation()" class="pull-left" style="margin-top:10px;">
-                   	<span class="" style="margin-left:15px;"><img ng-src="imgs/call_back.png" alt=""></span>
-                   	<a href="" style="color:#69C080;text-decoration: none;">返回</a>
-                </div>
-	            <div class="label_tools">
-	                <img ng-src="imgs/icon/icon-small.png" alt="" ng-click="minimize()">
-	                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-	                    <img ng-src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
-	                    <img ng-src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
-	                </div>
-	                <span class="change-window"><img ng-src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
-	            </div>
+				<div class="pull-left detail-return" style="width:10%;line-height:42px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
+					<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
+					<a  style="text-decoration: none;">返回</a>
+				</div>
+				<div class="label_tools">
+					<img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
+					<div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+						<img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
+						<img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+					</div>
+					<span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
+				</div>
 	        </div>
 	        <div class="header-title">
-	            <p class="F16" ><span class="substr">创建协作——{{typeName}}</span></p>
+	            <p class="F16" ><span class="substr">创建协作{{"——"+typeName}}</span></p>
 	            <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span> -->
 	        </div>
 	    </header>
@@ -62,19 +62,22 @@
 						</select> -->
 					</div>
 				</div>
-				<div class="col-xs-6 right">
-					<div class="last-time" style="float:right">
-					    <label for="" class="col-xs-2 align-right">限制期限：</label>
-					    <p class="input-group col-xs-7">
-				          <input type="text" class="form-control" readonly ng-click="open2()" style="height:40px !important;width:83%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
-				          <!--<span class="input-group-btn">-->
-				            <!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
-				          <!--</span>-->
-							<label>
-								<input type="checkbox" class="new-car" style="opacity:0;" ng-click="isChecked()">
-								<span class="new-state"></span>
-							</label>
-				        </p>
+				<div class="col-xs-6 right" style="padding:0;">
+
+						<div class="last-time" style="text-align:right;">
+							<div class="date-time">
+								<label for="" class="col-xs-3 align-right" style="padding:0;">限制期限：</label>
+								<p class="input-group col-xs-9">
+								  <input type="text" class="form-control" readonly ng-click="open2()" style="height:40px !important;width:100%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
+								  <!--<span class="input-group-btn">-->
+									<!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
+								  <!--</span>-->
+									<label>
+										<input type="checkbox" class="new-car" style="opacity:0;" ng-click="isChecked()">
+										<span class="new-state"></span>
+									</label>
+								</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -127,10 +130,12 @@
 				</div>
 				<label for="" class="col-xs-1">相关人：</label>
 				<div class="selected-list inline col-xs-11">
-						<ul class="inline rela relative-ion" ng-repeat="item in related.sign track by $index">
+						<ul class="inline rela relative-ion photoImg" ng-repeat="item in related.sign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
 							<img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
-							<span class="absol glyphicon glyphicon-pencil" style="right:16px;top:28px;color:#1298DD"></span>
+							<div class="detail-sign" ng-if="item.needSign">
+								<img src="imgs/detail-icon-sign.png" alt="">
+							</div>
 							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
 						</ul>
 						<ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index">
@@ -272,18 +277,18 @@
     <div class="inner">
     <header>
         <div class="header-operation clearfix">
-            <div ng-click="backDetail()" class="pull-left" style="margin-top:10px;">
-                <span class="" style="margin-left:15px;"><img ng-src="imgs/call_back.png" alt=""></span>
-                <a href="" style="color:#69C080;text-decoration:none;">返回</a>
-            </div>
-            <div class="label_tools">
-                <img src="imgs/icon/icon-small.png" alt="" ng-click="minimize()" >
-                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-                    <img src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
-                    <img src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
-                </div>
-                <span class="change-window"><img src="imgs/icon/icon-close.png" alt="" ng-click="close()"></span>
-            </div>
+				<div class="pull-left detail-return" style="line-height:42px;" ng-click="backCreate()">
+					<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
+					<a  style="text-decoration: none;">返回</a>
+				</div>
+			<div class="label_tools">
+				<img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
+				<div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+					<img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
+					<img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+				</div>
+				<span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
+			</div>
            <!--  <div  ng-if="isTypePdf" class="pull-right edit-material" ng-click="CommentSign()" style="color:#69C080;margin-right:100px;margin-top: 10px;">启用编辑</div> -->
         </div>
     </header>

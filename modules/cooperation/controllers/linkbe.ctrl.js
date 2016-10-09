@@ -88,6 +88,13 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			};
 			Cooperation.getDocList(queryData).then(function (data) {
 				$scope.docList = data.result;
+				var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+				angular.forEach(data.result, function (value, key) {
+						if(typeArr.indexOf(value.fileType) == -1) {
+							value.fileType = 'other';
+						}
+
+				});
 				$scope.totalItems = data.pageInfo.totalNumber;
 			});
 	 	}
@@ -256,4 +263,5 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
             	$scope.docSearch();
             }
         };
+
 }]);

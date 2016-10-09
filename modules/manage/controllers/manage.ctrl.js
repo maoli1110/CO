@@ -98,10 +98,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             //获取项目统计列表
             var params = {deptId:id,searchText:searchBox};
             var obj = JSON.stringify(params);
+            $scope.isNoSearchValue = false;
+            $scope.isNoSearchValueReject = false;
             Manage.getProjectTrends(obj).then(function(data){
                 $scope.trentsCount = data.data;
                if(data.data.length==0){
                     $scope.isNoSearchValue = true;
+                    $scope.isNoSearchValueReject = false;
                     $(".good_list").css({'display':'none'});
                 }else{
                    $scope.isNoSearchValue = false;
@@ -394,6 +397,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //通过侧边栏的子元素去调出动态列表
         $scope.trentsList = function(id) {
             //如过却换工程 scrollend需要初始化设置
+            $scope.isNoSearchValueReject = false;
             $(".manage-menus").removeClass("menusActive");
             //$scope.initScrollend(id);
             if(changeProj){
