@@ -3,6 +3,7 @@
  */
 var level = 0;	// 当前树状态树展开、折叠深度
 //var checkAll = 0; // 是否全选 
+var allDoc;
 angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items','$timeout',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items,$timeout) {
 	 	$scope.selectedOption = {};
@@ -87,6 +88,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 				pageSize:10
 			};
 			Cooperation.getDocList(queryData).then(function (data) {
+				allDoc = data.result;
 				$scope.docList = data.result;
 				var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 				angular.forEach(data.result, function (value, key) {
@@ -96,12 +98,18 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 
 				});
 				$scope.totalItems = data.pageInfo.totalNumber;
+				$timeout(function(){
+		 			allSelectStatus();
+		 		},50);
 			});
 	 	}
 
 	 	//分页显示
 	 	$scope.pageChanged = function () {
 	 		getDocList();
+	 		$timeout(function(){
+	 			allSelectStatus();
+	 		},50);
 	 	}
 
         function onCheck (event, treeId, treeNode) {
@@ -133,7 +141,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	var a = _.cloneDeep(items);
 	 	//var docSelected = [];
 	 	var docSelected = a?a:[];
-        var updateSelected = function(action,id,name){
+        var updateSelected = function(action,id){
         	var findIndex = _.findIndex(docSelected,id);
             if(action == 'add' && findIndex == -1){
                docSelected.push(id);
@@ -145,16 +153,34 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
          }
  
         $scope.updateSelection = function($event, id){
-        	//debugger;
             var checkbox = $event.target;
             var action = (checkbox.checked?'add':'remove');
-            updateSelected(action,id,checkbox.name);
-            console.log(docSelected);
+            updateSelected(action,id);
+//            console.log(docSelected);
+            allSelectStatus();
         }
  
         $scope.isSelected = function(id){
 //        	console.log('id', _.findIndex(docSelected,id))
             return _.findIndex(docSelected,id)>=0;
+        }
+        
+        $scope.dataAllSelected = function ($event) {
+        	//  全选按钮功能
+        	var index = 0;
+        	if($event.target.checked) {
+        		$('.check-now input[type=checkbox]').each(function() {
+        			$(this).attr("checked",true)
+        			updateSelected('add',allDoc[index]);
+        			index++;
+        		});
+        	} else {
+        		$('.check-now input[type=checkbox]').each(function() {
+        			$(this).attr("checked",false)
+        			updateSelected('remove',allDoc[index]);
+        			index++;
+        		});
+        	}
         }
 
         $scope.docSearch = function () {
@@ -168,7 +194,6 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	$scope.switchDept = function (params) {
 	 		deptId = params;
 			Cooperation.projectList(params).then(function (data) {
-				//debugger
 				$scope.projectList.availableOptions = data;
 				$scope.projectOption = data[0].ppid+'';
 				//getDocTagList(data[0].ppid);
@@ -195,7 +220,9 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 						$scope.projectSelected.typeImg = 'imgs/icon/4.png';
 				} else if(data.projectType=='Tekla') {
 						$scope.projectSelected.typeImg = 'imgs/icon/5.png';
-				} 
+				} else if(data.projectType=='PDF') {
+						$scope.projectSelected.typeImg = 'imgs/icon/6.png';
+				}
 
 	 	}
 
@@ -230,7 +257,6 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			 $('.check-now').click(function(){
 				$(this).css('background',"#eceef0").siblings().css("background",'#fff')
 			 })
-
 		});
 		
 		// 展开树节点
@@ -263,5 +289,20 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
             	$scope.docSearch();
             }
         };
-
+        
 }]);
+
+// 全选按钮状态改变
+function allSelectStatus() {
+	var isChecked = 0;
+	$('.check-now input[type=checkbox]').each(function() {
+		if(this.checked) {
+			isChecked++;
+		}
+	});
+	if(isChecked == $('.check-now input[type=checkbox]').length) {
+		$('.pull-left input[type=checkbox]:first').prop("checked",true);
+	} else {
+		$('.pull-left input[type=checkbox]:first').prop("checked",false);
+	}
+}

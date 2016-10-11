@@ -468,7 +468,8 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
 
     //设置间隔获取状态
     this.heartBeat = function () {
-        ApplicationConfiguration.refreshID = setInterval(refreshState, 4*60*1000);
+        ApplicationConfiguration.refreshID = setInterval(refreshState, 20*60*1000);
+        // ApplicationConfiguration.refreshID = setInterval(refreshState, 10*1000);
     }
     //心跳机制end
 
@@ -549,6 +550,19 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
 			}
 		}
     	return maxLevel;
+    }
+
+    //获取pc mp3url
+    this.getPcMp3Url = function(uuid){
+        var delay = $q.defer();
+        var url_join = url + "rs/co/downFileUrl";
+        var params = JSON.stringify(uuid);
+        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
     }
     
 

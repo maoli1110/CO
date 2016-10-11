@@ -214,8 +214,9 @@
    display:inline-block;
 }
 .trends .pro_list .list li b{
-    float:right;
+    /*float:right;*/
     font-weight:normal;
+    font-size:14px;
 }
 .trents-list{
     width:90%;

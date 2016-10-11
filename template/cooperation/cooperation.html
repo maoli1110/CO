@@ -215,12 +215,12 @@
 		<!--data_count（统计页面）-->
 		<div class="data_count" scroll-directive>
 			<div class="data_Totle">
-				<div class="pull-left detail-return" style="width:10%;line-height:60px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
+				<div class="pull-left detail-return data_back" style="line-height:49px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
 					<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
 					<a  style="text-decoration: none;">返回</a>
 				</div>
 				<!--<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>-->
-				<button type="button" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>
+				<!--<button type="button" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>-->
 				<h4>统计结果</h4>
 
 			</div>
@@ -236,7 +236,9 @@
 								<ul>
 									<li ng-repeat="mostState in arrString track by $index">
 										<span class="data_raduis"></span>
-										<p class="substr" style="text-align: left;" title="{{mostState}}">{{mostState}}</p>
+										<p class="substr" style="text-align: left;" title="{{mostState.name}}">{{mostState.name}}</p>
+										<!-- <label class="substr statistics" title="{{mostState.name}}">{{mostState.name}}</label>
+										<label  style="font-weight: normal;width: 15%;">({{mostState.amount}})</label> -->
 									</li>
 								</ul>
 							</div>
@@ -251,7 +253,9 @@
 								<ul>
 									<li ng-repeat="deadline in deadlineStr track by $index">
 										<span class="data_raduis"></span>
-										<p class="substr" style="text-align: left;" title="{{deadline}}">{{deadline}}</p>
+										<p class="substr" style="text-align: left;" title="{{deadline.name}}">{{deadline.name}}</p>
+										<!-- <label class="substr statistics" title="{{deadline.name}}">{{deadline.name}}</label>
+										<label  style="font-weight: normal;width:15%;">({{deadline.amount}})</label> -->
 									</li>
 								</ul>
 							</div>
@@ -270,6 +274,8 @@
 									<li ng-repeat="makerStatStrInfo in makerStatStr track by $index">
 										<span class="markColor"  style="border:4px solid {{makerStatStrInfo.color}};"></span>
 										<p class="substr" style="text-align: left;" title="{{makerStatStrInfo.name}}">{{makerStatStrInfo.name}}</p>
+										<!-- <label class="substr statistics" title="{{makerStatStrInfo.name}}">{{makerStatStrInfo.name}}</label>
+										<label  style="font-weight: normal;width:15%;">({{makerStatStrInfo.amount}})</label> -->
 									</li>
 								</ul>
 							</div>
@@ -284,6 +290,8 @@
 									<li ng-repeat="type in typeStatStr track by $index">
 										<span class="markColor"  style="border:4px solid {{type.color}};"></span>
 										<p class="substr" style="text-align: left;" title="{{type.name}}">{{type.name}}</p>
+										<!-- <label class="substr statistics" title="{{type.name}}">{{type.name}}</label>
+										<label style="font-weight: normal;width:15%;">({{type.amount}})</label> -->
 									</li>
 								</ul>
 							</div>
@@ -303,10 +311,13 @@
 </script>
 <script>
 	//协作管理界面调出新建
-	function transCreateCooperation () {
+	function transCreateCooperation (deptId,ppid) {
 		//暂时写死，等聂那边改好
-		$('#deptId_formbe').val(1);
-	    $('#ppid_formbe').val(1000);
+		$('#deptId_formbe').val(deptId);
+		if(ppid <= 0){
+			$('#deptId_formbe').val("");
+		}
+	    $('#ppid_formbe').val(ppid);
 	    $('#deptId_formbe').click();
 		$('.new_cooper').click();
 	}
@@ -314,6 +325,7 @@
 	function transCoDetail (coid) {
 		document.location= '#/coopdetail/?coid='+ coid;
 	}
+	
 </script>
 
 

@@ -72,6 +72,7 @@
 		<script type="text/javascript" src="./lib/audio1/jquery.jplayer.js"></script>
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
 		<!-- upload -->
 		<script type="text/javascript" src="./lib/angular-upload/angular-upload.min.js"></script>
 		<script type="text/javascript" src="./lib/plugin/i18n.js"></script>
@@ -117,17 +118,18 @@
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
 		<script src="js/jquery.mousewheel.min.js"></script>
+		<!--autosize(多行文本高度自适应)-->
+		<script	src="./js/autosize.min.js" ></script>
 		<script>
-		    //跳转协作管理（公用）
-		    // function transCoManage (deptId,ppid) {
-		    //     //pc跳转传递deptId, ppid 定位到当前工程
-		    //     document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
-		    // }
+		    //客户端点击协作管理调出bimco （当前定位代码注释--勿删）
 		    function transCoManage (deptId,ppid) {
-		        //pc跳转传递deptId, ppid 定位到当前工程
-		       $('#deptId_formbe').val(deptId);
-		       $('#ppid_formbe').val(ppid);
-		       $('#deptId_formbe').click();
+		        //pc跳转传递deptId, ppid 定位到当前工程---勿删
+				   	// $('#deptId_formbe').val(deptId);
+			     	//   if(ppid <= 0){
+					// $('#deptId_formbe').val("");
+				   	// }
+			     	//   $('#ppid_formbe').val(ppid);
+			     	//   $('#deptId_formbe').click();
 		    }
 		</script>
 		</body>

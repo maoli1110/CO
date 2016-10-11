@@ -3,7 +3,7 @@
  */
 angular.module('cooperation').controller('linkformCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items',
 	 function ($scope, $http, $uibModalInstance,Cooperation,items) {
-	 	console.log(items);
+//	 	console.log(items);
 	 	//默认模版类型
 	 	$scope.selectedTypeId = items.typeid;
 	 	Cooperation.getTemplateNode(items.typeid).then(function (data) {
@@ -37,11 +37,11 @@ angular.module('cooperation').controller('linkformCtrl', ['$scope', '$http', '$u
             var checkbox = $event.target;
             var action = (checkbox.checked?'add':'remove');
             updateSelected(action,id,checkbox.name);
-            console.log(formSelected);
+//            console.log(formSelected);
         }
  
         $scope.isSelected = function(id){
-        	console.log('_.findIndex(formSelected,id)',_.findIndex(formSelected,id));
+//        	console.log('_.findIndex(formSelected,id)',_.findIndex(formSelected,id));
             return _.findIndex(formSelected,id)>=0;
         }
 

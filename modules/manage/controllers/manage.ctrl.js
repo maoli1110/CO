@@ -62,7 +62,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 				treeItems[i].imgsrc="imgs/icon/4.png";
 			}else if(treeItems[i].projectType=="Tekla"){
 				treeItems[i].imgsrc="imgs/icon/5.png";
-			};
+			}else if(treeItems[i].projectType=="PDF"){
+				treeItems[i].imgsrc="imgs/icon/6.png";
+			}
 			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
         }
 		
@@ -246,6 +248,12 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 //获取当前元素
                 $(this).addClass("menusActive").siblings().removeClass("menusActive");
             });
+            $(".tools_bar").hover(function(){
+                $(this).find(".bar").animate({"bottom":'0'},200);
+            },function(){
+                $(this).find(".bar").animate({"bottom":'-28px'},200)
+            })
+
 
         });
 
@@ -480,7 +488,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $scope.transformBig = function(uuid,docName,isPreview){
             var data ={fileName:docName,uuid:uuid};
             if(isPreview == false){
-                alert('该文件暂不支持预览')
+                //alert('该文件暂不支持预览')
+                layer.alert('该文件暂不支持预览',{
+                    title:'提示',
+                    closeBtn: 0
+                })
                 return;
             }
             Manage.getTrendsFileViewUrl(data).then(function (result) {
@@ -535,13 +547,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 			}
 		})
 
-        //服务器时间
-        $scope.currentTime= function(){
-            Manage.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
-                $scope.serviceTime = data.data;
-            })
-        }
-        $scope.currentTime();
+        ////服务器时间
+        //$scope.currentTime= function(){
+        //    Manage.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
+        //        $scope.serviceTime = data.data;
+        //    })
+        //}
+        //$scope.currentTime();
 
         $scope.transCooperation = function () {
             $state.go('cooperation', {'transignal':'be'});

@@ -2,8 +2,15 @@
     .selectpicker1{
         display: none;
     }
+    #textarea{
+        height:100px;
+        overflow-y:visible;
+    }
 </style>
-<div class="mobile-devices" ng-show="device" style="overflow:hidden;">
+<script>
+    autosize(document.querySelector('#textarea'));
+</script>
+<div class="mobile-devices" ng-show="device" style="overflow:hidden;" text-area>
     <!--mobile-mark-->
     <div class="mobile-mark" ng-click="onTurn()"></div>
     <!--mobile-main-->
@@ -17,35 +24,35 @@
             </div>
                 <div>
                     <div class="row">
-                        <div class=" mobile-distance F14 b-tilte line-height30" >负责人：</div>
-                        <div class="col-xs-9 themer mobile-distance F14" style="line-height: 30px;">{{collaList.collaborator}}</div>
+                        <div class=" mobile-distance F16 b-tilte line-height30" >负责人：</div>
+                        <div class="col-xs-9 themer mobile-distance F16" style="line-height: 30px;">{{collaList.collaborator}}</div>
                     </div>
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30">优先级：</div>
+                        <div class="b-tilte mobile-distance F16 line-height30">优先级：</div>
                         <div class="col-xs-9 themer mobile-distance" >
-                            <select class="identify selectpicker priority F14" data-width="100%" ng-model="priority" ng-change="switchPriority(priority)">
+                            <select class="identify selectpicker priority F16" data-width="100%" ng-model="priority" ng-change="switchPriority(priority)">
                                 <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30" >期&nbsp;&nbsp;&nbsp;&nbsp;限：</div>
-                        <div class="col-xs-9 themer mobile-distance F14">
+                        <div class="b-tilte mobile-distance F16 line-height30" >期&nbsp;&nbsp;&nbsp;&nbsp;限：</div>
+                        <div class="col-xs-9 themer mobile-distance F16">
                             <div class="calder date-value-bv"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}">{{dt | date:'yyyy-MM-dd'}}</div>
                             <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
                             <input type="hidden" class="calder" uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30">状&nbsp;&nbsp;&nbsp;&nbsp;态：</div>
-                        <div class="col-xs-9 themer mobile-distance F14" style="line-height: 30px;">{{collaList.status}}</div>
+                        <div class="b-tilte mobile-distance F16 line-height30">状&nbsp;&nbsp;&nbsp;&nbsp;态：</div>
+                        <div class="col-xs-9 themer mobile-distance F16" style="line-height: 30px;">{{collaList.status}}</div>
                     </div>
                     <div class="row">
-                        <div class="b-tilte mobile-distance F14 line-height30" style="margin-bottom:20px">标&nbsp;&nbsp;&nbsp;&nbsp;识：</div>
-                        <div class="col-xs-9 themer mobile-distance F14">
+                        <div class="b-tilte mobile-distance F16 line-height30" style="margin-bottom:20px">标&nbsp;&nbsp;&nbsp;&nbsp;识：</div>
+                        <div class="col-xs-9 themer mobile-distance F16">
                             <select class="identify selectpicker1" data-width="100%" ng-model="mark1" ng-change="switchMark(mark1)">
-                                <option value="{{item.markerId}}" data-content="<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span><span class='F14' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index"></option>
+                                <option value="{{item.markerId}}" data-content="<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span><span class='F16' style='line-height: 19px;'>{{item.picMarker}}</span>" ng-repeat="item in markerList1 track by $index"></option>
                             </select>
                         </div>
                     </div>
@@ -53,37 +60,39 @@
         </div>
         <!--详情描述-->
         <div class="mobile-job-descrition clearfix">
-            <div class="col-xs-12 mobile-title F14">
+            <div class="col-xs-12 mobile-title F16">
                 详情描述:
             </div>
-            <div class="col-xs-12 mobile-textarea" contenteditable="true" style="min-height:100px;border:1px solid #ddd;outline-style:none;">
-        <!--<textarea class="col-xs-12 form-control" rows="12"  ng-model="collaList.desc" maxlength="255"></textarea>-->
+            <div  class="col-xs-12 mobile-textarea" ><!---contenteditable="true" style="min-height:100px;border:1px solid #ddd;outline-style:none;"-->
+                 <textarea id="textarea" class="col-xs-12 form-control"  ng-model="collaList.desc" maxlength="255" style="min-height:100px;"></textarea>
+
             </div>
+
         </div>
         <!--相关人-->
         <div class="mobile-relate col-xs-12">
-            <div class=" mobile-relate-title F14 m-title">
+            <div class=" mobile-relate-title F16 m-title">
                 相关人:
             </div>
             <div class="col-xs-9 mobile-relate-con clearfix m-con" style="width:82%;float:right;margin-bottom:15px;">
                 <dl ng-repeat="item in collaList.relevants" class="photoImg ">
-                    <dt><img ng-src="{{item.avatar}}" ng-if="item.avatar" onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                    <dd class="substr" style="font-size:14px;">{{item.username}}</dd>
-                    <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
-                    <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
-                    <dd ng-if="item.isPassed">已通过</dd>
-                    <dd ng-if="item.isRejected">已拒绝</dd>
-                </dl>
+                <dt><img ng-src="{{item.avatar}}" ng-if="item.avatar" onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
+                <dd class="substr" style="font-size:14px;">{{item.username}}</dd>
+                <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>
+                <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>
+                <dd ng-if="item.isPassed">已通过</dd>
+                <dd ng-if="item.isRejected">已拒绝</dd>
+            </dl>
             </div>
-            <div ng-show="isRevlentMore" style="margin-top:10px;">
-                <div class="show-more-btn" ng-click="showMorePerson()"  ng-show="!showMore">显示更多</div>
-                <div class="show-more-btn" ng-click="showMorePerson()" ng-show="showMore">收起</div>
+            <div ng-show="isRevlentMore" class="show-more-btn" style="margin-top:10px;text-align:center;color:#909090;" >
+                <span ng-show="showMore" ng-click="showMorePerson()">显示更多</span>
+                <span ng-show="collapse"  ng-click="collapsePerson()">收起</span>
             </div>
         </div>
         <!--照片-->
         <div class="mobile-photo col-xs-12 clearfix">
-            <div class="photo-title col-xs-2 F14"> 照片: </div>
-            <div class="photo-con col-xs-10" style="padding:0;">
+            <div class="photo-title col-xs-2 F16" style="width:54px;"> 照片: </div>
+            <div class="photo-con col-xs-10" style="padding:0;float:right">
                 <dl class="photo-list" ng-repeat="item in collaList.pictures">
                     <dt class="rela detail-sear" style="background:url('{{item.fileUrl}}');background-size:cover;">
                         <!--<img src="{{item.fileUrl}}"/>-->
@@ -97,7 +106,7 @@
         </div>
         <!--资料-->
         <div class="mobile-means col-xs-12 clearfix">
-            <div class="means-title col-xs-2 F14"> 资料： </div>
+            <div class="means-title col-xs-2 F16"> 资料： </div>
             <div class="means-con col-xs-10">
                 <dl class="means-list" ng-repeat="item in collaList.docs" profit> 
                     <dt class="rela means-down">
@@ -109,13 +118,15 @@
         </div>
         <!--回复-->
         <div class="mobile-reply  clearfix">
-            <div class="reply-title col-xs-12 F14">  回复： </div>
+            <div class="reply-title col-xs-12 F16">  回复： </div>
             <div class="reply-con col-xs-12">
                 <div class="reply-reply clearfix">
                     <div class="replys clearfix" ng-repeat="item in collaList.comments">
-                        <div class="reply-icon col-xs-2" style="float:left;padding:0;">
-                            <img ng-src="{{item.avatar}}" alt="">
-                            <p class="substr" style="width:55px;">{{item.commentator}}</p>
+                        <div class="reply-icon col-xs-2" style="float:left;padding:0;text-align:left;">
+                            <div style="text-align:center;">
+                                <img ng-src="{{item.avatar}}" alt="">
+                                <p class="substr" style="max-width:55px;!important;">{{item.commentator}}</p>
+                            </div>
                         </div>
                         <div class="col-xs-9 col-md-11 reply-box" style="width:80%">
                             <div class="say-content">
@@ -134,7 +145,7 @@
                                 </div>
                                 <!-- 录音 -->
                                 <div class="dashed" ng-if="item.speech.speechUrl">
-                                    <div><button type="button " class="play-audio DIY-btn F14"><img src="imgs/play.png">播放录音</button></div>
+                                    <div><button type="button " class="play-audio DIY-btn F16"><img src="imgs/play.png">播放录音</button></div>
                                 </div>
                                 <!-- 时间 -->
                                 <div style="text-align:right;padding:10px 0" ng-if="item.commentTime">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
@@ -154,5 +165,5 @@
     <!-- <div class="mobile-footer">
         <button class="DIY-btn  mobile-btn-defult" type="button"  ng-click="ok()" id="editSave" >确定</button>
         <button class="DIY-btn  mobile-btn-defult" type="button" ui-sref="coopdetail({coid: transcoid})">取消</button>
-    </div> --> 
+    </div> -->
 </div>

@@ -70,14 +70,14 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     $scope.max = true;
     $scope.maxRestore = function ($event) {
         if(num++ %2 == 0){ 
-            console.log('max');
+//            console.log('max');
             $scope.max = false;
             $scope.restore = true;
             //对接pc
             BimCo.SysCommand('SC_MAXIMIZE');
 
         } else { 
-            console.log('restore');
+//            console.log('restore');
             $scope.max = true;
             $scope.restore = false;
             //对接pc
@@ -95,11 +95,12 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
         BimCo.ChangeEnterprise(enterpriseId)
     }
     
-    //协作跳转
+    //协作跳转(当前未定位只在header页面保留，代码勿删)
     $scope.transCoManageFrombe = function() {
-        var deptId = $('#deptId_formbe').val();
-        var ppid = $('#ppid_formbe').val();
-        $state.go('cooperation',{'deptId':deptId, 'ppid':ppid},{ reload:true});
+        // 勿删
+        // var deptId = $('#deptId_formbe').val();
+        // var ppid = $('#ppid_formbe').val();
+        $state.go('cooperation',{'deptId':'', 'ppid':''},{ reload:true});
     }
 
     //调用心跳机制
@@ -107,11 +108,9 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     //跳转新页面去除心跳机制
     $scope.$on('$stateChangeStart', 
         function(event, toState, toParams, fromState, fromParams){
-            console.log(toState, toParams, fromState);
+//            console.log(toState, toParams, fromState);
             clearInterval(ApplicationConfiguration.refreshID);
     })
-
-   
 
 })
  

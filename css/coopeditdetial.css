@@ -1,6 +1,6 @@
 @media screen and (min-width:1000px){
     .edit-detailC .container{
-        width: 960px; !important;
+        /*width: 960px;*/
     }
 }
 .container{
@@ -18,6 +18,12 @@
     height: 34px;
     border-radius: 0;
 }
+.detail-computer .show-more-btn{
+    margin-bottom:20px !important;
+}
+.show-more-btn span{
+    padding-right:10px;
+}
 header{
     height:60px;
     background:#ddd;
@@ -31,11 +37,15 @@ header{
     width:100%;
     border: 1px solid rgba(221,221,221,1);
 }
-.edit-blank .dropdown-menu{
+.edit-blank  .dropdown-menu{
     width:100%;
+    width:200px;
 }
 .edit-blank  .btn-group{
-    width:53% !important;
+    width:41% !important;
+}
+.edit-blank .btn-group.bootstrap-select{
+
 }
 .edit-blank>span+div{
     margin-left:-4px !important;
@@ -196,7 +206,9 @@ header .close{
 .proInfo .pro_man div .uib-datepicker{
     margin-bottom:0 !important;
 }
-
+.proInfo .pro_man div .uib-datepicker table{
+    width:260px !important;
+}
 /*.proInfo .pro_man .active{*/
     /*margin-top:15px;*/
     /*float: left;*/
@@ -290,42 +302,51 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     height:130px;
 }
 .detail {
-    margin-top:30px;
+    margin-top:36px;
     border-bottom:1px solid #ddd;
-    padding:10px 0;
 }
 .detail .blank{
     margin-bottom:20px;
 }
 .Avatar{
     /*clear:both;*/
-    margin:40px 0;
+    margin-top:40px;
 }
 
 .Avatar .photo dl{
     display: inline-block;
-    margin-right:38px;
+    margin-right:33px;
     text-align:center;
     font-size:12px;
     vertical-align: top;
+    margin-bottom:15px;
+}
+.Avatar .photo dl:last-child{
+    margin-bottom:20px;
+}
+.Avatar .photo{
+    padding:0;
 }
 .Avatar .photo dl dt{
     /*width:50px;*/
     /*height: 50px;*/
     /*border-radius: 50%;*/
     /*border:1px solid #ddd;*/
-    margin-bottom:22px;
+    margin-bottom:15px;
 }
 .Avatar .photo dl dt img{
     width:50px;
     height: 50px;
     border-radius: 50%;
-    border:1px solid #ddd;
+    border:2px solid #dbdee7;
 }
 .Avatar .photo dl dd{
     line-height:20px;
-    margin-bottom:25px;
+    margin-bottom:10px;
     font-size:14px;
+}
+.Avatar .photo .photoImg  dd:last-child{
+    margin-bottom:0 !important;
 }
 .Avatar .photo .add-chioce ul{
     width: 50px;
@@ -359,13 +380,16 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .action{
     /*padding:40px 0;*/
     padding-top:40px;
-    padding-bottom:20px;
+    padding-bottom:10px;
     border-bottom:1px solid #ddd;
+}
+.action.pc-means{
+    padding-bottom:0 !important;
 }
 .action dl{
     display: inline-block;
     text-align:center;
-    margin-right:40px;
+    margin-right:32px;
     margin-bottom:15px;
 }
 .action dl dt{
@@ -389,7 +413,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     height: 50px;
     border-radius: 50%;
     /*margin-top:-200px;*/
-    position:absolute;
+    /*position:absolute;*/
 }
 
 .action .picInfo  dl dt .detail-search{
@@ -460,6 +484,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     width:50px;
     height:50px;
     border-radius: 50%;
+    border:2px solid #dbdee7;
 }
 .reply .comment {
     border: 1px solid #ccc;
@@ -667,15 +692,23 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     /*color:#FFF;*/
 /*}*/
 
-.footer .btn-default{
-    background:#65c17d;
+.footer .btn-default {
+    background:#65c17d ;
     color:#fff;
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
     border-radius:5px;
     border:0;
 }
-.btn-success:not(.btn-sm):active{
+.footer.footer-commom .btn-default .cancel{
+    background:#65c17d !important;
+    color:#fff;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    border:0;
+}
+.btn-success:active{
     background:#449d44 !important;
 }
 .footer .btn:hover{
@@ -775,13 +808,32 @@ html,body{
     margin-left: 0;
     width: 200px;
 }
-.pull-right.btn-success{
-    background: #979ba8;
+.pull-right.uib-close{
+    background: #979ba8 !important;
     border-radius: 5px;
     border:#979ba8;
 }
+.pull-right.uib-close:hover{
+    background: #777b8a !important;
+}
+.pull-right.uib-close:active{
+    background: #5b6171 !important;
+}
+.btn-group .btn.btn-danger:hover{
+    background:#55ad6c !important;
+}
+.btn-group .btn.btn-danger:active{
+    background:#449d44  !important;
+}
+.uib-datepicker-current:hover{
+    background:#55ad6c !important;
+}
+.uib-datepicker-current:active{
+    background:#449d44  !important;
+}
 .edit-dis{
     padding: 3px 10px !important;
+    text-indent:28px;
 }
 .mobile-main .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
@@ -790,6 +842,14 @@ html,body{
     height:100%;
     /*overflow-x:hidden;*/
     margin-bottom: 35px;
+}
+.mobile-main .mobile-relate .show-more-btn {
+    position:absolute;
+    bottom:10px;
+    right:0px;
+    width:100%;
+    text-align:center;
+    color: #909090;
 }
 .mobile-devices input, textarea {
     /*border: 0 ; !* 方法1 *!*/
@@ -824,16 +884,15 @@ html,body{
     height:34px;
     margin-bottom:10px;
 }
-.F14{
-    font-size:16px;
-}
-.btn-info{
+
+.uib-datepicker-current.btn-info{
     margin-right:10px;
 }
 
 .form-control{
     padding:0 8px;
     border:1px solid #ddd;
+    border-radius:0;
 }
 .btn-group button[type="button"]{
 }
@@ -875,9 +934,14 @@ html,body{
     color:#fff;
     margin-top:15px;
 }
-.DIY-btn:hover{
-    border:1px solid #65c17d;
+/*.DIY-btn:hover{*/
+    /*border:1px solid #65c17d;*/
+/*}*/
+.DIY-btn.play-audio{
+    background:#65c17d;
+    width:100px;
 }
+
 .mobile-devices .mobile-main .mobile-main-principal .common-height > div{
     height: 30px!important;
     margin-bottom:10px;
@@ -937,6 +1001,7 @@ html,body{
     border:none;
     -webkit-appearance: none !important;
 }
+
 .mobile-devices .b-tilte{
    width:65px;float:left
 }
@@ -971,7 +1036,7 @@ html,body{
 .btn-group>.btn:last-child:not(:first-child), .btn-group>.dropdown-toggle:not(:first-child){
     border-radius:5px;
 }
-.btn-info.btn-sm{
+.btn-info.btn-sm.uib-datepicker-current:not(.activ){
      background:#65C17D;
     border:0;
 }
@@ -1230,4 +1295,7 @@ html,body{
 .Avatar  label{
     font-weight:normal;
     font-size:16px;
+}
+.basicInfo .btn-info.active.focus, .btn-info.active:focus, .btn-info.active:hover, .btn-info:active.focus, .btn-info:active:focus, .btn-info:active:hover, .open>.dropdown-toggle.btn-info.focus, .open>.dropdown-toggle.btn-info:focus, .open>.dropdown-toggle.btn-info:hover{
+    background:#55ad6c;
 }

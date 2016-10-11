@@ -12,7 +12,7 @@
         <div class="main" style="margin-bottom:50px;min-width:320px;">
         <!--main_content-->
         <div class="coop-detail inner">
-            <header>
+            <header >
                 <div class="header-operation clearfix">
                     <div class="pull-left detail-return" style="" ng-click="backCooperation()">
                     	<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
@@ -76,7 +76,7 @@
                                  <button  type="button" class="btn btn-default look-model" ng-click="checkModelpc()"><img src="imgs/show_model.png">查看模型关联</button>
                             </div>
                             <div class="pro_man col-xs-7" ng-if="speachShow" style="margin-bottom:38px;">
-                               <button type="button" class="btn btn-default play-audio"  ng-click="play(speachUrl)"><input type="hidden" ng-model="speachUrl"><img src="imgs/play.png">播放录音</button>
+                               <button type="button" class="btn btn-default play-audio"  ng-click="getPcMP3Url(collaList.speach.uuid)"><input type="hidden" ng-model="collaList.speach.uuid"><img src="imgs/play.png">播放录音</button>
                             </div>
                             
                         </div>
@@ -110,10 +110,10 @@
                                             </dl>
                                         </div>
                                     </div>
-                                    <div ng-show="isRevlentMore" style="margin-top:10px;text-align:center;color:#909090;">
-                                    <div class="show-more-btn" ng-click="showMorePerson()"  ng-show="!showMore">显示更多</div>
-                                    <div class="show-more-btn" ng-click="showMorePerson()" ng-show="showMore">收起</div>
-                                </div>
+                                    <div ng-show="isRevlentMore" class="show-more-btn" style="margin-top:10px;text-align:center;color:#909090;" >
+						                <span ng-show="showMore" ng-click="showMorePerson()">显示更多</span>
+						                <span ng-show="collapse"  ng-click="collapsePerson()">收起</span>
+						            </div>
                                 </div>
                             </div>
                         </div>
@@ -124,9 +124,10 @@
                             </div>
                             <div class="col-xs-8 col-md-11 picInfo" style="padding:0">
                                 <dl class="data-list" ng-repeat="item in collaList.pictures" profit>
-                                    <dt class="rela detail-sear" style="background:url({{item.thumbnailUrl}});background-size:cover" ng-if="item.thumbnailUrl" ng-click="previewSign(item.uuid,item.name,2)"><!-- ng-click="downDocs(item.uuid)"-->
+                                    <dt class="rela detail-sear" ng-if="item.thumbnailUrl"><!-- ng-click="downDocs(item.uuid)"-->
+                                        <div  style="height:116px;background:url({{item.thumbnailUrl}});background-size:cover" ng-if="item.thumbnailUrl" ng-click="previewSign(item.uuid,item.name,2)"></div>
                                         <div class="detail-search F14"  >
-                                            <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" /></a>
+                                                <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" /></a>
                                         </div>
                                     </dt>
                                      <dt class="rela detail-sear" ng-if="item.thumbnailUrl==null">
@@ -176,19 +177,19 @@
                                             <div class="inline" ng-repeat="doc in item.docs track by $index" profit>
                                                 <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                               <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                                <div class="replay-down" >
+                                                <div class="replay-down" style="height:80px;" >
                                                     <span style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
                                                     <div class="user-down">
                                                         <a ng-href="{{doc.fileUrl}}?name={{doc.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}"/></a>
                                                     </div>
                                                 </div>
 
-                                                <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
+                                                <div class="substr reply-name" title="{{doc.name}}">{{doc.name}}</div>
                                             </div>
                                         </div>
                                         <!-- 录音 -->
                                         <div class="dashed" ng-if="item.speech.speechUrl">
-                                            <div ><button type="button " class="play-audio DIY-btn F14 btn-replay-audio " ng-click="play(item.speech.speechUrl)"><input type="hidden" ng-model="item.speech.speechUrl"/><img src="imgs/play.png">播放录音</button></div>
+                                            <div ><button type="button " class="play-audio DIY-btn F14 btn-replay-audio " ng-click="getPcMP3Url(item.speech.uuid)"><input type="hidden" ng-model="item.speech.uuid"/><img src="imgs/play.png">播放录音</button></div>
                                         </div>
                                         <!-- 时间 -->
                                         <div style="text-align:right;padding:10px 0;color:#999" ng-if="item.commentTime">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
@@ -235,9 +236,7 @@
                                             <p class="substr menus-name">{{item.username}}</p>
                                         </div>
                                     </div>
-                                    <p class="substr" style="width: 120px;margin-top:10px;" title="{{item.username}}{{item.operation}}本次协作">
-                                    	{{item.username}}{{item.operation}}<span>本次协作</span>
-                                    </p>
+                                    <p class="substr" style="width: 120px;margin-top:10px;" title="{{item.username}}{{item.operation}}本次协作">{{item.operation}}<span>本次协作</span></p>
                                     <p class="menus-time">{{item.operationTime}}</p>
                                     <!--<p class="">{{item.operationTime}}</p>-->
                                     <!--<div class="menus-head">-->
@@ -262,7 +261,7 @@
         <button type="button" class="btn btn-default foot-btn" ng-show="tgshow" ng-click="doCollaboration(6)">通过</button>
         <button type="button" class="btn btn-default foot-btn" ng-show="jjueshow" ng-click="doCollaboration(7)">拒绝</button>
         <button type="button" class="btn btn-default foot-btn" ng-show="jsshow" ng-click="doCollaboration(8)">结束</button>
-        <button type="button" class="btn btn-default foot-btn" ng-show="dchushow">导出</button>
+        <!--<button type="button" class="btn btn-default foot-btn" ng-show="dchushow">导出</button>-->
     </div>
 </div>
 <div ng-if="flag.isPreview" class="pdf-sign">
@@ -285,7 +284,7 @@
     </header>
     <!-- 默认预览 -->
     <div ng-show="flag.isGeneral">
-        <div style="width:100%;margin-top:60px" ng-show="!isEdit">
+        <div style="width:100%;margin-top:42px" ng-show="!isEdit">
             <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>

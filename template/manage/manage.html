@@ -50,6 +50,7 @@
                                     <img src="imgs/icon/3.png" alt="" ng-if="trentsLiInfo.projectType == '安装预算'">
                                     <img src="imgs/icon/4.png" alt="" ng-if="trentsLiInfo.projectType == 'Revit'">
                                     <img src="imgs/icon/5.png" alt="" ng-if="trentsLiInfo.projectType == 'Tekla'">
+                                    <img src="imgs/icon/6.png" alt="" ng-if="trentsLiInfo.projectType == 'PDF'">
                                 <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
                                 </dt>
                                 <dd>
@@ -113,18 +114,18 @@
                             </dl>
                         </div>
 
-                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject">
+                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject" >
 
                             <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
                                 <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
-                                <li ng-repeat="getTrents in trentsListInfo track by $index" class="clearfix" style="min-width:820px;">
+                                <li ng-repeat="getTrents in trentsListInfo track by $index" class="clearfix" style="min-width:820px;" profit>
                                     <!--icon_img-->
                                     <div class="icon_img col-xs-1">
                                         <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{getTrents.avatar}}" ng-if="getTrents.avatar"/>
                                         <img src="./imgs/icon/defalut.png" ng-if="getTrents.avatar==null" alt="">
                                     </div>
                                     <div class="trents-list col-xs-11" >
-                                        <p><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;上传了资料<b>{{getTrents.updateTime}}</b></p>
+                                        <p style="font-size:14px;"><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b>&nbsp;上传</p>
                                         <div class="bx-controls" >
                                             <div class="img_list actives" ng-repeat = "items in getTrents.docs">
                                                 <div ng-if="items.thumbnailUrl" class="tools_bar" style="background:url({{items.thumbnailUrl}}) no-repeat;background-size:cover">
@@ -186,7 +187,7 @@
                                                     </div>
                                                     <!--<div class="pro_mask"></div>-->
                                                 </div>
-                                                <i  class="substr margin20 menName" title="{{items.docName}}" style="text-align:left;" >&nbsp;&nbsp;{{items.docName}}</i>
+                                                <i  class="substr margin20 menName" title="{{items.docName}}" style="text-align:left;font-style:normal" >&nbsp;&nbsp;{{items.docName}}</i>
                                             </div>
                                         </div>
                                     </div>

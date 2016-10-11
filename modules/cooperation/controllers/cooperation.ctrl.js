@@ -76,6 +76,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         //console.info('searId',searId)
         $scope.initScrollend(id);
 		$scope.projectInfoList = [];
+		$('.data_count').hide();
 		queryData.groups = [];
 			if(id==-1){
 				queryData.deptId = '';
@@ -190,7 +191,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				treeItems[i].imgsrc="imgs/icon/4.png";
 			}else if(treeItems[i].projectType=="Tekla"){
 				treeItems[i].imgsrc="imgs/icon/5.png";
-			};
+			}else if(treeItems[i].projectType=="PDF"){
+				treeItems[i].imgsrc="imgs/icon/6.png";
+			}
 			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
 		}
 		
@@ -427,7 +430,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	   var createindex = layer.load(1, {
 		   shade: [0.1,'#000'] //0.1透明度的黑色背景
 	   });
-	   console.log("创建："+createindex);
+//	   console.log("创建："+createindex);
 	  if(queryData.ppid==ppid && queryData.modifyTimeCount != 1){
 		  layer.close(createindex);
 		  return;
@@ -447,7 +450,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	  Cooperation.getCollaborationList(queryData).then(function (data) {
    		   $scope.cooperationList = data;
    		   $scope.ppidToken = 1;
-   		   console.log("消除："+createindex);
+//   		   console.log("消除："+createindex);
 		   layer.close(createindex)
    	  });   	  
    }
@@ -875,11 +878,13 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$(" .data_count").show();
 		$scope.getCoTotal();
 	}
-	//$(".data_back").click(function(){
-	////	alert(123)
-	//	$('.data_count').hide();
-	//	$('.draft-box').css('display','none');
-	//})
+	$(".data_back").click(function(){
+	//	alert(123)
+		$('.data_count').hide();
+		$('.draft-box').css('display','none');
+	})
+	//	装饰线
+
 	$scope.getCoTotal = function(){
 		//图标内容大小自适应
 		priorityArr = [];
@@ -944,59 +949,72 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			}else{
 				$("#data_graph4").parent().show();
 			}
-				/*#E6D055  黄 III
-					#5887FD 蓝 I
-					#73CC6C 绿 II
-				*/
-				var colorStyle1= ["#5887FD","#73CC6C","#E6D055"];
+				// 颜色与cooperation.css中 .data_count .data_every .data_titleInfo.first ul li:nth-of-type(1) span 的顺序对上即可
+				var colorStyle1= ["#5887FD","#E6D055","#73CC6C"];
 				// 数据清零
 				arr = [];
 				arrCount = 0;
 				//优先级别
-				var statIndex = 0;
-				angular.forEach( $scope.priorityStat, function (value, key) {
-					arr.push(value);
-					//页面优先级展示数据
-					if((statIndex == 1) && key === "III") {
-						$scope.arrString.push("II");
-					} else if((statIndex == 2) && key === "II") {
-						$scope.arrString.push("III");
-					} else {
-						$scope.arrString.push(key);
-					}
-					statIndex++;
-				})
+				if($scope.priorityStat.I != undefined) {
+					$scope.arrString.push({name:"I", amount: $scope.priorityStat.I});
+					arr.push($scope.priorityStat.I);
+				}
+				if($scope.priorityStat.II != undefined) {
+					$scope.arrString.push({name:"II", amount: $scope.priorityStat.II});
+					arr.push($scope.priorityStat.II);
+				}
+				if($scope.priorityStat.III != undefined) {
+					$scope.arrString.push({name:"III", amount: $scope.priorityStat.III});
+					arr.push($scope.priorityStat.III);
+				}
 
 				for(var n in arr){
 					arrCount += arr[n];
 				}
+				var priorityLength = arr.length;
+				var temp = new Array(priorityLength);
+				var statIndex = 0;
 				angular.forEach( $scope.priorityStat, function (value, key) {
-					var unit = {
-						value:'',
-						name:'',
-						itemStyle:{
-							normal:{
-								color:''
-							}
-						}
-					};
-					unit.value = value;
 					if(isEmptyArr(arr)==0){
-						//unit.name=value.toString();
 						$("#data_graph").parent().hide();
 					}else{
 						$("#data_graph").parent().show();
-//						unit.name = parsePercent(value/arrCount);
-//						unit.name = parseInt((value/arrCount)*100)+"%";
-						unit.name = value;
+						var unit = {
+								value:'',
+								name:'',
+								itemStyle:{
+									normal:{
+										color:''
+									}
+								}
+						};
+						unit.value = value;
+						unit.name = key+", "+value;
+						if((statIndex == 1) && key === "III") {
+							if(priorityLength == 2) {
+								unit.itemStyle.normal.color  = colorStyle1[1];
+								temp[1] = unit;
+							} else {
+								unit.itemStyle.normal.color  = colorStyle1[2];
+								temp[2] = unit;
+							}
+						} else if(((statIndex == 2) && key === "II") || ((statIndex == 1) && key === "II")) {
+							unit.itemStyle.normal.color  = colorStyle1[1];
+							temp[1] = unit;
+						} else {
+							unit.itemStyle.normal.color  = colorStyle1[0];
+							temp[0] = unit;
+						}
 					}
-					unit.itemStyle.normal.color = '';
-					priorityArr.push(unit);
+					statIndex++;
 				});
-				//循环数组给他添加颜色属性--优先级
-				for(var t= 0;t<priorityArr.length;t++){
-					priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
+				for(i = 0; i < temp.length; i++) {
+					priorityArr.push(temp[i]);
 				}
+				//循环数组给他添加颜色属性--优先级
+				/*for(var t= 0;t<priorityArr.length;t++){
+					priorityArr[t].itemStyle.normal.color  = colorStyle1[t];
+				}*/
 
 				// 数据清零
 				deadline = [];
@@ -1004,7 +1022,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				//期限
 				angular.forEach($scope.deadLineStat,function(val,key){
 					deadline.push(val);
-					$scope.deadlineStr.push(key);
+					$scope.deadlineStr.push({name:key, amount: val});
 				})
 				for(var m in deadline){
 					deadlineCount += deadline[m];
@@ -1027,7 +1045,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						$("#data_graph2").parent().show();
 //						dataTime.name = parsePercent(val/deadlineCount);
 //						dataTime.name=parseInt((val/deadlineCount)*100)+"%";
-						dataTime.name=val;
+						dataTime.name = key+", "+val;
 					}
 					timeLim.push(dataTime);
 				});
@@ -1041,14 +1059,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				//标识
 				angular.forEach($scope.makerStat,function(obj,key){
 					maker.push(obj.count);
-					var makerObj ={
-							name:"",
-							color:""
-						};
-					makerObj.name = key;
-					makerObj.color = obj.color;
-					$scope.makerStatStr.push(makerObj);
-
+					$scope.makerStatStr.push({name:key,color:obj.color, amount: obj.count});
 				})
 				for(var i in maker){
 					makerCount += maker[i];
@@ -1072,7 +1083,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						$("#data_graph3").parent().show();
 //						blank.name = parsePercent(val/makerCount);
 //						blank.name =parseInt((val/makerCount)*100)+"%";
-						blank.name = obj.count;
+						blank.name = key+", "+obj.count;
 					}
 
 					blankId.push(blank);
@@ -1087,13 +1098,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				//协作类型
 				angular.forEach($scope.typeStat,function(obj,key){
 					typeStatNub.push(obj.count);
-					var statObj ={
-						name:"",
-						color:""
-					};
-					statObj.name = key;
-					statObj.color = obj.color;
-					$scope.typeStatStr.push(statObj);
+					$scope.typeStatStr.push({name:key,color:obj.color, amount: obj.count});
 				});
 				for(var k in typeStatNub){
 					typeCount += typeStatNub[k]
@@ -1119,7 +1124,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						$("#data_graph4").parent().show();
 //						coType.name = parsePercent(val/typeCount);
 //						coType.name = parseInt((val/typeCount)*100)+"%";
-						coType.name = obj.count;
+						coType.name = key+", "+obj.count;
 
 					}
 					coTypeObj.push(coType);
@@ -1246,12 +1251,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       
     }
 		//服务器时间
-		$scope.currentTime= function(){
-			Cooperation.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
-				$scope.serviceTime = data.data;
-			})
-		}
-		$scope.currentTime();
+		//$scope.currentTime= function(){
+		//	Cooperation.getTrendsSystem({sysTime:"",sysWeek:""}).then(function(data){
+		//		$scope.serviceTime = data.data;
+		//	})
+		//}
+		//$scope.currentTime();
 		if($stateParams.transignal == 'be') {
 	    	$scope.openNew();
 		}
@@ -1268,8 +1273,13 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 }]);
 
 $(window).resize(function () {          //当浏览器大小变化时
+	var headerHeight = $("header").height();
+	var allHeight = document.documentElement.clientHeight;
 	// 设置左侧sidebar的高度
-	$(".sidebar").css("height", document.documentElement.clientHeight-$("header").height()-2);
+	$(".sidebar").css("height", allHeight-headerHeight-2);
+	// 设置统计页面四个饼图外层的div高度
+	$(".data_list").css("height", allHeight-headerHeight-$(".data_Totle").height()-2);
+	$(".data_count").css("height", allHeight-headerHeight-$(".data_Totle").height()-2);
 });
 /**
  * 拼接百分数 结果： xx.xx%

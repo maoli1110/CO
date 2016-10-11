@@ -23,6 +23,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		$scope.jsshow = true;
 		$scope.dchushow = true;
 		$scope.isTypePdf = true;//判断文件类型是否是pdf格式
+		$scope.showMore = false;
+		$scope.collapse = false;
 
 		//判断pc or bv
 		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
@@ -51,8 +53,10 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
 	   		$scope.collaList = data;
+			//console.info('$scope.collaList',$scope.collaList)
 //			console.info('需不需要签字',$scope.collaList.relevants)
 			//console.info('collaList.docs',$scope.collaList.docs)
+
 	   		if($scope.device){
 	   			allRelevants = data.relevants;
 	   			totalPage = parseInt((allRelevants.length + pageSize -1) / pageSize);
@@ -60,6 +64,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		   			sliceRlevants = data.relevants.slice(0,currentShowPage*pageSize);
 		   			$scope.collaList.relevants = sliceRlevants;
 		   			$scope.isRevlentMore = true;
+		   			$scope.showMore = true;
 		   		}
 	   		}else if(!$scope.device){
 				allRelevants = data.relevants;
@@ -68,6 +73,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					sliceRlevants = data.relevants.slice(0,currentShowPage*pageSizePc);
 					$scope.collaList.relevants = sliceRlevants;
 					$scope.isRevlentMore = true;
+					$scope.showMore = true;
 				}
 			}
 			if(data.coTypeVo) {
@@ -196,6 +202,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                     //1.获取后缀 把后缀你push到数组
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
                 }else{
+                	var timestamp=new Date().getTime();
+                	$scope.collaList.pictures[key].name = timestamp + ".png";
                 	unit = 'other';
                 	imgsrc = imgsrc+unit+".png";
                 	$scope.collaList.pictures[key].imgsrc = imgsrc;
@@ -244,6 +252,10 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 						 if(value1.thumbnailUrl){
                         	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
                         }
+						if(value1.name == null){
+							var timestamp=new Date().getTime();
+							$scope.collaList.comments[key].docs[key1].name = timestamp + ".png";
+						}
 					})
 				}
 			});
@@ -332,6 +344,18 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			}
 
 		}
+
+		$scope.getPcMP3Url = function (uuid){
+			var uuidList = [uuid];
+			Cooperation.getPcMp3Url(uuidList).then(function(data){
+				console.log('pcmp3',data);
+				angular.forEach(data,function(value,key){
+					alert(value)
+					BimCo.AudioPlay(value)
+				})
+				
+			});
+		}
 		
 		function jMap(){
 			//私有变量
@@ -360,9 +384,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				}
 			}
 		}
-		
-		
-		
 
 		//play-audio(播放声音的显示播放窗口事件)
 		$scope.audioClose = function () {
@@ -423,13 +444,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   		sendCommand(3,coid,uuid);
 	   	}
 
-	 	//     function sendCommand(optType,id){
-		//     var param = "{"+ "\"optType\":"+optType+",\"id\":\""+id + "\"}";
-		//     //document.location = "http://bv.local?param=" + param;
-		//     var a  = "http://bv.local?param=" + param;
-		//     alert(a);
-		// }
-
 		function sendCommand(optType,id,uuid){
 
 		    var param = '{"optType":'+optType+',"coid":"'+id+'"}';
@@ -442,10 +456,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		    if(optType==8){
 		    	param = '{"title":'+title+'}'
 		    }
-		    //document.location = "http://bv.local?param=" + param;
-		    //var a  = "http://bv.local?param=" + param;
-		    //document.location.href = a;
-		    //alert(document.location.href);
+
 		    document.location = 'http://localhost:8080/bv/?param='+param;
 		}
 
@@ -467,7 +478,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		 			pollingFlag = false;
 		 			checkSearchInterval = setInterval(function() {checkCanSearch()},100);
 		 		}
-		 		setTimeout(function() {setSearchFlagTrue()},150);
+		 	setTimeout(function() {setSearchFlagTrue()},150);
 		 }
 		 
 		 var setSearchFlagFalse = function(){
@@ -486,33 +497,33 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			
 			$scope.getOperation = function(){
 				var size = $scope.operationList.length;
-				if(size%pageSize!=0 || size == $scope.operationAllList.length){
+				if(size%dynamicPageSize!=0 || size == $scope.operationAllList.length){
 					$scope.scrollend = true;
 					return;
 				}
-				var l = size/pageSize;
-				var result = $scope.operationAllList.slice(pageSize*l,(l+1)*pageSize);
+				var l = size/dynamicPageSize;
+				var result = $scope.operationAllList.slice(dynamicPageSize*l,(l+1)*dynamicPageSize);
 				for(var i=0;i<result.length;i++){
 					
 					$scope.operationList.push(result[i]);
 				}
 				$scope.$apply();
-				console.log($scope.operationList);
+//				console.log($scope.operationList);
 				return;
 			}
 			
-			$scope.operationAllList = [];
-			var pageSize = 10;
-			var currentShowPage = 1;
-			var token = false;
+		$scope.operationAllList = [];
+		var dynamicPageSize = 8;
+		var dynamicCurrentShowPage = 1;
+		var token = false;
 		$scope.getOperationList = function() {
 			if(trendflag){
 				$scope.scrollend = false;
 				Cooperation.getOperationList(coid).then(function (data) {
 					$scope.operationAllList = data;
-					$scope.operationList = data.slice(0,currentShowPage*pageSize);
+					$scope.operationList = data.slice(0,dynamicCurrentShowPage*dynamicPageSize);
 					var size = $scope.operationList.length;
-					if(size%pageSize!=0 || size == $scope.operationAllList.length){
+					if(size%dynamicPageSize!=0 || size == $scope.operationAllList.length){
 						$scope.scrollend = true;
 					}
 					token = true;
@@ -522,13 +533,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		}
 		
 		//更新评论
-
+		var modalInstance;
         $scope.updateComment = function () {
             var trans = {};
             trans.coid = coid;
             trans.coTypeVo = coTypeVo; 
             trans.status = status;
-            var modalInstance = $uibModal.open({
+            	modalInstance = $uibModal.open({
 				windowClass:'update-comment',
             	size: 'lg',
                 backdrop : 'static',
@@ -544,7 +555,11 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             	Cooperation.commentToCollaboration(data).then(function (data) {
 					$state.go($state.current, {}, {reload: true});
     			},function(data) {
-					alert(data.message);
+    				//提示错误信息
+					layer.alert(data.message, {
+            		  	title:'提示',
+					  	closeBtn: 0
+					});
 				});
 
             });
@@ -591,25 +606,28 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			if(!$scope.collaList.isLock){
 				switch (statusCode) {
 					case 6:
-					var re = confirm('提交后您将不能再修改，若确认通过,请点击确定!');
-					if(re){
-						doCollaboration();
-						location.reload();
-					}
+						layer.confirm('提交后您将不能再修改，若确认通过,请点击确定!', {
+							btn: ['确定','取消'] //按钮
+						},function(){
+							doCollaboration();
+							location.reload();
+						});
 					break;
 					case 7:
-					var re = confirm('拒绝后将不能再修改，若确认拒绝,请点击确定！');
-					if(re){
+					layer.confirm('拒绝后将不能再修改，若确认拒绝,请点击确定！', {
+						btn: ['确定','取消'] //按钮
+					},function(){
 						doCollaboration();
 						location.reload();
-					}
+					});
 					break;
 					case 8:
-					var re = confirm('结束后您将不能再修改，是否结束？');
-					if(re){
+					layer.confirm('结束后您将不能再修改，是否结束？', {
+						btn: ['确定','取消'] //按钮
+					},function(){
 						doCollaboration();
 						location.reload();
-					}
+					});
 					break;
 					default:
 					doCollaboration();
@@ -626,7 +644,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				Cooperation.doCollaboration(params).then(function (data) {
 					$state.go('cooperation');
 				},function (data) {
-					alert(data.data.message);
+					layer.alert(data.message);
 				});
 			}
 		}	
@@ -642,19 +660,21 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             	//获取电子签名uuid
             	if(suffix=='pdf' && isPdfsign == 1){
             		//pdf签署（客户端）
+
             		$scope.flag.isPreview = true;
 	            	$scope.flag.isApprove = true;
 	            	$scope.flag.isGeneral = false;
 	            	$scope.flag.isPdfsign = false;
-	            	var pdfSign = BimCo.PdfSign(uuid,suffix,currentReact,coid);
+					var pdfSign = BimCo.PdfSign(uuid,suffix,currentReact,coid);
 					if(!pdfSign) {
-						alert('下载文件失败！');
+						var rtn = BimCo.MessageBox("提示" ,"下载文件失败!", 0);
+						return;
 					}
 	            } else {
 	            	//普通预览（除去pdf以外的文件）
 	            	var data ={fileName:docName,uuid:uuid};
 		        	Manage.getTrendsFileViewUrl(data).then(function (result) {
-		        		console.log(typeof result)
+//		        		console.log(typeof result)
 		        		$scope.flag.isPreview = true;
 		        		$scope.flag.isGeneral = true;
 		        		$scope.flag.isPdfsign = false;
@@ -664,8 +684,10 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		            	$scope.flag.isPreview = false;
 		            	$scope.previewUrl ='';
 		                var obj = JSON.parse(data);
-		                console.log(obj);
-		                alert(obj.message);
+		                layer.alert(obj.message, {
+	            		  	title:'提示',
+						  	closeBtn: 0
+						});
 		            });
 	            }
     	}
@@ -699,13 +721,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    //电子签名
 	    $scope.signElectronic = function () {
 	    	//获取电子签名
-	  //   	Cooperation.getSignature().then(function (data) {
-			// 	var signature = data.uuid;
-			// 	$scope.isEleSign = true;
-			// 	//调用电子签名（pc客户端）
-			// 	alert(signature);
-	  //      		BimCo.ElectronicSign(signature);
-			// });
+	    	var signature;
 	    	$.ajax({
 	    		contentType: "application/json; charset=utf-8",
 				dataType : 'json',
@@ -713,7 +729,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				url: basePath+'rs/co/signature',
 			    async : false,
 			    success: function (data) {
-			    	var signature = data.uuid;
+			    	signature = data.uuid;
 					$scope.isEleSign = true;
 			    },
 			    error: function () {
@@ -725,7 +741,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    }
 	    //提交
 	    $scope.SubmitAll = function () {
-	    	var rtn = BimCo.MessageBox("提示" ,"提交后将不能再修改，若确认无无误请点击确认！", 0x31);
+	    	//当前未做修改，点击提交同返回 true代表有改动，false没改动
+	    	if(!BimCo.IsModify()){
+	    		$scope.flag.isPdfsign = false;
+	    		$scope.backDetail();
+	    		return;
+	    	}
+	    	var rtn = BimCo.MessageBox("提示" ,"提交后将不能再修改，若确认无误请点击确认！", 0x31);
 	    	var isSignSubmit;
 	    	var backJson;
 	    	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
@@ -771,7 +793,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 	    //取消
 	    $scope.signCancel = function () {
-	    	var rtn = BimCo.MessageBox("提示" ,"放弃编辑？", 0x31);
+	    	var rtn = BimCo.MessageBox("提示" ,'          '+"放弃编辑？", 0x31 );
 	    	if(rtn==1) {
 	    		//取消调用签入
 	    		Cooperation.checkIn(coid).then(function(data){
@@ -799,14 +821,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    $scope.max = true;
 	    $scope.maxRestore = function ($event) {
 	        if(num++ %2 == 0){ 
-	            console.log('max');
+//	            console.log('max');
 	            $scope.max = false;
 	            $scope.restore = true;
 	            //对接pc
 	            BimCo.SysCommand('SC_MAXIMIZE');
 
 	        } else { 
-	            console.log('restore');
+//	            console.log('restore');
 	            $scope.max = true;
 	            $scope.restore = false;
 	            //对接pc
@@ -818,26 +840,45 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	        BimCo.SysCommand('SC_CLOSE');
 	    }
 	    //显示更多相关人
-	    $scope.showMore = false;
 	    $scope.showMorePerson = function() {
-	    	if(!$scope.showMore){
-	    		currentShowPage++;
-	    		$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
-	    		if(currentShowPage >= totalPage){
-	    			$scope.showMore = true;
-	    		}
+	    	currentShowPage++;
+	    	if(currentShowPage >=2){
+	    		$scope.collapse = true;
+	    	}
+    		$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
+    		if(!$scope.device){
+    			$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSizePc); 
+    		}
+    		if(currentShowPage >= totalPage){
+    			$scope.showMore = false;
+    		}
+    		
+    		
+	    	/*if(!$scope.showMore){
+	    		
 	    	} else {
 	    		$scope.collaList.relevants = sliceRlevants;
 	    		$scope.showMore = false;
 	    		currentShowPage = 1;
-	    	}
+	    	}*/
+	    }
+	    
+	    //显示更多相关人
+	    $scope.collapsePerson = function() {
+    		$scope.collaList.relevants = sliceRlevants;
+    		$scope.showMore = true;
+    		$scope.collapse = false;
+    		currentShowPage = 1;
 	    }
 
 	    //预览界面跳转回详情
 	    $scope.backDetail = function () {
-	    	if($scope.flag.isPreview && $scope.flag.isApprove){
+	    	//没有点击添加审批意见不调用签入
+	    	if($scope.flag.isPreview){
 	    		BimCo.SignCancel();
 	    		BimCo.CancelSubmitAll(); 
+	    	}
+	    	if($scope.flag.isPreview && $scope.flag.isPdfsign){
 	    		//签署页面返回调用签入
 	    		Cooperation.checkIn(coid).then(function(data){
 	    		});
@@ -859,20 +900,33 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	}
 
 	   	//反查formbe,跳转详情页面
-	   	var currentPage = 'pdfSign';
+	   	var currentPage = 'coopdetail';
 	   	$scope.checkFromBe = function() {
-	   		var coid = $('#checkformbe').val();
+	   		var coidFrombe = $('#checkformbe').val();
+	   		if(coidFrombe == coid) return;
 	   		//当前正在签署
-	   		if(currentPage == 'pdfSign' && $scope.flag.isPdfsign){
-	   			var r = confirm('当前正在签署中，是否跳转？');
-	   			if(r){
-	   				BimCo.SignCancel();
-	    			BimCo.CancelSubmitAll(); 
-	   				$state.go('coopdetail',{'coid':coid});
+	   		if(currentPage == 'coopdetail' && ($scope.flag.isPdfsign || $scope.flag.isApprove)){
+	   			var rtn = BimCo.MessageBox("提示","当前正在签署中，是否跳转？", 0x31);
+	   			//确定1取消2
+	   			if(rtn==1){
+	   				$state.go('coopdetail',{'coid':coidFrombe});
 	   			}
+	   		} else if (!!modalInstance){
+	   			//添加更新状态
+	   			layer.confirm('当前正在添加更新, 是否跳转？', {
+					btn: ['确定','取消'] //按钮
+				},function(){
+					layer.closeAll();
+					$state.go('coopdetail',{'coid':coidFrombe})
+				});
 	   		} else {
 	   			//非签署状态
-	   			$state.go('coopdetail',{'coid':coid})
+	   			layer.confirm('当前已有打开的协作, 是否跳转？', {
+					btn: ['确定','取消'] //按钮
+				},function(){
+					layer.closeAll();
+					$state.go('coopdetail',{'coid':coidFrombe})
+				});
 	   		}
 	   		
 	   	}
@@ -884,8 +938,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
         //跳转新页面去除心跳机制
         $scope.$on('$stateChangeStart', 
             function(event, toState, toParams, fromState, fromParams){
-                console.log(toState, toParams, fromState);
+//                console.log(toState, toParams, fromState);
                 clearInterval(ApplicationConfiguration.refreshID);
+                if(!!modalInstance){
+                	modalInstance.dismiss();
+                }
+                
         });
+
 	 
 }]);

@@ -1,14 +1,17 @@
 /**
  * Created by sdergt on 2016/8/16.
  */
-angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage','$timeout','headerService',
+angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '$uibModal', '$httpParamSerializer', 'FileUploader', 'Cooperation', '$state', '$stateParams', 'Common','Manage','$timeout','headerService','$sce',
 
-    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage,$timeout,headerService) {
+    function ($scope, $http, $uibModal, $httpParamSerializer, FileUploader, Cooperation, $state, $stateParams, Common, Manage,$timeout,headerService,$sce) {
         $scope.device = false;
+        $scope.flag = {};
         //判断pc or bv
         if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
             $scope.device = true;
         }
+        $scope.showMore = false;
+		$scope.collapse = false;
         var coid = $stateParams.coid;
         $scope.transcoid = $stateParams.coid;
         $scope.zhenggai = false;
@@ -24,6 +27,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             yearRows  :3,
             yearColumns:3
         };
+        //详情描述多行文本框随内容去撑开
 
         $scope.open2 = function () {
             //console.info(123123131)
@@ -48,9 +52,12 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             };
      	var totalPage = 0;
 	   	var pageSize = 8;
+        var pageSizePc = 18;
 	   	var currentShowPage = 1;
+	   	var relatedNews = [];
         Cooperation.getCollaboration(coid).then(function (data) {
-        	
+
+        	console.info(data)
         	angular.forEach(data.relevants,function(value,key){
         		value.mustExist = true;	// 编辑时原有的相关人是否必须存在 true必须存在  false可以不存在
         		value.canSign = true;	// 编辑时原有的相关人是否可以修改签字 true可以  false不可以
@@ -60,6 +67,14 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         			$scope.related.noSign.push(value);
         		}
         	});
+        	/*for(var i = 0; i < $scope.related.sign.length;i++){
+        		relatedNews.push($scope.related.sign[i]);
+        	}
+        	for(var i = 0; i < $scope.related.noSign.length;i++){
+        		relatedNews.push($scope.related.noSign[i]);
+        	}*/
+        	relatedNews = $scope.related.sign.concat($scope.related.noSign);
+        	$scope.relatedNew = relatedNews;
             var currentMarkInfo = data.markerInfo.id;
 //            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
@@ -71,6 +86,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             		sliceRlevants = _.cloneDeep(data.relevants.slice(0,currentShowPage*pageSize));
 	                $scope.collaList.relevants =sliceRlevants;
 	                $scope.isRevlentMore = true;
+	                $scope.showMore = true;
 	            }
             	 angular.forEach(allRelevants, function (value, key) {
                      var unit = {};
@@ -78,9 +94,16 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                      unit.needSign = value.needSign;
                      contracts.push(unit);
                  });
-            } else {
+            } else if(!$scope.device){
             	pcAllRelevants = data.relevants;
-            	angular.forEach(pcAllRelevants, function (value, key) {
+                totalPage = parseInt((relatedNews.length + pageSizePc -1) / pageSizePc);
+                if(totalPage > 1){
+                    sliceRlevants = relatedNews.slice(0,currentShowPage*pageSizePc);
+                    $scope.relatedNew = sliceRlevants;
+                    $scope.isRevlentMore = true;
+                    $scope.showMore = true;
+                }
+                angular.forEach(pcAllRelevants, function (value, key) {
                     var unit = {};
                     unit.username = value.username;
                     unit.needSign = value.needSign;
@@ -105,7 +128,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $scope.deadlineStyle = 'red';
             }
            
-            
             if(data){
                 //获取标识
                 Cooperation.getMarkerList().then(function (data) {
@@ -166,7 +188,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             //选择负责人
             $scope.selectResponsible = function () {
                 var modalInstance = $uibModal.open({
-                    windowClass: 'select-person-responsible-modal',
+                    //windowClass: 'select-person-responsible-modal',
                     backdrop : 'static',
                     templateUrl: 'template/cooperation/select_person_responsible.html',
                     controller:'selectpersonCtrl',
@@ -184,7 +206,28 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $scope.responsiblePerson.username = data.userName;
                 $scope.responsiblePerson.avatar = data.avatarUrl;
             })
-            var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3']; 
+            var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+            angular.forEach($scope.collaList.pictures, function(value,key) {
+                var imgsrc = "imgs/pro-icon/icon-";
+                //如果存在后缀名
+                if(value.name && value.name.indexOf('.') !== -1){
+                    var unit = value.name.split('.')[value.name.split('.').length - 1];
+                    unit = unit.toLowerCase();
+                    if(typeArr.indexOf(unit) == -1 || unit == null || unit == "" || unit == "undefined") {
+                        unit = 'other';
+                    }else if(unit == "docx"){
+                        unit = 'doc'
+                    }
+                    imgsrc = imgsrc+unit+".png";
+                    //1.获取后缀 把后缀你push到数组
+                    $scope.collaList.pictures[key].imgsrc = imgsrc;
+                }else{
+                    unit = 'other';
+                    imgsrc = imgsrc+unit+".png";
+                    $scope.collaList.pictures[key].imgsrc = imgsrc;
+                }
+
+            });
             angular.forEach($scope.collaList.docs, function(value, key) {
                 var imgsrc = "imgs/pro-icon/icon-";
 				//如果存在后缀名
@@ -271,15 +314,12 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             if(optType==2||optType==3||optType==5||optType==6){
                 param = '{"optType":'+optType+',"coid":"'+id+'","fileUUID":"'+ uuid +'","isPreview":true'+'}';
             }
-            //document.location = "http://bv.local?param=" + param;
-            //var a  = "http://bv.local?param=" + param;
-            //document.location.href = a;
-            //alert(document.location.href);
             document.location = 'http://localhost:8080/bv/?param='+param;
         }
 
         $scope.ok = function () {
-            if(!$scope.collaList.name) {
+            //bv客户端主题为空提示
+            if(!$scope.collaList.name && $scope.device) {
                 var index = layer.open({
                   type: 1,
                   title: false,
@@ -289,11 +329,22 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                   content: '<div class="tips">当前协作主题不能为空</div><div class="tips_ok" onclick="layer.closeAll();">好</div>'
                 });
             }
+            if(!$scope.collaList.name && !$scope.device) {
+                $scope.flag.topicNull = true;
+                return;
+            }
+
+            //pc调用layer加载层
+            if(!$scope.device && $scope.collaList.name){
+                var createindex = layer.load(1, {
+                    shade: [0.1,'#000'] //0.1透明度的黑色背景
+                });
+            }
 
             if($scope.device){
                 $scope.dt = $('.date-value-bv').html();
             } else {
-                $scope.dt = $('.data-value').html();
+                $scope.dt = $('.date-value').html();
             }
             
             if($scope.dt) {
@@ -322,6 +373,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     }
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
+                    layer.close(createindex);//关闭layer加载层
                     document.location = 'co_detail.jsp?coid='+ coid;
                 }
                
@@ -332,7 +384,11 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
-//                    console.log(message);
+                    layer.close(createindex);//关闭layer加载层
+                    layer.alert(data.message, {
+                        title:'提示',
+                        closeBtn: 0
+                    });
                 }
             });
           
@@ -370,15 +426,17 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             //	$(".means-down").click(function(){
             //		console.info(123)
             //		//$(this).find(".means-address").slideUp()
+            $(".replay-down").hover(function(){
+                $(this).find('.user-down').animate({"bottom":'0'})
+            },function(){
+                $(this).find('.user-down').animate({"bottom":'-30px'})
+            })
             })
 
         //选择相关人
-        //选择相关人
-      
-        
         $scope.selectRelated = function () {
             var modalInstance = $uibModal.open({
-                windowClass:'edit-raltive-person',
+                windowClass:'select-person-related-modal',
                 size:'lg',
                 backdrop : 'static',
                 templateUrl: 'template/cooperation/select_person_related.html',
@@ -392,6 +450,17 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             modalInstance.result.then(function (selectedItem) {	// 向后台发送需要保存的数据
                 $scope.related.noSign = selectedItem.noSign;
                 $scope.related.sign = selectedItem.sign;
+                relatedNews = selectedItem.sign.concat(selectedItem.noSign);
+                $scope.relatedNew = relatedNews;
+                currentShowPage = 1;
+                if(!$scope.device){
+	                totalPage = parseInt((relatedNews.length + pageSizePc -1) / pageSizePc);
+	                if(totalPage > 1){
+	                    sliceRlevants = relatedNews.slice(0,currentShowPage*pageSizePc);
+	                    $scope.relatedNew = sliceRlevants;
+	                    $scope.isRevlentMore = true;
+	                }
+                }
                 if(contracts.length){
                 	contracts = [];
                 }
@@ -417,29 +486,47 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
 
         //预览功能
-        $scope.pcPreView = function (docName, uuid) {
-                var data = {fileName:docName,uuid:uuid};
+//        $scope.pcPreView = function (docName, uuid) {
+//                var data = {fileName:docName,uuid:uuid};
+//                Manage.getTrendsFileViewUrl(data).then(function (result) {
+////                console.log(typeof result)
+//                $scope.isPreview = true;
+//                $scope.previewUrl =result;
+//                layer.open({
+//                        type: 2,
+//                        //skin: 'layui-layer-lan',
+//                        title: '预览',
+//                        fix: false,
+//                        shadeClose: true,
+//                        maxmin: true,
+//                        area: ['1000px', '500px'],
+//                        content: $scope.previewUrl
+//                    });
+//            },function (data) {
+//                var obj = JSON.parse(data);
+////                console.log(obj);
+//                alert(obj.message);
+//            });
+//
+//        }
+
+        $scope.previewSign = function (uuid,docName) {
+                var data ={fileName:docName,uuid:uuid};
                 Manage.getTrendsFileViewUrl(data).then(function (result) {
-//                console.log(typeof result)
-                $scope.isPreview = true;
-                $scope.previewUrl =result;
-                layer.open({
-                        type: 2,
-                        //skin: 'layui-layer-lan',
-                        title: '预览',
-                        fix: false,
-                        shadeClose: true,
-                        maxmin: true,
-                        area: ['1000px', '500px'],
-                        content: $scope.previewUrl
+                    console.log(typeof result)
+                    $scope.flag.isPreview = true;
+                    $scope.previewUrl = $sce.trustAsResourceUrl(result);
+                },function (data) {
+                    $scope.flag.isPreview = false;
+                    $scope.previewUrl ='';
+                    var obj = JSON.parse(data);
+                    layer.alert(obj.message, {
+                        title:'提示',
+                        closeBtn: 0
                     });
-            },function (data) {
-                var obj = JSON.parse(data);
-//                console.log(obj);
-                alert(obj.message);
-            });
-            
+                });
         }
+
         // 返回上个页面
         $scope.backDetail = function() {
         	$state.go('coopdetail', {'coid':coid});
@@ -478,33 +565,63 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
 
         //显示更多相关人
-        $scope.showMore = false;
         $scope.showMorePerson = function() {
-	    	if(!$scope.showMore){
+/*	    	if(!$scope.showMore){
 	    		currentShowPage++;
-	    		$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
+	    		if($scope.device){
+	    			$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
+	    		}else{
+	    			$scope.relatedNew = relatedNews.slice(0,currentShowPage*pageSizePc); 
+	    		}
 	    		if(currentShowPage >= totalPage){
 	    			$scope.showMore = true;
 	    		}
 	    	} else {
-	    		$scope.collaList.relevants = sliceRlevants;
+	    		if($scope.device){
+	    			$scope.collaList.relevants = sliceRlevants;
+	    		}else{
+	    			$scope.relatedNew = sliceRlevants;
+	    		}
 	    		$scope.showMore = false;
 	    		currentShowPage = 1;
+	    	}*/
+        	currentShowPage++;
+	    	if(currentShowPage >=2){
+	    		$scope.collapse = true;
 	    	}
+    		$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
+    		if(!$scope.device){
+    			$scope.relatedNew = relatedNews.slice(0,currentShowPage*pageSizePc); 
+    		}
+    		if(currentShowPage >= totalPage){
+    			$scope.showMore = false;
+    		}
+    		
+	    }
+        $scope.collapsePerson = function() {
+    		$scope.collaList.relevants = sliceRlevants;
+    		if(!$scope.device){
+    			$scope.relatedNew = sliceRlevants; 
+    		}
+    		$scope.showMore = true;
+    		$scope.collapse = false;
+    		currentShowPage = 1;
 	    }
 
         //反查formbe,跳转详情页面
         var currentPage = 'editdetail';
         $scope.checkFromBe = function() {
-            var coid = $('#checkformbe').val();
+            var coidFrombe = $('#checkformbe').val();
             if(currentPage == 'editdetail'){
-                var r = confirm('当前正在编辑协作，是否跳转？');
-                if(r){
-                    $state.go('coopdetail',{'coid':coid})
-                }
+                layer.confirm('当前正在编辑协作，是否跳转？', {
+                    btn: ['确定','取消'] //按钮
+                },function(){
+                    layer.closeAll();
+                    $state.go('coopdetail',{'coid':coidFrombe})
+                });
             }
         }
-
+        
         //调用心跳机制
         if(!$scope.device){
             Cooperation.heartBeat();
@@ -515,5 +632,21 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 console.log(toState, toParams, fromState);
                 clearInterval(ApplicationConfiguration.refreshID);
         });
-     
+        /*//显示更多相关人
+        $scope.showMore = false;
+        $scope.showMorePerson = function() {
+            if(!$scope.showMore){
+                currentShowPage++;
+                $scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize);
+                if(currentShowPage >= totalPage){
+                    $scope.showMore = true;
+                }
+            } else {
+                $scope.collaList.relevants = sliceRlevants;
+                $scope.showMore = false;
+                currentShowPage = 1;
+            }
+        }*/
+
 }]);
+

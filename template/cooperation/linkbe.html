@@ -44,6 +44,7 @@
                                    <img src="imgs/icon/3.png" alt="" ng-if="item.projectType=='安装预算'" style="width:20px">
                                    <img src="imgs/icon/4.png" alt="" ng-if="item.projectType=='Revit'" style="width:20px">
                                    <img src="imgs/icon/5.png" alt="" ng-if="item.projectType=='Tekla'" style="width:20px">
+                                   <img src="imgs/icon/6.png" alt="" ng-if="item.projectType=='PDF'" style="width:20px">
                                    {{item.projectName}}
                                    </li>
                                </ul>
@@ -76,7 +77,7 @@
                 <div class="clearfix public-head">
                     <div class="pull-left">
                         <label>
-                            <input type="checkbox" style="display:none;">
+                            <input type="checkbox" style="display:none;" ng-click="dataAllSelected($event)">
                             <span  class="book-style font16">共{{totalItems}}份资料</span>
                             <div class="linkbe-check"></div>
                         </label>
@@ -95,48 +96,48 @@
                             <tr ng-repeat="row in docList track by $index" class="check-now" profit >
                                 <td>
                                 <label class="be-check">
-                                    <input type="checkbox" style="opacity:0" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)">
+                                    <input type="checkbox" style="opacity:0;" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)">
                                     <span class="checkbox"></span>
                                 </label>
                                 </td>
                                 <td>
                                     <!--文件类型-->
-                                    <img src="imgs/pro-icon/icon-txt.png"  ng-if="row.fileType=='txt'||row.fileType=='TXT'">
+                                    <img src="imgs/pro-icon/icon-txt-s.png"  ng-if="row.fileType=='txt'||row.fileType=='TXT'">
                                     <img src="imgs/pro-icon/icon-doc-s.png"  ng-if="row.fileType=='doc'||row.fileType=='DOC'">
-                                    <img src="imgs/pro-icon/icon-pdf.png"  ng-if="row.fileType=='pdf'||row.fileType=='PDF'">
-                                    <img src="imgs/pro-icon/icon-xls.png"  ng-if="row.fileType=='xls'">
-                                    <img src="imgs/pro-icon/icon-ppt.png"  ng-if="row.fileType=='ppt'||row.fileType=='PPT'">
-                                    <img src="imgs/pro-icon/icon-docx.png" ng-if="row.fileType=='docx'||row.fileType=='DOCX'">
-                                    <img src="imgs/pro-icon/icon-xlsx.png" ng-if="row.fileType=='xlsx'||row.fileType=='XLSX'">
-                                    <img src="imgs/pro-icon/icon-xls.png"  ng-if="row.fileType=='XLS'" >
-                                    <img src="imgs/pro-icon/icon-xls.png"  ng-if="row.fileType=='JPEG'" >
-                                    <img src="imgs/pro-icon/icon-pptx.png" ng-if="row.fileType=='pptx'||items.fileType=='PPTX'">
+                                    <img src="imgs/pro-icon/icon-pdf-s.png"  ng-if="row.fileType=='pdf'||row.fileType=='PDF'">
+                                    <img src="imgs/pro-icon/icon-xls-s.png"  ng-if="row.fileType=='xls'">
+                                    <img src="imgs/pro-icon/icon-ppt-s.png"  ng-if="row.fileType=='ppt'||row.fileType=='PPT'">
+                                    <img src="imgs/pro-icon/icon-docx-s.png" ng-if="row.fileType=='docx'||row.fileType=='DOCX'">
+                                    <img src="imgs/pro-icon/icon-xlsx-s.png" ng-if="row.fileType=='xlsx'||row.fileType=='XLSX'">
+                                    <img src="imgs/pro-icon/icon-xls-s.png"  ng-if="row.fileType=='XLS'" >
+                                    <img src="imgs/pro-icon/icon-xls-s.png"  ng-if="row.fileType=='JPEG'" >
+                                    <img src="imgs/pro-icon/icon-pptx-s.png" ng-if="row.fileType=='pptx'||items.fileType=='PPTX'">
                                     <!--图片类型-->
                                     <img src="imgs/pro-icon/icon-jpeg-s.png" ng-if="row.fileType=='jpeg'">
                                     <img src="imgs/pro-icon/icon-bmp-s.png"  ng-if="row.fileType=='bmp'">
                                     <img src="imgs/pro-icon/icon-png-s.png"  ng-if="row.fileType=='PNG'">
-                                    <img src="imgs/pro-icon/icon-gif.png"  ng-if="row.fileType=='GIF'">
+                                    <img src="imgs/pro-icon/icon-gif-s.png"  ng-if="row.fileType=='GIF'">
                                     <img src="imgs/pro-icon/icon-jpg-s.png"  ng-if="row.fileType=='JPG'">
                                     <img src="imgs/pro-icon/icon-png-s.png"  ng-if="row.fileType=='png'">
-                                    <img src="imgs/pro-icon/icon-jpg.png"  ng-if="row.fileType=='jpg'">
-                                    <img src="imgs/pro-icon/icon-gif.png"  ng-if="row.fileType=='gif'">
+                                    <img src="imgs/pro-icon/icon-jpg-s.png"  ng-if="row.fileType=='jpg'">
+                                    <img src="imgs/pro-icon/icon-gif-s.png"  ng-if="row.fileType=='gif'">
 
-                                    <img src="imgs/pro-icon/icon-dwg.png"  ng-if="row.fileType=='dwg'">
-                                    <img src="imgs/pro-icon/icon-rar.png"  ng-if="row.fileType=='rar'">
-                                    <img src="imgs/pro-icon/icon-zip.png"  ng-if="row.fileType=='zip'">
+                                    <img src="imgs/pro-icon/icon-dwg-s.png"  ng-if="row.fileType=='dwg'">
+                                    <img src="imgs/pro-icon/icon-rar-s.png"  ng-if="row.fileType=='rar'">
+                                    <img src="imgs/pro-icon/icon-zip-s.png"  ng-if="row.fileType=='zip'">
 
                                     <!--视频-->
-                                    <img src="imgs/pro-icon/icon-avi.png"  ng-if="row.fileType=='avi'">
-                                    <img src="imgs/pro-icon/icon-mp4.png"  ng-if="row.fileType=='mp4'">
-                                    <img src="imgs/pro-icon/icon-mov.png"  ng-if="row.fileType=='mov'">
-                                    <img src="imgs/pro-icon/icon-flv.png"  ng-if="row.fileType=='flv'">
-                                    <img src="imgs/pro-icon/icon-swf.png"  ng-if="row.fileType=='swf'">
-                                    <img src="imgs/pro-icon/icon-wmv.png"  ng-if="row.fileType=='wmv'">
-                                    <img src="imgs/pro-icon/icon-mpeg.png"  ng-if="row.fileType=='mpeg'">
-                                    <img src="imgs/pro-icon/icon-mpg.png"  ng-if="row.fileType=='mpg'">
+                                    <img src="imgs/pro-icon/icon-avi-s.png"  ng-if="row.fileType=='avi'">
+                                    <img src="imgs/pro-icon/icon-mp4-s.png"  ng-if="row.fileType=='mp4'">
+                                    <img src="imgs/pro-icon/icon-mov-s.png"  ng-if="row.fileType=='mov'">
+                                    <img src="imgs/pro-icon/icon-flv-s.png"  ng-if="row.fileType=='flv'">
+                                    <img src="imgs/pro-icon/icon-swf-s.png"  ng-if="row.fileType=='swf'">
+                                    <img src="imgs/pro-icon/icon-wmv-s.png"  ng-if="row.fileType=='wmv'">
+                                    <img src="imgs/pro-icon/icon-mpeg-s.png"  ng-if="row.fileType=='mpeg'">
+                                    <img src="imgs/pro-icon/icon-mpg-s.png"  ng-if="row.fileType=='mpg'">
                                     <!--音频-->
-                                    <img src="imgs/pro-icon/icon-mp3.png" ng-if="row.fileType=='mp3'">
-                                    <img ng-if="row.fileType=='other'" src="imgs/pro-icon/icon-other.png" alt="">
+                                    <img src="imgs/pro-icon/icon-mp3-s.png" ng-if="row.fileType=='mp3'">
+                                    <img ng-if="row.fileType=='other'" src="imgs/pro-icon/icon-other-s.png" alt="">
                                 </td>
                                 <td><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
                                     <!-- <span class="be-proview"></span> -->

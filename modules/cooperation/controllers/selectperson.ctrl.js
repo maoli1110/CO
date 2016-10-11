@@ -2,8 +2,8 @@
 /**
  * 选择负责人/联系人
  */
-angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items',
-	function ($scope, $http, $uibModalInstance,Cooperation,items) {
+angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', '$uibModalInstance','Cooperation','items','$timeout',
+	function ($scope, $http, $uibModalInstance,Cooperation,items,$timeout) {
 		//选择负责人,联系人
 		//设置默认值
 		var flag = {
@@ -38,6 +38,12 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 				deptId:defaultDeptId,
 				searchText:$scope.queryForm
 			};
+			$timeout(function() {
+                $('.selectpicker').selectpicker({
+                    style: '',
+                    size: 'auto'
+                });
+            }, 300);
 			//默认联系人列表
 			Cooperation.getUserList(queryData).then(function (data) {
 				// var imgSrc = './imgs/icon/defalut.png';
@@ -268,7 +274,11 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			if($scope.responsiblePerson != '') {
 				$uibModalInstance.close($scope.responsiblePerson);
 			} else {
-				alert('请选择负责人');
+				//alert('请选择负责人');
+				layer.alert('请选择负责人', {
+					title:'提示',
+					closeBtn: 0
+				});
 			}
 		}
 

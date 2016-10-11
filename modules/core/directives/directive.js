@@ -80,12 +80,13 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(".table-list.draft-box").hide();
             })
                     //动态列表图片定位动画
-            $(".list").on("mouseenter",".tools_bar",function(){
-            	$(this).children(".bar").animate({"bottom":'0'})
-            });
-            $(".list").on("mouseleave",".tools_bar",function(){
-                $(this).children(".bar").animate({"bottom":'-28px'})
-            });
+            //$(".list").on("mouseenter",".tools_bar",function(){
+            //	$(this).children(".bar").animate({"bottom":'0'})
+            //});
+            //$(".list").on("mouseleave",".tools_bar",function(){
+            //    $(this).children(".bar").animate({"bottom":'-28px'})
+            //});
+
          //   协作首页点击表格编辑状态
          //   $(".table-list>table").on('click','edit-click',function(){
          //       alert(123)
@@ -98,7 +99,6 @@ angular.module('core').directive('copyRadio', function ($timeout) {
             })
          //   新建相关人点击选中事件委托
             $(".select-person-related-modal .left .person-list").on("click",".select-check",function(){
-
                 //删除默认状态
                 $('li ').css("background",'#fff')
                 $(".user-chioce").hide();
@@ -176,6 +176,7 @@ angular.module('core').directive('scrollDirective', function () {
         return {
             restrict: 'AE',
             link: function (scope, ele, attr) {
+
                 var sideHeight = $(window).height()-124;
                $("#content-a2").mCustomScrollbar({
                    mouseWheelPixels:200,
@@ -187,7 +188,7 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:10,
-                     setHeight:$(window).height()-128,
+                     setHeight:$(window).height()-52,
                     theme:"minimal"
                 });
                 $("#content-a4").mCustomScrollbar({
@@ -270,6 +271,12 @@ angular.module('core').directive('scrollDirective', function () {
                     scrollSpeed:10,
                     theme:"minimal"
                 });
+                $("#content-a16").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
+                    theme:"minimal"
+                });
                 //$("#content-a3").mCustomScrollbar({
                 //    theme:"minimal"
                 //});
@@ -277,7 +284,7 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:5,
-                    setHeight:$(window).height()-128,
+                    setHeight:$(window).height()-52,
                     theme:"minimal",
                     advanced:{
                         updateOnBrowserResize:false
@@ -450,13 +457,12 @@ angular.module('core').directive('showSelect', function($timeout) {
     return {
         restrict: 'AE',
         link: function(scope, element, attr) {
-                $('.identify').addClass('selectpicker');
                 $timeout(function() {
                     $('.selectpicker').selectpicker({
                         style: '',
                         size: 'auto'
                     });
-                }, 300);
+                },0);
             }
     };
 });
@@ -540,18 +546,6 @@ angular.module('core').directive('bvOperation', function($document) {
 });
 //$(" #content-a3").height($(window).height()-125)
 window.onresize = function(){
-    $(" #content-a3").height($(window).height()-125);
-    $(" #content-b1").height($(window).height()-125);
+    $(" #content-a3").height($(window).height()-52);
+    $(" #content-b1").height($(window).height()-52);
 }
-//angular.module('core').directive(' globalDown', function($timeout) {
-//    return {
-//        restrict: 'AE',
-//        link: function(scope, element, attr) {
-//            $('.replay-down').hover(function(){
-//                $(this).find('img').css('display','none')
-//            },function(){
-//                $(this).find('img').css('display','block')
-//            })
-//        }
-//    };
-//});

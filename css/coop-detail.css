@@ -26,7 +26,7 @@
     font-size:14px;
 }
 .detail-computer .detail-dir{
-    border:1px solid #ddd;min-height:80px;padding: 3px 8px;
+    border:1px solid #ddd;min-height:108px;padding: 3px 8px;text-indent:28px;
 }
 
 /*---------------------main--------------------*/
@@ -281,7 +281,7 @@ a:hover{color:#c00;text-decoration:underline;}
 .Avatar .photo dl{
     height: 100px;
     display: inline-block;
-    margin-right:36px;
+    margin-right:32px;
     text-align:center;
     font-size:12px;
     margin-left:0px;
@@ -471,6 +471,7 @@ a:hover{color:#c00;text-decoration:underline;}
 .reply .say .comment .say-content .look-return{
    width: 80px;
 }
+
 /*-----------principal(个人信息)-----------------------------*/
 .principal{
     width:30%;
@@ -736,12 +737,15 @@ html,body{
     margin-top:3px;
 }
 .mobile-devices .play-audio{
-    width: 55%;
-    height: 30px;
-    /*background: #65C17D url(../imgs/play.png) 32px center no-repeat;*/
+    width: 49%;
+    height: 40px;
+    background: #65C17D url(../imgs/play.png) 32px center no-repeat;
     background: #5c58f9;
    padding:0 15px;
    border-radius:5px;
+}
+.dashed .play-audio{
+    height:30px;
 }
 .mobile-devices .play-audio:active{
     background:#4e4ae3;
@@ -1001,6 +1005,9 @@ textarea{
     border-radius:50%;
     border:1px solid #ddd;
 }
+.show-more-btn span{
+    padding-right:10px;
+}
 .mobile-main .mobile-relate .show-more-btn {
     position:absolute;
     bottom:10px;
@@ -1214,19 +1221,6 @@ textarea{
     overflow:auto;
 }
 
-/*已读 未读 已通过 已拒绝颜色状态*/
-.color-gray{
-     color:#808080;
-}
-.color-green{
-    color:#3fce61;
-}
-.color-blue{
-    color:#1c93ef;
-}
-.color-orange{
-    color:#ef6411;
-}
 .detailType-brands>img{
     box-shadow: 4px 4px 10px rgba(78,83,76,0.35);
 }

@@ -1,6 +1,6 @@
 <style>
 	.content-container {
-	     height:calc(100vh - 150px);
+	     height:calc(100vh - 40px);
 	 }
 	.content-scroll-container {
 	    overflow:auto;
@@ -52,24 +52,24 @@
                 <dl ng-repeat="item in collaList.relevants" class="photoImg" >
                     <dt><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
                     <dd class="substr" title="{{item.username}}" style="font-size:14px;">{{item.username}}</dd>
-                    <dd ng-class="{'margin-bottom20':isRevlentMore}" ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
-                    <dd ng-class="{'margin-bottom20':isRevlentMore}" ng-if="!item.isPassed && !item.isRejected && !item.isReaded" class="color-green">未读</dd>
-                    <dd ng-class="{'margin-bottom20':isRevlentMore}" ng-if="item.isPassed" class="color-blue">已通过</dd>
-                    <dd ng-class="{'margin-bottom20':isRevlentMore}" ng-if="item.isRejected" class="color-orange">已拒绝</dd>
+                    <dd   ng-class="{'margin-bottom20':isRevlentMore}" ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
+                    <dd   ng-class="{'margin-bottom20':isRevlentMore}" ng-if="!item.isPassed && !item.isRejected && !item.isReaded" class="color-green">未读</dd>
+                    <dd   ng-class="{'margin-bottom20':isRevlentMore}" ng-if="item.isPassed" class="color-blue">已通过</dd>
+                    <dd   ng-class="{'margin-bottom20':isRevlentMore}" ng-if="item.isRejected" class="color-orange">已拒绝</dd>
                     <div class="detail-sign" ng-if="item.needSign">
                         <img src="imgs/detail-icon-sign.png" alt="">
                     </div>
                 </dl>
             </div>
-            <div ng-show="isRevlentMore" style="margin-top:10px;">
-                <div class="show-more-btn" ng-click="showMorePerson()"  ng-show="!showMore">显示更多</div>
-                <div class="show-more-btn" ng-click="showMorePerson()" ng-show="showMore">收起</div>
+            <div ng-show="isRevlentMore" class="show-more-btn" style="margin-top:10px;text-align:center;color:#909090;" >
+                <span ng-show="showMore" ng-click="showMorePerson()">显示更多</span>
+                <span ng-show="collapse"  ng-click="collapsePerson()">收起</span>
             </div>
         </div>
         
         <!--照片-->
         <div class="mobile-photo col-xs-12 clearfix">
-            <div class="photo-title col-xs-1 F14 col-xs-2"> 照片:</div>
+            <div class="photo-title col-xs-2 F14 col-xs-2"> 照片:</div>
             <div class="photo-con col-xs-10 col-md-11" style="float:right;padding:0 7px;">
                 <dl class="photo-list" ng-repeat="item in collaList.pictures">
                     <dt class="rela detail-sear"  style="background:url('{{item.fileUrl}}');background-size:cover;" ng-click="zoom(item.uuid)">

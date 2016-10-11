@@ -57,6 +57,8 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
     	var coTypeVo = items.coTypeVo;
     	var date = Common.dateFormat1(new Date());
     	var uploadList = [];
+    	var	uploadResult = true;
+    	var errorUpload = "";
 
 
 
@@ -79,12 +81,33 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 	    	$('.upload-docs').attr('nv-file-select', '');
 	    	$('.upload-docs').click();
 	    }
-
+	    
+	    uploader1.onAfterAddingFile  = function(fileItem) {
+	    	var errorMessage='';
+			if(fileItem.file.size <=0){
+				errorMessage = "文件错误，不能上传！";
+			}
+			if(fileItem.file.size >=50000000){
+				errorMessage = "文件大小超过50M限制！";
+			}
+			if(errorMessage){
+				fileItem.remove();
+				layer.alert(errorMessage, {
+					title:'提示',
+					closeBtn: 0
+				});
+			}
+   		}
+	    
        	$scope.ok = function() {
 			if(!$scope.comment){
 				$scope.isUpdataOK = true;
 				return;
 			}
+			//调用layer加载层
+       		var createindex = layer.load(1, {
+                    shade: [0.1,'#000'] //0.1透明度的黑色背景
+            });
 
 			$scope.status = parseInt($scope.status);
        		var data = {
@@ -103,42 +126,81 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 	    	//2.每次上传回调给赋值
 	    	//点击确定保存图片和评论文字，去主页面调用更新评论reload详情页面
 
+   		/*uploader1.onBeforeUploadItem = function(item) {
+   			if(!uploadResult){
+   				item.cancel();
+   			}
+   		}*/
+   		//每个上传成功之后的回调函数
+   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
+//   			console.info('onSuccessItem', fileItem, response, status, headers);
+   			if(response[0].type == 'success'){
+   				var unit = {};
+   				unit.name = response[0].result.fileName;
+   				unit.md5 = response[0].result.fileMd5;
+   				unit.size = response[0].result.fileSize;
+   				unit.uuid = response[0].result.uuid;
+   				unit.suffix = response[0].result.suffix;
+   				uploadList.push(unit);
+   			}else if(response[0].type == 'error'){
+   				//上传失败,记录失败的记录，提示用户
+   				uploadResult = false;
+   				errorUpload+="<br/>";
+   				errorUpload+=fileItem.file.name;
+   			}
+   			
+   		};
+   		
+   		uploader1.onErrorItem = function(item, response, status, headers){
+   			if(status == 404){
+   				errorUpload = "文件大小超过50M限制！";
+   			}
+   			uploadResult = false;
+   		}
+   		
+   		//全部成功的回调函数
+   		uploader1.onCompleteAll = function() {
+   			onCompleteAllSignal = true;
+   			data.comment.docs = uploadList;
+   			if(!uploadResult){
+                layer.close(createindex);
+   				layer.alert("以下文件上传失败：" + errorUpload, {
+   					title:'提示',
+   					closeBtn: 0
+   				},function(index){
+   				  //do something
+   					$uibModalInstance.dismiss();
+   				});
+   			}else{
+   				Cooperation.commentToCollaboration(data).then(function (data) {
+   					$state.go($state.current, {}, {reload: true});
+   				},function(data) {
+   					//提示错误信息
+   					layer.alert(data.message, {
+   		    		  	title:'提示',
+   					  	closeBtn: 0
+   					},function(index){
+   	   				  //do something
+   	   					$uibModalInstance.dismiss();
+   	   					layer.closeAll();
+   	   				});
+   				});
+   			}
+   			layer.close(createindex);
+   			
+   		};
 		if(uploader1.queue.length) {
 			$scope.uploadBegin = true;
    			uploader1.uploadAll();
    		} else {
+   			layer.close(createindex);
    			$uibModalInstance.close(data);
    		}
-   		//每个上传成功之后的回调函数
-   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
-	            console.info('onSuccessItem', fileItem, response, status, headers);
-	            var unit = {};
-	            unit.name = response[0].result.fileName;
-	            unit.md5 = response[0].result.fileMd5;
-	            unit.size = response[0].result.fileSize;
-	            unit.uuid = response[0].result.uuid;
-	            unit.suffix = response[0].result.suffix;
-	            uploadList.push(unit);
-		};
-				//全部成功的回调函数
-				uploader1.onCompleteAll = function() {
-					onCompleteAllSignal = true;
-					data.comment.docs = uploadList;
-					if(uploader1.progress == 100) {
-						$uibModalInstance.close(data);
-					}
-
-				};
-
-
-
     }
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     }
-	//$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
-	//	$(".update-comment .updata-up li:odd").css({'margin-right':'0','float':'right'})
-	//})
 
+    
 }]);

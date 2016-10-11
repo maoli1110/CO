@@ -11,6 +11,9 @@
 <div ng-include="'template/cooperation/coop_editdetail_bv.html'" scope="" onload=""></div>
 <!-- 存储pc端过来的coid -->
 <input type="hidden" id="checkformbe" ng-click="checkFromBe()">
+<!-- 跳转协作管理frombe -->
+<input id="deptId_formbe" type="hidden" ng-click="transCoManageFrombe()">
+<input id="ppid_formbe" type="hidden">
 <script>
     //手机端协作编辑调用确定按钮
     function coEditSave () {

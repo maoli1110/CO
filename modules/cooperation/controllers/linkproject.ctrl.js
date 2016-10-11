@@ -86,7 +86,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 					data[x].iconSkin = "revit";//"imgs/icon/4.png";
 				} else if(data[x].type == 3 && data[x].value.indexOf("5-3-") == 0 ) {					// Tekla
 					data[x].iconSkin = "tekla"; //"imgs/icon/5.png";
-				}
+				}	// TODO PDF图标 目前还没遇到pdf工程 不清楚value的规律
 				if (data[x].children != null && data[x].children.length>0)
 				{
 					findAllChilds(data[x].children);

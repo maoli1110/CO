@@ -201,6 +201,9 @@ li {
     overflow:hidden;
     text-align: center;
 }
+.reply-name{
+    margin-top:10px;
+}
 .break-word {
     word-wrap: break-word;
 }
@@ -230,9 +233,15 @@ li {
     padding-bottom:5px;
     top:40px !important;
     /*max-width: 90%;*/
+    width: 1px;
 }
-.btn-success.active, .btn-success:active{
-    background:red;
+/*.btn-success.active, .btn-success:active{*/
+    /*background:red !important;*/
+/*}*/
+.proInfo .btn-default:hover{
+    color: #65C17D ;
+    background-color:#fff;
+    border-color: #65C17D ;
 }
 .ng-empty{
     background:#fff !important;
@@ -256,8 +265,19 @@ li {
     background: #fff;
     border: 1px solid #ddd;
 }
+.modal-body .dropdown-toggle{
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+}
 .create .btn-link1:hover {
     background: #d8dbe5;
+}
+.create .uib-datepicker-current{
+    background:#65C17D !important;
+    border-radius:5px !important;
+    margin-right: 10px;
+    border: 0;
 }
 .upload .btn-add {
     background: #eceef0;
@@ -327,9 +347,6 @@ padding: 5px 25px;
 .modal-footer .btn-cancel:hover {
     color:#fff !important;
 }
-.modal-footer{
-    border:0;
-}
 
 .modal-footer .btn-cancel {
     color: #fff;
@@ -362,7 +379,7 @@ padding: 5px 25px;
 .btn-green.btn-success:hover{
     background:#55ad6c;
 }
-.btn-green.btn-success:not(.btn-sm):active{
+.btn-green.btn-success:active{
     background:#4a965e;
 }
 .btn-default{
@@ -372,6 +389,14 @@ padding: 5px 25px;
     backgroud:#979ba8;
 }
 
+.proInfo .btn-default.active{
+    color: #fff !important;
+    background-color: #65c17d;
+    border-color: #65c17d;
+}
+.proInfo .btn-default.active .text-info{
+    color:#fff;
+}
 .btn-default.btn-cancel:hover{
     background:#777b8a;
     color:#fff;
@@ -391,19 +416,19 @@ padding: 5px 25px;
     /*line-height: 16px;*/
     /*border: 0;*/
 /*}*/
-.btn-sm.btn-info{
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px !important;
-    background:#65C17D;
-    border:0;
-    margin-right:10px;
-}
+/*.btn-sm.btn-info:not(span){*/
+    /*-webkit-border-radius: 5px;*/
+    /*-moz-border-radius: 5px;*/
+    /*border-radius: 5px;*/
+    /*background:#65C17D;*/
+    /*border:0;*/
+    /*margin-right:10px;*/
+/*}*/
 .btn-sm.btn-danger{
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px !important;
-    background:#65C17D ;
+    background:#65C17D !important ;
     border:0 ;
 }
 .btn-sm.btn-success{
@@ -426,15 +451,15 @@ padding: 5px 25px;
     /*background: #969aa7;*/
     /*color:#fff;*/
 /*}*/
-.btn.btn-success{
+.btn.btn-success:{
     background:#65c17d;
     border:0;
 }
-.btn.btn-success:not(.btn-sm):hover{
+.btn.btn-success::hover{
     background:#55ad6c;
     border:0;
 }
-.btn.btn-success:not(.btn-sm):active{
+.btn.btn-success::active{
     background:#4a965e;
     border:0;
 }
@@ -467,7 +492,7 @@ padding: 5px 25px;
 .footer-commom >.btn-default:hover ,.footer-commom .btn-default:visited ,.footer-commom .btn-default:focus{
     color:#fff !important;
 }
-.footer-commom>.btn:hover ,.footer-commom .btn:focus{
+.footer-commom>.btn:hover ,.footer-commom .btn:not(btn-success,btn-cancel):focus{
     background:#65C17D;
     color:#fff;
 }
@@ -599,7 +624,7 @@ padding: 5px 25px;
     color: #fff;
     background-color: #65c17d;
 }
-.btn-success:not(.btn-sm):hover {
+.btn-success:hover {
     color: #fff;
     background-color: #65c17d;
     border-color: #5cb85c;
@@ -755,7 +780,7 @@ padding: 5px 25px;
     border:0;
 }
 .header .header-avatar{
-    max-width: 80px;float: left;text-align: left;padding-left: 3px;margin-bottom:4px;margin-top:-3px;
+    max-width: 80px;float: left;text-align: left;margin-bottom:4px;margin-top:-3px;
 }
 .header .header-role{
     max-width: 181px;
@@ -946,8 +971,8 @@ padding: 5px 25px;
 }
 .right-content .operation {
     background: #EDEEF0;
-    padding: 5px 15px;
-    height: 59px;
+    padding: 0px 15px;
+    height: 49px;
     line-height: 59px;
 }
 .operation .left {
@@ -1733,6 +1758,7 @@ textarea{
 }
 .select-person-related table tr .is-sign span{
     float:left;
+    margin-left:10px;
 }
 .select-person-related table tr .is-sign label input[type=checkbox]+div{
     /*background:red;*/
@@ -1748,13 +1774,14 @@ textarea{
     margin-top: -4px;
     float:left;
     margin-left:10px;
-    margin-rigth:10px;
+    padding-rigth:10px;
 }
 .select-person-related .right .avatar-pic img{
     width:37px;
     height:37px;
     border-radius:50%;
-    border:1px solid #ddd;
+    border:2px solid #dbdee7;
+
 
 }
 .select-person-related .right .handle-active{
@@ -1815,12 +1842,13 @@ textarea{
     max-height:420px !important;
 }
 .select-person-responsible-modal .bootstrap-select.btn-group .dropdown-menu{
-    width:218px !important;
+    min-width:138px !important;
 
 }
 .basicInfo .input-group  .dropdown-menu{
-   max-width:145% !important;
-    left:-80px !important;
+    width:260px;
+    max-width:269px;
+    left:-41px !important;
 }
 .basicInfo .input-group,.basicInfo .input-group .calder:focus{
     outline-color:#65C17D !important;
@@ -2089,7 +2117,6 @@ textarea{
     visibility: visible;
 }
 .linkbe table tbody tr td>img{
-    width:44%;
     margin-right:5px;
 }
 .linkbe table tbody tr td p.substr{
@@ -2280,13 +2307,30 @@ textarea{
     display:inline-block;
     float:none !important;
     margin-top:0;
-    font-size:12px;
+    font-size:14px;
 }
 .margin20{
     margin-top:15px;
     width:80px;
     display:inline-block;
     font-size:12px;
+}
+.margin-bottom20{
+    margin-bottom:20px;
+}
+
+/*已读 未读 已通过 已拒绝颜色状态*/
+.color-gray{
+    color:#808080;
+}
+.color-green{
+    color:#3fce61;
+}
+.color-blue{
+    color:#1c93ef;
+}
+.color-orange{
+    color:#ef6411;
 }
 .operation .left{
     line-height:48px;
@@ -2497,6 +2541,7 @@ textarea{
     width:50px;
     height:50px;
     border-radius:50%;
+    border:2px solid #dbdee7;
 }
 .relative-ion  li{
     cursor:pointer;
@@ -2534,7 +2579,7 @@ textarea{
 .new-man{
     padding:0 13px;
 }
-.btn-sm.bnt-success{
+.uib-close.bnt-success{
     width:auto;
 }
 .updata-photo{
@@ -2722,4 +2767,8 @@ textarea{
 }
 .replay-down>.user-down img{
     vertical-align:middle!important;
+}
+.reply-time{
+    text-align:right;padding:10px 0;
+    color:#999;
 }

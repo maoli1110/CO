@@ -2,6 +2,24 @@
 .container {
 	/*width: 1200px !important;*/
 }
+
+.popBox{
+	width:auto;height:auto;border:1px solid rgba(0,0,0,0.3);border-radius:3px;box-shadow:1px 3px 3px rgba(0,0,0,0.5);margin-top:10px;
+	position: absolute;left:100%;top:-160px;padding:20px 50px;margin-left:10px;
+}
+.arrow-outer{
+	width:7px;height:12px;position:absolute;
+	bottom:10px;left:-7px;overflow:hidden
+}
+.arrow{
+	border:1px solid rgba(0,0,0,0.5);width:10px;height:10px;position:relative;left:2px;
+	-webkit-transform:rotate(45deg);-o-transform:rotate(45deg);background:#FFFFFF;
+	-moz-transform:rotate(45deg);
+}
+	.buttonOut{
+		position: absolute;
+		margin-left:-3px;
+	}
 </style>
 <div ng-show="!flag.isPreview">
 	<div class="inner">
@@ -26,7 +44,7 @@
 	        </div>
 	    </header>
 	</div>
-	<div class="container con-content" >
+	<div class="container con-content">
 		<div class="create">
 			<!-- <div><input value="test" type="button" ng-click="test()"></div>  -->
 		<form name="create_form" id="create-form" novalidate="" >
@@ -47,9 +65,9 @@
 						  	<option value="3">Ⅲ</option>
 						</select>
 					</div>
-					<div class="row coop-Levels" show-select>
+					<div class="row coop-Levels">
 						<label class="col-xs-2">标识：</label>
-					  	<select class="identify col-xs-6" ng-model="mark" ng-click="switchMark(mark)">
+					  	<select class="selectpicker1 col-xs-6" ng-model="mark" ng-click="switchMark(mark)">
 					  		<option value="{{item.markerId}}" 
 					  			data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
 					  					<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
@@ -247,8 +265,24 @@
 			            </li>
 			            <p class="substr" style="margin-top:4px;width: 100px;" title="{{item.file.name}}">{{item.file.name}}</p>
 			        </ul>
-					<ul class="inline"><button class="btn  btn-add btn-lg" popover-trigger="'focus'" class="form-control" popover-placement="right" uib-popover-template="dynamicPopover.templateUrl" style="margin-left:-3px;"><span>+</span></button></li>
+					<ul class="inline">
+						<div class="buttonOut">
+							<button class="btn  btn-add btn-lg" popover-trigger="'focus'" ng-click="popBoxState()" ><span>+</span></button>
+							<div class="popBox"  ng-show="!isEven()">
+								<div class="arrow-outer">
+									<div class="arrow"></div>
+								</div>
+								<div class="pop-title">请选择协作内容</div>
+								<div class="row pop-content">
+									<button class="btn btn-link1" ng-click="linkBe()" style="margin-left:0px !important"><span>引用BE资料</span></button>
+									<button class="btn btn-link1" ng-click="linkForm()"><span>选择表单</span></button>
+									<button class="btn btn-link1" ng-click="docsUpload()"><span>上传资料</span></button>
+								</div>
+							</div>
+						</div>
+						</li>
 					</ul>
+					<div style="height: 100px;"></div>>
 				</div>
 			</div>
 		</form>
@@ -311,6 +345,9 @@
 </div>
 <!-- 存储pc端过来的coid -->
 <input type="hidden" id="checkformbe" ng-click="checkFromBe()">
+<!-- 存储pc端deptid ppid -->
+<input id="deptId_formbe" type="hidden" ng-click="transCoManageFrombe()">
+<input id="ppid_formbe" type="hidden">
 
 <!-- <div onclick="transCoDetail()" style="position:fixed;z-index:1000;top:20px">transCoDetail</div> -->
 
@@ -322,12 +359,6 @@
 </script>
 
 <script>
-	//跳转协作管理
-	function transCoManage (deptId,ppid) {
-		//pc跳转传递deptId, ppid 定位到当前工程
-		document.location= '#/cooperation?deptId='+deptId+'&ppid='+ppid;
-	}
-
 	//跳转协作详情-第二版
 	function transCoDetail (coid) {
 		// document.location= '#/coopdetail/?coid='+ coid;

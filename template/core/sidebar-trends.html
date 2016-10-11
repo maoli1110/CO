@@ -1,8 +1,8 @@
-<div class="trents" style="height:calc(100vh - 65px);overflow:hidden;">
-<div  class="system-time">
-    {{serviceTime.sysTime}}<span style="margin-left:17px;">{{serviceTime.sysWeek}}</span>
-</div>
-<div scroll-directive id="content-a3" style="overflow:auto" class="manage_bar" copy-radio>
+<div class="trents" style="height:calc(100vh - 62px);overflow:hidden;background:#353944">
+<!--<div  class="system-time">-->
+    <!--{{serviceTime.sysTime}}<span style="margin-left:17px;">{{serviceTime.sysWeek}}</span>-->
+<!--</div>-->
+<div scroll-directive id="content-a3" style="overflow:auto;" class="manage_bar" copy-radio>
     <uib-accordion close-others="true"   class="manage_title">
         <div uib-accordion-group class="panel-default pro-list-name"  is-open="status.open" ng-repeat="deptInList in deptInfoList track by $index" profit-dept>
           <uib-accordion-heading  class="sideText">
