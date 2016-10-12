@@ -2,8 +2,8 @@
 /**
  * updatecommentCtrl
  */
-angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$scope', '$http', '$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
-    function ($rootScope,$scope, $http, $uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
+angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$scope', '$http', '$state','$uibModalInstance','Cooperation','items','Common','FileUploader','$timeout',
+    function ($rootScope,$scope, $http, $state,$uibModalInstance,Cooperation,items,Common,FileUploader,$timeout) {
     	var onCompleteAllSignal = false;
     	$scope.uploadBegin = false;
     	$scope.zhenggai = false;
@@ -30,31 +30,14 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 				$scope.status = '5';
 				break;
 		}
-		//如果是问题整改则显示状态
-		var isShowArr = ["已结束","已通过","已通过","进行中","待确认"];
-		//debugger
-		if(isShowArr.indexOf($scope.status) == -1) {
+		var coTypeVo = items.coTypeVo;	// coTypeVo === 1 问题整改
+		var isShowArr = ["已结束","已通过","已拒绝"];
+		// 只有状态是问题整改且不是已结束、已通过、已拒绝状态 才显示状态
+		if(coTypeVo === 1 && isShowArr.indexOf($scope.status) == -1) {	// isShowArr中不包括$scope.status
 			$scope.zhenggai = true;
 			$(".detail-state").show();
-		} else if( coTypeVo === 1) {
-			$scope.zhenggai = true;
-			$(".detail-state").show();
-		}else{
-			$(".detail-state").hide();
 		}
-		//switch($scope.status){
-		//	case "已结束":
-		//		$scope.zhenggai = false;
-		//		break;
-		//	case "已通过":
-		//		$scope.zhenggai = false;
-		//		break;
-		//	case "已拒绝":
-		//		$scope.zhenggai = false;
-		//		break;
-		//}
     	//详情展示页添加更新
-    	var coTypeVo = items.coTypeVo;
     	var date = Common.dateFormat1(new Date());
     	var uploadList = [];
     	var	uploadResult = true;

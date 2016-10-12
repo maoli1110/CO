@@ -10,6 +10,10 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
             $scope.device = true;
         }
+        //如果当前andriod版本低于4.3则使用原生的select代替
+        if(client.system.android && client.system.android < 4.3){
+            $scope.flag.adroidLs4 = true;
+        }
         $scope.showMore = false;
 		$scope.collapse = false;
         var coid = $stateParams.coid;
@@ -28,7 +32,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             yearColumns:3
         };
         //详情描述多行文本框随内容去撑开
-
         $scope.open2 = function () {
             //console.info(123123131)
             $scope.popup2.opened = true;
@@ -57,7 +60,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 	   	var relatedNews = [];
         Cooperation.getCollaboration(coid).then(function (data) {
 
-        	console.info(data)
+//        	console.info(data)
         	angular.forEach(data.relevants,function(value,key){
         		value.mustExist = true;	// 编辑时原有的相关人是否必须存在 true必须存在  false可以不存在
         		value.canSign = true;	// 编辑时原有的相关人是否可以修改签字 true可以  false不可以
@@ -155,10 +158,13 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     }
                    
                 });
-                //type = 0 问题整改
-                if(data.coTypeVo.type == 1) {
-                    $scope.zhenggai = true;
-                }
+                // data.coTypeVo.type === 1 问题整改
+        		var isShowArr = ["已结束","已通过","已拒绝"];
+        		// 只有状态是问题整改且不是已结束、已通过、已拒绝状态 才显示状态
+        		if(data.coTypeVo.type === 1 && isShowArr.indexOf($scope.status) == -1) {	// isShowArr中不包括$scope.status
+        			$scope.zhenggai = true;
+        			$(".detail-state").show();
+        		}
             }
             //详情联系人
             if($scope.collaList.relevants.length==0){
@@ -436,7 +442,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //选择相关人
         $scope.selectRelated = function () {
             var modalInstance = $uibModal.open({
-                windowClass:'select-person-related-modal',
+                windowClass:'edit-related',
                 size:'lg',
                 backdrop : 'static',
                 templateUrl: 'template/cooperation/select_person_related.html',
@@ -529,6 +535,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 
         // 返回上个页面
         $scope.backDetail = function() {
+        	//解锁协作
+        	Cooperation.checkIn(coid).then(function(data){
+    		});
         	$state.go('coopdetail', {'coid':coid});
         }
 
@@ -629,7 +638,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //跳转新页面去除心跳机制
         $scope.$on('$stateChangeStart', 
             function(event, toState, toParams, fromState, fromParams){
-                console.log(toState, toParams, fromState);
+//                console.log(toState, toParams, fromState);
                 clearInterval(ApplicationConfiguration.refreshID);
         });
         /*//显示更多相关人

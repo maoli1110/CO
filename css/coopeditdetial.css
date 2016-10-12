@@ -380,11 +380,11 @@ a:hover{/*color:#000;text-decoration:underline;*/}
 .action{
     /*padding:40px 0;*/
     padding-top:40px;
-    padding-bottom:10px;
+    padding-bottom:40px;
     border-bottom:1px solid #ddd;
 }
 .action.pc-means{
-    padding-bottom:0 !important;
+    padding-bottom:40 !important;
 }
 .action dl{
     display: inline-block;
@@ -872,7 +872,7 @@ html,body{
 }
 .mobile-main .photo-list{
     float:left;
-    margin-right:10px;
+    margin-right:7px;
     margin-bottom:20px;
 
 }
@@ -921,8 +921,8 @@ html,body{
     float:right;
 }
 .mobile-main .uib-datepicker-popup.dropdown-menu {
-    left: -42px !important;
-    width:92%;
+    left: -10% !important;
+    padding:7px;
 }
 .line-h22{
     margin-top:15px;
@@ -1088,10 +1088,12 @@ html,body{
     width:45px;
     height:45px;
     border-radius:50%;
+    border:1px solid #ddd;
 }
 /*照片*/
 .mobile-main .mobile-photo{
-    padding:20px 0;
+    padding-top:20px;
+    padding-bottom:0px;
     border-bottom: 1px solid #ddd;
 }
 .mobile-main .mobile-photo .photo-title{
@@ -1136,13 +1138,13 @@ html,body{
 }
 /*移动端资料*/
 .mobile-main .mobile-means{
-    padding: 20px 0px;
+    padding-top:20px;
     border-bottom: 1px solid #ddd;
 }
 .mobile-main .mobile-means .means-con dl{
     width:70px;
     display:inline-block;
-    margin-right: 11px;
+    margin-right: 7px;
     font-size:16px;
 }
 .mobile-main .mobile-means .means-con dl dd{
@@ -1185,7 +1187,6 @@ html,body{
 /*回复*/
 .mobile-main .mobile-reply{
     padding:0;
-    margin-bottom: 70px;
 }
 .mobile-main .say-content .dashed {
     border-bottom: 0.1em dashed #ddd;
@@ -1202,13 +1203,16 @@ html,body{
     border-radius:50%;
 }
 .mobile-main .reply-con .reply-reply .reply-box{
-    border:1px solid #ddd;
+    /*border:1px solid #ddd;*/
     min-height:60px;
-    border-radius:5px;
+    /*border-radius:5px;*/
     float:right;
 }
 .mobile-main .reply-con .reply-reply .replys{
-    margin-top:8px;
+    margin-top:18px;
+}
+.mobile-main .reply-con .reply-reply .replys .say-content{
+    padding:0 10px;
 }
 .mobile-main .reply-con .reply-reply .replys .say-content .comment >div > img{
     width: 50px;

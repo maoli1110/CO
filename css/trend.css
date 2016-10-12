@@ -43,7 +43,7 @@
 }
 /*--------------good_list------------------*/
 .trends .good_list{
-    width: 99%;
+    width: 98%;
     margin: 18px;
     margin-bottom:0;
 }
@@ -157,7 +157,8 @@
     margin-right: 10px;
 }
 .trends .pro_list{
-    overflow:auto;
+    overflow-y:auto;
+    overflow-x:hidden;
     min-width:820px;
     display:none;
     /*background:#F4F2F2;*/
@@ -339,43 +340,3 @@
 /*.mCSB_draggerContainer{*/
     /*margin-right:20px;*/
 /*}*/
-.noSearch{
-    height:calc(100vh - 124px);
-    /*display:none;*/
-    text-align:center;
-    color:#ddd;
-}
-
-.noSearch  .noProject{
-   width:220px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -110px;
-    margin-top: -135px;
-}
-.noSearch  .noProject dt{
-    margin-bottom:20px;
-    width: 220px;
-    height: 220px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    margin-bottom:20px;
-    display:inline-block;
-}
-.noSearch  .noProject dt span{
-    width:0%;
-    height:100%;
-    vertical-align: middle;
-    display:inline-block;
-}
-.noSearch  .noProject img{
-    width:200px;
-    vertical-align: middle;
-    padding-left:4px;
-}
-.noSearch  .noProject dd{
-    color:#ccc;
-    font-size:22px;
-    font-family:"Microsoft yahei"
-}

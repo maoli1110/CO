@@ -25,7 +25,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		$scope.isTypePdf = true;//判断文件类型是否是pdf格式
 		$scope.showMore = false;
 		$scope.collapse = false;
-
 		//判断pc or bv
 		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
 			$scope.device = true;
@@ -51,11 +50,24 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	var currentShowPage = 1;
 	   	$scope.transcoid = coid;
 	   	//获取coid对应的协同详情列表
+	   	//
+	   		function replaceAll (strM,str1,str2) {
+	   			var stringList =strM.split(str1);
+	   			for(var i=0;i<stringList.length-1;i++){
+                  stringList[i]+=str2;
+	   			}
+	   			var newstr='';
+	   			for(var j=0;j<stringList.length;j++)newstr+=stringList[j];
+	   				return newstr;
+
+	   		}
 	   	Cooperation.getCollaboration(coid).then(function (data) {
+
 	   		$scope.collaList = data;
-			//console.info('$scope.collaList',$scope.collaList)
-//			console.info('需不需要签字',$scope.collaList.relevants)
-			//console.info('collaList.docs',$scope.collaList.docs)
+
+	   	
+	   		document.getElementById("mobile-textarea").innerHTML=replaceAll(data.desc,"\n","</br>");
+
 
 	   		if($scope.device){
 	   			allRelevants = data.relevants;
@@ -146,7 +158,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true; 
 			}
 			//2.2.3	当当前用户不是负责人但是需要签字时
-			if(!data.isCollaborator && data.isSign ==0) {
+			if((!data.isCollaborator && data.isSign==0) ||(!data.isCollaborator && data.isSign==1)) {
 				$scope.bjshow = false;
 				$scope.tjshow = true;
 				$scope.tgshow = true;
@@ -394,7 +406,36 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 	   	//编辑协作跳转
 	   	 $scope.allowEditTrans = function () {
-	   	 	if($scope.allowEdit && !$scope.collaList.isLock) {
+	   		var checkCoLocked = false;
+			$.ajax({
+	              type: "POST",
+	              url: basePath+'rs/co/checkCoLocked/'+coid,
+	              async:false,
+	              contentType:'text/HTML',
+	              success: function(data,status,XMLHttpRequest){
+	            	  if(data){
+	            		  	checkCoLocked = true; 
+		  					layer.alert('当前协作已被“'+data+'”签出，请稍后重试！', {
+		  	        		  	title:'提示',
+		  					  	closeBtn: 0
+		  					},function(index){
+		  						  layer.close(index);
+		  					});
+	  					}
+	              },
+	              error:function(XMLHttpRequest, textStatus, errorThrown){
+	            	  layer.alert(textStatus, {
+	  	        		  	title:'提示',
+	  					  	closeBtn: 0
+	  					},function(index){
+	  						  layer.close(index);
+	  					});
+	              }	
+	        });
+			if(checkCoLocked){
+				return;
+			}
+	   	 	if($scope.allowEdit) {
 	   	 		Cooperation.checkOut(coid).then(function(data) {	
 	   	 		});
 	   	 		$state.go('editdetail', {coid: coid});
@@ -603,48 +644,97 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				docs:[],
 				operationType:statusCode
 			}
-			if(!$scope.collaList.isLock){
-				switch (statusCode) {
-					case 6:
-						layer.confirm('提交后您将不能再修改，若确认通过,请点击确定!', {
-							btn: ['确定','取消'] //按钮
-						},function(){
-							doCollaboration();
-							location.reload();
-						});
-					break;
-					case 7:
-					layer.confirm('拒绝后将不能再修改，若确认拒绝,请点击确定！', {
-						btn: ['确定','取消'] //按钮
-					},function(){
-						doCollaboration();
-						location.reload();
+			/*Cooperation.checkCoLocked(coid).then(function (data) {
+				if(data){
+					layer.alert('当前协作已被“'+data+'”签出，请稍后重试！', {
+	        		  	title:'提示',
+					  	closeBtn: 0
+					},function(index){
+						  layer.close(index);
+						  return;
 					});
-					break;
-					case 8:
-					layer.confirm('结束后您将不能再修改，是否结束？', {
-						btn: ['确定','取消'] //按钮
-					},function(){
-						doCollaboration();
-						location.reload();
-					});
-					break;
-					default:
-					doCollaboration();
-					break;
 				}
-			} else {
+			},function (data) {
+				layer.alert(data.message, {
+        		  	title:'提示',
+				  	closeBtn: 0
+				});
+			});*/
+			var checkCoLocked = false;
+			$.ajax({
+	              type: "POST",
+	              url: basePath+'rs/co/checkCoLocked/'+coid,
+	              async:false,
+	              contentType:'text/HTML',
+	              success: function(data,status,XMLHttpRequest){
+	            	  if(data){
+	            		  	checkCoLocked = true; 
+		  					layer.alert('当前协作已被“'+data+'”签出，请稍后重试！', {
+		  	        		  	title:'提示',
+		  					  	closeBtn: 0
+		  					},function(index){
+		  						  layer.close(index);
+		  					});
+	  					}
+	              },
+	              error:function(XMLHttpRequest, textStatus, errorThrown){
+	            	  layer.alert(textStatus, {
+	  	        		  	title:'提示',
+	  					  	closeBtn: 0
+	  					},function(index){
+	  						  layer.close(index);
+	  					});
+	              }	
+	        });
+			if(checkCoLocked){
+				return;
+			}
+			switch (statusCode) {
+				case 6:
+					layer.confirm('提交后您将不能再修改，若确认通过，请点击确定!', {
+						btn: ['确定','取消'] //按钮
+					},function(){
+						doCollaboration();
+						//location.reload();
+					});
+				break;
+				case 7:
+				layer.confirm('提交后您将不能再修改，若确认拒绝，请点击确定！', {
+					btn: ['确定','取消'] //按钮
+				},function(){
+					doCollaboration();
+					//location.reload();
+				});
+				break;
+				case 8:
+				layer.confirm('提交后您将不能再修改，若确认结束，请点击确定！', {
+					btn: ['确定','取消'] //按钮
+				},function(){
+					doCollaboration();
+					//location.reload();
+				});
+				break;
+				default:
+				doCollaboration();
+				break;
+			}
+			/*} else {
 				layer.alert('当前协作已被“'+$scope.collaList.operationName+'”签出，请稍后重试！', {
         		  	title:'提示',
 				  	closeBtn: 0
 				});
-			}
+			}*/
 			
 			function doCollaboration (){
 				Cooperation.doCollaboration(params).then(function (data) {
-					$state.go('cooperation');
+					layer.closeAll();
+					$state.go($state.current, {}, {reload: true});
 				},function (data) {
-					layer.alert(data.message);
+					layer.closeAll();
+					layer.alert(data.message, {
+	        		  	title:'提示',
+					  	closeBtn: 0
+					});
 				});
 			}
 		}	
@@ -788,7 +878,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					$scope.flag.isPreview = false;
 					BimCo.MessageBox("提示",data.message,0);
 				});
-		    	}
+		    }
 	    }
 
 	    //取消

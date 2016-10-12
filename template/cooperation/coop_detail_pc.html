@@ -1,6 +1,6 @@
 <style>
 	.content-container {
-	     height:calc(100vh - 150px);
+	     height:calc(100vh - 40px);
 	 }
 	.content-scroll-container {
 	    overflow:auto;
@@ -8,7 +8,9 @@
 </style>
 
 <div class="detail-computer" ng-show="!device && !flag.isPreview">
+
     <!--mobile-mark-->
+    <div class="mobile-mark"></div>
         <div class="main" style="margin-bottom:50px;min-width:320px;">
         <!--main_content-->
         <div class="coop-detail inner">
@@ -33,7 +35,7 @@
                     <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span> -->
                 </div>
             </header>
-            <div class="clearfix" style="margin:0 auto;width:1360px;min-width:1000px;">
+            <div class="clearfix" style="margin:0 auto;width:1360px;min-width:1000px;" >
                 <div class="detailType-brands" style="height:100%;float:left;margin-top:127px;margin-left:15px;">
                     <img ng-if="collaList.coTypeVo.name=='问题整改'"  src="imgs/pro_solve.png" alt="">
                     <img ng-if="collaList.coTypeVo.name=='图纸变更'"  src="imgs/term-cad.png" alt="">
@@ -43,7 +45,7 @@
                     <img ng-if="collaList.coTypeVo.name=='阶段报告'"  src="imgs/term-report.png" alt="">
                 </div>
              <div class="container coop-detail-con clearfix" style="display:inline-block">
-            <div class="main_content clearfix">
+            <div class="main_content clearfix" id="detail-1">
             <!--content_left(中间内容的左边)-->
                 <div class="content_left clearfix">
                     <div class="proInfo">
@@ -87,7 +89,7 @@
                                     <p class="F16">详情描述:</p>
                                 </div>
                                 <div class="col-xs-12 col-md-12">
-                                    <div class="F14 detail-dir text-format"  >{{collaList.desc}}</div>
+                                    <div class="F14 detail-dir text-format" id="mobile-textarea"></div>
                                 </div>
                            </div>
                             <div class="Avatar row mobile-relate">
@@ -178,7 +180,9 @@
                                                 <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                               <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
                                                 <div class="replay-down" style="height:80px;" >
-                                                    <span style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                    <span ng-if="doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                    <span ng-if="!doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+
                                                     <div class="user-down">
                                                         <a ng-href="{{doc.fileUrl}}?name={{doc.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}"/></a>
                                                     </div>
@@ -233,10 +237,10 @@
                                                 <img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
                                                 <img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
                                             </div>
-                                            <p class="substr menus-name">{{item.username}}</p>
+                                            <p class="substr menus-name"  title="{{item.username}}" style="width: 120px;text-align: left;">{{item.username}}</p>
                                         </div>
                                     </div>
-                                    <p class="substr" style="width: 120px;margin-top:10px;" title="{{item.username}}{{item.operation}}本次协作">{{item.operation}}<span>本次协作</span></p>
+                                    <p class="substr" style="width: 120px;margin-top:10px;">{{item.operation}}<span>本次协作</span></p>
                                     <p class="menus-time">{{item.operationTime}}</p>
                                     <!--<p class="">{{item.operationTime}}</p>-->
                                     <!--<div class="menus-head">-->

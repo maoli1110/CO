@@ -174,6 +174,16 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 				$scope.isCollapsed = false;
 			}
 		}
+
+		//	按enter键进行筛选
+		$scope.searchEnter = function(e){
+			var keyCode = e.keyCode|| e.which;
+			if(keyCode==13){
+				$scope.responsibleSearch();
+			}
+		}
+
+
 		
 		//负责人只能单选
 		$scope.changeStaus = function (id, pid, user) {

@@ -42,7 +42,7 @@
 					  	<option value="4">已结束</option>
 					</select>
 					<div class="rela search inline">
-						<input type="text" class="form-control coop-searchKey" id="exampleInputName1" style="height:34px;" ng-keyUp = "searchEnter($event)"placeholder="请输入关键字" ng-model="searchkey">
+						<input type="text" class="form-control coop-searchKey" id="exampleInputName1" style="height:34px;" ng-keyUp = "searchEnter($event)"placeholder="搜索主题" ng-model="searchkey">
 						<img ng-src="imgs/seache.png" alt="" ng-click="inputSearch()">
 					</div>
 					<!-- <button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button> -->
@@ -84,7 +84,7 @@
 							</div>
 							<div  class="marklist second-level" style="margin-left:138px;margin-top:-34px;">
 								<div class="priority-check   rela inline check-sub1 priority_{{$index}}" ng-repeat="item in coPriority track by $index" profit>
-									<label class="rela " style="background: none;margin-right:15px;">
+									<label class="rela " style="background: none;margin-right:13px;">
 										<span>{{item.name}}</span>
 										<input type="checkbox" class="absol checkbox_priority_{{$index}}" ng-click="updateSelection($event, item, 2, $index)">
 										<div class="absol check-funnel bg-goodLevel">{{item.name}}</div>
@@ -126,6 +126,7 @@
 				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_{{items.typeImg}}.png') no-repeat"></a></div>
 			</div>
 		</div>
+		
 		<div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
 			<table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
 				<thead>
@@ -140,6 +141,39 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr ng-show="coNoResult">
+						<td colspan="7">
+									<!--搜索无工程-->
+							        <div class="noSearch" ng-show="deptNoCo">
+							            <dl class="noProject">
+							                <dt>
+							                    <img src="imgs/co-search.png" alt="">
+							                    <span></span>
+							                </dt>
+							                <dd>当前项目部无协作</dd>
+							            </dl>
+							        </div>
+							        <!--搜索无结果-->
+							        <div class="noSearch" ng-show="projNoCo">
+							            <dl class="noProject">
+							                <dt>
+							                    <img src="imgs/co-search.png" alt="">
+							                    <span></span>
+							                </dt>
+							                <dd>当前工程无协作</dd>
+							            </dl>
+							        </div>
+							        <div class="noSearch" ng-show="searchNoCo">
+							            <dl class="noProject">
+							                <dt>
+							                    <img src="imgs/co-search.png" alt="">
+							                    <span></span>
+							                </dt>
+							                <dd>当前无结果</dd>
+							            </dl>
+							        </div>
+						</td>
+					</tr>
 					<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}">
 						<td class="problems-rect" ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
 							<span class="cop-edit" ng-show="item.isLock"></span>
@@ -208,7 +242,8 @@
 				 	<div class="coop-detial-right">{{everyDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 				 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.updater}}">{{everyDetail.updater}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.status}}</div>
-				 	<div class="coop-detial-right">{{everyDetail.deadline}}</div>
+				 	<div class="coop-detial-right" ng-if="everyDetail.deadline == null">不期限</div>
+				 	<div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline}}</div>
 				 </div>
 			</div>
 		</div>

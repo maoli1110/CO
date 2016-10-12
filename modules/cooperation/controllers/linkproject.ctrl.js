@@ -131,7 +131,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			ppid = dataList.assembleLps.value.split('-')[2];
 			projType = dataList.assembleLps.value.split('-')[0];
 //			console.log('treeNode',treeNode);
-			if((treeNode.name === 'PDS内网测试') || (treeNode.name === '临时')) {
+			if(treeNode.isParent == true) {
 				$('.confirm').attr('disabled', true);
 			} else {
 				$('.confirm').attr('disabled', false);

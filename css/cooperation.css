@@ -87,13 +87,17 @@ canvas{
 	background:#666;
 }
 .comboBox .tabs .check-sub label {
-	margin-right: 15px;
+	margin-right: 13px;
 	width: 90px;
 	text-align: center;
     padding: 10px;
     height: 36px;
     width: 100px;
     background: #fff;
+}
+.mark-check{
+	margin-bottom:10px;
+	width:113px;
 }
 .comboBox .tabs .check-sub1 label {
 	margin-right: 10px;
@@ -114,6 +118,9 @@ canvas{
 	text-overflow: ellipsis;
 	display: inline-block;
 	padding:0 10px;
+}
+.priority-check{
+	margin-bottom:10px;
 }
 .comboBox .tabs .priority-check label {
 	margin-right: 10px;
@@ -432,11 +439,11 @@ canvas{
 	height:30px !important;
 }
 
-.filter-active{
-	border: 1px solid #69C080 !important;
-	background: #fff !important;
-	color: #000 !important;
-}
+/*.filter-active{*/
+	/*border: 1px solid #69C080 !important;*/
+	/*background: #fff !important;*/
+	/*color: #000 !important;*/
+/*}*/
 .bg-lock{
 	background:#eceef0;
 }

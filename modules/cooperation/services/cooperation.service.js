@@ -412,6 +412,21 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         });
         return delay.promise;
     }
+    
+    //检查协作是否锁定
+    this.checkCoLocked = function(coid){
+        var delay = $q.defer();
+        var url_join = url + "rs/co/checkCoLocked/"+coid;
+        var params = JSON.stringify(params);
+        // var params={"coid":coid}
+        // var params = JSON.stringify(params);
+       $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
 //    草稿箱信息删除
     this.removeDraft = function(coid){
         var delay = $q.defer();

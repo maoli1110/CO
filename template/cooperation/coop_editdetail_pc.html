@@ -120,7 +120,10 @@
                                                         <!--<img src="imgs/detail-icon-sign.png" alt="">-->
                                                     <!--</div>-->
                                                 <!--</dl>-->
-                                                <button class="btn add-related " ng-click="selectRelated()"><span>+</span></button>
+                                                <!-- <button class="btn add-related " ng-click="selectRelated()"><span>+</span></button> -->
+                                                <span class="btn add-related " ng-click="selectRelated()" style="background-color:#ddd; ">
+                                                	<span style="line-height: 35px;">+</span>
+                                                </span>
                                             </div>
 
                                         </div>
@@ -148,16 +151,20 @@
                                     <!--</dl>-->
                                     <dl class="data-list" ng-repeat="item in collaList.pictures" profit>
                                         <dt class="rela detail-sear" ng-if="item.thumbnailUrl"><!-- ng-click="downDocs(item.uuid)"-->
-                                        <span  style="background:url({{item.thumbnailUrl}});background-size:cover;width:116px;height:116px;display:inline-block"  ng-click="previewSign(item.uuid,item.name)"></span>
-                                        <div class="detail-search F14"  >
+                                        <span  style="background:url({{item.thumbnailUrl}});background-size:cover;width:116px;height:116px;display:inline-block"></span>
+                                       <!--  
+                                       <span  style="background:url({{item.thumbnailUrl}});background-size:cover;width:116px;height:116px;display:inline-block"  ng-click="previewSign(item.uuid,item.name)"></span>
+                                       <div class="detail-search F14"  >
                                             <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" /></a>
-                                        </div>
+                                        </div> -->
                                         </dt>
                                         <dt class="rela detail-sear" ng-if="item.thumbnailUrl==null">
-                                            <img ng-src="{{item.imgsrc}}" alt="" ng-click="previewSign(item.uuid,item.name,2)" style="width:70px;margin-top:20px">
-                                            <div class="detail-search F14"  > <!--ng-click="downDocs(item.uuid)"-->
+                                            <img ng-src="{{item.imgsrc}}" alt="" style="width:70px;margin-top:20px">
+                                          <!--   
+                                          <img ng-src="{{item.imgsrc}}" alt="" ng-click="previewSign(item.uuid,item.name,2)" style="width:70px;margin-top:20px">
+                                          <div class="detail-search F14"  > ng-click="downDocs(item.uuid)"
                                                 <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}"/></a>
-                                            </div>
+                                            </div> -->
                                         </dt>
                                         <dd class="substr" title="{{item.name}}" style="width:118px;">{{item.name}}</dd>
                                     </dl>
@@ -211,11 +218,15 @@
                                                 <div class="inline" ng-repeat="doc in item.docs track by $index" profit>
                                                     <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                                     <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                                    <div class="replay-down" style="height:80px;">
-                                                        <span style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
-                                                        <div class="user-down">
+                                                    <div class="replay-down" style="height:80px;margin-right:10px;">
+                                                        <span ng-if="doc.thumbnailUrl"  style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;"></span>
+                                                        <span ng-if="!doc.thumbnailUrl"style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;"></span>
+
+                                                        <!--
+                                                       <span style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                       <div class="user-down">
                                                             <a ng-href="{{doc.fileUrl}}?name={{doc.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}"/></a>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
 
                                                     <div class="substr reply-name" title="{{doc.name}}">{{doc.name}}</div>
@@ -241,7 +252,7 @@
         </div>
          <div class="footer footer-commom">
             <button type="button" class="btn btn-default ok" ng-click="ok()" style="width:143px;height:34px;">确定</button>
-            <button type="button" class="btn btn-default cancel" ui-sref="coopdetail({coid: transcoid})" style="width:143px;height:34px;">取消</button>
+            <button type="button" class="btn btn-default cancel" style="width:143px;height:34px;" ng-click="backDetail()">取消</button>
         </div>
 
 </div>

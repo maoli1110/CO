@@ -6,7 +6,7 @@
             <span class="close"></span>
         </div>
     </div>
-    <div class="modal-body" scroll-directive id="content-b1" style="overflow:auto;height:400px;">
+    <div class="modal-body" scroll-directive style="overflow:auto;height:597px;">
         <div class="row"   >
             <div class="col-xs-6 left">
 
@@ -23,14 +23,14 @@
                         </select>
                     </div>
                     <div class="col-xs-7 search rela" >
-                        <input type="text" class="form-control" placeholder="搜索联系人" ng-change="responsibleSearch($event)" ng-model="queryForm"><img src="imgs/seache.png" alt="">
+                        <input id="person-selected" type="text" class="form-control" placeholder="搜索联系人" ng-model="queryForm" ng-keyUp="searchEnter($event)"><img src="imgs/seache.png" alt="" ng-click="responsibleSearch()">
                     </div>
                 </div>
                 <div class="all-select clearfix">
                     <!--<div >new-icon.png</div>-->
                     <p class="modal-checked">
                         <label style="padding-top: 8px;">
-                            <span  class="btn btn-success" style="display: inline-block;border-radius: 5px;line-height: 18px;">全选</span>
+                            <span  class="btn select-all" style="display: inline-block;border-radius: 5px;line-height: 18px;">全选</span>
                             <input id="edit-all" type="checkbox" style="display: none; width: auto;" ng-model="flag.allSelected" ng-click="allSelected()">
                             <!-- <span class="allChoice"></span> -->
                         </label>
@@ -60,7 +60,7 @@
                <!--全部删除-->
                <div class="remove-all" style="float:right;cursor:pointer;" ng-click="delAll()">全部删除 <span class="error-del"></span></div>
            </div>
-            <div class="col-xs-6 right" style="padding:0 10px;" id="content-a10">
+            <div class="col-xs-6 right" style="padding:0 10px;height:525px;" id="content-a10">
                 <div style="margin-top: 10px;">
                     <table class="table">
                         <tbody>

@@ -2,10 +2,11 @@
 /**
  * 新建协作
  */
-var popStateNum=0;
+
 angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Common','Manage','$sce','alertService','headerService','$timeout',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Common,Manage,$sce,alertService,headerService,$timeout) {
     //默认值
+    var popStateNum=0;
 	$scope.typeName = $stateParams.typename;
 		//console.log($stateParams.typename,'$stateParams.typeid')
     $scope.isDoc = false; //是否是doc
@@ -682,6 +683,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		// }
 		// debugger
 //		console.log('data.linkProjectDptName',$scope.link.linkProjectDptName);
+		var desc = $("#desc").val();
 		$scope.flag.beginCreate = true;
 		//主题为空
 		if(status==1){
@@ -832,12 +834,12 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    }
         function saveCooperation () {
         	
-        	var backJson = BimCo.SubmitAll();
+        	//var backJson = BimCo.SubmitAll();
         	//alert('backJson'+backJson);
         	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
-        	if(backJson){
-        		 backJson = JSON.parse(backJson);
-        	}
+        	// if(backJson){
+        	// 	 backJson = JSON.parse(backJson);
+        	// }
         	if($scope.dt) {
         		// console.log($scope.dt);
 				var dt = Common.dateFormat($scope.dt);
@@ -915,7 +917,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		    	contracts: contracts,
 		    	deadline: dt,
 		    	deptId: $scope.data.deptId,
-		    	desc: $scope.desc,
+		    	desc: desc,
 		    	docs: docsList,
 		    	markerid: $scope.mark,
 		    	name: $scope.coopname,
@@ -928,7 +930,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		    console.log(JSON.stringify($scope.data));
 		    console.log($scope.data);
 			var obj = JSON.stringify($scope.data);
-
+			debugger
 			Cooperation.createCollaboration(obj).then(function (data) {
 				layer.close(createindex);
 				var coid = data;
@@ -1152,7 +1154,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     //跳转新页面去除心跳机制
     $scope.$on('$stateChangeStart', 
         function(event, toState, toParams, fromState, fromParams){
-            console.log(toState, toParams, fromState);
+//            console.log(toState, toParams, fromState);
             clearInterval(ApplicationConfiguration.refreshID);
             if(!!modalInstance){
                 modalInstance.dismiss();

@@ -26,7 +26,7 @@
     font-size:14px;
 }
 .detail-computer .detail-dir{
-    border:1px solid #ddd;min-height:108px;padding: 3px 8px;text-indent:28px;
+    border:1px solid #ddd;min-height:108px;padding: 3px 8px;
 }
 
 /*---------------------main--------------------*/
@@ -193,9 +193,8 @@
 }
 .detail-voice .palys{
     position: fixed;
-    /* top: -1%; */
+    top: 16px; 
     left: 50%;
-    margin-top: 18px;
     z-index: 100;
     margin-left: -140px;
 }
@@ -321,8 +320,8 @@ a:hover{color:#c00;text-decoration:underline;}
     display: inline-block;
     position: absolute;
 }
-.margin-bottom20{
-    margin-bottom:20px;
+.margin-bottom10{
+    margin-bottom:10px;
 }
 /*-----------------------action--------------*/
 .action{
@@ -482,25 +481,21 @@ a:hover{color:#c00;text-decoration:underline;}
 /*--------------------content_right---------------*/
 .content_right_pc{
     width: 260px;
-    float:right;
-	position:absolute;
-    top: 88px;
+    position:fixed;
+    top: 0px;
 	right:-260px;
 	background:#fff;
-    z-index:2;
+    z-index:200;
     /*box-shadow: 0px 3px 23px 3px;*/
 }
 .content_right_bv{
     width: 280px;
-    /*width: 200px;*/
-    float:right;
     position:fixed;
     top: 0;
     right: -280px;
     background:#fff;
     bottom:0;
     z-index:2;
-    /*box-shadow: 0px 3px 23px 3px;*/
 }
 .coop-theme .theme-title.span.F16{
     width:61px !important;
@@ -512,13 +507,14 @@ a:hover{color:#c00;text-decoration:underline;}
     height: 74px;
     background: #979ba8;
     text-align: center;
-    position: absolute;
+    position: fixed;
     right: 0px;
     line-height: 74px;
-    z-index:2;
+    z-index:200;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     line-height:85px;
+     overflow:hidden;
 }
  .btn_box_pc span{
      font-size: 30px;
@@ -559,7 +555,8 @@ a:hover{color:#c00;text-decoration:underline;}
     /*display:none;*/
 }
 .aside .side_title{
-    line-height:40px;
+    line-height:41px;
+    border-bottom:1px solid #ccc;
     text-align:center;
     background:#ddd;
     font-size:16px;
@@ -706,6 +703,9 @@ html,body{
 .mobile-devices{
     height:100%;
     overflow-x:hidden;
+}
+.detail-computer .mobile-mark{
+    z-index:150;
 }
 .mobile-mark{
     width:100%;
@@ -985,11 +985,11 @@ textarea{
     text-align:center;
     display:inline-block;
     margin-right:16px;
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
-.mobile-main  .mobile-relate .mobile-relate-con dl:last-child{
-    margin-bottom:0 !important;
-}
+/*.mobile-main  .mobile-relate .mobile-relate-con dl:last-child{*/
+    /*margin-bottom:0 !important;*/
+/*}*/
 
 .mobile-main  .mobile-relate .mobile-relate-con dl dd{
     margin-top:4px;
@@ -1053,7 +1053,7 @@ textarea{
 
 .mobile-main .mobile-photo .photo-con dl{
     float: left;
-    margin-right: 10px;
+    margin-right: 7px;
     margin-bottom: 20px;
     font-size:16px;
 }
@@ -1076,7 +1076,7 @@ textarea{
 .mobile-main .mobile-means .means-con dl{
     width:70px;
     display:inline-block;
-    margin-right: 11px;
+    margin-right:7px;
     font-size:16px;
 }
 .mobile-main .mobile-means .means-con dl dd{
@@ -1141,7 +1141,6 @@ textarea{
     border-radius:50%;
 }
 .mobile-main .reply-con .reply-reply .reply-box{
-    border:1px solid #ddd;
     min-height:60px;
     float:right;
 }
@@ -1218,7 +1217,6 @@ textarea{
 }
 .mobile-devices .aside{
     height:100%;
-    overflow:auto;
 }
 
 .detailType-brands>img{

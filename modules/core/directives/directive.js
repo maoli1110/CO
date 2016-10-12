@@ -108,6 +108,16 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(this).css("background",'#eceef0').siblings().css("background","#fff");
 
             })
+            $(".edit-related .left .person-list").on("click",".select-check",function(){
+                //删除默认状态
+                $('li ').css("background",'#fff')
+                $(".user-chioce").hide();
+                //给当前获取焦点添加一个样式
+                //debugger;
+                $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
+                $(this).css("background",'#eceef0').siblings().css("background","#fff");
+
+            })
 
 		}
 	};
@@ -237,7 +247,6 @@ angular.module('core').directive('scrollDirective', function () {
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:10,
-                    setHeight:sideHeight,
                     theme:"minimal"
                 });
                 $("#content-a11").mCustomScrollbar({
@@ -272,6 +281,12 @@ angular.module('core').directive('scrollDirective', function () {
                     theme:"minimal"
                 });
                 $("#content-a16").mCustomScrollbar({
+                    mouseWheelPixels:200,
+                    scrollAmount:10,
+                    scrollSpeed:10,
+                    theme:"minimal"
+                });
+                $("#detail-1").mCustomScrollbar({
                     mouseWheelPixels:200,
                     scrollAmount:10,
                     scrollSpeed:10,
@@ -477,18 +492,40 @@ angular.module('core').directive('pcOperation', function() {
                 //通过判断这个class的状态来决定是开操作还是关操作
                 $(".content_right_pc").toggleClass("menus");
                 if($(".content_right_pc").hasClass("menus")){
+                    $('body').css('overflow-y','hidden');
                     $(".btn_box_pc").animate({right:"260px"})
                     $(".content_right_pc").animate({right:"0"})
                     $(".glyphicon-menu-right").css("display",'inline-block');
                     $(".mobile-mark").show();
 
                 }else{
+                    $('body').css('overflow-y','auto');
                      $(".btn_box_pc").animate({"right":"0"});
                      $(".content_right_pc").animate({"right":"-260px"});
                     $(".glyphicon-menu-right").css('display','none');
                     $(".mobile-mark").hide();
                 }
               });
+            $('.mobile-mark').click(function() {
+                 $(".show_btn").toggleClass("glyphicon-menu-left")
+                //toggleClass增加一个class      
+                //通过判断这个class的状态来决定是开操作还是关操作
+                $(".content_right_pc").toggleClass("menus");
+                if($(".content_right_pc").hasClass("menus")){
+                    $('body').css('overflow-y','hidden');
+                    $(".btn_box_pc").animate({right:"260px"})
+                    $(".content_right_pc").animate({right:"0"})
+                    $(".glyphicon-menu-right").css("display",'inline-block');
+                    $(".mobile-mark").show();
+
+                }else{
+                    $('body').css('overflow-y','auto');
+                     $(".btn_box_pc").animate({"right":"0"});
+                     $(".content_right_pc").animate({"right":"-260px"});
+                    $(".glyphicon-menu-right").css('display','none');
+                    $(".mobile-mark").hide();
+                }
+            });
         }
     };
 });

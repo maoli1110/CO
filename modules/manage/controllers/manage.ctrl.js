@@ -69,6 +69,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
+            $scope.isNoSearchValue = false;
+            $scope.isNoSearchValueBook = false;
              $(".manage-menus").removeClass("menusActive");
 		   	  $("span").removeClass("menusActive");
 		        //获取当前元素
@@ -89,12 +91,22 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         $(".prolist_left").hide();
         $('.manage-menus').removeClass('menusActive');
         $("span.spanwidth").removeClass("menusActive");
+        $scope.isNoSearchValueReject = false;
         if( $scope.isNoSearchValue){
             $(".good_list").css({'display':'none'});
         }
         if(!open){
         	Manage.getProjectInfoList(id).then(function (data) {
             	getimgurl(data,id);
+                if(data.data.length==0){
+                    $scope.isNoSearchValue = true;
+                    $scope.isNoSearchValueReject = false;
+                    $(".good_list").css({'display':'none'});
+                }else{
+                    $scope.isNoSearchValue = false;
+                    $(".good_list").css({'display':'block'});
+                    $(".pro_list").css({'display':'none'})
+                }
             });
             deptId = id;
             //获取项目统计列表
@@ -110,7 +122,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     $(".good_list").css({'display':'none'});
                 }else{
                    $scope.isNoSearchValue = false;
-                   $(".good_list").css({'display':'block'})
+                   $(".good_list").css({'display':'block'});
+                   $(".pro_list").css({'display':'none'})
                }
             });
         }
@@ -124,16 +137,18 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //项目统计列表搜索功能
         //搜索功能
         $scope.searchProject = function(deptId,searchBox){
+        	$scope.isNoSearchValue = false;
+       	 	$scope.isNoSearchValueReject = false;
             var params = {deptId:deptId,searchText:searchBox};
             var obj = JSON.stringify(params);
             Manage.getProjectTrends(obj).then(function(data){
                 $scope.trentsCount = data.data;
                 //setTimeout(addProjectStyle,100);
                 if($scope.trentsCount.length==0){
-                    $scope.isNoSearchValue = true;
+                    $scope.isNoSearchValueReject = true;
                     $(".good_list").css({'display':'none'})
                 }else{
-                    $scope.isNoSearchValue = false;
+                    $scope.isNoSearchValueReject = false;
                     $(".good_list").css({'display':'block'})
                 }
             });
@@ -351,10 +366,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $scope.seacherKey = $("#exampleInputName3").val();
                 $scope.manageSeacher();
             }else if($("#exampleInputName3").val()==''){
+
+                $("#exampleInputName3").val()=='';
                 var searchValue = $("#exampleInputName3").val();
-                searchValue='';
                 $scope.trentsListInfo=[];
-                $scope.trentsSearch(searchValue)
+                $scope.trentsSearch(searchValue);
+                $scope.isNoSearchValueReject =false;
+
             }
         }
         /*滚动加载只防止多次提交请求问题start*/
@@ -514,11 +532,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
         //回退按钮关闭列表页面
         $scope.listBack = function(){
-            $(".good_list").show();
-            $(".pro_list").hide();
-            $(".goodlist_left").show();
-            $(".prolist_left").hide();
-           $state.go('manage',{'deptId':deptId,'ppid':searchId},{ location: 'replace'});
+            //$(".good_list").show();
+            //$(".pro_list").css("display",'none');
+            //$(".goodlist_left").show();
+            //$(".prolist_left").hide();
+           $state.go('manage',{'deptId':deptId,'ppid':searchId},{ location: true});
         }
 
         //更新资料和选中模块加阴影效果
