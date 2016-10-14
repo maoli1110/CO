@@ -410,6 +410,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     //bv失败
                     var message = data.message;
                     var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
+                    alert('http://localhost:8080/bv/?param='+param);
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
                     layer.close(createindex);//关闭layer加载层

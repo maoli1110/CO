@@ -14,8 +14,8 @@ var paths = {
         './modules/manage/**/*.js'
     ],
     css: [
-        './css/style.css',
-        './css/goods.css',
+        './css/animate.css',
+        './css/trend.css',
         './css/cooperation.css',
         './css/main.css'
     ]
@@ -31,8 +31,8 @@ gulp.task('scripts', function () {
 });
 gulp.task('css', function () {
     return gulp.src(paths.css)
-        .pipe(minifyCSS())
-        .pipe(rename('all.min.css'))
+        // .pipe(minifyCSS())
+        .pipe(rename('all.css'))
         .pipe(gulp.dest('./build'));
 });
 

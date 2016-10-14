@@ -17,7 +17,6 @@
 		<link rel="stylesheet" href="./css/trend.css">
 		<link rel="stylesheet" href="./css/cooperation.css">
 		<link rel="stylesheet" href="./css/animate.css">
-		<!-- <link rel="stylesheet" href="./build/all.css"> -->
 		<!--滚动条-->
 		<!-- custom scrollbar stylesheet -->
 		<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
@@ -110,7 +109,6 @@
 		<script type="text/javascript" src="./modules/cooperation/controllers/linkbe.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/linkform.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
-		<!-- <script type="text/javascript" src="./build/all.min.js"></script> -->
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
 		<script src="js/jquery.mousewheel.min.js"></script>

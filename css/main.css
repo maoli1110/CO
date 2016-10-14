@@ -2299,7 +2299,7 @@ textarea{
     width:30px;
 }
 .linkbe table tbody .check-now .be-check input:checked +span{
-    background: url(../imgs/icon/new-icon.png) no-repeat 2px -23px;
+    background: url(../imgs/icon/new-icon.png) no-repeat 0px -23px;
     background-size: 23px;
 
 }
@@ -2411,7 +2411,8 @@ textarea{
     right:8px ;
 }
 .linkbe .pull-right form span.posi img{
-   width:20px;
+    width: 17px;
+    margin-top: 3px;
 }
 .linkbe .dropdown-menu{
     max-height:374px !important;

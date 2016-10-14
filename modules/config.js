@@ -4,7 +4,7 @@ var ApplicationConfiguration = (function(){
 	// 应用程序名和依赖
     var refreshId; 
 	var applicationModuleName = 'appname';
-	var applicationModuleVendorDependencies = ['ui.router','ui.bootstrap', 'angularFileUpload', 'i18n', 'alert', 'z.breadcrumbs','infinite-scroll'];
+	var applicationModuleVendorDependencies = ['ui.router','ui.bootstrap', 'angularFileUpload', 'i18n', 'alert', 'infinite-scroll'];
 
 	// 添加新模块
 	var registerModule = function(moduleName, dependencies) {

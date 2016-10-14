@@ -48,7 +48,7 @@ header{
 
 }
 .edit-blank>span+div{
-    margin-left:-4px !important;
+    /*margin-left:-4px !important;*/
     margin-bottom:20px;
 }
 .btn-group button{

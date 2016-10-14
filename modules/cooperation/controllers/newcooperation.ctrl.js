@@ -563,7 +563,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     uploader1.filters.push({
     	name: 'customFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
-			debugger
             docsUploadList.push(item);
 			popStateNum++;
             if(docsUploadList.length > 30){
@@ -956,7 +955,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		    console.log(JSON.stringify($scope.data));
 		    console.log($scope.data);
 			var obj = JSON.stringify($scope.data);
-			debugger
 			Cooperation.createCollaboration(obj).then(function (data) {
 				layer.close(createindex);
 				var coid = data;

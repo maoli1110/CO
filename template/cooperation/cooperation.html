@@ -132,7 +132,7 @@
 				<thead>
 					<tr style="background:#d2d7de;height:47px;">
 						<th>协做类型</th>
-						<th>主题</th>
+						<th style="width:57%">主题</th>
 						<th>优先级</th>
 						<th>更新时间</th>
 						<th ng-show="!flag.isDraft">更新人</th>
@@ -188,7 +188,7 @@
 							<span class="cop-edit" ng-show="item.isLock"></span>
 							<div class='problems-box' style="background:{{item.type.color}};">{{item.type.name}}</div>
 						</td>
-						<td ng-click="transCoDetail(item)" style="border:none;text-align:left;">{{item.name}}</td>
+						<td ng-click="transCoDetail(item)" style=" max-width:57%;border:none;text-align:left;">{{item.name}}</td>
 						<td ng-click="transCoDetail(item)" style="border:none;">{{item.priority}}</td>
 						<td ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 						<td ng-show="!flag.isDraft" class="edit-click">{{item.updater}}</td>

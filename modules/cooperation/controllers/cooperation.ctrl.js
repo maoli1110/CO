@@ -244,7 +244,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
-//   		debugger
    		$('.table-list')[0].scrollTop=0;
    		$scope.coNoResult = false;
    		$scope.deptNoCo = false;
@@ -254,8 +253,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         $scope.flag.isDraft = false;
       $('#deptbutton_'+deptId).parent().addClass('menusActive');
       $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive'); 
-      
-       var ppid = queryData.ppid;
    		//初始化数据
        var createindex = layer.load(1, {
            shade: [0.1,'#000'], //0.1透明度的黑色背景,
@@ -271,6 +268,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$(".cop-filter, .cop-list, .btn_count").css("display",'inline-block');
 		$(".basic-project").show();
 		// $(".draft-box").hide();
+		var ppid = queryData.ppid;
 		if(!open){
 			Cooperation.getProjectList(deptId).then(function (data) {
 				layer.close(createindex);
@@ -297,12 +295,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	    	if(firstflag || queryData.groups.length != 0) {
 	    		
 	    		Cooperation.getCollaborationList(queryData).then(function (data) {
-//	    			debugger
 	    			$scope.cooperationList = data;
 	    			if($scope.cooperationList.length <= 0){
-	    				var groupsCheckAll = false;
+	    				var groupsCheckAll = false;	// 筛选框前3个是否全部选中
 	    				$scope.coNoResult = true;
-	    				if($("#allTypeId").is(':checked')&&$("#allPriorityId").is(':checked')&&$("#allMarkId").is(':checked')){
+	    				if($scope.markCheck && $scope.priorityCheck && $scope.typeCheck){
+//	    					if($("#allTypeId").is(':checked')&&$("#allPriorityId").is(':checked')&&$("#allMarkId").is(':checked')){
 	    					groupsCheckAll = true;
 	    				}
 	    				if(groupsCheckAll&&queryData.searchKey == ''&&queryData.searchType == ''){
@@ -315,32 +313,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	    			$scope.deptIdToken = 1;
 	    			$scope.deptIdOpenToken = 0;
 	    		});
-	    		// TODO 待封装
-	    		var type601Selected = [];
-	        	var type602Selected = [];
-	        	var type603Selected = [];
-	    		angular.forEach($scope.coQueryType,function (value, key) {
-	    			var unit = {};
-	    			unit.type= 601;
-	    			unit.value = {key:value.key};
-	    			type601Selected.push(unit);
-	        	});
-	        	angular.forEach($scope.coPriority,function (value, key) {
-	    			var unit = {};
-	    			unit.type= 602;
-	    			unit.value = {key:value.key};
-	    			type602Selected.push(unit);
-	        	});
-	        	angular.forEach($scope.coMark,function (value, key) {
-	        		var unit = {};
-	        		unit.type= 603;
-	        		unit.value = {key:value.key};
-	        		type603Selected.push(unit);
-	        	});
-	        	if(queryData.groups.length <= 0) {
-	        		queryData.groups = queryData.groups.concat(type601Selected,type602Selected,type603Selected);
+	        	if(queryData.groups.length <= 0) {	// 条件没有被组装过 组装筛选条件
+	        		queryData.groups = queryData.groups.concat($scope.assemblyGroups(queryTypeSelected, queryPriorityselected, queryMarkSelected));
 	        	}
-	        	// TODO 待封装
 	    		firstflag = false;
     	} else {
     		if($scope.cooperationList.length <= 0){
@@ -573,6 +548,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       $scope.initScrollend(ppid);
    	  queryData.ppid = ppid;
 	  $scope.typeStatStr=[];
+	  if(queryData.searchType == 0) {
+		  queryData.searchType = '';
+	  }
 	  Cooperation.getCollaborationList(queryData).then(function (data) {
    		   $scope.cooperationList = data;
 		   if($scope.cooperationList.length <= 0){
@@ -877,32 +855,39 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     			}
     		}
     	}
-    	// TODO 待封装
-    	var type601Selected = [];
-    	var type602Selected = [];
-    	var type603Selected = [];
-    	angular.forEach(queryTypeSelected,function (value, key) {
+    	// 根据筛选 选中的条件组装需要向后台发送的数据
+    	groups = groups.concat($scope.assemblyGroups(queryTypeSelected, queryPriorityselected, queryMarkSelected));
+    	queryData.groups = groups;
+    	$scope.getCooperation(groups);
+    }
+    
+    /**
+     * 根据传入的筛选条件组装条件
+     * type: 协作类型
+     * priority: 优先级
+     * mark: 标识
+     */
+    $scope.assemblyGroups = function(type, priority, mark) {
+		var result = [];
+		angular.forEach(type,function (value, key) {
 			var unit = {};
 			unit.type= 601;
 			unit.value = {key:value.key};
-			type601Selected.push(unit);
-    	});
-    	angular.forEach(queryPriorityselected,function (value, key) {
+			result.push(unit);
+		});
+		angular.forEach(priority,function (value, key) {
 			var unit = {};
 			unit.type= 602;
 			unit.value = {key:value.key};
-			type602Selected.push(unit);
-    	});
-    	angular.forEach(queryMarkSelected,function (value, key) {
-    		var unit = {};
-    		unit.type= 603;
-    		unit.value = {key:value.key};
-    		type603Selected.push(unit);
-    	});
-    	groups = groups.concat(type601Selected,type602Selected,type603Selected);
-    	queryData.groups = groups;
-    	// TODO 待封装
-    	$scope.getCooperation(groups);
+			result.push(unit);
+		});
+		angular.forEach(mark,function (value, key) {
+			var unit = {};
+			unit.type= 603;
+			unit.value = {key:value.key};
+			result.push(unit);
+		});
+		return result;
     }
     
     $scope.getCooperation = function(groups) {
@@ -1001,9 +986,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		
 		// 筛选图标变化
     	if($scope.markCheck && $scope.priorityCheck &&$scope.typeCheck){
-			isCheck()
+			isCheck();
 		}else{
-			isNotCheck()
+			isNotCheck();
 		}
     }
     $scope.changeAttrToken = false;

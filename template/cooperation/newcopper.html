@@ -30,7 +30,7 @@
 	<div class="inner">
 		<header>
 	        <div class="header-operation clearfix">
-				<div class="pull-left detail-return" style="width:10%;line-height:42px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
+				<div class="pull-left detail-return" style="line-height:42px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
 					<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
 					<a  style="text-decoration: none;">返回</a>
 				</div>
@@ -211,22 +211,22 @@
 				<div class="col-xs-11 look-book clearfix">
 					<ul ng-repeat="items in docSelectedList track by $index" class="select-docs read-book" style="border:0;vertical-align:top">
 						<!--文件类型-->
-						<li class="rela" style="border:1px solid #ddd;">
+						<li class="rela updata-photo" style="border:1px solid #ddd;">
 						<img ng-src="{{items.imgSrc}}" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')">
 						<!-- 根据filetype判断文件类型end -->
 						<span class="absol glyphicon glyphicon-remove" ng-click="removeDoc(items)"></span>
-							<div class="updata-hoverStyle">
-								<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
-							</div>
+							<!--<div class="updata-hoverStyle">-->
+								<!--<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>-->
+							<!--</div>-->
 						</li>
 						<p title="{{items.docName}}" class="substr" style="width:100px;">{{items.docName}}</p>
 					</ul>
 					<ul ng-repeat="items in formSelectedList" class="select-form rela read-book" style="border:0;vertical-align:top">
-						<li style="border:1px solid #ddd;" class="rela"><img ng-src="imgs/pro-icon/icon-pdf.png" alt="" ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">
+						<li style="border:1px solid #ddd;" class="rela updata-photo"><img ng-src="imgs/pro-icon/icon-pdf.png" alt="" ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">
 						<span class="absol glyphicon glyphicon-remove" ng-click="removeForm(items)"></span>
-							<div class="updata-hoverStyle">
-								<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
-							</div>
+							<!--<div class="updata-hoverStyle">-->
+								<!--<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>-->
+							<!--</div>-->
 						</li>
 						<!-- <input type="checkbox" class="absol" ng-checked="isSelected" ng-click="updateSelection($event,items)"> -->
 						<p title="{{items.name}}.{{items.suffix}}" class="substr" style="width:100px;">{{items.name}}.{{items.suffix}}</p>
@@ -280,7 +280,7 @@
 		                        </div>
 		                        <div ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] != ('txt'||'doc'||'pdf'||'ppt'||'docx'||'xlsx'||'xls'||'pptx'||'jpeg'||'bmp'||'PNG'||'GIF'||'JPG'||'png'||'jpg'||'gif'||'dwg'||'rar'||'zip'||'avi'||'mp4'||'mov'||'flv'||'swf'||'wmv'||'mpeg'||'mpg'||'mp3')"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-other.png" alt=""><br/>
 		                        </div>
-								<span class="absol glyphicon glyphicon-remove" ng-click="removeDoc(items)"></span>
+								<!--<span class="absol glyphicon glyphicon-remove" ng-click="removeDoc(items)"></span>-->
 								<div class="updata-hoverStyle">
 									<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
 								</div>
