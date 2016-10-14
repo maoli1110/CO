@@ -161,7 +161,8 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
    					//提示错误信息
    					layer.alert(data.message, {
    		    		  	title:'提示',
-   					  	closeBtn: 0
+   					  	closeBtn: 0,
+						move:false
    					},function(index){
    	   				  //do something
    	   					$uibModalInstance.dismiss();

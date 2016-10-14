@@ -25,7 +25,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	$scope.isClick = true;//启用编辑按钮是否被按下
 	$scope.responsiblePerson = {};//重组负责人
 	$scope.createUser = {};
-	
+	$scope.beStates = false ;//be的选择状态
 //    console.log($stateParams.typeid);
    	//获取当前用户信息
    	//$.ajax({
@@ -222,7 +222,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		function isDelete(num){
 			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1){
 				layer.confirm('您已关联的模型,是否重新关联？', {
-					btn: ['是','否'] //按钮
+					btn: ['是','否'], //按钮
+					move:false
 				}, function(){
 					layer.closeAll();
 					if($scope.linkProjectClick ){
@@ -400,7 +401,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.removeLink = function () {
 		if($scope.link.linkProjectName) {
 			layer.confirm('您已关联了模型，是否删除关联？', {
-				btn: ['是','否'] //按钮
+				btn: ['是','否'] ,//按钮
+				move:false
 			}, function(){
 				$scope.linkProject1 = false;
 				$scope.linkComponent1 = false;
@@ -419,7 +421,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	//引用BE资料
 
 	$scope.linkBe = function () {
-		popStateNum++;
+		//popStateNum++;
+		$scope.beStates = false;
+		$('.new-mask').hide();
+		notScroll();
 		$scope.beSourceType = 1;
 		$scope.flag.isleast = false;
 			modalInstance = $uibModal.open({
@@ -451,7 +456,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	}
 	//选择表单
 	$scope.linkForm = function () {
-		popStateNum++;
+		//popStateNum++;
+		$scope.beStates = false;
+		$('.new-mask').hide();
+		notScroll()
 		$scope.formSourceType = 2;
 		$scope.flag.isleast = false;
 		    modalInstance = $uibModal.open({
@@ -536,7 +544,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
             		// alertService.add('time-bottom','上传照片不能多于30个！')
             		layer.alert('上传照片不能多于30个！', {
             		  	title:'提示',
-					  	closeBtn: 0
+					  	closeBtn: 0,
+						move:false
 					});
             	}
             	$scope.flag.pictrueRepeatMind = true;
@@ -554,12 +563,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     uploader1.filters.push({
     	name: 'customFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
+			debugger
             docsUploadList.push(item);
 			popStateNum++;
             if(docsUploadList.length > 30){
             	if(!$scope.flag.docsRepeatMind){
             		layer.alert('上传资料不能多于30个！', {
-					   	closeBtn: 0
+					   	closeBtn: 0,
+						move:false
 					});
             	}
             	$scope.flag.docsRepeatMind = true;
@@ -578,6 +589,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
     //点击上传资料按钮
     $scope.docsUpload = function () {
+		$scope.beStates = false;
+		$('.new-mask').hide();
+		notScroll();
     	$scope.uploadSourceType = 3;
     	$scope.flag.isleast = false;
     	$scope.flag.docsRepeatMind = false;
@@ -618,16 +632,29 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		// 名称字符控制
 		$scope.flag.nameToLong = false;
 	}
+	function notScroll(){
+		$(".new-mask").css('display','none');
+		$('body').css('overflow','auto')
+	}
 
 	$scope.popBoxState=function () {
-		popStateNum++;
+		$scope.beStates = true;
+		$(".new-mask").css('display','block');
+		$('body').css('overflow','hidden')
 	}
-	$scope.isEven=function () {
-		if (popStateNum % 2 == 0)
-			return true;
-		else
-			return false;
-	}
+		$(".new-mask").click(function(){
+			$scope.beStates = false;
+			notScroll();
+			$(this).hide();
+			$scope.$apply();
+		})
+	//$scope.isEven=function () {
+	//	if (popStateNum % 2 == 0)
+	//		return beStates = true;
+	//	else
+	//		return beStates = false;
+    //
+	//}
 	//监听描述的状态
 	$scope.changeDesc = function(){
 		// 描述字符控制
@@ -651,7 +678,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			fileItem.remove();
 			layer.alert(errorMessage, {
 				title:'提示',
-				closeBtn: 0
+				closeBtn: 0,
+				move:false
 			});
 		}
 	}
@@ -668,7 +696,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			fileItem.remove();
 			layer.alert(errorMessage, {
 				title:'提示',
-				closeBtn: 0
+				closeBtn: 0,
+				move:false
 			});
 		}
 	}
@@ -716,7 +745,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		});
 		
 		if(uploader.queue.length && uploader1.queue.length) {
-			//上传全部图片
    			var uploadResult = uploader.uploadAll();
 	   		//每个上传成功之后的回调函数
 	   		uploader.onSuccessItem = function(fileItem, response, status, headers) {
@@ -772,6 +800,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		                    closeBtn: 0,
 		                    shadeClose: true,
 		                    skin: 'yourclass',
+							move:false,
 		                    content: '<div class="tips">'+response[0].info+'</div><div class="tips_ok" onclick="layer.closeAll();">好</div>'
 		                  });
 		       			return;
@@ -786,7 +815,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 
 	     if( !uploader.queue.length && uploader1.queue.length) {
    			var uploadResult = uploader1.uploadAll();
-   		
 	   		//每个上传成功之后的回调函数
 	   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
 //		            console.info('onSuccessItem', fileItem, response, status, headers);
@@ -807,6 +835,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	                    closeBtn: 0,
 	                    shadeClose: true,
 	                    skin: 'yourclass',
+						move:false,
 	                    content: '<div class="tips">'+response[0].info+'</div><div class="tips_ok"onclick="layer.closeAll();">好</div>'
 	                  });
 	       			return;
@@ -833,13 +862,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    	clearInterval(checkUploadInterval);
 	    }
         function saveCooperation () {
-        	
-        	//var backJson = BimCo.SubmitAll();
-        	//alert('backJson'+backJson);
-        	// backJson = "{\"99E53F0D1ECC4CA1AEDCB64BA416D640\":{\"PdfModify\":[{\"contents\":\"测试的字符\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":167.99998474121094,\"yAxis\":163.90008544921875},{\"contents\":\"没问题\",\"font\":\"宋体\",\"fontSize\":15,\"modifyTime\":22229721,\"page\":2,\"type\":2,\"xAxis\":377.24996948242188,\"yAxis\":234.40008544921875}]}}";
-        	// if(backJson){
-        	// 	 backJson = JSON.parse(backJson);
-        	// }
+        	var backJson = BimCo.SubmitAll();
+        	if(backJson){
+        		 backJson = JSON.parse(backJson);
+        	}
         	if($scope.dt) {
         		// console.log($scope.dt);
 				var dt = Common.dateFormat($scope.dt);
@@ -958,7 +984,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				obj =  JSON.parse(data);
 				layer.alert(obj.message, {
         		  	title:'提示',
-				  	closeBtn: 0
+				  	closeBtn: 0,
+					move:false
 				});
 				//if(status==1) {
 				//	alert(obj.message)
@@ -983,18 +1010,25 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			currentDocSource = docSource;
 			currentDocIndex = index;
             if(fileType=='pdf'){
+            	var createindex = layer.load(1, {
+					shade: [0.1,'#000'] //0.1透明度的黑色背景
+				});
             	//pdf签署（客户端）
            		var coid = '';
+           		var editResult = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact,coid);
+		        //编辑失败保持在新建页面，不做操作
+		        if(!editResult){
+		        	//调用客户端失败取消加载层
+					layer.close(createindex);
+		        	return;
+		        }
+		        //调用客户端成功则取消加载层，执行跳转
+		        layer.close(createindex);
         		$scope.flag.isPreview = true;
             	$scope.flag.isPdfsign = true;
             	$scope.flag.isGeneral = false;
 				$scope.isTypePdf = true;
-            	var editResult = BimCo.PdfSign(currentEditOfficeUuid,currentSuffix,currentReact,coid);
-		        //编辑失败返回预览界面
-		        if(!editResult){
-		        	$scope.flag.isPreview = true;
-		        	var rtn = BimCo.MessageBox("提示" ,"下载文件失败!", 0);
-		        }
+            	
             } else {
             	//普通预览（除去pdf以外的文件）
 				$scope.isTypePdf = false;
@@ -1011,7 +1045,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					var obj = JSON.parse(data);
 					layer.alert(obj.message, {
             		  	title:'提示',
-					  	closeBtn: 0
+					  	closeBtn: 0,
+						move:false
 					});
 	            });
             }
@@ -1115,7 +1150,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.cancelCreate = function () {
 		//询问框
 		 layer.confirm('是否取消？', {
-		   btn: ['是','否'] //按钮
+		   btn: ['是','否'], //按钮
+			 move:false
 		 }, function(){
 			layer.closeAll();
 			BimCo.CancelSubmitAll();

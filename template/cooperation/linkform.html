@@ -7,10 +7,9 @@
     </div>
     <div class="modal-body" copy-radio>
         <div class="row left " style="width:48%">
-            <select class="form-control" name="" id="" ng-model="selectedTypeId" ng-change="switchType(selectedTypeId)" class="form-sele col-xs-3">
+            <select class="form-control selectpicker" name="" id="" ng-model="selectedTypeId" ng-change="switchType(selectedTypeId)" class="form-sele col-xs-3">
                 <option value="{{item.typeId}}" ng-repeat="item in typeList">{{item.name}}</option>
             </select>
-
         </div>
         <div class="row right" id="content-a14">
             <table class="table form-list" >
@@ -18,7 +17,7 @@
                     <tr ng-repeat="row in templateNode track by $index" class="tab-tr" profit>
                         <td >
                             <label>
-                                <input style="vertical-align:middle" type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"><span class="substr" title="{{row.name}}" style="display:inline-block;margin-top:11px;max-width:300px;">{{row.name}}.{{row.suffix}}</span>
+                                <input style="vertical-align:middle" type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)"><span class="substr file-name" title="{{row.name}}" style="display:inline-block;max-width:300px;">{{row.name}}.{{row.suffix}}</span>
                                 <span class="link-check-state"></span>
                             </label>
                         </td>

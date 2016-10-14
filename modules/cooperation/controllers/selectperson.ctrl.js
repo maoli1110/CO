@@ -63,7 +63,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 //				 	$scope.avatar.push(avater);
 //				 });
 				// console.log('start',Date.parse(new Date()));
-				$scope.userList = data.slice(0,8);
+				$scope.userList = data;
 				//console.log(data)
 			});
 		});
@@ -147,12 +147,17 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					searchText: $scope.queryForm
 			};
 			Cooperation.getUserList(queryData).then(function (data) {
-				$scope.userList = data.slice(0,6);
+				$scope.userList = data;
 			});
-			$scope.isCollapsed = false;
+			if($scope.queryForm){
+				$scope.isCollapsed = true;
+			}else{
+				$scope.isCollapsed = false;
+			}
+			
 		}
 
-		//选择负责人--搜索功能
+		//选择负责人联系人--搜索功能
 		$scope.responsibleSearch = function () {
 			if($scope.queryForm) {
 				$scope.isCollapsed = true;
@@ -161,7 +166,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					searchText:$scope.queryForm
 				};
 				Cooperation.getUserList(queryData).then(function (data) {
-					$scope.userList = data.slice(0,6);
+					$scope.userList = data;
 				});
 			} else if (!$scope.queryForm) {
 				queryData = {
@@ -169,7 +174,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					searchText:$scope.queryForm
 				};
 				Cooperation.getUserList(queryData).then(function (data) {
-					$scope.userList = data.slice(0,6);
+					$scope.userList = data;
 				});
 				$scope.isCollapsed = false;
 			}
@@ -180,6 +185,9 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			var keyCode = e.keyCode|| e.which;
 			if(keyCode==13){
 				$scope.responsibleSearch();
+			} else if (!$scope.queryForm) {
+				$scope.responsibleSearch();
+				$scope.isCollapsed = false;
 			}
 		}
 
@@ -287,7 +295,8 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 				//alert('请选择负责人');
 				layer.alert('请选择负责人', {
 					title:'提示',
-					closeBtn: 0
+					closeBtn: 0,
+					move:false
 				});
 			}
 		}

@@ -172,6 +172,15 @@
 							                <dd>当前无结果</dd>
 							            </dl>
 							        </div>
+							        <div class="noSearch" ng-show="noRelatedNoCo">
+							            <dl class="noProject">
+							                <dt>
+							                    <img src="imgs/co-search.png" alt="">
+							                    <span></span>
+							                </dt>
+							                <dd>当前无协作</dd>
+							            </dl>
+							        </div>
 						</td>
 					</tr>
 					<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}">
@@ -243,7 +252,7 @@
 				 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.updater}}">{{everyDetail.updater}}</div>
 				 	<div class="coop-detial-right">{{everyDetail.status}}</div>
 				 	<div class="coop-detial-right" ng-if="everyDetail.deadline == null">不期限</div>
-				 	<div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline}}</div>
+				 	<div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline | date:'yyyy-MM-dd'}}</div>
 				 </div>
 			</div>
 		</div>
@@ -251,8 +260,8 @@
 		<div class="data_count" scroll-directive>
 			<div class="data_Totle">
 				<div class="pull-left detail-return data_back" style="line-height:49px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
-					<span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
-					<a  style="text-decoration: none;">返回</a>
+					<span class="detail-gt" style="margin-left:5px;display:inline-block;top:19px"></span>
+					<a  style="text-decoration: none;margin-left:18px;">返回</a>
 				</div>
 				<!--<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>-->
 				<!--<button type="button" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>-->

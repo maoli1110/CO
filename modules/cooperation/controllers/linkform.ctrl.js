@@ -1,22 +1,29 @@
 /**
  * linkformCtrl
  */
-angular.module('cooperation').controller('linkformCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items',
-	 function ($scope, $http, $uibModalInstance,Cooperation,items) {
+angular.module('cooperation').controller('linkformCtrl', ['$scope', '$http', '$uibModalInstance','Cooperation','items','$timeout',
+	 function ($scope, $http, $uibModalInstance,Cooperation,items,$timeout) {
 //	 	console.log(items);
 	 	//默认模版类型
 	 	$scope.selectedTypeId = items.typeid;
+	 	Cooperation.getTypeList().then(function (data) {
+	 		$scope.typeList = data;
+	 		$timeout(function(){
+	 			$('.selectpicker').selectpicker({
+	 				style:'',
+	 				size:'auto'
+	 			});
+	 		});
+	 	});
+
 	 	Cooperation.getTemplateNode(items.typeid).then(function (data) {
 	 		$scope.templateNode = data;
 	 	});
-	 	Cooperation.getTypeList().then(function (data) {
-	 		$scope.typeList = data;
-	 	});
-
+	 	
 	 	$scope.switchType = function (selectedTypeId) {
 	 		Cooperation.getTemplateNode(selectedTypeId).then(function (data) {
-	 		$scope.templateNode = data;
-	 	});
+		 		$scope.templateNode = data;
+		 	});
 	 	}
 
 	 	//选中表单中需要上传的资料

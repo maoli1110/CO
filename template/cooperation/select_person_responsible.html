@@ -23,10 +23,12 @@
                     <input type="text" id="person-selected" class="form-control" ng-model="queryForm" placeholder="搜索联系人" ng-keyUp="searchEnter($event)"><img ng-src="imgs/seache.png" alt="" ng-click="responsibleSearch()">
                 </div>
             </div>
-            <div class="row person-list" id="content-a9" style="margin-left: 10px;margin-right: 10px;">
+            <div class="row person-list" id="content-a9" style="margin-left: 13px;margin-right: 13px;">
                 <li ng-repeat="user in userList" class="every-list">
                     <a class="first-title" ng-click="isCollapsed = !isCollapsed">
-                        <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
+                        <span ng-if="!isCollapsed" class="glyphicon glyphicon-triangle-right"></span>
+                        <span  ng-if="isCollapsed" class="glyphicon glyphicon-triangle-right rotate"></span>
+                        <span>{{user.role}}</span>
                     </a>
                     <ul class="sub-nav" uib-collapse="!isCollapsed">
                         <li ng-repeat="item in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,item)" ng-class="{true:'grey',false:'default'}[item.add]">

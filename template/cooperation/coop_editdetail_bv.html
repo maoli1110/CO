@@ -139,7 +139,7 @@
             <div class="reply-title col-xs-12 F16">  回复： </div>
             <div class="reply-con col-xs-12">
                 <div class="reply-reply clearfix">
-                    <div class="replys clearfix" ng-repeat="item in collaList.comments">
+                    <div class="replys clearfix" ng-repeat="item in collaList.comments" profit>
                         <div class="reply-icon col-xs-2" style="float:left;padding:0;text-align:left;">
                             <div style="text-align:center;">
                                 <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar">
@@ -152,13 +152,15 @@
                                 <!-- 状态 -->
                                 <div class="dashed" ng-if="item.status">修改了状态为：{{item.status}}</div>
                                 <!-- 评论 -->
-                                <div class="dashed break-word text-format F16" ng-if="item.comment">{{item.comment}}</div>
+                                <div class="dashed break-word text-format F16" ng-if="item.comment" id="comment-{{index}}" ng-bind-html="item.comment | to_trusted">{{item.comment}}</div>
                                 <!-- 资料 -->
                                 <div class="dashed comment-doclist" ng-if="item.docs.length" >
                                     <div class="inline F14" ng-repeat="doc in item.docs track by $index" >
                                         <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                       <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                        <span style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;"></span>
+                                        <!--<span style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;"></span>-->
+                                        <span ng-if="doc.thumbnailUrl"  style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;"></span>
+                                        <span ng-if="!doc.thumbnailUrl"style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;"></span>
                                         <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
                                     </div>
                                 </div>

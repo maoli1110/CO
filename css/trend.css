@@ -44,7 +44,7 @@
 /*--------------good_list------------------*/
 .trends .good_list{
     width: 98%;
-    margin: 18px;
+    margin: 10px;
     margin-bottom:0;
 }
 .trends .good_list dl{
@@ -54,21 +54,21 @@
     height:174px;
     border:1px solid #DFDFDE;
     float:left;
-    margin-right: 14px;
-    margin-bottom:24px;
+    margin-right: 9px;
+    margin-bottom:10px;
+}
+.trends .good_list dl:hover{
+    box-shadow:2px 1px 1px #ddd;
 }
 /*选中的dl 做出来阴影描边效果*/
 /*.trends .good_list dl:hover{*/
     /*box-shadow:2px 3px 1px #ddd;*/
 /*}*/
-.trends .good_list .dlActive{ box-shadow:2px 1px 1px #ddd;}
+/*.trends .good_list .dlActive{ box-shadow:2px 1px 1px #ddd;}*/
 .trends .good_list dl dt{
-    width:100%;
-    line-height:30px;
-    background:#DFDFDE;
-    /*padding:10px;*/
-    /*border-top-left-radius: 3px;*/
-    /*border-top-right-radius: 3px;*/
+    width: 100%;
+    line-height: 37px;
+    background: #dfe0e3;
 }
 /*工程名称长度过长时显示省略号*/
 .trends .good_list dl dt .project_name{
@@ -82,16 +82,16 @@
 }
 .trends .good_list dl dt img{
     width: 35px;
-    /*margin-top: 2px;*/
-    float:left;
-    margin-top: 2px;
-    margin-right: 4px;
-    padding:0 5px;
+    /* margin-top: 2px; */
+    float: left;
+    margin-top: 6px;
+    margin-right: -1px;
+    padding: 0 5px;
 }
 .trends .good_list dl dd{
     width:100%;
     height: 116px;
-    margin-top: 12px;
+    margin-top: 8px;
     background:#fff;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
@@ -100,12 +100,13 @@
 .trends .good_list dl dd .box{
     width: 100px;
     height: 100px;
-    border:1px solid #DFDFDE;
-    margin:10px;
-    float:left;
-    margin-right:30px;
-    overflow:hidden;
-    cursor:pointer;
+    border: 1px solid #DFDFDE;
+    margin: 10px;
+    margin-left: 17px;
+    float: left;
+    margin-right: 0px !important;
+    overflow: hidden;
+    cursor: pointer;
 }
 /*===========================================================*/
 /*.trends .good_list dl dd .box img{*/
@@ -123,7 +124,7 @@
 .trends .good_list dl dd p b{
     font-weight: normal;
     color:#65c17d;
-    font-size:26px;
+    font-size:22px;
 }
 /*project_name(项目名称设置)*/
 .project_name{
@@ -133,7 +134,7 @@
     text-overflow:ellipsis;
 }
 .totle_count{
-    font-size:28px;
+    font-size:22px;
     color:#808080;
 }
 /*资料更新*/
@@ -145,6 +146,7 @@
     float:right;
     margin-right:15px;
     margin-top:10px;
+    text-align:right;
 }
 
 /*--------------------商品列表页面-------------------------*/
@@ -160,7 +162,7 @@
     overflow-y:auto;
     overflow-x:hidden;
     min-width:820px;
-    display:none;
+/*     display:none; */
     /*background:#F4F2F2;*/
 }
 
@@ -310,6 +312,7 @@
 .manage_back{
     display:inline-block;
     padding:0 10px;
+    padding-right: 2px;
 }
 .manage_back b{
     font-weight:normal;
@@ -339,4 +342,41 @@
 }
 /*.mCSB_draggerContainer{*/
     /*margin-right:20px;*/
+/*}*/
+/*.noSearch{*/
+    /*height:843px;*/
+/*}*/
+/*.noSearch  .noProject{*/
+    /*width:220px;*/
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*top: 50%;*/
+    /*margin-left: -110px;*/
+    /*margin-top: -135px;*/
+    /*text-align:center;*/
+/*}*/
+/*.noSearch  .noProject dt{*/
+    /*margin-bottom:20px;*/
+    /*width: 220px;*/
+    /*height: 220px;*/
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 50%;*/
+    /*margin-bottom:20px;*/
+    /*display:inline-block;*/
+/*}*/
+/*.noSearch  .noProject dt span{*/
+    /*width:0%;*/
+    /*height:100%;*/
+    /*vertical-align: middle;*/
+    /*display:inline-block;*/
+/*}*/
+/*.noSearch  .noProject img{*/
+    /*width:200px;*/
+    /*vertical-align: middle;*/
+    /*margin-left:5px;*/
+/*}*/
+/*.noSearch  .noProject dd{*/
+    /*color:#ccc;*/
+    /*font-size:22px;*/
+    /*font-family:"Microsoft yahei"*/
 /*}*/

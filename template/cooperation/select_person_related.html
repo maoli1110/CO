@@ -6,7 +6,7 @@
             <span class="close"></span>
         </div>
     </div>
-    <div class="modal-body" scroll-directive style="overflow:auto;height:597px;">
+    <div class="modal-body" scroll-directive style="height:597px;">
         <div class="row"   >
             <div class="col-xs-6 left">
 
@@ -39,7 +39,9 @@
                 <div class="person-list" id="content-a8">
                     <div ng-repeat="user in userList track by $index" class="select-list">
                         <a class="first-title" ng-click="isCollapsed=!isCollapsed">
-                            <span class="glyphicon glyphicon-triangle-right"></span><span>{{user.role}}</span>
+                            <span class="glyphicon glyphicon-triangle-right" ng-if="!isCollapsed"></span>
+                            <span  ng-if="isCollapsed" class="glyphicon glyphicon-triangle-right rotate"></span>
+                            <span>{{user.role}}</span>
                         </a>
                         <ul class="sub-nav" id="uib_{{$index}}" uib-collapse="!isCollapsed">
                             <li ng-repeat="item in user.users track by $index" class="select-check" ng-click="addRelated(item)" ng-class="{true:'grey',false:'default'}[item.add]">
@@ -58,7 +60,7 @@
               <!--  <div class="pull-left"><input type="checkbox"><span>全选</span></div> -->
                <div  style="float:left">已选择{{relatedSelected.length}}人，需要签字{{trans_selected.sign.length}}人</div>
                <!--全部删除-->
-               <div class="remove-all" style="float:right;cursor:pointer;" ng-click="delAll()">全部删除 <span class="error-del"></span></div>
+               <div class="remove-all" style="float:right;cursor:pointer;margin-right: 11px;" ng-click="delAll()">全部删除 <span class="error-del"></span></div>
            </div>
             <div class="col-xs-6 right" style="padding:0 10px;height:525px;" id="content-a10">
                 <div style="margin-top: 10px;">

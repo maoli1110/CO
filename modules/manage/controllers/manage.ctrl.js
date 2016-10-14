@@ -16,6 +16,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.isNoSearchValue = false;//搜索无工程
     $scope.isNoSearchValueBook = false;//搜索资料
     $scope.isNoSearchValueReject = false;//搜索无结果
+    $scope.isShowProList = false;;
     $scope.openNew = function () {
     	$scope.openSignal = true;
     }
@@ -84,6 +85,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     
     //获取项目部下的工程列表
     $scope.childItems = function(id,$event,open){
+    	var createindex = layer.load(1, {
+            shade: [0.1,'#000'] //0.1透明度的黑色背景
+        });
         var searchBox = $("#exampleInputName2").val();
         $(".good_list").show();
         $(".pro_list").hide();
@@ -98,15 +102,17 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         if(!open){
         	Manage.getProjectInfoList(id).then(function (data) {
             	getimgurl(data,id);
-                if(data.data.length==0){
-                    $scope.isNoSearchValue = true;
-                    $scope.isNoSearchValueReject = false;
-                    $(".good_list").css({'display':'none'});
-                }else{
-                    $scope.isNoSearchValue = false;
-                    $(".good_list").css({'display':'block'});
-                    $(".pro_list").css({'display':'none'})
-                }
+            	if(data.data != undefined) {
+            		if(data.data.length==0){
+            			$scope.isNoSearchValue = true;
+            			$scope.isNoSearchValueReject = false;
+            			$(".good_list").css({'display':'none'});
+            		}else{
+            			$scope.isNoSearchValue = false;
+            			$(".good_list").css({'display':'block'});
+            			$(".pro_list").css({'display':'none'})
+            		}
+            	}
             });
             deptId = id;
             //获取项目统计列表
@@ -115,10 +121,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $scope.isNoSearchValue = false;
             $scope.isNoSearchValueReject = false;
             Manage.getProjectTrends(obj).then(function(data){
+            	layer.close(createindex);
                 $scope.trentsCount = data.data;
                if(data.data.length==0){
-                    $scope.isNoSearchValue = true;
-                    $scope.isNoSearchValueReject = false;
+            	   	if(params.searchText == ""){
+            	   		$scope.isNoSearchValue = true;
+            	   	}else{
+            	   		$scope.isNoSearchValueReject = true;
+            	   	}
                     $(".good_list").css({'display':'none'});
                 }else{
                    $scope.isNoSearchValue = false;
@@ -126,6 +136,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                    $(".pro_list").css({'display':'none'})
                }
             });
+        } else {
+        	layer.close(createindex);
         }
         if(!deptId){
             deptId = deptId;
@@ -281,7 +293,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     angular.forEach(value.docs, function (value1, key1) {
                         if(typeArr.indexOf(value1.fileType) == -1) {
                             $scope.trentsListInfo[key].docs[key1].fileType = 'other';
-                            console.log( $scope.trentsListInfo[key].docs[key1].fileType );
+//                            console.log( $scope.trentsListInfo[key].docs[key1].fileType );
                         }
                     });
                 });
@@ -308,6 +320,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
 
         $scope.changeAttr = function (docType) {
+            $scope.scrollend = false;
+            lastUploadTime = '';
+            lastUsername = '';
             $scope.trentsListInfo = [];
             $scope.seacherKey = $("#exampleInputName3").val();
             if(!$scope.docType){
@@ -315,14 +330,15 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             }else{
                 $scope.docType=$scope.docType;
             }
-            Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
+            $scope.addMoreData();
+          /*  Manage.getTrends({count:10,lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
                 $scope.trentsListInfo = data.data;
                 var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','TXT','DOC','PDF','PPT','DOCX','XLSX','PPTX','JPEG','BMP','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
                 angular.forEach(data.data, function (value, key) {
                     angular.forEach(value.docs, function (value1, key1) {
                         if(typeArr.indexOf(value1.fileType) == -1) {
                             $scope.trentsListInfo[key].docs[key1].fileType = 'other';
-                            console.log( 'qqqqq',$scope.trentsListInfo[key].docs[key1].fileType );
+//                            console.log( 'qqqqq',$scope.trentsListInfo[key].docs[key1].fileType );
                         }
                     });
                 });
@@ -331,10 +347,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     $scope.isNoSearchValueReject = true;
                     $('.pro_list').css('display','none')
                 }else{
+                    lastUploadTime = data[data.length-1].updateTime;
                     $scope.isNoSearchValueReject =false;
                     $('.pro_list').css('display','block')
                 }
-            });
+            });*/
             //Manage.getTrends({lastUploadTime:"",lastUsername:"",ppid:searchId,searchKey:$scope.seacherKey,searchType:$scope.docType}).then(function(data){
             //    $scope.trentsListInfo = data.data;
             //});
@@ -382,6 +399,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         var checkSearchInterval;
         //搜索高亮显示
         $scope.addMoreData = function (){
+            if(!$scope.tokenBack){
+                return;
+            }
         	if(!changeProj){
         		setSearchFlagFalse();
                 if(pollingFlag){
@@ -395,17 +415,13 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             
         };
         var setSearchFlagFalse = function(){
-        	console.log(false);
             searchFlag = false;
         }
         var setSearchFlagTrue = function(){
-        	console.log(true);
             searchFlag = true;
         }
         var checkCanSearch = function(){
-        	console.log("轮询");
             if(searchFlag){
-            	console.log("chaxun");
                 clearInterval(checkSearchInterval);
                 $scope.trentsList(searchId);
                 pollingFlag = true;
@@ -422,18 +438,19 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
         //通过侧边栏的子元素去调出动态列表
         $scope.trentsList = function(id) {
+            $scope.tokenBack = true;
+            if(searchId != id){
+                $scope.trentsListInfo = [];
+            }
             //如过却换工程 scrollend需要初始化设置
             $scope.isNoSearchValueReject = false;
             $(".manage-menus").removeClass("menusActive");
-            //$scope.initScrollend(id);
             if(changeProj){
             	 $scope.scrollend = false;
                  lastUploadTime = '';
                  lastUsername = '';
-                 //changeProj = false;
             }
         	if(!id){
-        		console.log("无id,查询失败");
         		return;
         	}
             searchId = id;
@@ -463,8 +480,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     $(".pro_list").css('display','none');
                     $scope.isNoSearchValueReject = true;
                 } else{
-                    $(".pro_list").css('display','block');
                     $scope.isNoSearchValueReject = false;
+                    $(".pro_list").css('display','block');
                 }
                 if(data.data.length!=0){
                     for(var i=0 ;i<data.data.length;i++){
@@ -473,12 +490,10 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     }
                     lastUploadTime = data.data[data.data.length-1].updateTime;
                     lastUsername = data.data[data.data.length-1].username;
-                    console.info('动态详情列表',$scope.trentsListInfo)
                 }
                 if(data.data.length<10){
                     $scope.scrollend = true;
                 }
-               // debugger;
                 var lh = 0;
                 if($scope.trentsListInfo.length > 10){
                 	lh = $scope.trentsListInfo.length - size;
@@ -489,7 +504,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                         if(typeArr.indexOf(value1.fileType) == -1) {
                         	var keys = lh + key;
                             $scope.trentsListInfo[keys].docs[key1].fileType = 'other';
-                            //console.log( '格式数组',$scope.trentsListInfo[keys].docs[key1].fileType );
                         }
                     });
                 });
@@ -526,17 +540,24 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     });
             },function (data) {
                 var obj = JSON.parse(data);
-                console.log(obj);
-                alert(obj.message);
+//                console.log(obj);
+                layer.alert(obj.message,{
+                    title:'提示',
+                    closeBtn: 0
+                })
+                //alert(obj.message);
             });
         }
+        $scope.tokenBack = false;
         //回退按钮关闭列表页面
         $scope.listBack = function(){
-            //$(".good_list").show();
-            //$(".pro_list").css("display",'none');
-            //$(".goodlist_left").show();
-            //$(".prolist_left").hide();
-           $state.go('manage',{'deptId':deptId,'ppid':searchId},{ location: true});
+            $scope.tokenBack = false;
+            $state.go('manage',{'deptId':deptId,'ppid':searchId},{ location: true});
+            $(".good_list").show();
+            $(".pro_list").hide();
+            $(".goodlist_left").show();
+            $(".prolist_left").hide();
+            $scope.scrollend = true;
         }
 
         //更新资料和选中模块加阴影效果

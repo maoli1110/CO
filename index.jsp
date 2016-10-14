@@ -21,24 +21,6 @@
 		<!-- custom scrollbar stylesheet -->
 		<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
 
-
-   <!--      <script src="lib/html5/html5shiv.js"></script>
-        <script src="lib/html5/es5-shim.min.js"></script>
-        <script src="lib/html5/es5-sham.min.js"></script>
-        <script>
-            document.createElement('alert');
-        </script>
-        <script>
-            document.createElement('ng-include');
-            document.createElement('ng-pluralize');
-            document.createElement('ng-view');
-            // Optionally these for CSS
-            document.createElement('ng:include');
-            document.createElement('ng:pluralize');
-            document.createElement('ng:view');
-        </script> -->
-
-
 		<script type="text/javascript">
 		<%@page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 		<%
@@ -51,7 +33,7 @@
 			var basePath = "<%=basePath %>";
 			//console.log(basePath);
 		</script>
-
+		
 		</head>
 		<body>
 

@@ -58,6 +58,18 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         var pageSizePc = 18;
 	   	var currentShowPage = 1;
 	   	var relatedNews = [];
+
+        //详情描述记录换行
+        function replaceAll (strM,str1,str2) {
+            var stringList =strM.split(str1);
+            for(var i=0;i<stringList.length-1;i++){
+              stringList[i]+=str2;
+            }
+            var newstr='';
+            for(var j=0;j<stringList.length;j++)newstr+=stringList[j];
+                return newstr;
+        }
+        
         Cooperation.getCollaboration(coid).then(function (data) {
 
 //        	console.info(data)
@@ -129,6 +141,15 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             }
             if( data.deadline && data.isDeadline==3){
                 $scope.deadlineStyle = 'red';
+            }
+
+            //遍历评论转换“\n”
+            if(data.comments.length){
+                angular.forEach(data.comments,function(value,key){
+                    if(value.comment){
+                        $scope.collaList.comments[key].comment = replaceAll(value.comment,"\n","</br>");
+                    }
+                });
             }
            
             if(data){
@@ -332,6 +353,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                   closeBtn: 0,
                   shadeClose: true,
                   skin: 'yourclass',
+                  move: false,
                   content: '<div class="tips">当前协作主题不能为空</div><div class="tips_ok" onclick="layer.closeAll();">好</div>'
                 });
             }
@@ -343,7 +365,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             //pc调用layer加载层
             if(!$scope.device && $scope.collaList.name){
                 var createindex = layer.load(1, {
-                    shade: [0.1,'#000'] //0.1透明度的黑色背景
+                    shade: [0.1,'#000'], //0.1透明度的黑色背景
                 });
             }
 
@@ -393,7 +415,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     layer.close(createindex);//关闭layer加载层
                     layer.alert(data.message, {
                         title:'提示',
-                        closeBtn: 0
+                        closeBtn: 0,
+                        move: false
                     });
                 }
             });
@@ -416,7 +439,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
 
-            //    详情页面图片资料悬浮出现下载区域
+            // 详情页面图片资料悬浮出现下载区域
             $(".action .picInfo .data-list .deta-down ").hover(function () {
                 $(this).find(".show-icon").stop().animate({"bottom":"-1px"})
             },function(){
@@ -436,8 +459,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $(this).find('.user-down').animate({"bottom":'0'})
             },function(){
                 $(this).find('.user-down').animate({"bottom":'-30px'})
-            })
-            })
+            });
+
+        });
 
         //选择相关人
         $scope.selectRelated = function () {
@@ -528,7 +552,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     var obj = JSON.parse(data);
                     layer.alert(obj.message, {
                         title:'提示',
-                        closeBtn: 0
+                        closeBtn: 0,
+                        move: false
                     });
                 });
         }
@@ -623,7 +648,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             var coidFrombe = $('#checkformbe').val();
             if(currentPage == 'editdetail'){
                 layer.confirm('当前正在编辑协作，是否跳转？', {
-                    btn: ['确定','取消'] //按钮
+                    btn: ['确定','取消'], //按钮
+                    move: false
                 },function(){
                     layer.closeAll();
                     $state.go('coopdetail',{'coid':coidFrombe})

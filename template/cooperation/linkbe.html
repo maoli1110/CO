@@ -62,12 +62,18 @@
                 
                 <div style="margin-top: 5px;width: 90%;margin-left: 5%;margin-bottom: 36px;">
 	                <!-- <span class="btn btn-success" style="display: inline-block;border-radius: 5px;line-height: 13px;" ng-click="checkAllNodes()">全部</span> -->
-	                <div ng-click="collapse()" class="openOrCloseTree" style="margin-left: 15px;float:right;height: 20px;margin-top: 3px;line-height: 17px;border-radius: 2px;">
+	                <button type="button" class="openOrCloseTree openOrCloseTreeSmall" style="margin-left: 15px;" ng-click="collapse()">
+	                    <span>-</span>
+	                </button>
+	                <button type="button" class="openOrCloseTree openOrCloseTreeSmall" style="margin-left: 50px;" ng-click="expand()">
+	                    <span>+</span>
+	                </button>
+	                <!-- <div ng-click="collapse()" class="openOrCloseTree" style="margin-left: 15px;float:right;height: 20px;margin-top: 3px;line-height: 17px;border-radius: 2px;">
 	                    <span style="line-height: 17px;">-</span>
 	                </div>
-	                <div ng-click="expand()" class="openOrCloseTree" style="margin-left: 50px;float:right;height: 20px;margin-top: 3px;line-height: 17px;border-radius: 2px;">
+	                <div ng-click="expand()" class="openOrCloseTree"  style="margin-left: 50px;float:right;height: 20px;margin-top: 3px;line-height: 17px;border-radius: 2px;">
 	                    <span style="line-height: 17px;">+</span>
-	                </div>
+	                </div> -->
                 </div>
                 <div class="person-list clearfix" id="content-a6">
                     <ul id="tree" class="ztree"></ul>
@@ -77,9 +83,9 @@
                 <div class="clearfix public-head">
                     <div class="pull-left">
                         <label>
-                            <input type="checkbox" style="display:none;" ng-click="dataAllSelected($event)">
-                            <span  class="book-style font16">共{{totalItems}}份资料</span>
-                            <div class="linkbe-check"></div>
+                        <!--     <input type="checkbox" style="display:none;" ng-click="dataAllSelected($event)"> -->
+                            <span  class="book-style font16"><b>共{{totalItems}}份资料</b></span>
+                           <!--  <div class="linkbe-check"></div> -->
                         </label>
                     </div>
                     <!--<div class="pull-left"><label ><input type="checkbox"><span  class="book-style font16">共{{docList.length}}份资料</span></label></div>-->
@@ -88,6 +94,14 @@
                             <input type="text" class="be-sear" id="linkbeSear" ng-model="searchname" placeholder="搜索资料名称、上传人" ng-keyup="myKeyup($event)">
                             <span  ng-click="docSearch()" class="posi"><img  src="imgs/seache.png" alt=""></span>
                         </form>
+                    </div>
+                    <div style="clear: both;"></div>
+                     <div class="pull-left">
+                    	<label >
+                    		<input type="checkbox" style="display:none;" ng-click="dataAllSelected($event)">
+                    		<span  class="book-style font16" style="margin-left: 34px;font-weight: 100;">全选</span>
+                    	 	<div class="linkbe-check"></div>
+                    	</label>
                     </div>
                 </div>
                 <div>
@@ -99,8 +113,7 @@
                                     <input type="checkbox" style="opacity:0;" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)">
                                     <span class="checkbox"></span>
                                 </label>
-                                </td>
-                                <td>
+                                    <div  class="uuidUrl">
                                     <!--文件类型-->
                                     <img src="imgs/pro-icon/icon-txt-s.png"  ng-if="row.fileType=='txt'||row.fileType=='TXT'">
                                     <img src="imgs/pro-icon/icon-doc-s.png"  ng-if="row.fileType=='doc'||row.fileType=='DOC'">
@@ -138,8 +151,9 @@
                                     <!--音频-->
                                     <img src="imgs/pro-icon/icon-mp3-s.png" ng-if="row.fileType=='mp3'">
                                     <img ng-if="row.fileType=='other'" src="imgs/pro-icon/icon-other-s.png" alt="">
+                                    </div>
                                 </td>
-                                <td><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
+                                <td style="width:279px;"><p class="substr linkbeMatter" title="{{row.docName}}">{{row.docName}}</p>
                                     <!-- <span class="be-proview"></span> -->
                                 </td>
                                 <td><p class="substr linkbeMatter" style="width:57px" title="{{row.uploader}}">{{row.uploader}}</p></td>

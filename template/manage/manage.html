@@ -39,11 +39,12 @@
 
                 <div class="right_Content clearfix">
                     <!--<div class="tools"></div>-->
-                    <div class="content clearfix" style="border-bottom:1px solid #ddd;">
+                    <div class="content clearfix">
                         <!--商品展示-->
                         <div class="good_list clearfix"  style="height:calc(100vh - 143px);overflow:auto;" light-height >
                             <!--商品1F-->
-                            <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click="updateNew($event)">
+                            <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage(trentsLiInfo.ppid)">
+                                <!--ng-click="updateNew($event)"-->
                                 <dt>
                                     <img src="imgs/icon/1.png" alt="" ng-if="trentsLiInfo.projectType == '土建预算'">
                                     <img src="imgs/icon/2.png" alt="" ng-if="trentsLiInfo.projectType == '钢筋预算'">
@@ -54,7 +55,7 @@
                                 <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
                                 </dt>
                                 <dd>
-                                    <div  class="box" onerror="this.onerror='';this.src='./imgs/icon-projectDefult.png'" ng-click = "turnPage(trentsLiInfo.ppid)" style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:120px">
+                                    <div  class="box" onerror="this.onerror='';this.src='./imgs/icon-projectDefult.png'"  style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:120px">
                                         <img ng-if="!trentsLiInfo.projectPicture" src="./imgs/icon/icon-projectDefult.png" alt="">
                                     </div>
                                     <div class=" data_update">
@@ -74,8 +75,8 @@
                                     <!--<b>返回</b>-->
                                 <!--</div>-->
                                 <div class="pull-left detail-return manage_back" style="margin-left: -17px; margin-right: 10px;"  ng-click="listBack()">
-                                    <span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
-                                    <a  style="text-decoration: none;">返回</a>
+                                    <span class="detail-gt" style="display:inline-block;top:18px;"></span>
+                                    <a  style="text-decoration: none;margin-left:31px;">返回</a>
                                 </div>
                                 <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr()">
                                     <option value="1">全部类型</option>
@@ -86,7 +87,7 @@
                                     <option value="64">压缩文件</option>
                                     <option value="128">其他</option>
                                 </select>
-                                    <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)">
+                                    <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)" style="margin-top:2px;">
                                     <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
                                 </div>
                             <!--<div class="right ">-->
@@ -114,7 +115,9 @@
                             </dl>
                         </div>
 
-                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject" >
+
+                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true">
+                          <!--<div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject" >-->
 
                             <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
                                 <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->

@@ -2,10 +2,14 @@
 .container {
 	/*width: 1200px !important;*/
 }
-
+.create{
+	position:relative;
+}
 .popBox{
-	width:auto;height:auto;border:1px solid rgba(0,0,0,0.3);border-radius:3px;box-shadow:1px 3px 3px rgba(0,0,0,0.5);margin-top:10px;
-	position: absolute;left:100%;top:-58px;padding:20px 50px;margin-left:10px;background-color: #fff;
+	width: 273px;
+	height: 260px;border-radius:3px;box-shadow:1px 3px 3px rgba(0,0,0,0.5);margin-top:10px;
+	position: fixed;left:50%;top:50%;margin-left:10px;background-color: #fff;z-index:201;margin-left:-136px;margin-top:-126px;
+	background:#fff url(imgs/menus-head.png) no-repeat top;line-height: 50px;color:#fff;
 }
 .arrow-outer{
 	width:7px;height:102px;position:absolute;
@@ -17,12 +21,12 @@
 	-moz-transform:rotate(45deg);
 }
 	.buttonOut{
-		position: absolute;
 		margin-left:-3px;
 		margin-top: -15px;
 	}
 </style>
-<div ng-show="!flag.isPreview">
+<div ng-show="!flag.isPreview" class="new-create">
+	<div class="new-mask"></div>
 	<div class="inner">
 		<header>
 	        <div class="header-operation clearfix">
@@ -40,7 +44,8 @@
 				</div>
 	        </div>
 	        <div class="header-title">
-	            <p class="F16" ><span class="substr">创建协作{{"——"+typeName}}</span></p>
+				<p class="F16" ng-if="!typeName"><span class="substr">创建协作</span></p>
+	            <p class="F16" ng-if="typeName"><span class="substr">创建协作{{"——"+typeName}}</span></p>
 	            <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span> -->
 	        </div>
 	    </header>
@@ -50,16 +55,16 @@
 			<!-- <div><input value="test" type="button" ng-click="test()"></div>  -->
 		<form name="create_form" id="create-form" novalidate="" >
 			<div class="row">
-				<div class="row" style="margin-bottom:17px;padding:0 15px;">
-					<label for="" class="col-xs-1">主题：</label>
+				<div class="row sign-main" style="padding:0 15px;">
+					<label for="" class="col-xs-1 create-title">主题：</label>
 					<div class="inline col-xs-11">
 						<input type="text" class="form-control left-area new-name" id="" placeholder=""
 							   ng-model="coopname" required=""  name="topic" ng-click="changeTopic()">
 					</div>
 				</div>
 				<div class="col-xs-6 left">
-					<div class="row">
-						<label for="" class="col-xs-2">优先级：</label>
+					<div class="row most-leave">
+						<label for="" class="col-xs-2 create-title">优先级：</label>
 					   	<select class="selectpicker col-xs-6 priority" ng-model="priority">
 						  	<option value="1">Ⅰ</option>
 						  	<option value="2">Ⅱ</option>
@@ -67,7 +72,7 @@
 						</select>
 					</div>
 					<div class="row coop-Levels">
-						<label class="col-xs-2">标识：</label>
+						<label class="col-xs-2 create-title">标识：</label>
 					  	<select class="selectpicker1 col-xs-6" ng-model="mark" ng-click="switchMark(mark)">
 					  		<option value="{{item.markerId}}" 
 					  			data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
@@ -85,9 +90,9 @@
 
 						<div class="last-time" style="text-align:right;">
 							<div class="date-time">
-								<label for="" class="col-xs-3 align-right" style="padding:0;">限制期限：</label>
+								<label for="" class="col-xs-3 align-right create-title" style="padding:0;">限制期限：</label>
 								<p class="input-group col-xs-9">
-								  <input type="text" class="form-control" readonly ng-click="open2()" style="height:40px !important;width:100%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
+								  <input type="text" class="form-control" readonly ng-click="open2()" style="border: 1px solid #ddd;height:40px !important;width:100%" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:97%"/>
 								  <!--<span class="input-group-btn">-->
 									<!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
 								  <!--</span>-->
@@ -101,7 +106,7 @@
 				</div>
 			</div>
 			<div class="row link">
-				<label for="" class="col-xs-1">关联：</label>
+				<label for="" class="col-xs-1 create-title">关联：</label>
 				<div class="list-inline col-xs-8">
 					<!-- <button class="btn btn-default" popover-placement="right" popover-trigger="'focus'" uib-popover-template="dynamicPopover.templateUrl">与工程关联</button> -->
 					<button class="btn btn-link1 new-relative" ng-click="linkProject()">工程</button>
@@ -123,31 +128,32 @@
 							<div ng-show="linkCategoty1" style="line-height:37px;">
 								<span>与构件类别相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span>
 							</div>
-							<label style="display:inline-block"><img ng-src="imgs/delete.png" alt="" class="new-del" ng-click="removeLink()"></label>
+							<label class="delete-box" ng-click="removeLink()"></label>
+							<!--<img ng-src="imgs/delete.png" alt="" class="new-del" >-->
 						</div>
 
 					</div>
 				</div>
 			</div>
-			<div class="row mt-15 mx">
-				<label for="" class="col-xs-1">描述：</label>
-				<div class="col-xs-11" >
+			<div class="row mt-15 mx" style="margin-bottom:32px;">
+				<label for="" class="col-xs-1 create-title">描述：</label>
+				<div class="col-xs-11">
 					<textarea id="desc" rows="8" ng-model="desc" style="width:100%;padding:0 13px;" ng-click="changeDesc()" ></textarea>
 				</div>
 			</div>
 			<div class="row mt-15 relative-man">
 				<div class="row" style="padding:0 15px;margin-bottom:20px;">
-					<label for="" class="col-xs-1 align-right">负责人：</label>
-					<div class="inline col-xs-7">
+					<label for="" class="col-xs-1 align-right create-title">负责人：</label>
+					<div class="inline col-xs-7" style="text-align:left;">
 						<ul class="inline rela relative-ion">
 							<img ng-src="{{responsiblePerson.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="responsiblePerson.avatar"/>
 							<img ng-src="./imgs/icon/defalut.png" ng-if="responsiblePerson.avatar==null" alt=""/>
-							<li class="substr" title="{{responsiblePerson.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{responsiblePerson.username}}</li>
+							<li class="substr" title="{{responsiblePerson.username}}" style="width:55px;margin-top:14px;">{{responsiblePerson.username}}</li>
 						</ul>
 						<button class="btn add-related" ng-click="selectResponsible()"><span>+</span></button>
 					</div>
 				</div>
-				<label for="" class="col-xs-1">相关人：</label>
+				<label for="" class="col-xs-1 create-title">相关人：</label>
 				<div class="selected-list inline col-xs-11">
 						<ul class="inline rela relative-ion photoImg" ng-repeat="item in related.sign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
@@ -155,19 +161,19 @@
 							<div class="detail-sign" ng-if="item.needSign">
 								<img src="imgs/detail-icon-sign.png" alt="">
 							</div>
-							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
+							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:14px;">{{item.username}}</li>
 						</ul>
 						<ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
 							<img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
-							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:25px;margin-bottom:25px;">{{item.username}}</li>
+							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:14px;">{{item.username}}</li>
 						</ul>
 					<button class="btn add-related" ng-click="selectRelated()"><span>+</span></button>
 				</div>
 			</div>
 			<!-- upload -->
 			<div class="row upload">
-				<label for="" class="col-xs-1">照片：</label>
+				<label for="" class="col-xs-1 create-title">照片：</label>
 				<div class="upload-img col-xs-11 clearfix">
 					<input class="upload-img" type="file" nv-file-select="" uploader="uploader" style="display:none;" multiple />
 			        <ul class="list-inline photo-box" style="margin-top:10px;">
@@ -175,13 +181,20 @@
 							<div class="updata-photo">
 								<div style="display:inline">
 									<div ng-show="uploader.isHTML5" class="up-picture"  ng-thumb="{ file: item._file,width:120,height:120}" ></div><br/>
-									<span class="absol glyphicon glyphicon-remove photo-close" ng-click="removePhoto(item)"></span>
+									<!--<span class="absol glyphicon glyphicon-remove photo-close" ng-click="removePhoto(item)"></span>-->
+									<div class="updata-hoverStyle">
+										<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+									</div>
 								</div>
 								<span ng-bind="item.file.name" title="{{item.file.name}}" class="substr" style="width:100px;display:inline-block;position: absolute;left: 10px;top: 130px;"></span>
 							</div>
 			                 <!--<button ng-click="item.upload()">upload</button>-->
 			            </li>
-			            <li><button class="btn btn-add btn-lg" ng-click="fileUpload()" style="vertical-align:top;margin-left:-3px;"><span>+</span></button></li>
+			            <li>
+							<button class="btn btn-add btn-lg btn-photo" ng-click="fileUpload()" style="vertical-align:top;line-height:4px;"><span>+</span></button>
+							<!--<div style="width:120px;height:120px;background:#ccc;display:inline-block" ></div>-->
+							<!--<span style="width:120px;height:120px;background:#ccc;display:inline-block" ng-click="fileUpload()"  ></span>-->
+						</li>
 			        </ul>
 			       
 			       	<!--  <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
@@ -193,27 +206,33 @@
 					<!-- <div class="col-xs-6"><button class="btn">添加</button></div> -->
 				</div>
 			</div>
-			<div class="row docs upload" style="margin-top:30px;padding-bottom: 100px;">
-				<label for="" class="col-xs-1">资料：</label>
-				<div class="col-xs-11 look-book">
+			<div class="row docs upload clearfix" style="margin-top:8px;">
+				<label for="" class="col-xs-1 create-title">资料：</label>
+				<div class="col-xs-11 look-book clearfix">
 					<ul ng-repeat="items in docSelectedList track by $index" class="select-docs read-book" style="border:0;vertical-align:top">
 						<!--文件类型-->
 						<li class="rela" style="border:1px solid #ddd;">
 						<img ng-src="{{items.imgSrc}}" class="bookSection" ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')">
 						<!-- 根据filetype判断文件类型end -->
 						<span class="absol glyphicon glyphicon-remove" ng-click="removeDoc(items)"></span>
+							<div class="updata-hoverStyle">
+								<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+							</div>
 						</li>
 						<p title="{{items.docName}}" class="substr" style="width:100px;">{{items.docName}}</p>
 					</ul>
 					<ul ng-repeat="items in formSelectedList" class="select-form rela read-book" style="border:0;vertical-align:top">
 						<li style="border:1px solid #ddd;" class="rela"><img ng-src="imgs/pro-icon/icon-pdf.png" alt="" ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">
 						<span class="absol glyphicon glyphicon-remove" ng-click="removeForm(items)"></span>
+							<div class="updata-hoverStyle">
+								<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+							</div>
 						</li>
 						<!-- <input type="checkbox" class="absol" ng-checked="isSelected" ng-click="updateSelection($event,items)"> -->
 						<p title="{{items.name}}.{{items.suffix}}" class="substr" style="width:100px;">{{items.name}}.{{items.suffix}}</p>
 					</ul>
 					<input class="upload-docs" type="file" nv-file-select="" uploader="uploader1" multiple nv-file-select="" style="display:none;" />
-					<ul class="list-inline inline read-book" style="vertical-align:middle" ng-repeat="item in uploader1.queue">
+					<ul class="list-inline  read-book" style="vertical-align:middle" ng-repeat="item in uploader1.queue">
 			            <li style="border:1px solid #ddd;">
 			            	<div class="updata-photo rela">
 				                <div ng-show="uploader1.isHTML5 && item.file.type.substr(0,5) === 'image'" ng-thumb="{ file: item._file, width:120,height:120 }"></div>
@@ -261,7 +280,10 @@
 		                        </div>
 		                        <div ng-show="uploader1.isHTML5 && item.file.name.split('.')[item.file.name.split('.').length-1] != ('txt'||'doc'||'pdf'||'ppt'||'docx'||'xlsx'||'xls'||'pptx'||'jpeg'||'bmp'||'PNG'||'GIF'||'JPG'||'png'||'jpg'||'gif'||'dwg'||'rar'||'zip'||'avi'||'mp4'||'mov'||'flv'||'swf'||'wmv'||'mpeg'||'mpg'||'mp3')"><img class="bookSection"  ng-src="./imgs/pro-icon/icon-other.png" alt=""><br/>
 		                        </div>
-		                        <span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+								<span class="absol glyphicon glyphicon-remove" ng-click="removeDoc(items)"></span>
+								<div class="updata-hoverStyle">
+									<span class="absol glyphicon glyphicon-remove local-remove" ng-click="item.remove()"></span>
+								</div>
 			            	</div>
 			            </li>
 			            <p class="substr" style="margin-top:4px;width: 100px;" title="{{item.file.name}}">{{item.file.name}}</p>
@@ -269,24 +291,29 @@
 					<ul class="inline">
 						<div class="buttonOut">
 							<button class="btn  btn-add btn-lg" popover-trigger="'focus'" ng-click="popBoxState()" ><span>+</span></button>
-							<div class="popBox"  ng-show="!isEven()">
-								<div class="arrow-outer">
-									<div class="arrow"></div>
-								</div>
-								<div class="pop-title">选择协同内容</div>
-								<div class="row pop-content">
-									<button class="btn btn-link1" ng-click="linkBe()" style="margin-left:0px !important"><span>引用BE资料</span></button>
-									<button class="btn btn-link1" ng-click="linkForm()"><span>选择表单</span></button>
-									<button class="btn btn-link1" ng-click="docsUpload()"><span>上传资料</span></button>
-								</div>
-							</div>
+
 						</div>
 						</li>
 					</ul>
 					<!-- <div style="height: 100px;"></div>> -->
 				</div>
 			</div>
+			<!--选择be表单-->
+
+			<div class="popBox"  ng-if="beStates">
+				<!--<div class="arrow-outer">-->
+				<!--<div class="arrow"></div>-->
+				<!--</div>-->
+				<div class="pop-title">选择协同内容</div>
+				<div class="row pop-content">
+					<button class="btn btn-link1 select-be" ng-click="linkBe()" style="margin-left:0px !important"><span>引用BE资料</span></button>
+					<button class="btn btn-link1 select-be" ng-click="linkForm()"><span>选择表单</span></button>
+					<button class="btn btn-link1 select-be" ng-click="docsUpload()"><span>上传资料</span></button>
+				</div>
+			</div>
+
 		</form>
+
 		</div>
 	</div>
 

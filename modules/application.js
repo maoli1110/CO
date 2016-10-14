@@ -54,7 +54,13 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
         $rootScope.$state = $state;
         return $rootScope.$stateParams = $stateParams;
       }
-    ]);
+    ]).filter('to_trusted', ['$sce', function ($sce) {
+        return function (text) {
+            //angular信任机制
+            return $sce.trustAsHtml(text); 
+        };
+    }]);
+
 
 angular.element(document).ready(function() {
     // if (window.location.hash === '#_=_') window.location.hash = '#!';

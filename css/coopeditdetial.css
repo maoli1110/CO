@@ -424,6 +424,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     position:absolute;
     bottom:-36px;
     left:0;
+    opacity:0.8;
 }
 
 .action .picInfo  dl dt .detail-search img{
