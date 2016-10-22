@@ -1,4 +1,4 @@
-<div class="select-person-responsible" scroll-directive>
+<div  class="select-person-responsible" scroll-directive>
     <div class="modal-header rela">
         <h3 class="modal-title inline">选择负责人</h3>
         <div class="inline close-sbtn" ng-click="cancel()">
@@ -13,7 +13,7 @@
                     <!--<select name="" class="choice-responsible" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-click="switchUsers(selectedOption)"></select>-->
                     <select  class="identify selectpicker" name="" class="choice-responsible" id="" ng-model="selectedOption" ng-change="switchUsers(selectedOption)">
                         <option value="{{item.deptId}}"
-                                data-content="<div class='substr' title='{{item.deptName}}' style='text-align: left; '>
+                                data-content="<div class='substr' title='{{item.deptName}}' style='text-align: left;width: 150px; '>
 					  					<span>{{item.deptName}}</span>
 					  				</div>"
                                 ng-repeat="item in deptInfo.availableOptions track by $index" ></option>

@@ -1,10 +1,35 @@
 <style>
 	.content-container {
-	     height:calc(100vh - 40px);
+	   /*height:736px;*/
 	 }
 	.content-scroll-container {
 	    overflow:auto;
 	}
+    .content-scroll-container::-webkit-scrollbar-track-piece {
+      background-color: rgba(0, 0, 0, 0);
+      border-left: 1px solid rgba(0, 0, 0, 0);
+    }
+    .content-scroll-container::-webkit-scrollbar {
+      width: 3px;
+      height: 10px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+    }
+    .content-scroll-container::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.4);
+      background-clip: padding-box;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      min-height: 28px;
+    }
+    .content-scroll-container::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+    }
 </style>
 <div class="mobile-devices" ng-show="device">
     <!--mobile-mark-->
@@ -63,8 +88,8 @@
             </div>
 
             <div ng-show="isRevlentMore" class="show-more-btn clearfix" style="margin-top:10px;text-align:center;color:#909090;" >
-                <span ng-show="showMore" ng-click="showMorePerson()">显示更多</span>
-                <span ng-show="collapse"  ng-click="collapsePerson()">收起</span>
+                <span ng-show="showMore" class="bv-more" ng-click="showMorePerson()">显示更多</span>
+                <span ng-show="collapse"  class="bv-more " ng-click="collapsePerson()">收起</span>
             </div>
         </div>
         
@@ -73,13 +98,12 @@
             <div class="photo-title col-xs-2 F16 col-xs-2"> 照片:</div>
             <div class="photo-con col-xs-10 col-md-11" style="float:right;padding:0 6px">
                 <dl class="photo-list" ng-repeat="item in collaList.pictures">
-                    <dt class="rela detail-sear"  style="background:url('{{item.fileUrl}}');background-size:cover;" ng-click="zoom(item.uuid)">
-                        <!--<img src="{{item.thumbnailUrl}}" ng-click="zoom(item.uuid)"/>-->
-                        <div class="detail-search" ng-if="">
-                            <img src="imgs/seache.png" alt="">
-                        </div>
+                    <dt class="rela detail-sear"  style="background:url('{{item.thumbnailUrl}}');background-size:cover;" ng-click="zoom(item.uuid)" ng-if="!!item.thumbnailUrl">
                     </dt>
-                   <!--  <dd class="substr" style="width:70px;">{{item.name}}</dd> -->
+                    <dt class="rela detail-sear is-empty"  ng-if="!item.thumbnailUrl">
+                        <img  ng-src="{{item.imgsrc}}" ng-click="zoom(item.uuid)">
+                    </dt>
+                    <dd class="substr" style="width:70px;">{{item.name}}</dd>
                 </dl>
             </div>
         </div>
@@ -88,9 +112,11 @@
             <div class="means-title col-xs-2 F16">资料：</div>
             <div class="means-con col-xs-10" style="padding:0 6px">
                 <dl class="means-list" ng-repeat="item in collaList.docs" profit>
-                    <dt class="rela means-down is-empty">
-                    <img  ng-src="{{item.imgsrc}}"  ng-click="previewDocs(item.uuid)">
-                    <!-- <div class="means-address"><img class="detail-down" src="imgs/icon_down.png" class=" a-{{$index}}" ng-click="downDocs(item.uuid)"/><img style="display:none" class="detail-view" src="imgs/seache.png" alt="" ng-click="docsOpen(item.uuid)"></div> -->
+                    <dt class="rela means-down is-empty" ng-if="!!item.thumbnailUrl">
+                        <img  ng-src="{{item.thumbnailUrl}}"  ng-click="previewDocs(item.uuid)">
+                    </dt>
+                     <dt class="rela means-down is-empty" ng-if="!item.thumbnailUrl">
+                        <img  ng-src="{{item.imgsrc}}"  ng-click="previewDocs(item.uuid)">
                     </dt>
                     <dd title="{{item.name}}" class="is-show">{{item.name}}</dd>
                 </dl>
@@ -118,10 +144,10 @@
                                 <!-- 资料 -->
                                 <div class="dashed comment-doclist" ng-if="item.docs.length">
                                     <div class="inline F14" ng-repeat="doc in item.docs track by $index">
-                                        <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
+                                    <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                       <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
                                       	<!--<span style="border:1px solid #ddd;width:60px;height:60px;background:url('{{doc.imgsrc}}') center no-repeat;background-size:50px;display:inline-block;" ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>-->
-                                        <span ng-if="doc.thumbnailUrl" style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;"ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>
+                                        <span ng-if="doc.thumbnailUrl" style="width:60px;height:60px;background:url('{{doc.thumbnailUrl}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;"ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>
                                         <span ng-if="!doc.thumbnailUrl" style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;" ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>
 
                                         <!--<div class="substr" title="{{doc.name}}">{{doc.name}}</div>-->
@@ -153,7 +179,7 @@
         <i class="glyphicon glyphicon-menu-right hide_btn" style="color:#fff;"></i>
     </div>
     <!--右边内容-->
-    <div class="content_right_bv" >
+    <div class="content_right_bv" id="content_right_bv">
         <div class="aside">
             <p class="side_title">协作动态</p>
             <div class="status content-container content-scroll-container" infinite-scroll-parent="true">
@@ -162,14 +188,14 @@
                         <li ng-repeat="item in operationList">
                             <div class="step">
                                 <img src="./imgs/icon/fq-icon.png" alt="" ng-if="item.operation == '发起'" style="padding:4px;">
-                                <img src="./imgs/icon/ck-icon.png" alt="" ng-if="item.operation == '查看'" style="padding: 7px 0 0 3.5px;">
+                                <img src="./imgs/icon/ck-icon.png" alt="" ng-if="item.operation == '查看'" style="padding: 8px 0 0 0.5px;">
                                 <img src="./imgs/icon/jjue-icon.png" alt="" ng-if="item.operation == '拒绝'" style="padding:4px;">
                                 <img src="./imgs/icon/js-icon.png" alt="" ng-if="item.operation == '结束'" style="padding:2px 4px;">
                                 <img src="./imgs/icon/bj-icon.png" alt="" ng-if="item.operation == '编辑'" style="padding:4px;">
                                 <img src="./imgs/icon/wc-icon.png" alt="" ng-if="item.operation == '通过'" style="padding:4px;">
                                 <img src="./imgs/icon/update-icon.png" alt="" ng-if="item.operation == '添加'" style="padding:4px;">
                                 <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" style="padding: 4px;">
-                                <img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="padding:4px;height:27px; padding: 7px 0 0px 6.5px;">
+                                <img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="padding:4px;height:27px; padding: 7px 0 0px 2.5px;">
                             </div>
                             <div class="handle">
                                 <div class="menus-head">
@@ -186,3 +212,11 @@
         </div>
     </div>
 </div>
+<script>
+setTimeout(function(){
+    $(document).ready(function(){
+        //页面节点加载完成动态给高度
+        $('.content-container').height($(window).height()-40);
+    })
+},0)
+</script>

@@ -10,6 +10,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     var firstflag = true; //筛选全选只加载一次标识
     var firstreackflag = true;//进入页面只加载一次定位
     $scope.scrollend = false;//停止滚动加载
+    $scope.flag.filterOk = false;//默认false，点击筛选设置为true，拿到数据设置为false（目的在于禁止没拿到数据前调用addmore）
     var firstdeptid; //第一个项目部id;
 	var searId;
 	$scope.branchList = false;//子公司弹窗列表初始状态
@@ -48,6 +49,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	$scope.searchNoCo = false;
 	$scope.noRelatedNoCo = false;
 	
+	var queryTypeSelected = [];
+	var queryPriorityselected = [];
+	var queryMarkSelected = [];
+	
     $scope.openNew = function () {
     	$scope.openSignal = true;
     	Cooperation.getTypeList().then(function (data) {
@@ -73,8 +78,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     	});
     }
-    
+	//var createindex = layer.load(1, {
+	//	shade: [0.5,'#000'], //0.1透明度的黑色背景
+	//});
+	//	setTimeout(function(){layer.close(createindex)},2000);
 	$scope.link = function(id){
+		$(".operation").show();
 		$('.table-list')[0].scrollTop=0;
 		$scope.coNoResult = false;
    		$scope.deptNoCo = false;
@@ -83,27 +92,43 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		$scope.noRelatedNoCo = false;
         $scope.flag.isDraft = false;
 		$scope.deptIdOpenToken = 0;
-		//searId =id;
+		searId =id;
         //console.info('searId',searId)
         $scope.initScrollend(id);
 		$scope.projectInfoList = [];
 		$('.data_count').hide();
 		$scope.searchkey = $("#exampleInputName1").val();
 		queryData.searchKey = $scope.searchkey;
-//		queryData.groups = []; 筛选条件置空
-			if(id==-1){
-				queryData.deptId = '';
-				queryData.ppid = '';
-			}
-			Cooperation.getCollaborationList(queryData).then(function (data) {
-			$scope.cooperationList = data;
-			if($scope.cooperationList.length <= 0){
-				$scope.coNoResult = true;
-				$scope.noRelatedNoCo = true;
-			}
+      	if(firstflag&&queryData.groups.length <= 0) {	// 条件没有被组装过 组装筛选条件
+      		queryTypeSelected = _.cloneDeep($scope.coQueryType);
+      		queryPriorityselected = _.cloneDeep($scope.coPriority);
+      		queryMarkSelected = _.cloneDeep($scope.coMark);
+    		queryData.groups = queryData.groups.concat($scope.assemblyGroups(queryTypeSelected, queryPriorityselected, queryMarkSelected));
+    	}
+		if(id==-1){
 			queryData.deptId = '';
 			queryData.ppid = '';
-		});
+		}
+		if(queryData.groups.length > 0){
+				Cooperation.getCollaborationList(queryData).then(function (data) {
+				$scope.cooperationList = data;
+				// 无搜索条件则显示当前无协作
+				if(($scope.markCheck && $scope.priorityCheck && $scope.typeCheck) && $scope.cooperationList.length <= 0) {
+					$scope.coNoResult = true;
+					$scope.noRelatedNoCo = true;
+				} else if (!($scope.markCheck && $scope.priorityCheck && $scope.typeCheck) && $scope.cooperationList.length <= 0) {
+					// 有搜索条件则显示当前无结果
+					$scope.coNoResult = true;
+					$scope.searchNoCo = true;
+				}
+				queryData.deptId = '';
+				queryData.ppid = '';
+			});
+		}else {
+			// 有搜索条件则显示当前无结果
+			$scope.coNoResult = true;
+			$scope.searchNoCo = true;
+		}
       $(".general").removeClass('menusActive');
       $("#draft").removeClass('menusActive');
 		$(".cop-filter, .cop-list, .btn_count").css("display",'inline-block');
@@ -155,9 +180,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
      //弹出筛选框
     $scope.openfilter = function () {
       $scope.isCollapsed = true;
-      $('.overlay').css('display','block');
-      $('.overlay').css('top','59px');
-      $('.overlay').css('height','calc(100vh - 115px)');
+      $('.overlay1').css('display','block');
+      $('.overlay1').css('top','59px');
+      $('.overlay1').css('height','calc(100vh - 115px)');
 	  $('.operation-mask').css('display','block')
     }
     //点击蒙层隐藏筛选匡
@@ -166,6 +191,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       $scope.detailSignal = false;
       $scope.openSignal = false;
       $('.overlay').css('display','none');
+	  $(".operation-mask").hide()
+    }
+
+    $scope.clicklay1 = function () {
+      $scope.isCollapsed = false;
+      $scope.detailSignal = false;
+      $scope.openSignal = false;
+      $('.overlay1').css('display','none');
 	  $(".operation-mask").hide()
     }
 
@@ -214,13 +247,17 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			}else if(treeItems[i].projectType=="PDF"){
 				treeItems[i].imgsrc="imgs/icon/6.png";
 			}
-			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
+			if(!!treeItems[i].count){
+                $("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
+            } else {
+                $("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span></span>")
+            }
 		}
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
 			var createindex = layer.load(1, {
-				   shade: [0.1,'#000'], //0.1透明度的黑色背景
-			   });
+				   shade: [0.5,'#000'], //0.1透明度的黑色背景
+			});
 			$scope.searchkey = $("#exampleInputName1").val();
 			queryData.searchKey = $scope.searchkey;
 			  // $(".draft-box").hide();
@@ -244,6 +281,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //获取工程列表
    	$scope.getprojectInfoList = function (deptId, open) {
+		//if($(".manage-menus .menus-icon".hasClass('rotate2'))){
+
+		//}
+		$(".container-fluid .operation").show();
    		$('.table-list')[0].scrollTop=0;
    		$scope.coNoResult = false;
    		$scope.deptNoCo = false;
@@ -255,7 +296,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
       $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive'); 
    		//初始化数据
        var createindex = layer.load(1, {
-           shade: [0.1,'#000'], //0.1透明度的黑色背景,
+           shade: [0.5,'#000'], //0.1透明度的黑色背景,
        });
    		$scope.scrollend = false;
         queryData.modifyTime = '';
@@ -268,13 +309,14 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$(".cop-filter, .cop-list, .btn_count").css("display",'inline-block');
 		$(".basic-project").show();
 		// $(".draft-box").hide();
-		var ppid = queryData.ppid;
+		var ppid = urlParams.ppid?urlParams.ppid:'';
 		if(!open){
 			Cooperation.getProjectList(deptId).then(function (data) {
 				layer.close(createindex);
 				getimgurl(data,deptId);
-				if(ppid){
+				if(ppid&&firstreackflag){
 					$("span[id='projectbutton_"+ppid+"']").click();
+					firstreackflag = false;
 				}
 			});
 			$scope.deptIdOpenToken = 0;
@@ -353,9 +395,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
  			$scope.changeAttrToken = false;
  			return;
  		}
- 		
+ 		if($scope.flag.filterOk){
+ 			return;
+ 		}
  		//如果第一次加载，没有20条语句，并且出现滚动条，导致srocllend不为true，可以继续滚动
- 		if($scope.cooperationList.length < 20){
+ 		if($scope.cooperationList.length < 20 ){
         	$scope.scrollend = true;
         	return;
         }
@@ -468,6 +512,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			$('.cop-filter').removeClass('filter-active');
 		}
 
+
 	})
 		//选择子公司关闭子公司列表弹框
 		//$('.trent-branch ul li').click(function(){
@@ -494,7 +539,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				$("#deptbutton_"+firstdeptid).click();
 				$("#deptbutton_"+firstdeptid).parent().addClass('menusActive');
 			}
-			firstreackflag = false;
 		}
 
      $(".manage-menus").bind("click", function(){
@@ -502,6 +546,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
                 //获取当前元素
                 $(this).addClass("menusActive").siblings().removeClass("menusActive");
             });
+
+		$scope.flag.isVisible = true;
 	})
 
 	
@@ -521,6 +567,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var token = false;
    	//点击工程获取协同列表
    $scope.getCollaborationList = function (ppid) {
+	   $(".container-fluid .operation").show();
    		$('.table-list')[0].scrollTop=0;
 	   $scope.coNoResult = false;
 	   $scope.deptNoCo = false;
@@ -529,7 +576,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	   $scope.noRelatedNoCo = false;
 	   
 	   var createindex = layer.load(1, {
-		   shade: [0.1,'#000'], //0.1透明度的黑色背景
+		   shade: [0.5,'#000'], //0.1透明度的黑色背景
 	   });
 //	   console.log("创建："+createindex);
 	  if(queryData.ppid==ppid && queryData.modifyTimeCount != 1){
@@ -556,7 +603,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		   if($scope.cooperationList.length <= 0){
 				var groupsCheckAll = false;
 				$scope.coNoResult = true;
-				if($("#allTypeId").is(':checked')&&$("#allPriorityId").is(':checked')&&$("#allMarkId").is(':checked')){
+				if($scope.markCheck && $scope.priorityCheck && $scope.typeCheck) {
+//				if($("#allTypeId").is(':checked')&&$("#allPriorityId").is(':checked')&&$("#allMarkId").is(':checked')){
 					groupsCheckAll = true;
 				}
 				if(groupsCheckAll&&queryData.searchKey == ''&&(queryData.searchType == '' || queryData.searchType == 0)){
@@ -583,9 +631,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	$scope.coMark = data[1].list;
     });
 
-	var queryTypeSelected = [];
-	var queryPriorityselected = [];
-	var queryMarkSelected = [];
 	// action值为add或remove
     var updateSelected = function(action,id,type,index,signal){
         var findIndex = _.findIndex(type, id);
@@ -783,14 +828,19 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		}
     	}
     }
-
     //动态筛选-确定-按钮-搜索
     $scope.filterOk = function () {
+    	$scope.flag.filterOk = true;
         $scope.coNoResult = false;
   	    $scope.deptNoCo = false;
   	    $scope.projNoCo = false;
   	    $scope.searchNoCo = false;
   	    $scope.noRelatedNoCo = false;
+
+        $scope.scrollend = false;
+        queryData.modifyTime = '';
+        queryData.modifyTimeCount = 0;
+
 		$('.operation-mask').css('display','none');
 		if($scope.markCheck && $scope.priorityCheck &&$scope.typeCheck){
 			isCheck()
@@ -798,7 +848,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			isNotCheck()
 		}
         $scope.isCollapsed = false;
-        $('.overlay').css('display','none');
+        $('.overlay1').css('display','none');
     	var groups = [];
     	if(queryTypeSelected.length == 0) {
     		for(var i=0;i<oldSelsectType.length;i++) {	// 确定时 新值覆盖旧值-协作类型
@@ -896,6 +946,10 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     		queryData.modifyTime = 0;
     		Cooperation.getCollaborationList(queryData).then(function (data) {
     			$scope.cooperationList = data;
+    			$scope.flag.filterOk = false;
+    			if(data.length < 20){
+    				$scope.scrollend = true;
+    			}
     			if($scope.cooperationList.length <= 0){
     				$scope.coNoResult = true;
     				$scope.searchNoCo = true;
@@ -913,7 +967,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.filterCancel = function () {
 		$('.operation-mask').css('display','none')
         $scope.isCollapsed = false;
-        $('.overlay').css('display','none');
+        $('.overlay1').css('display','none');
         
 		var typeLength = 0;
 		for(var i=0;i<oldSelsectType.length;i++) {	// 取消时 旧值覆盖新值-协作类型(背景图片调整)
@@ -1094,16 +1148,19 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var deadline = [];
 	$scope.deadlineStr = [];
 	var timeLim =[];
+	var timeName = [];
 	var deadlineCount = 0;
 
 	var maker =[];
 	$scope.makerStatStr = [];
 	var blankId = [];
+	var blankName = [];
 	var makerCount =0;
 
 	var typeStatNub = [];
 	$scope.typeStatStr=[];
 	var coTypeObj = [];
+	var coTypeName = [];
 	var typeCount =0;
 		$('.draft-box').css('display','none');
 	//统计页面
@@ -1111,22 +1168,29 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	$scope.comboxCount = function(){
 		$(".basic-project").hide();
 		$('.draft-box').hide();
+		$(" .operation").hide();
 		$(" .data_count").show();
+		$('body').css('overflowX','hidden');
 		$scope.getCoTotal();
 	}
 	$(".data_back").click(function(){
 	//	alert(123)
 		$('.data_count').hide();
 		$('.draft-box').css('display','none');
+		$(".container-fluid .operation").show();
+		$('body').css('overflowX','auto');
 	})
 	//	装饰线
-
+	//	$('body').css('overflow','hidden');
 	$scope.getCoTotal = function(){
 		//图标内容大小自适应
 		priorityArr = [];
 		timeLim =[];
+		timeName = [];
 		blankId = [];
+		blankName = [];
 		coTypeObj = [];
+		coTypeName = [];
 		$scope.arrString =[];
 		$scope.deadlineStr =[];
 		$scope.makerStatStr=[];
@@ -1135,6 +1199,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if(!queryData.ppid){
 			queryData.ppid ='';
 		}
+		$('.data_count').height($(window).height()-62);
 		Cooperation.getCoStatisticsInfo({deptId :queryData.deptId,ppid:queryData.ppid}).then(function(data){
 			$scope.getCoCountInfo =data.data;
 			//优先级
@@ -1144,6 +1209,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			//标识
 			$scope.makerStat = data.data.makerStat;
 			//协作类型
+			//console.info('$scope.getCoCountInfo',isEmpty($scope.deadLineStat));
 			$scope.typeStat = data.data.typeStat;
 			//判断返回的数据类型是空或者是NaN,如果是把对应的div给移除掉
 			//判断返回数据是否为空
@@ -1160,7 +1226,27 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					return  count +=array[i]
 				}
 			}
+			if(isEmpty($scope.priorityStat)){
+				$('.data_every.first').hide();
+			}else{
 
+				$('.data_every.first').show();
+			}
+			if(isEmpty($scope.deadLineStat)){
+				$('.data_every.second').hide();
+			}else{
+				$('.data_every.second').show();
+			}
+			if(isEmpty($scope.makerStat)){
+				$('.data_every.third').hide();
+			}else{
+				$('.data_every.third').show();
+			}
+			if(isEmpty($scope.typeStat)){
+				$('.data_every.forth').hide();
+			}else{
+				$('.data_every.forth').show();
+			}
 			var isPriorityStat = isEmpty($scope.priorityStat);
 			var isDeadLineStat = isEmpty($scope.deadLineStat);
 			var isMakerStat = isEmpty($scope.makerStat);
@@ -1212,19 +1298,19 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					value = $scope.priorityStat.I;
 					$scope.arrString.push({name:"I", amount: value});
 					arr.push(value);
-					priorityArr.push({value:value,name:"I, "+value,itemStyle:{normal:{color:''}}});
+					priorityArr.push({value:value,name:"I",itemStyle:{normal:{color:''}}});
 				}
 				if(hasII) {
 					value = $scope.priorityStat.II;
 					$scope.arrString.push({name:"II", amount: value});
 					arr.push(value);
-					priorityArr.push({value:value,name:"II, "+value,itemStyle:{normal:{color:''}}});
+					priorityArr.push({value:value,name:"II",itemStyle:{normal:{color:''}}});
 				}
 				if(hasIII) {
 					value = $scope.priorityStat.III;
 					$scope.arrString.push({name:"III", amount: value});
 					arr.push(value);
-					priorityArr.push({value:value,name:"III, "+value,itemStyle:{normal:{color:''}}});
+					priorityArr.push({value:value,name:"III",itemStyle:{normal:{color:''}}});
 				}
 
 				arrCount = 0;
@@ -1273,9 +1359,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						$("#data_graph2").parent().show();
 //						dataTime.name = parsePercent(val/deadlineCount);
 //						dataTime.name=parseInt((val/deadlineCount)*100)+"%";
-						dataTime.name = key+", "+val;
+//						dataTime.name = key+", "+val;
+						dataTime.name = key;
 					}
 					timeLim.push(dataTime);
+					timeName.push(key);
 				});
 				for(var a = 0;a<timeLim.length;a++){
 					timeLim[a].itemStyle.normal.color= colorStyle1[a]
@@ -1305,16 +1393,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					blank.value =obj.count;
 					blank.itemStyle.normal.color = obj.color;
 					if(isEmptyArr(maker)==0){
-						//blank.name = val.toString();
 						$("#data_graph3").parent().hide();
 					}else{
 						$("#data_graph3").parent().show();
-//						blank.name = parsePercent(val/makerCount);
-//						blank.name =parseInt((val/makerCount)*100)+"%";
-						blank.name = key+", "+obj.count;
+//						blank.name = key+", "+obj.count;
+						blank.name = key;
 					}
 
 					blankId.push(blank);
+					blankName.push(key);
 				})
 				/*for(var b = 0;b<blankId.length;b++){
 					blankId[b].itemStyle.normal.color = colorStyle2[b];
@@ -1346,22 +1433,132 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					coType.value = obj.count;
 					coType.itemStyle.normal.color = obj.color;
 					if(isEmptyArr(typeStatNub)==0){
-						//coType.name =val.toString();
 						$("#data_graph4").parent().hide()
 					}else{
 						$("#data_graph4").parent().show();
-//						coType.name = parsePercent(val/typeCount);
-//						coType.name = parseInt((val/typeCount)*100)+"%";
-						coType.name = key+", "+obj.count;
+						coType.name = key;
 
 					}
 					coTypeObj.push(coType);
-
+					coTypeName.push(key);
 				});
 				/*for(var c= 0;c<coTypeObj.length;c++){
 					coTypeObj[c].itemStyle.normal.color = colorStyle2[c];
 				}*/
 			var myChart1 = echarts.init(document.getElementById('data_graph'));
+			//优先级统计饼图
+			var arrPriorityName = [];
+			for(var i = 0; i < priorityArr.length; i++) {
+				arrPriorityName.push(priorityArr[i].name);
+			}
+			var option1 = { 
+					tooltip: {	// 鼠标移上去显示的黑框
+				        trigger: 'item',
+				        //formatter: "{b}, {c} ({d}%)"
+						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+				    },
+
+				    title : {
+				        text: '优先级',
+				        x:'left',
+						left:15,
+				        y:'10',
+						//borderWidth:1,
+						padding: [10,67,10,0],
+						//backgroundColor:'#F9F9F9',
+						//borderColor:'#F0F0F2',
+						textStyle:{
+							fontSize: 18,
+							fontWeight: 'normal',
+							color: '#333',
+							fontFamily:'Microsoft yahei'
+						}
+					},
+				    legend: {	// 列表
+				    	orient: 'vertical',
+						x: 'left',
+						left:15,
+				        padding: [10,78,10,0],
+				        itemGap: 15,
+						//backgroundColor:'#F9F9F9',
+						//borderColor:'#F0F0F2',
+				        data:arrPriorityName,
+						itemWidth:20,
+						itemHeight:12,
+				        formatter: function (name) {
+							if (name.length == 1) {
+								name = name + "  ";
+							} else if (name.length == 2) {
+								name = name + " ";
+							}
+							return echarts.format.truncateText("  "+name, 70, '14px Microsoft Yahei', '…');
+				        },
+				        tooltip: {
+				            show: true
+				        },
+				        //borderWidth:1,
+				        top: '47',
+				        right: '50',
+				        align : 'left',
+						width: '500'
+				    },
+					series: [
+			         {
+			             type:'pie',
+			             radius: ['40%', '60%'],
+			             avoidLabelOverlap: false,
+			             center: ['60%', '50%'],
+			             label: {
+			                 normal: {  show: false, position: 'center' },
+			                 emphasis: {	// 鼠标移上去显示在中间的字
+			                     show: true,
+								 textStyle: {
+									 fontSize: '20',
+									 fontWeight: 'bold',
+									 fontFamily:'Microsoft yahei',
+								 },
+								 formatter: "数量 : {c}\n\n比例 : {d}%",
+			                 }
+			             },
+			             labelLine: { normal: { show: true } },
+			             data : priorityArr
+			         }
+			     ]};
+			/*var option1 = { 
+					tooltip: {	// 鼠标移上去显示的黑框
+				        trigger: 'item',
+				        formatter: "{b} ({d}%)"
+				    },
+				    legend: {	// 列表
+				        orient: 'vertical',
+				        x: 'right',
+				        data:arrPriorityName
+				    },
+					series: [
+			         {
+			             type:'pie',
+//			             radius: ['40%', '60%'],
+			             avoidLabelOverlap: false,
+			             label: {
+			                 normal: {  show: false, position: 'center' },
+			                 
+			                 emphasis: {	// 鼠标移上去显示在中间的字
+			                     show: true,
+			                     textStyle: {
+			                         fontSize: '20',
+			                         fontWeight: 'bold'
+			                     }
+			                 }
+			             },
+			             labelLine: { normal: { show: false } },
+			         },
+			         {
+							type:'pie',
+							labelLine: {
+								normal: {
+									show: true
+								}
+							},
 				//标识统计
 			var option1 = {
 				series: [
@@ -1369,38 +1566,86 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						type:'pie',
 						labelLine: {
 							normal: {
-								show: true
+								show: false
 							}
 						},
-					},
-					{
-						type:'pie',
-						radius: ['40%', '60%'],
-						data:priorityArr
-					}
-				]
-			};
+						{
+							type:'pie',
+							radius: ['40%', '60%'],
+							data:priorityArr
+						}
+			     ]};*/
 				myChart1.setOption(option1);
 
 				//	第二部分
 			var myChart2 = echarts.init(document.getElementById('data_graph2'));
-			var option2 = {
-				series: [
-					{
-						type:'pie',
-						labelLine: {
-							normal: {
-								show: true
-							}
-						},
-					},
-					{
-						type:'pie',
-						radius: ['40%', '60%'],
-						data:timeLim
-					}
-				]
-			};
+			var option2 = { 
+					tooltip: {	// 鼠标移上去显示的黑框
+				        trigger: 'item',
+				        //formatter: "{b}, {c} ({d}%)"
+						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+				    },
+				    title : {
+				        text: '期限',
+				        x:'left',
+				        y:'10',
+						left:15,
+						padding: [10,84,10,0],
+						//borderWidth:1,
+						//backgroundColor:'#F9F9F9',
+						//borderColor:'#F0F0F2',
+						textStyle:{
+							fontSize: 18,
+							fontWeight: 'normal',
+							color: '#333',
+							fontFamily:'Microsoft yahei'
+						}
+				    },
+				    legend: {	// 列表
+				    	 orient: 'vertical',
+				         x: 'left',
+				         itemGap: 15,
+						left:15,
+						padding: [10,52,10,0],
+						itemWidth:20,
+						itemHeight:12,
+						//backgroundColor:'#F9F9F9',
+						//borderColor:'#F0F0F2',
+				        data:timeName,
+				        formatter: function (name) {
+				            return echarts.format.truncateText("  "+name, 70, '14px Microsoft Yahei', '…');
+				        },
+				        tooltip: {
+				            show: true
+				        },
+				        height:300,
+				        //borderWidth:1,
+				        top: '47',
+				        right: '50',
+				        align : 'left'
+				    },
+					series: [
+			         {
+			             type:'pie',
+			             radius: ['40%', '60%'],
+			             avoidLabelOverlap: false,
+						 center: ['60%', '50%'],
+			             label: {
+			                 normal: {  show: false, position: 'center' },
+			                 emphasis: {	// 鼠标移上去显示在中间的字
+			                     show: true,
+								 textStyle: {
+									 fontSize: '20',
+									 fontWeight: 'bold',
+									 fontFamily:'Microsoft yahei',
+								 },
+								 formatter: "数量 : {c}\n\n比例 : {d}%",
+			                 }
+			             },
+			             labelLine: { normal: { show: true } },
+			             data : timeLim
+			         }
+			     ]};
 				// 使用刚指定的配置项和数据显示图表。
 				myChart2.setOption(option2);
 			//图标内容大小自适应
@@ -1409,31 +1654,165 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			var myChart3 = echarts.init(document.getElementById('data_graph3'));
 				// 指定图表的配置项和数据
 				//			app.title = '环形图';
-			var option3 = {
-				series: [
-					{
-						type:'pie',
-						labelLine: {
-							normal: {
-								show: true
-							}
-						},
-					},
-					{
-						type:'pie',
-						radius: ['40%', '60%'],
-						data:blankId
-					}
-				]
-			};
 
-				// 使用刚指定的配置项和数据显示图表。
-				myChart3.setOption(option3);
+			var isNull = false;
+
+			var tempName = '';
+			for(var i = 0; i < blankName.length; i ++){
+				var name = blankName[i];
+				if (tempName.length < name.length) {
+					tempName = name;
+				}
+			}
+
+			function Compute(v) {
+				var d = document.getElementById('dvCompute');
+				//d.innerHTML = '&nbsp;';
+				d.innerHTML = v;
+				return { w: d.offsetWidth, h: d.offsetHeight };
+			}
+
+			//console.info(((140 - d.w) * 4.2));
+
+			var option3 = {
+					tooltip: {	// 鼠标移上去显示的黑框
+				        trigger: 'item',
+				        formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+				    },
+				    title : {
+				        text: '标识',
+				        x:'left',
+				        y:'10',
+						left:15,
+						textStyle:{
+							fontSize: 18,
+							fontWeight: 'normal',
+							color: '#333',
+							fontFamily:'Microsoft yahei'
+						}
+				    },
+				    legend: {	// 列表
+						width:100,
+						orient: 'vertical',
+						x: 'left',
+						itemGap: 15,
+						itemWidth:20,
+						itemHeight:12,
+						left:15,
+				        data:blankName,
+						formatter: function (name) {
+							return echarts.format.truncateText(" " + name, 70, '14px Microsoft Yahei', '...');
+						},
+				        tooltip: {
+				            show: true
+				        },
+				        height:300,
+				        top: '47',
+				        align : 'left'
+				    },
+					series: [
+			         {
+			             type:'pie',
+			             radius: ['40%', '60%'],
+			             avoidLabelOverlap: false,
+						 center: ['60%', '50%'],
+			             label: {
+			                 normal: {  show: false, position: 'center' },
+			                 emphasis: {	// 鼠标移上去显示在中间的字
+			                     show: true,
+			                     textStyle: {
+			                         fontSize: '20',
+			                         fontWeight: 'bold',
+									 fontFamily:'Microsoft yahei',
+									 align : 'left',
+			                     },
+			                     //formatter: " {c} ({d}%)",
+								 formatter: "数量 : {c}\n\n比例 : {d}%",
+                                 //x:left,
+
+
+                                 //formatter: function (name) {
+									// return echarts.format.truncateText(name, 40, '14px Microsoft Yahei', '…');
+                                 //},
+			                 }
+			             },
+			             labelLine: { normal: { show: true } },
+			             data : blankId
+                         //data : [{value:'222', name:'11a'}]
+			         }
+			     ]};
+			// 使用刚指定的配置项和数据显示图表。
+			myChart3.setOption(option3);
 			//图标内容大小自适应
 			//	window.onresize = myChart3.resize;
 				//图形绘制
 				var myChart4 = echarts.init(document.getElementById('data_graph4'));
 				var option4 = {
+						tooltip: {	// 鼠标移上去显示的黑框
+					        trigger: 'item',
+					        //formatter: "{b}, {c} ({d}%)"
+							formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+					    },
+					    title : {
+					        text: '协作类型',
+					        x:'left',
+					        y:'10',
+							left:15,
+							//borderWidth:1,
+							//padding: [10,48,10,10],
+							//backgroundColor:'#F9F9F9',
+							//borderColor:'#F0F0F2',
+							textStyle:{
+								fontSize: 18,
+								fontWeight: 'normal',
+								color: '#333',
+								fontFamily:'Microsoft yahei'
+							}
+					    },
+					    legend: {	// 列表
+					    	 orient: 'vertical',
+					         x: 'left',
+					         itemGap: 15,
+							left:15,
+							padding: [10,40,10,0],
+							itemWidth:20,
+							itemHeight:12,
+					        data:coTypeName,
+					        formatter: function (name) {
+					            return echarts.format.truncateText("  "+name, 70, '14px Microsoft Yahei', '…');
+					        },
+					        tooltip: {
+					            show: true
+					        },
+					        height:300,
+					        top: '47',
+					        align : 'left'
+					    },
+						series: [
+				         {
+				             type:'pie',
+				             radius: ['40%', '60%'],
+				             avoidLabelOverlap: false,
+							 center: ['60%', '50%'],
+				             label: {
+				                 normal: {  show: false, position: 'center' },
+				                 emphasis: {	// 鼠标移上去显示在中间的字
+				                     show: true,
+									 textStyle: {
+										 fontSize: '20',
+										 fontWeight: 'bold',
+										 fontFamily:'Microsoft yahei',
+									 },
+									 formatter: "数量 : {c}\n\n比例 : {d}%",
+				                 }
+				             },
+				             labelLine: { normal: { show: true } },
+				             data : coTypeObj
+
+				         }
+
+				     ]};
+				/*var option4 = {
 					series: [
 						{
 							type:'pie',
@@ -1449,7 +1828,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 							data:coTypeObj
 						}
 					]
-				};
+				};*/
 				// 使用刚指定的配置项和数据显示图表。
 				myChart4.setOption(option4);
 			//图标内容大小自适应
@@ -1460,7 +1839,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				myChart2.resize();
 				myChart3.resize();
 				myChart4.resize();
+				$('.data_count').height($(window).height()-62);
 			}
+
 			})
 
 		}
@@ -1497,6 +1878,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		$scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
 			// 页面渲染完成后 设置左侧sidebar的高度
 			$(".sidebar").css("height", document.documentElement.clientHeight-$("header").height()-2);
+			$(".manage-menus").click(function(){
+				$(this).find('.menus-icon').toggleClass('rotate2');
+			})
 	    })
 }]);
 

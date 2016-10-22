@@ -2,13 +2,14 @@
 /**
  * 协作管理
  */
-angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal', '$state','FileUploader','Manage','$stateParams',
-    function ($scope, $http, $uibModal, $state, FileUploader,Manage,$stateParams) {
+angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal', '$state','FileUploader','Manage','$stateParams','Cooperation','$sce',
+    function ($scope, $http, $uibModal, $state, FileUploader,Manage,$stateParams,Cooperation,$sce) {
 	var firstreackflag = true;//进入页面只加载一次定位
 	var firstdeptid; //第一个项目部id
     var searchId = $stateParams.ppid?$stateParams.ppid:'';//工程ppid
 	var deptId = $stateParams.deptId?$stateParams.deptId:'';
 	var changeProj = false;
+    $scope.flag = {};
 	$scope.docType = "1";
     $scope.deptInfoList = [];
     $scope.projectInfoList = [];
@@ -16,7 +17,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.isNoSearchValue = false;//搜索无工程
     $scope.isNoSearchValueBook = false;//搜索资料
     $scope.isNoSearchValueReject = false;//搜索无结果
-    $scope.isShowProList = false;;
+    $scope.isShowProList = false;
     $scope.openNew = function () {
     	$scope.openSignal = true;
     }
@@ -66,7 +67,11 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 			}else if(treeItems[i].projectType=="PDF"){
 				treeItems[i].imgsrc="imgs/icon/6.png";
 			}
-			$("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
+            if(!!treeItems[i].count){
+                $("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
+            } else {
+                $("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span></span>")
+            }
         }
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
@@ -86,7 +91,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     //获取项目部下的工程列表
     $scope.childItems = function(id,$event,open){
     	var createindex = layer.load(1, {
-            shade: [0.1,'#000'] //0.1透明度的黑色背景
+            shade: [0.5,'#000'] //0.1透明度的黑色背景
         });
         var searchBox = $("#exampleInputName2").val();
         $(".good_list").show();
@@ -459,7 +464,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".goodlist_left").hide();
             $(".prolist_left").show();
             var createindex = layer.load(1, {
-                shade: [0.1,'#000'] //0.1透明度的黑色背景
+                shade: [0.5,'#000'] //0.1透明度的黑色背景
             });
             $scope.seacherKey = $("#exampleInputName3").val();
             if(!$scope.docType){
@@ -476,13 +481,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 searchType:$scope.docType
             }).then(function (data) {
             	var size = 0;
-                if(data.data.length==0){
-                    $(".pro_list").css('display','none');
-                    $scope.isNoSearchValueReject = true;
-                } else{
-                    $scope.isNoSearchValueReject = false;
-                    $(".pro_list").css('display','block');
-                }
                 if(data.data.length!=0){
                     for(var i=0 ;i<data.data.length;i++){
                     	size++;
@@ -490,6 +488,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     }
                     lastUploadTime = data.data[data.data.length-1].updateTime;
                     lastUsername = data.data[data.data.length-1].username;
+                }
+                
+                if($scope.trentsListInfo.length == 0) {
+                	 $(".pro_list").css('display','none');
+                     $scope.isNoSearchValueReject = true;
+                } else{
+                    $scope.isNoSearchValueReject = false;
+                    $(".pro_list").css('display','block');
                 }
                 if(data.data.length<10){
                     $scope.scrollend = true;
@@ -528,16 +534,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 return;
             }
             Manage.getTrendsFileViewUrl(data).then(function (result) {
-                $scope.previewimg = result;
-                layer.open({
-                        type: 2,
-                        title: '预览',
-                        fix: false,
-                        shadeClose: true,
-                        maxmin: true,
-                        area: ['1000px', '500px'],
-                        content: $scope.previewimg
-                    });
+                console.log(typeof result)
+                    $scope.flag.isPreview = true;
+                    $scope.previewUrl = $sce.trustAsResourceUrl(result);
             },function (data) {
                 var obj = JSON.parse(data);
 //                console.log(obj);
@@ -593,8 +592,53 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //    })
         //}
         //$scope.currentTime();
+        $scope.backManage = function () {
+            $scope.flag.isPreview = false;
+        }
 
         $scope.transCooperation = function () {
             $state.go('cooperation', {'transignal':'be'});
         }
+
+        //调用心跳机制
+        Cooperation.heartBeat();
+        //跳转新页面去除心跳机制
+        $scope.$on('$stateChangeStart', 
+            function(event, toState, toParams, fromState, fromParams){
+                clearInterval(ApplicationConfiguration.refreshID);
+                layer.closeAll();
+        });
+
+        //最大化、最小化、还原、关闭
+        //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  
+        //窗口缩小
+        $scope.minimize = function () {
+            BimCo.SysCommand('SC_MINIMIZE');
+        }
+
+        //窗口放大还原
+        var num=0; 
+        $scope.max = true;
+        $scope.maxRestore = function ($event) {
+            if(num++ %2 == 0){ 
+//              console.log('max');
+                $scope.max = false;
+                $scope.restore = true;
+                //对接pc
+                BimCo.SysCommand('SC_MAXIMIZE');
+
+            } else {
+//              console.log('restore');
+                $scope.max = true;
+                $scope.restore = false;
+                //对接pc
+                BimCo.SysCommand('SC_RESTORE');
+            }
+        }
+        //窗口关闭
+        $scope.close = function () {
+            BimCo.SysCommand('SC_CLOSE');
+        }
+
+
 }]);

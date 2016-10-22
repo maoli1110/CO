@@ -24,6 +24,9 @@
 .show-more-btn span{
     padding-right:10px;
 }
+.show-more-btn span:not(.bv-more):hover{
+    color:#3fce61;
+}
 header{
     height:60px;
     background:#ddd;
@@ -37,9 +40,15 @@ header{
     width:100%;
     border: 1px solid rgba(221,221,221,1);
 }
+.pro_man .bootstrap-select.btn-group[class*="col-"] .dropdown-toggle:hover{
+    border:1px solid #65C17D;
+}
 .edit-blank  .dropdown-menu{
     width:100%;
-    width:200px;
+    width:150px;
+}
+.edit-blank span+div.bootstrap-select{
+    width:200px !important;
 }
 .edit-blank  .btn-group{
     width:41% !important;
@@ -196,7 +205,9 @@ header .close{
     line-height: 34px;
     padding-left: 10px;
 }
-
+.int-style:hover{
+    border:1px solid #65C17D;
+}
 .proInfo .pro_man> div{
     margin-bottom:23px;
 }
@@ -412,6 +423,9 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    background: #eceef0 !important;
+    color: #ddd;
+    border-color: #ddd;
     /*margin-top:-200px;*/
     /*position:absolute;*/
 }
@@ -488,15 +502,12 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     border:2px solid #dbdee7;
 }
 .reply .comment {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     min-height: 20px;
-    border-radius: 23px;
+    border-radius: 0px !important;
 }
 .reply .say{
     margin-bottom:40px;
-}
-.reply .comment{
-    border-radius:5px;
 }
 .reply .col-md-11,.col-xs-10,.col-md-12{
     padding:0;
@@ -671,6 +682,7 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     width:24px;
     height:24px;
     border-radius: 50%;
+    border: 1px solid #d8dbe5;
 }
 /*------------------footer---------------------*/
 .footer{
@@ -773,7 +785,10 @@ html,body{
     padding: 0 8px;
     line-height: 31px !important;
 }
-/*标识色块*/
+.proInfo .calder:hover{
+    border:1px solid #65C17D;
+}
+    /*标识色块*/
 .chara{
     width: 16px;
     height: 16px;
@@ -789,6 +804,12 @@ html,body{
 }
 .line-height30{
     line-height:30px;
+}
+.proInfo .pro_man .coop-theme input{
+    border:1px solid #ddd;padding:0 10px;
+}
+.proInfo .pro_man .coop-theme input:hover{
+    border:1px solid #65C17D;
 }
 /*协作主题*/
 .themer{
@@ -833,8 +854,10 @@ html,body{
     background:#449d44  !important;
 }
 .edit-dis{
-    padding: 3px 10px !important;
-    text-indent:28px;
+    padding: 7px 10px !important;
+}
+.edit-dis:hover{
+    border:1px solid #65C17D;
 }
 .mobile-main .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
@@ -1111,9 +1134,9 @@ html,body{
     border:1px solid #ddd;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear>img{
-    width:70px;
-    height:auto;
-
+    width: 56px;
+    overflow: hidden;
+    margin-top: 6px;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear .detail-search{
     width:100%;

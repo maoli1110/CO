@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8; IE=edge"/>
 		<meta name="renderer" content="webkit">
 		<!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"">
 		<title></title>
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
@@ -12,12 +12,17 @@
 		<link rel="stylesheet" href="./lib/bootstrap-select/dist/css/bootstrap-select.css">
 		<!-- ztree -->
 		<link rel="stylesheet" href="./lib/ztree/css/zTreeStyle_new.css">
+
 		<!-- project core CSS -->
-		<link rel="stylesheet" href="./css/main.css">
-		<link rel="stylesheet" href="./css/trend.css">
 		<link rel="stylesheet" href="./css/cooperation.css">
-		<link rel="stylesheet" href="./css/animate.css">
-		<!-- <link rel="stylesheet" href="./build/all.css"> -->
+		<!-- <link rel="stylesheet" href="./css/main.css"> -->
+
+		<!-- gulp 压缩 整合 -->
+		<link rel="stylesheet" href="./release/main.min.css">
+
+		<!-- 动画css插件加载 -->
+		<link rel="stylesheet" href="./css/animate.min.css">
+
 		<!--滚动条-->
 		<!-- custom scrollbar stylesheet -->
 		<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
@@ -32,7 +37,6 @@
 
 		<script>
 			var basePath = "<%=basePath %>";
-			//console.log(basePath);
 		</script>
 		
 		</head>
@@ -41,7 +45,6 @@
 		<div class="content-main" ui-view>
 			
 		</div> 
-		
 		
 		<!-- 警告弹框 -->
 		<!-- <div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
@@ -84,33 +87,10 @@
 		<!-- main -->
 		<script type="text/javascript" src="./modules/config.js"></script>
 		<script type="text/javascript" src="./modules/application.js"></script>
-		<!-- core -->
-		<script type="text/javascript" src="./modules/core/core.module.js"></script>
-		<script type="text/javascript" src="./modules/core/config/core.routes.js"></script>
-		<script type="text/javascript" src="./modules/core/directives/directive.js"></script>
-		<script type="text/javascript" src="./modules/core/services/common.service.js"></script>
-		<script	 type="text/javascript" src="./modules/core/controller/header.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/core/services/header.service.js"></script>
-		<!-- manage -->
-		<script type="text/javascript" src="./modules/manage/manage.module.js"></script>
-		<script type="text/javascript" src="./modules/manage/config/manage.routes.js"></script>
-		<script type="text/javascript" src="./modules/manage/controllers/manage.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/manage/services/manage.service.js"></script>
-		<!-- cooperation -->
-		<script type="text/javascript" src="./modules/cooperation/cooperation.module.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/config/cooperation.routes.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/cooperation.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperation.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/coopdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/updatecomment.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkproject.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkcomponent.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkbe.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkform.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
-		<!-- <script type="text/javascript" src="./build/all.min.js"></script> -->
+
+		<!-- core manage cooperation js gulp 整合 -->
+		<script type="text/javascript" src="./release/all.min.js"></script>
+
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
 		<script src="js/jquery.mousewheel.min.js"></script>

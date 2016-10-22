@@ -536,15 +536,20 @@ angular.module('core').directive('bvOperation', function($document) {
         link: function(scope, element, attr) {
             var rightDistance = document.getElementsByClassName('content_right_bv')[0].offsetWidth;
             var rightDistance1 = document.getElementsByClassName('paly-model')[0].offsetWidth;
-
+            // $("#content_right_bv").ontouchMove(function(){
+            //     $('body').css('overflow','hidden');
+            // },function(){
+            //     $('body').css('overflow','auto');
+            // });
             $(".btn_box_bv").click(function(){
             console.log('rightDistance1', rightDistance);
                 $(".show_btn").toggleClass("glyphicon-menu-left")
                 //toggleClass增加一个class      
-                        //通过判断这个class的状态来决定是开操作还是关操作
-                        $(".content_right_bv").toggleClass("menus");
+                //通过判断这个class的状态来决定是开操作还是关操作
+                $(".content_right_bv").toggleClass("menus");
                 if($(".content_right_bv").hasClass("menus")){
-                	$('body').css('overflow-y','hidden');
+                    $('body').css('overflow-y','hidden');
+                	$('body').css('position','fixed');
                     $(".btn_box_bv").animate({right:rightDistance})
                     $(".content_right_bv").animate({right:"0"})
                     $(".glyphicon-menu-right").css("display",'inline-block');
@@ -552,6 +557,7 @@ angular.module('core').directive('bvOperation', function($document) {
 
                 }else{
                 	$('body').css('overflow-y','auto');
+                    $('body').css('position','');
                      $(".btn_box_bv").animate({"right":"0"});
                      $(".content_right_bv").animate({"right": -rightDistance});
                     $(".glyphicon-menu-right").css('display','none');
@@ -565,6 +571,7 @@ angular.module('core').directive('bvOperation', function($document) {
                         $(".content_right_bv").toggleClass("menus");
                 if($(".content_right_bv").hasClass("menus")){
                 	$('body').css('overflow-y','hidden');
+                    $('body').css('position','fixed');
                     $(".btn_box_bv").animate({right:rightDistance})
                     $(".content_right_bv").animate({right:"0"})
                     $(".glyphicon-menu-right").css("display",'inline-block');
@@ -572,6 +579,7 @@ angular.module('core').directive('bvOperation', function($document) {
 
                 }else{
                 	$('body').css('overflow-y','auto');
+                     $('body').css('position','');
                      $(".btn_box_bv").animate({"right":"0"});
                      $(".content_right_bv").animate({"right": -rightDistance});
                     $(".glyphicon-menu-right").css('display','none');
@@ -586,3 +594,37 @@ window.onresize = function(){
     $(" #content-a3").height($(window).height()-52);
     $(" #content-b1").height($(window).height()-52);
 }
+    //模态框可拖动的指令
+angular.module('core').directive('draggable', ['$document', function($document) {
+        return function(scope, element, attr) {
+            var startX = 0, startY = 0, x = 0, y = 0;
+            element= angular.element(document.getElementsByClassName("modal-dialog"));
+            element.css({
+                position: 'relative',
+                cursor: 'move'
+            });
+
+            element.on('mousedown', function(event) {
+                // Prevent default dragging of selected content
+                event.preventDefault();
+                startX = event.pageX - x;
+                startY = event.pageY - y;
+                $document.on('mousemove', mousemove);
+                $document.on('mouseup', mouseup);
+            });
+
+            function mousemove(event) {
+                y = event.pageY - startY;
+                x = event.pageX - startX;
+                element.css({
+                    top: y + 'px',
+                    left:  x + 'px'
+                });
+            }
+
+            function mouseup() {
+                $document.off('mousemove', mousemove);
+                $document.off('mouseup', mouseup);
+            }
+        };
+    }]);

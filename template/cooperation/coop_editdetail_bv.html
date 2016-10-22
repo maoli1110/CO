@@ -7,9 +7,7 @@
         overflow-y:visible;
     }
 </style>
-<script>
-    autosize(document.querySelector('#textarea'));
-</script>
+
 <div class="mobile-devices" ng-show="device" style="overflow:hidden;" text-area>
     <!--mobile-mark-->
     <div class="mobile-mark" ng-click="onTurn()"></div>
@@ -103,8 +101,8 @@
                 </dl>
             </div>
             <div ng-show="isRevlentMore" class="show-more-btn clearfix" style="margin-top:10px;text-align:center;color:#909090;" >
-                <span ng-show="showMore" ng-click="showMorePerson()">显示更多</span>
-                <span ng-show="collapse"  ng-click="collapsePerson()">收起</span>
+                <span ng-show="showMore" class="bv-more"  ng-click="showMorePerson()">显示更多</span>
+                <span ng-show="collapse"  class="bv-more"  ng-click="collapsePerson()">收起</span>
             </div>
         </div>
         <!--照片-->
@@ -112,11 +110,10 @@
             <div class="photo-title col-xs-2 F16" > 照片: </div>
             <div class="photo-con col-xs-10" style="padding:0 5px;float:right">
                 <dl class="photo-list" ng-repeat="item in collaList.pictures">
-                    <dt class="rela detail-sear" style="background:url('{{item.fileUrl}}');background-size:cover;">
-                        <!--<img src="{{item.fileUrl}}"/>-->
-                    <div class="detail-search">
-                        <img src="imgs/seache.png" alt="">
-                    </div>
+                    <dt class="rela detail-sear"  style="background:url('{{item.thumbnailUrl}}');background-size:cover;" ng-if="!!item.thumbnailUrl">
+                    </dt>
+                    <dt class="rela detail-sear is-empty"  ng-if="!item.thumbnailUrl">
+                        <img  ng-src="{{item.imgsrc}}">
                     </dt>
                    <!--  <dd class="substr" style="width:70px;">{{name}}</dd> -->
                 </dl>
@@ -127,8 +124,11 @@
             <div class="means-title col-xs-2 F16"> 资料： </div>
             <div class="means-con col-xs-10" style="padding:0 5px;">
                 <dl class="means-list" ng-repeat="item in collaList.docs" profit> 
-                    <dt class="rela means-down">
-                        <img ng-src="{{item.imgsrc}}">
+                    <dt class="rela means-down is-empty" ng-if="!!item.thumbnailUrl">
+                        <img  ng-src="{{item.thumbnailUrl}}">
+                    </dt>
+                     <dt class="rela means-down is-empty" ng-if="!item.thumbnailUrl">
+                        <img  ng-src="{{item.imgsrc}}">
                     </dt>
                     <dd title="{{item.name}}">{{item.name}}</dd>
                 </dl>
@@ -159,8 +159,8 @@
                                         <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                       <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
                                         <!--<span style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;"></span>-->
-                                        <span ng-if="doc.thumbnailUrl"  style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;"></span>
-                                        <span ng-if="!doc.thumbnailUrl"style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;"></span>
+                                        <span ng-if="doc.thumbnailUrl"  style='width:60px;height:60px;background:url("{{doc.thumbnailUrl}}") no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;'></span>
+                                        <span ng-if="!doc.thumbnailUrl" style='width:60px;height:60px;background:url("{{doc.imgsrc}}") no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;'></span>
                                         <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
                                     </div>
                                 </div>
@@ -188,3 +188,8 @@
         <button class="DIY-btn  mobile-btn-defult" type="button" ui-sref="coopdetail({coid: transcoid})">取消</button>
     </div> -->
 </div>
+<script>
+    setTimeout(function(){
+        autosize(document.querySelector('#textarea'));
+    },1000)
+</script>

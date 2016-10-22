@@ -291,7 +291,7 @@ website:	http://code.google.com/p/jquerytree/
 }
 
 .ztree li span.button.root_docu {
-	background: none;
+	background-position: 0px -29px;
 }
 
 .ztree li span.button.roots_docu {
@@ -435,4 +435,8 @@ ul.ztree.zTreeDragUL {
 }
 .ztree li span.button.tekla_ico_docu {
 	background: url(../../../imgs/icon/tekla.png) no-repeat scroll 0 0 transparent;
+}
+
+.ztree li span.button.org_ico_docu {
+    background: url(../../../imgs/icon/org.png) no-repeat scroll 0 0 transparent;
 }

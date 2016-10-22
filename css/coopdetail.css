@@ -8,6 +8,9 @@
     .mobile-relate .col-md-11{
         width:91.66666667% !important;
     }
+    .data_list .data_every .data_titleInfo{
+        margin-top:100px;
+    }
 }
 
 /*电脑端*/
@@ -26,7 +29,7 @@
     font-size:14px;
 }
 .detail-computer .detail-dir{
-    border:1px solid #ddd;min-height:108px;padding: 3px 8px;
+    border:1px solid #ddd;min-height:108px;padding: 6px 8px;
 }
 
 /*---------------------main--------------------*/
@@ -176,11 +179,6 @@
 /*}*/
 
 /*play-audio-Mask*/
-.detail-voice{
-   /* text-align:center;*/
-    line-height:120px;
-    display:none;
-}
 .detail-voice .play-audio-mask{
     position:fixed;
     top:0;
@@ -395,6 +393,9 @@ a:hover{color:#c00;text-decoration:underline;}
     height:118px;
     border:1px solid #ddd;
 }
+.action .picInfo .data-list dt:hover{
+    border:1px solid #65C17D;
+}
 .action .picInfo .data-list dd{
     width: 118px;
     overflow: hidden;
@@ -504,7 +505,7 @@ a:hover{color:#c00;text-decoration:underline;}
 }
 /*-------bttn(侧边栏样式)-----------------------------------*/
  .btn_box_pc{
-    top: 88px;
+    top: 42px;
     width: 43px;
     height: 74px;
     background: #979ba8;
@@ -576,7 +577,7 @@ a:hover{color:#c00;text-decoration:underline;}
     left: 2px;
     top: 0;
     width: 2px;
-    height: calc(100% - 86px);
+    height: calc(100% - 100px);
     background: #65c17d;
 }
 .mobile-devices .state::before {
@@ -602,6 +603,12 @@ a:hover{color:#c00;text-decoration:underline;}
 	 margin-bottom:0;
 	 
 }
+.replay-down{
+    border:1px solid #ddd;
+}
+.replay-down:hover{
+    border:1px solid #65C17D;
+}
 .state ul li .step{
     width:34px;
     height:34px;
@@ -611,7 +618,21 @@ a:hover{color:#c00;text-decoration:underline;}
     position:absolute;
     top:0;
     left:-15px;
-
+    text-align:center;
+    display:inline-block;
+}
+.state ul li .step.pc-step img{
+    text-align: center;
+    width: 25px;
+    vertical-align: middle;
+    margin-left: 4.3px;
+}
+.state ul li .step.pc-step img+span{
+    display:inline-block;
+    vertical-align:middle;
+    text-align:center;
+    width:0%;
+    height:100%;
 }
 .mobile-devices .state ul li .step {
     background: #5c58f9;
@@ -643,8 +664,11 @@ a:hover{color:#c00;text-decoration:underline;}
     width:24px;
     height:24px;
     border-radius: 50%;
+    border:1px solid #d8dbe5;
 }
-
+.down-operate{
+   width: 120px;margin-top:10px;text-align:left;
+}
 /*------------------footer---------------------*/
 
 .show-icon {
@@ -698,8 +722,8 @@ a:hover{color:#c00;text-decoration:underline;}
 /*手机端*/
 html,body{
     height:100%;
-    overflow-x:hidden;
-    /*overflow-y:scroll;*/
+/*    overflow-x:hidden;
+    overflow-y:scroll;*/
     /*scroll:no;*/
 }
 
@@ -718,6 +742,7 @@ html,body{
     position:fixed;
     top:0;
     left:0;
+    bottom: 0;
     z-index:1;
     display:none;
 }
@@ -870,11 +895,6 @@ html,body{
     float:right;
 }
 /*play-audio-Mask*/
-.mobile-devices .detail-voice{
-   /* text-align:center;*/
-    line-height:50px;
-    display:none;
-}
 .mobile-devices .detail-voice .play-audio-mask{
     position:absolute;
     top:0;
@@ -1011,6 +1031,9 @@ textarea{
 .show-more-btn span{
     padding-right:10px;
 }
+.show-more-btn span:not(.bv-more):hover{
+    color:#3fce61;
+}
 .mobile-main .mobile-relate .show-more-btn {
     position:absolute;
     bottom:10px;
@@ -1034,8 +1057,9 @@ textarea{
     border:1px solid #ddd;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear>img{
-    width:70px;
-    height:70px;
+    width: 56px;
+    overflow: hidden;
+    margin-top: 6px;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear .detail-search{
     width:100%;
@@ -1225,4 +1249,11 @@ textarea{
 
 .detailType-brands>img{
     box-shadow: 4px 4px 10px rgba(78,83,76,0.35);
+}
+.handle .menus-time{
+    margin: 0;
+    font-weight: normal;
+    margin-top: -3px;
+    margin-left: 5px;
+    margin-bottom: 9px;
 }

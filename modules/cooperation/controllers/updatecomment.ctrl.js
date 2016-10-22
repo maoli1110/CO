@@ -89,7 +89,7 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
 			}
 			//调用layer加载层
        		var createindex = layer.load(1, {
-                    shade: [0.1,'#000'] //0.1透明度的黑色背景
+                    shade: [0.5,'#000'] //0.1透明度的黑色背景
             });
 
 			$scope.status = parseInt($scope.status);
@@ -185,6 +185,8 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     }
-
+	$scope.isNotPreview = function(){
+		layer.msg('文件暂时不支持预览！',{time:2000});
+	}
     
 }]);

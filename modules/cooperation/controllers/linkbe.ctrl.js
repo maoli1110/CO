@@ -1,6 +1,30 @@
 /**
  * linkbeCtrl
  */
+$(document).ready(function () {
+	$(document).bind('click',function(e){
+        var e = e || window.event; //浏览器兼容性
+        var select = e.target || e.srcElement;
+        var option = e.target || e.srcElement;
+        while (select) { //循环判断至跟节点，防止点击的是div子元素
+            if (select.id && select.id=='project-select') {
+            	$('#project-option').toggle();
+                return;
+            }
+            select = select.parentNode;
+        }
+
+        //$('#project-option').css('display','none'); //点击的不是div或其子元素
+        while (option) { //循环判断至跟节点，防止点击的是div子元素
+            if (option.id && option.id=='project-option') {
+                return;
+            }
+            option = option.parentNode;
+        }
+
+        $('#project-option').css('display','none'); //点击的不是div或其子元素
+    });
+});
 var level = 0;	// 当前树状态树展开、折叠深度
 //var checkAll = 0; // 是否全选 
 var allDoc;
@@ -256,7 +280,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 		$scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
 			 $('.check-now').click(function(){
 				$(this).css('background',"#eceef0").siblings().css("background",'#fff')
-			 })
+			 });
 		});
 		
 		// 展开树节点
@@ -289,7 +313,10 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
             	$scope.docSearch();
             }
         };
-        
+
+	    $scope.blurCancle = function() {
+	    	$scope.isCollapsed = false;
+	    }
 }]);
 
 // 全选按钮状态改变

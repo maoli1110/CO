@@ -8,8 +8,8 @@
           <uib-accordion-heading  class="sideText">
           <div class="manage-menus" profit ng-click="childItems(deptInList.deptId,$event,status.open)">
               <span  id="deptbutton_{{deptInList.deptId}}" class="substr-sideMenus"  style="max-width:142px;margin-right:3px;display:inline-block !important;" title="{{deptInList.deptName}}" >{{deptInList.deptName}}</span>
-              <i style="display:inline;font-style:normal">({{deptInList.count}})</i>
-              <b class="menus-icon"></b>
+              <i style="display:inline;font-style:normal" ng-if="deptInList.count > 0" >({{deptInList.count}})</i>
+              <b ng-class="{'menus-icon-down': status.open, 'menus-icon-left': !status.open}"></b>
           </div>
           </uib-accordion-heading>
           	<div id="dept_{{deptInList.deptId}}" class="manage_proList">

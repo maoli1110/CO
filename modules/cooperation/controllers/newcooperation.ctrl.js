@@ -67,6 +67,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		modalInstance = $uibModal.open({
 			windowClass: 'select-person-responsible-modal',
     		backdrop : 'static',
+			animation:false,
     		templateUrl: 'template/cooperation/select_person_responsible.html',
     		controller:'selectpersonCtrl',
     		resolve:{
@@ -156,6 +157,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		modalInstance = $uibModal.open({
 			windowClass: 'select-person-related-modal',
     		backdrop : 'static',
+			animation:false,
 			size:'lg',
     		templateUrl: 'template/cooperation/select_person_related.html',
     		controller:'selectpersonCtrl',
@@ -230,6 +232,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 						modalInstance = $uibModal.open({
 							windowClass: 'link-project-modal',
 							backdrop : 'static',
+							animation:false,
 							templateUrl: 'template/cooperation/link_project.html',
 							controller:'linkprojectCtrl'
 						});
@@ -253,6 +256,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 						modalInstance = $uibModal.open({
 							windowClass:'link-component-modal',
 							backdrop : 'static',
+							animation:false,
 							templateUrl: 'template/cooperation/link_component.html',
 							controller:'linkcomponentCtrl'
 						});
@@ -276,6 +280,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 						modalInstance = $uibModal.open({
 							windowClass:'link-categoty-modal',
 							backdrop : 'static',
+							animation:false,
 							templateUrl: 'template/cooperation/link_component_category.html',
 							controller:'linkprojectCtrl'
 						});
@@ -307,6 +312,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					modalInstance = $uibModal.open({
 						windowClass: 'link-project-modal',
 						backdrop : 'static',
+						animation:false,
 						templateUrl: 'template/cooperation/link_project.html',
 						controller:'linkprojectCtrl',
 					});
@@ -330,6 +336,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					modalInstance = $uibModal.open({
 						windowClass:'link-component-modal',
 						backdrop : 'static',
+						animation:false,
 						templateUrl: 'template/cooperation/link_component.html',
 						controller:'linkcomponentCtrl'
 					});
@@ -353,6 +360,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					modalInstance = $uibModal.open({
 						windowClass:'link-categoty-modal',
 							backdrop : 'static',
+							animation:false,
 							templateUrl: 'template/cooperation/link_component_category.html',
 							controller:'linkprojectCtrl'
 						});
@@ -430,6 +438,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			modalInstance = $uibModal.open({
 			windowClass: 'link-be-modal',
 			backdrop : 'static',
+			animation:false,
     		templateUrl: 'template/cooperation/linkbe.html',
     		controller:'linkbeCtrl',
     		resolve: {
@@ -465,6 +474,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		    modalInstance = $uibModal.open({
 			windowClass: 'link-form-modal',
 			backdrop : 'static',
+			animation:false,
     		templateUrl: 'template/cooperation/linkform.html',
     		controller:'linkformCtrl',
     		resolve: {
@@ -633,7 +643,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	}
 	function notScroll(){
 		$(".new-mask").css('display','none');
-		$('body').css('overflow','auto')
+		$('body').css('overflow','')
 	}
 
 	$scope.popBoxState=function () {
@@ -740,7 +750,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		}
 
 		var createindex = layer.load(1, {
-			shade: [0.1,'#000'] //0.1透明度的黑色背景
+			shade: [0.5,'#000'] //0.1透明度的黑色背景
 		});
 		
 		if(uploader.queue.length && uploader1.queue.length) {
@@ -1009,7 +1019,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			currentDocIndex = index;
             if(fileType=='pdf'){
             	var createindex = layer.load(1, {
-					shade: [0.1,'#000'] //0.1透明度的黑色背景
+					shade: [0.5,'#000'] //0.1透明度的黑色背景
 				});
             	//pdf签署（客户端）
            		var coid = '';
@@ -1099,7 +1109,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     	if(!BimCo.IsModify()){
     		$scope.flag.isPreview = false;
 	    	$scope.isClick = true;
-	    	BimCo.SignCancel();
+	    	BimCo.SignCancel(); 
     	} else {
     		 var rtn = BimCo.MessageBox("提示" ,"放弃编辑？", 0x31);
     		 if(rtn==1){
@@ -1167,18 +1177,18 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
    	var currentPage = 'create';
    	$scope.checkFromBe = function() {
    		var coid = $('#checkformbe').val();
-//   		alert(coid);
    		if(currentPage == 'create'){
-   			/*var r = confirm('当前正在创建中，是否跳转？');
-   			if(r){
-   				$state.go('coopdetail',{'coid':coid})
-   			}*/
-   			
-	   		//提示框样式是否（0x34）
 	    	 var rtn = BimCo.MessageBox("提示" ,"当前正在创建中，是否跳转？", 0x31);
 	    	 //确定1取消2
 	    	 if(rtn==1){
-	    	 	$state.go('coopdetail',{'coid':coid})
+	    	 	if($scope.flag.isPdfsign){
+	    	 		BimCo.SignCancel();
+	    	 		BimCo.CancelSubmitAll();
+	    	 		$state.go('coopdetail',{'coid':coid});
+	    	 	} else {
+	    	 		$state.go('coopdetail',{'coid':coid});
+	    	 	}
+	    	 	
 	    	 }
    		}
    	}
@@ -1194,5 +1204,9 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
                 modalInstance.dismiss();
             }
     });
+//		图片预览
+		$scope.isNotPreview = function(){
+			layer.msg('文件暂时不支持预览！',{time:2000});
+		}
 
 }]);

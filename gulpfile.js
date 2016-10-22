@@ -3,7 +3,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var minifyCSS = require('gulp-minify-css');
-
+var currentUnix = new Date().getTime();
 var paths = {
     js: [
         './modules/core/*.js',
@@ -13,27 +13,23 @@ var paths = {
         './modules/manage/*.js',
         './modules/manage/**/*.js'
     ],
-    css: [
-        './css/animate.css',
-        './css/trend.css',
-        './css/cooperation.css',
-        './css/main.css'
+    css1: [
+        './css/main.css',
     ]
 };
 
 gulp.task('scripts', function () {
     return gulp.src(paths.js)
         .pipe(concat('all.js'))
-        .pipe(gulp.dest('./build'))
+        .pipe(gulp.dest('./release'))
         .pipe(rename('all.min.js'))
         .pipe(uglify({mangle: false}).on('error', function(e) { console.log('\x07',e.message); return this.end(); }))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest('./release'));
 });
-gulp.task('css', function () {
-    return gulp.src(paths.css)
-        // .pipe(minifyCSS())
-        .pipe(rename('all.css'))
-        .pipe(gulp.dest('./build'));
+gulp.task('css1', function () {
+    return gulp.src(paths.css1)
+        .pipe(minifyCSS())
+        .pipe(rename('main.min.css'))
+        .pipe(gulp.dest('./release'));
 });
-
-gulp.task('default', ['scripts', 'css']);
+gulp.task('default', ['scripts','css1']);

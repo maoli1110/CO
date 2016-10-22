@@ -235,10 +235,12 @@ var jPlayerAndroidFix = (function($) {
             this.player = $(this.id);
 
             // Make the ready event to set the media to initiate.
-            this.player.bind($.jPlayer.event.ready, function(event) {
+           /* 
+           // 此处绑定结束事件没用 self.setMedia(self.media);这句话还会导致播放完后音频重复加载
+           this.player.bind($.jPlayer.event.ready, function(event) {
                 // Use this fix's setMedia() method.
                 self.setMedia(self.media);
-            });
+            });*/
 
             // Apply Android fixes
             if($.jPlayer.platform.android) {
@@ -259,6 +261,8 @@ var jPlayerAndroidFix = (function($) {
                     }
                 });
                 // Fix missing ended events.
+                /*
+                // 此处绑定结束事件没用 self.setMedia(self.media);这句话还会导致播放完后音频重复加载 
                 this.player.bind($.jPlayer.event.ended, function(event) {
                     if(self.endedFix) {
                         self.endedFix = false;
@@ -267,7 +271,7 @@ var jPlayerAndroidFix = (function($) {
                         },0);
                         // what if it was looping?
                     }
-                });
+                });*/
                 this.player.bind($.jPlayer.event.pause, function(event) {
                     if(self.endedFix) {
                         var remaining = event.jPlayer.status.duration - event.jPlayer.status.currentTime;

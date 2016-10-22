@@ -8,20 +8,24 @@
 				 <!--</span>-->
 				   <div ng-if="item.deptId !=-1 && item.deptId !=0" class="manage-menus general" ng-click="getprojectInfoList(item.deptId,status.open)" >
 					   <span  id="deptbutton_{{item.deptId}}" class="substr-sideMenus" style="max-width:142px;display:inline-block !important;"  title="{{item.deptName}}"title="{{item.deptName}}">{{item.deptName}}</span>
-					   <i style="display:inline;font-style:normal">({{item.count}})</i>
-					   <b class="menus-icon"></b>
+					   <i style="display:inline;font-style:normal" ng-if="item.count > 0">({{item.count}})</i>
+					   <b ng-class="{'menus-icon-down': status.open, 'menus-icon-left': !status.open}"></b>
+					   <!-- <span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span> -->
+
 				   </div>
 				   <div  ng-if="item.deptId ==-1" ng-click="link(item.deptId)" id="no-relate" class="manage-menus">
 					   <span title="{{deptInList.deptName}}" class="substr-sideMenus" title="{{item.deptName}}" >{{item.deptName}}</span>
 					   <i style="display:inline;font-style:normal">({{item.count}})</i>
-					   <b class="menus-icon"></b>
+					   <!--<b class="menus-icon"></b>-->
 				   </div>
+
 				   <!-- 草稿箱勿动 -->
 				  <!--  <div ng-if="item.deptId ==0" ng-click="drafts(item.deptId)" id="draft" class="manage-menus">
 					   <span title="{{deptInList.deptName}}" class="substr-sideMenus" title="{{item.deptName}}">{{item.deptName}}</span>
 					   <i style="display:inline;font-style:normal">({{item.count}})</i>
 					   <b class="menus-icon"></b>
 				   </div> -->
+				   <!--<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !status.open, 'glyphicon-chevron-right':status.open}"></i>-->
 			   </uib-accordion-heading>
 				<div id="dept_{{item.deptId}}" class="manage_proList">
 					<div ng-if="item.deptId != -1 && item.deptId != 0">

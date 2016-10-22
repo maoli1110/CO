@@ -1,12 +1,13 @@
 <style>
 	.content-container {
-	     height:calc(100vh - 150px);
+	     height:calc(100vh - 110px);
 	 }
 	.content-scroll-container {
 	    overflow:auto;
 	}
 </style>
 <header ng-include="'template/core/header.html'"></header>
+<div class="content" id="dvCompute" style="font-size:14px;position:absolute;visibility:hidden;"></div>
 <!--分公司遮罩弹层-->
 <div ng-if="branchList" class="branch-list" >
 	<div class="trent-branch" >
@@ -48,8 +49,9 @@
 					<!-- <button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button> -->
 				</div>
 				<div class="right ">
-                    <button type="button" id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;">统计</button>
-                    <button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>
+                    <!--<button type="button" id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;">统计</button>-->
+                    <div  id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;" ng-disabled="!flag.isVisible">统计</div>
+					<button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>
                 </div>
 				<div class="operation-mask"></div>
 			</div>
@@ -119,6 +121,7 @@
 		</div>
 		</div>
 		<div class="overlay" style="display:none;top:59px;" ng-click="clicklay()"></div>
+		<div class="overlay1" style="display:none;top:59px;" ng-click="clicklay1()"></div>
 		<!--新建类型列表-->
 		<div class="addcoo absol overflow" ng-show="openSignal">
 			<!-- <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div> -->
@@ -128,61 +131,59 @@
 		</div>
 		
 		<div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
-			<table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
+			<div  ng-show="coNoResult">
+				<!--搜索无工程-->
+		        <div class="noSearch" ng-show="deptNoCo">
+		            <dl class="noProject">
+		                <dt>
+		                    <img src="imgs/co-search.png" alt="">
+		                    <span></span>
+		                </dt>
+		                <dd>当前项目部无协作</dd>
+		            </dl>
+		        </div>
+		        <!--搜索无结果-->
+		        <div class="noSearch" ng-show="projNoCo">
+		            <dl class="noProject">
+		                <dt>
+		                    <img src="imgs/co-search.png" alt="">
+		                    <span></span>
+		                </dt>
+		                <dd>当前工程无协作</dd>
+		            </dl>
+		        </div>
+		        <div class="noSearch" ng-show="searchNoCo">
+		            <dl class="noProject">
+		                <dt>
+		                    <img src="imgs/co-search.png" alt="">
+		                    <span></span>
+		                </dt>
+		                <dd>当前无结果</dd>
+		            </dl>
+		        </div>
+		        <div class="noSearch" ng-show="noRelatedNoCo">
+		            <dl class="noProject">
+		                <dt>
+		                    <img src="imgs/co-search.png" alt="">
+		                    <span></span>
+		                </dt>
+		                <dd>当前无协作</dd>
+		            </dl>
+		        </div>
+		   </div>
+			<table ng-if="!coNoResult" class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
 				<thead>
 					<tr style="background:#d2d7de;height:47px;">
 						<th>协做类型</th>
-						<th style="width:57%">主题</th>
-						<th>优先级</th>
+						<th style="width:45%">主题</th>
+						<th style="min-width:20%">优先级</th>
 						<th>更新时间</th>
-						<th ng-show="!flag.isDraft">更新人</th>
+						<th ng-show="!flag.isDraft" class="updata-person" >更新人</th>
 						<th ng-show="flag.isDraft">删除</th>
 						<th>详情</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-show="coNoResult">
-						<td colspan="7">
-									<!--搜索无工程-->
-							        <div class="noSearch" ng-show="deptNoCo">
-							            <dl class="noProject">
-							                <dt>
-							                    <img src="imgs/co-search.png" alt="">
-							                    <span></span>
-							                </dt>
-							                <dd>当前项目部无协作</dd>
-							            </dl>
-							        </div>
-							        <!--搜索无结果-->
-							        <div class="noSearch" ng-show="projNoCo">
-							            <dl class="noProject">
-							                <dt>
-							                    <img src="imgs/co-search.png" alt="">
-							                    <span></span>
-							                </dt>
-							                <dd>当前工程无协作</dd>
-							            </dl>
-							        </div>
-							        <div class="noSearch" ng-show="searchNoCo">
-							            <dl class="noProject">
-							                <dt>
-							                    <img src="imgs/co-search.png" alt="">
-							                    <span></span>
-							                </dt>
-							                <dd>当前无结果</dd>
-							            </dl>
-							        </div>
-							        <div class="noSearch" ng-show="noRelatedNoCo">
-							            <dl class="noProject">
-							                <dt>
-							                    <img src="imgs/co-search.png" alt="">
-							                    <span></span>
-							                </dt>
-							                <dd>当前无协作</dd>
-							            </dl>
-							        </div>
-						</td>
-					</tr>
 					<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}">
 						<td class="problems-rect" ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
 							<span class="cop-edit" ng-show="item.isLock"></span>
@@ -191,7 +192,7 @@
 						<td ng-click="transCoDetail(item)" style=" max-width:57%;border:none;text-align:left;">{{item.name}}</td>
 						<td ng-click="transCoDetail(item)" style="border:none;">{{item.priority}}</td>
 						<td ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-						<td ng-show="!flag.isDraft" class="edit-click">{{item.updater}}</td>
+						<td ng-show="!flag.isDraft" class="edit-click" title="{{item.updater}}" style="max-width: 47px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.updater}}</td>
 						<td ng-show="flag.isDraft" class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
 						<td ng-click="openDetail(item)">
 							<!--<img ng-src="imgs/icon/detail.png" alt="">-->
@@ -231,16 +232,16 @@
 		<div class="coo-detail absol" ng-show="detailSignal">
 			<div class="title">协作详情</div>
 			<div class="row list">
-				 <div class="col-xs-6 them-title">
-				 	<div><span>类型：</span></div>
+				 <div class="col-xs-6 them-title" style="padding-left:0">
+				 	<div ><span>类型：</span></div>
 				 	<div><span>主题：</span></div>
 				 	<div><span>负责人：</span></div>
-				 	<div><span>标识：</span></div>
-				 	<div><span>发起时间：</span></div>
+				 	<div ><span>标识：</span></div>
+				 	<div ><span>发起时间：</span></div>
 				 	<div><span>更新时间：</span></div>
-				 	<div><span>更新人：</span></div>
-				 	<div><span>当前状态：</span></div>
-				 	<div><span>期限：</span></div>
+				 	<div ><span>更新人：</span></div>
+				 	<div ><span>当前状态：</span></div>
+				 	<div ><span>期限：</span></div>
 				 </div>
 				 <div class="col-xs-6" style="padding: 0;">
 				 	<div class="coop-detial-right">{{everyDetail.type.name}}</div>
@@ -257,91 +258,54 @@
 			</div>
 		</div>
 		<!--data_count（统计页面）-->
-		<div class="data_count" scroll-directive>
+		<div class="data_count" scroll-directive >
 			<div class="data_Totle">
-				<div class="pull-left detail-return data_back" style="line-height:49px;" ng-click="backCooperation()" style="" ng-click="backCooperation()">
-					<span class="detail-gt" style="margin-left:5px;display:inline-block;top:19px"></span>
+				<div class="pull-left detail-return data_back" style="line-height:49px;" ng-click="backCooperation()">
+					<span class="detail-gt" style="margin-left:24px;display:inline-block;top:19px"></span>
 					<a  style="text-decoration: none;margin-left:18px;">返回</a>
 				</div>
 				<!--<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>-->
-				<!--<button type="button" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>-->
+				<!--<button type="butt	on" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>-->
 				<h4>统计结果</h4>
 
 			</div>
 			<!--data_list-->
-			<div class="data_list clearfix" copy-radio>
+			<div class="data_list clearfix row" copy-radio style="padding:0" >
 				<!--data_every-->
-				<div class="long-line" ></div>
-					<div class="data_every">
+
+					<div class="data_every col-lg-6 first" style="padding:0" >
 						<div class="count-echart">
-							<div id="data_graph" class="data_graph" style="height:360px;width:65%"></div>
-							<div class=" data_titleInfo first">
+							<div id="data_graph" class="data_graph" style="height:465px;width:98%"></div>
+							<!-- <div class=" data_titleInfo first">
 								<h4>优先级</h4>
 								<ul>
 									<li ng-repeat="mostState in arrString track by $index">
 										<span class="data_raduis"></span>
 										<p class="substr" style="text-align: left;" title="{{mostState.name}}">{{mostState.name}}</p>
-										<!-- <label class="substr statistics" title="{{mostState.name}}">{{mostState.name}}</label>
-										<label  style="font-weight: normal;width: 15%;">({{mostState.amount}})</label> -->
 									</li>
 								</ul>
-							</div>
+							</div> -->
 						</div>
 						<span></span>
 					</div>
-					<div class="data_every">
+				<div class="data_every col-lg-6 second"  style="padding:0"  >
+					<div class="count-echart">
+						<div id="data_graph4" class="data_graph" style="height:465px;width:98%;"></div>
+					</div>
+				</div>
+				<!--<div class="long-line" ></div>-->
+					<div class="data_every col-lg-6 third"  style="padding:0" >
 						<div class="count-echart">
-							<div id="data_graph2" class="data_graph" style="height:360px;width:65%"></div>
-							<div class=" data_titleInfo first">
-								<h4>期限</h4>
-								<ul>
-									<li ng-repeat="deadline in deadlineStr track by $index">
-										<span class="data_raduis"></span>
-										<p class="substr" style="text-align: left;" title="{{deadline.name}}">{{deadline.name}}</p>
-										<!-- <label class="substr statistics" title="{{deadline.name}}">{{deadline.name}}</label>
-										<label  style="font-weight: normal;width:15%;">({{deadline.amount}})</label> -->
-									</li>
-								</ul>
-							</div>
+							<div id="data_graph2" class="data_graph"  style="height:465px;width:98%"></div>
 						</div>
 					</div>
 					<!--transverse-line(统计中的田字格)-->
-					<div class="clearfix transverse-line" ></div>
-
-
-					<div class="data_every ">
+					<!--<div class="clearfix transverse-line" ></div>-->
+					<div class="data_every col-lg-6 forth" style="padding:0"  >
 						<div class="count-echart">
-							<div id="data_graph3" class="data_graph" style="height:360px;width:65%"></div>
-							<div class=" data_titleInfo second">
-								<h4>标识</h4>
-								<ul id="statistic_marker">
-									<li ng-repeat="makerStatStrInfo in makerStatStr track by $index">
-										<span class="markColor"  style="border:4px solid {{makerStatStrInfo.color}};"></span>
-										<p class="substr" style="text-align: left;" title="{{makerStatStrInfo.name}}">{{makerStatStrInfo.name}}</p>
-										<!-- <label class="substr statistics" title="{{makerStatStrInfo.name}}">{{makerStatStrInfo.name}}</label>
-										<label  style="font-weight: normal;width:15%;">({{makerStatStrInfo.amount}})</label> -->
-									</li>
-								</ul>
-							</div>
+							<div id="data_graph3" class="data_graph" style="height:465px;width:98%;"></div>
 						</div>
 					</div>
-					<div class="data_every" >
-						<div class="count-echart">
-							<div id="data_graph4" class="data_graph" style="height:360px;width:65%"></div>
-							<div class=" data_titleInfo second">
-								<h4>协作类型</h4>
-								<ul>
-									<li ng-repeat="type in typeStatStr track by $index">
-										<span class="markColor"  style="border:4px solid {{type.color}};"></span>
-										<p class="substr" style="text-align: left;" title="{{type.name}}">{{type.name}}</p>
-										<!-- <label class="substr statistics" title="{{type.name}}">{{type.name}}</label>
-										<label style="font-weight: normal;width:15%;">({{type.amount}})</label> -->
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
 			</div>
 		</div>
 	</div>

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./css/scrollnice.css">
 <div class="edit-detailC" ng-show="!device && !flag.isPreview">
 
     <div class="main" style="margin-bottom:50px min-width:320px;" copy-radio>
@@ -33,7 +34,7 @@
                             <div class="pro_man clearfix row">
                                 <div class="coop-theme row clearfix col-md-12">
                                     <span class="theme-title F16 col-xs-1" style="text-align:left;margin-top:3px;">主题：</span>
-                                    <input type="text"  class="F14 col-xs-11" style="border:1px solid #ddd;padding:0 10px;" ng-model="collaList.name" ng-change="" maxlength="50" name="topic" required>
+                                    <input type="text"  class="F14 col-xs-11" style="" ng-model="collaList.name" ng-change="" maxlength="50" name="topic" required>
                                 </div>
                                 <div class="col-xs-12">
                                     <div class="edit-state F16 col-xs-1" style="text-align:left;">状态：</div>
@@ -47,7 +48,6 @@
                                                 <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
                                             </select>
                                         </div>
-
                                     </div>
                                     <div class="col-xs-2 col-md-3 pad_clear basicInfo" style="float:right">
                                         <span class="edit-state edit-date F16" >期限:</span>
@@ -75,7 +75,7 @@
                                         <p class="F16">详情描述:</p>
                                     </div>
                                     <div class="col-xs-12 col-md-12" >
-                                        <textarea class="form-control edit-dis" rows="5" ng-model="collaList.desc" maxlength="255"></textarea>
+                                        <textarea class="form-control edit-dis" rows="5" ng-model="collaList.desc" maxlength="255" ></textarea>
                                     </div>
                                 </div>
                                 <div class="Avatar row pc-relate">

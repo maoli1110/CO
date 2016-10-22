@@ -365,7 +365,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             //pc调用layer加载层
             if(!$scope.device && $scope.collaList.name){
                 var createindex = layer.load(1, {
-                    shade: [0.1,'#000'], //0.1透明度的黑色背景
+                    shade: [0.5,'#000'], //0.1透明度的黑色背景
                 });
             }
 
@@ -410,7 +410,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     //bv失败
                     var message = data.message;
                     var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
-                    alert('http://localhost:8080/bv/?param='+param);
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
                     layer.close(createindex);//关闭layer加载层
@@ -470,6 +469,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 windowClass:'edit-related',
                 size:'lg',
                 backdrop : 'static',
+                animation:false,
                 templateUrl: 'template/cooperation/select_person_related.html',
                 controller:'selectpersonCtrl',
                 resolve:{

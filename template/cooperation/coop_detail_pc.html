@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./css/scrollnice.css">
 <style>
 	.content-container {
 	     height:calc(100vh - 40px);
@@ -151,7 +152,13 @@
                                 </div>
                                 <div class="col-xs-8 col-md-11 picInfo" style="padding:0">
                                     <dl class="data-list" ng-repeat="item in collaList.docs" profit>
-                                        <dt class="rela deta-down">
+                                        <dt class="rela deta-down" ng-if="item.thumbnailUrl">
+                                            <img ng-src="{{item.thumbnailUrl}}" ng-click="previewSign(item.uuid,item.name,1)">
+                                            <div class="absol show-icon">
+                                                <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" ng-click="downDocs(item.uuid)"/></a>
+                                            </div>
+                                        </dt>
+                                        <dt class="rela deta-down" ng-if="!item.thumbnailUrl">
                                             <img ng-src="{{item.imgsrc}}" ng-click="previewSign(item.uuid,item.name,1)">
                                             <div class="absol show-icon">
                                                 <a ng-href="{{item.fileUrl}}?name={{item.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}" ng-click="downDocs(item.uuid)"/></a>
@@ -183,8 +190,8 @@
                                                 <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                               <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
                                                 <div class="replay-down" style="height:80px;">
-                                                    <span ng-if="doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
-                                                    <span ng-if="!doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;border:1px solid #ddd;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                    <span ng-if="doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.thumbnailUrl}}') no-repeat center;background-size:cover;display:inline-block;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                    <span ng-if="!doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
 
                                                     <div class="user-down">
                                                         <a ng-href="{{doc.fileUrl}}?name={{doc.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}"/></a>
@@ -196,8 +203,8 @@
                                         </div>
                                         <!-- 录音 -->
                                         <div class="dashed" ng-if="item.speech.speechUrl">
-                                            <div ng-if="!flag.commentAudioPlaying"><button type="button" class="play-audio DIY-btn F14 btn-replay-audio " ng-click="getPcMP3Url(item.speech.uuid,'comment')"><input type="hidden" ng-model="item.speech.uuid"/><img src="imgs/play.png">播放录音</button></div>
-                                            <div ng-if="flag.commentAudioPlaying"><button type="button" class="play-audio DIY-btn F14 btn-replay-audio " ng-click="AudioStop('comment')"><span class="glyphicon glyphicon-volume-up" style="font-size:21px;padding-right:15px;vertical-align:middle;margin-top:-3px;"></span>取消播放</button></div>
+                                            <div id="open_{{item.speech.uuid}}"><button type="button" class="play-audio DIY-btn F14 btn-replay-audio " ng-click="getPcMP3Url(item.speech.uuid,'comment')"><input type="hidden" ng-model="item.speech.uuid"/><img  src="imgs/play.png">播放录音</button></div>
+                                            <div id="close_{{item.speech.uuid}}" style="display:none;"><button type="button" class="play-audio DIY-btn F14 btn-replay-audio " ng-click="AudioStop('comment',item.speech.uuid)"><span class="glyphicon glyphicon-volume-up" style="font-size:21px;padding-right:15px;vertical-align:middle;margin-top:-3px;"></span>取消播放</button></div>
                                         </div>
                                         <!-- 时间 -->
                                         <div style="text-align:right;padding:10px 0;color:#999" ng-if="item.commentTime">{{item.commentTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
@@ -223,29 +230,39 @@
                     <div class="state rela" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
                         <ul>
                             <li ng-repeat="item in operationList">
-                                <div class="step">
-                                    <img src="./imgs/icon/fq-icon.png" alt="" ng-if="item.operation == '发起'" style="padding:4px;">
-                                    <img src="./imgs/icon/ck-icon.png" alt="" ng-if="item.operation == '查看'" style="padding: 7px 0 0 3.5px;">
-                                    <img src="./imgs/icon/jjue-icon.png" alt="" ng-if="item.operation == '拒绝'" style="padding:4px;">
-                                    <img src="./imgs/icon/js-icon.png" alt="" ng-if="item.operation == '结束'" style="padding:2px 4px;">
-                                    <img src="./imgs/icon/bj-icon.png" alt="" ng-if="item.operation == '编辑'" style="padding:4px;">
-                                    <img src="./imgs/icon/wc-icon.png" alt="" ng-if="item.operation == '通过'" style="padding:4px;">
-                                    <img src="./imgs/icon/update-icon.png" alt="" ng-if="item.operation == '添加'" style="padding:4px;">
-                                    <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" style="padding:4px;">
-                                    <img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="padding:4px; padding: 6px 0 0 5.5px;">
+                                <div class="step  pc-step">
+                                    <!--<img src="./imgs/icon/fq-icon.png" alt="" ng-if="item.operation == '发起'" style="padding:4px;">-->
+                                    <!--<img src="./imgs/icon/ck-icon.png" alt="" ng-if="item.operation == '查看'" style="padding: 8px 0 0 1.5px;">-->
+                                    <!--<img src="./imgs/icon/jjue-icon.png" alt="" ng-if="item.operation == '拒绝'" style="padding:4px;">-->
+                                    <!--<img src="./imgs/icon/js-icon.png" alt="" ng-if="item.operation == '结束'" style="padding:2px 4px;">-->
+                                    <!--<img src="./imgs/icon/bj-icon.png" alt="" ng-if="item.operation == '编辑'" style="padding:4px;">-->
+                                    <!--<img src="./imgs/icon/wc-icon.png" alt="" ng-if="item.operation == '通过'" style="padding:4px;">-->
+                                    <!--<img src="./imgs/icon/update-icon.png" alt="" ng-if="item.operation == '添加'" style="padding:4px;">-->
+                                    <!--<img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" style="padding:4px;">-->
+                                    <!--<img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="padding:4px; padding: 6px 0 0 2.5px;">-->
+                                    <img src="./imgs/icon/fq-icon.png" alt="" ng-if="item.operation == '发起'" >
+                                    <img src="./imgs/icon/ck-icon.png" alt="" ng-if="item.operation == '查看'" >
+                                    <img src="./imgs/icon/jjue-icon.png" alt="" ng-if="item.operation == '拒绝'" >
+                                    <img src="./imgs/icon/js-icon.png" alt="" ng-if="item.operation == '结束'" >
+                                    <img src="./imgs/icon/bj-icon.png" alt="" ng-if="item.operation == '编辑'" style="width:20px;" >
+                                    <img src="./imgs/icon/wc-icon.png" alt="" ng-if="item.operation == '通过'">
+                                    <img src="./imgs/icon/update-icon.png" alt="" ng-if="item.operation == '添加'" >
+                                    <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'" >
+                                    <img src="./imgs/icon/icon-signPng.png" alt="" ng-if="item.operation == '签署'" style="width:20px;" >
+                                    <span></span>
                                 </div>
                                 <div class="handle">
                                     <div class="icon_man">
-                                        <div style="">
+                                        <div style="" class="icon_man_pic">
                                             <div style="display:inline-block">
                                                 <img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
                                                 <img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
                                             </div>
-                                            <p class="substr menus-name"  title="{{item.username}}" style="width: 120px;text-align: left;">{{item.username}}</p>
+                                            <p class="substr menus-name"  title="{{item.username}}" >{{item.username}}</p>
                                         </div>
                                     </div>
-                                    <p class="substr" style="width: 120px;margin-top:10px;">{{item.operation}}<span>本次协作</span></p>
-                                    <p class="menus-time">{{item.operationTime}}</p>
+                                    <p class="substr down-operate" >{{item.operation}}<span>本次协作</span></p>
+                                    <h5 class="menus-time">{{item.operationTime}}</h5>
                                     <!--<p class="">{{item.operationTime}}</p>-->
                                     <!--<div class="menus-head">-->
                                         <!--<div class="icon_man"><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></div>-->
@@ -276,7 +293,7 @@
     <div class="inner">
     <header>
         <div class="header-operation clearfix">
-            <div class="pull-left detail-return" style="line-height:42px;"  ng-click="backDetail()">
+            <div class="pull-left detail-return" style="line-height:42px;"  ng-click="backDetail('')">
                 <span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
                 <a  style="text-decoration: none;">返回</a>
             </div>
@@ -305,14 +322,17 @@
         </div>
     </div>
     <div ng-show="flag.isPdfsign">
-        <div class="sign footer-commom" style="position:fixed;">
+        <!-- 勿删 -->
+        <!--  <div class="sign footer-commom" style="position:fixed;">
             <div class="text-center">
                 <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
                 <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
             </div>
-        </div>
+        </div> -->
         <div class="doc-edit footer footer-commom">
             <div class="text-center">
+                <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
+                <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
                 <button class="btn btn-default foot-btn" ng-click="SubmitAll()">提交</button>
                 <button class="btn btn-default new-btnFail foot-btn" ng-click="signCancel()">取消</button>
                 <button class="btn btn-default new-btnFail foot-btn" ng-click="signEmpty()">清空</button>

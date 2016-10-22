@@ -1,15 +1,20 @@
 <style>
+    /*单页面限制body的overflow属性防止刷新有滚动*/
+    body{
+        overflow: hidden !important;
+    }
 	.content-container {
-	     height:calc(100vh - 150px);
-	 }
+	     height:calc(100vh - 119px);
+
+	}
 	.content-scroll-container {
 	    overflow-y:auto !important;
+        overflow-x:hidden;
 	}
-
     .box img{max-width:100px;height:auto;width:expression(this.width>100?"100px":this.width);}
 </style>
-<header ng-include="'template/core/header.html'"></header>
-<div class="main-container rela" scroll-directive >
+<header ng-include="'template/core/header.html'" ng-show="!flag.isPreview"></header>
+<div class="main-container rela" scroll-directive ng-show="!flag.isPreview">
     <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
     <div class="right-content" >
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
@@ -26,8 +31,7 @@
         </div>
 
         <div class="addcoo absol clearfix" ng-show="openSignal">
-            <div class="row"><span class="glyphicon glyphicon-remove align-right block close"
-                                   ng-click="closeNew()"></span></div>
+            <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
             <div class="row">
                 <div class="col-md-6"><a ng-click="trans()">问题整改</a></div>
                 <div class="col-md-6"><a href="">阶段性报告</a></div>
@@ -41,7 +45,7 @@
                     <!--<div class="tools"></div>-->
                     <div class="content clearfix">
                         <!--商品展示-->
-                        <div class="good_list clearfix"  style="height:calc(100vh - 143px);overflow:auto;" light-height >
+                        <div class="good_list clearfix"  style="height:calc(100vh - 127px);overflow:auto;" light-height >
                             <!--商品1F-->
                             <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage(trentsLiInfo.ppid)">
                                 <!--ng-click="updateNew($event)"-->
@@ -116,7 +120,7 @@
                         </div>
 
 
-                         <div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true">
+                        <div class="pro_list clearfix content-container content-scroll-container"  infinite-scroll-parent="true">
                           <!--<div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject" >-->
 
                             <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
@@ -203,8 +207,34 @@
         </div>
         </div>
     </div>
-
 </div>
+<div ng-if="flag.isPreview" class="pdf-sign">
+    <div class="inner">
+    <header>
+        <div class="header-operation clearfix">
+            <div class="pull-left detail-return" style="line-height:42px;"  ng-click="backManage()">
+                <span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
+                <a  style="text-decoration: none;">返回</a>
+            </div>
+            <div class="label_tools">
+                <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
+                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+                    <img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
+                    <img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+                </div>
+                <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
+            </div>
+        </div>
+    </header>
+    <!-- 默认预览 -->
+    <div>
+        <div style="width:100%;margin-top:42px" ng-show="!isEdit">
+            <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
+        </div>
+    </div>
+    </div>
+</div>
+
 <input type="hidden" value="" ng-click="transCooperation()">
 <script type="text/javascript">
 

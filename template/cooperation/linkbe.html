@@ -8,7 +8,7 @@
     <div class="modal-body" copy-radio>
         <div class="row" >
             <div class="col-xs-6 left">
-                <div class="select" style="margin-bottom:12px;">
+                <div class="select" style="margin-bottom:12px;" onclick=" $('#project-option').css('display','none');">
                     <label>项目：</label>
                     <!--<select name="" class="be-project" id="" ng-model="selectedOption" ng-options="item.deptName for item in deptInfo.availableOptions" ng-change="switchDept(selectedOption)"></select>-->
                     <select  class="identify selectpicker1 be-project" name=""  ng-model="selectedOption" ng-change="switchDept(selectedOption)">
@@ -20,15 +20,15 @@
                         </option>
                     </select>
                 </div>
-                <div class="select">
+                <div class="select" >
                     <label style="vertical-align:top">工程：</label>
                    <!--  <select name="" class="be-project" ng-model="projectOption" ng-options="item.projectName for item in projectList.availableOptions" ng-change="switchPpid(projectOption)"></select> -->
                    <!--   <select name="" id="" ng-change="switchPpid(projectOption)" ng-model="projectOption">
                        <option value="{{item.ppid}}" ng-repeat="item in projectList.availableOptions track by $index">{{item.projectName}}</option>
                    </select>
  -->
-                    <div class="simulate-select">
-                        <div class="project-selected select" ng-click="isCollapsed=!isCollapsed" title="{{projectSelected.projectName}}" style="padding-left: 10px;">
+                    <div class="simulate-select" id="project-select" ng-blur="blurCancle()">
+                        <div class="project-selected select" title="{{projectSelected.projectName}}" style="padding-left: 10px;">
                            <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px;float: left;"><input type="hidden" ng-model="projectOption" ng-click="switchPpid(projectOption)">
                            <div class="substr" title="{{projectSelected.projectName}}" style="text-align:left;float: left;width: 74%;">
 	                           <span>{{projectSelected.projectName}}</span>
@@ -36,9 +36,9 @@
                            &nbsp;
                            <span class="bs-caret"><span class="caret"></span></span>
                         </div>
-                           <div uib-collapse="!isCollapsed" class="project-list" style="margin-top:10px;">
-                               <ul style="max-height: 395px;width: 194px;background-color: #fff;padding-left:10px;" class="projectOption">
-                                   <li class="substr" style="width: 158px;height: 26px;text-align: left;" title="{{item.projectName}}" ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
+                           <div id="project-option" uib-collapse="!isCollapsed" class="project-list" style="margin-top:10px;">
+                               <ul style="max-height: 395px;width: 195px;background-color: #fff;" class="projectOption">
+                                   <li class="substr" title="{{item.projectName}}" ng-repeat="item in projectList.availableOptions track by $index" ng-click="changeSelected(item)">
                                    <img src="imgs/icon/1.png" alt="" ng-if="item.projectType=='土建预算'" style="width:20px">
                                    <img src="imgs/icon/2.png" alt="" ng-if="item.projectType=='钢筋预算'" style="width:20px">
                                    <img src="imgs/icon/3.png" alt="" ng-if="item.projectType=='安装预算'" style="width:20px">

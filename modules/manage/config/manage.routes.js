@@ -2,7 +2,7 @@
 
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise('/manage');
+		$urlRouterProvider.otherwise('/cooperation');
 
 		$stateProvider.
 		 state('manage', {
