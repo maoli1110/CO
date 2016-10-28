@@ -71,8 +71,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
         
         Cooperation.getCollaboration(coid).then(function (data) {
-
-//        	console.info(data)
         	angular.forEach(data.relevants,function(value,key){
         		value.mustExist = true;	// 编辑时原有的相关人是否必须存在 true必须存在  false可以不存在
         		value.canSign = true;	// 编辑时原有的相关人是否可以修改签字 true可以  false不可以
@@ -82,16 +80,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         			$scope.related.noSign.push(value);
         		}
         	});
-        	/*for(var i = 0; i < $scope.related.sign.length;i++){
-        		relatedNews.push($scope.related.sign[i]);
-        	}
-        	for(var i = 0; i < $scope.related.noSign.length;i++){
-        		relatedNews.push($scope.related.noSign[i]);
-        	}*/
         	relatedNews = $scope.related.sign.concat($scope.related.noSign);
         	$scope.relatedNew = relatedNews;
             var currentMarkInfo = data.markerInfo.id;
-//            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
             $scope.priority =  data.priority;
             if($scope.device){
@@ -248,7 +239,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     imgsrc = imgsrc+unit+".png";
                     //1.获取后缀 把后缀你push到数组
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
-                }else{
+                } else {
+                    $scope.collaList.pictures[key].name = value.md5 + ".png";
                     unit = 'other';
                     imgsrc = imgsrc+unit+".png";
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
@@ -295,6 +287,10 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 						}
                         if(value1.thumbnailUrl){
                         	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
+                        }
+                        if(value1.name == null && !$scope.device){
+                            var timestamp=new Date().getTime();
+                            $scope.collaList.comments[key].docs[key1].name = value1.md5 + ".png";
                         }
                     })
                 }
@@ -391,12 +387,30 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 status: $scope.collaList.statusId
             };
 
+            /*$.ajax({
+                  type: "POST",
+                  url: basePath+ "rs/co/checkIn/"+coid,
+                  contentType: "application/json; charset=utf-8",
+                  dataType : 'json',
+                  success: function(data,status,XMLHttpRequest){
+                  },
+                  error:function(XMLHttpRequest, textStatus, errorThrown){
+                       console.log(XMLHttpRequest.readyState)
+                       var data = JSON.parse(XMLHttpRequest.responseText);
+                       console.log(data.message);
+                  } 
+            });*/
+
             Cooperation.updateCollaboration(data).then(function (data,status) {
+                alert("调用updateCollaboration"+data);
                 if($scope.device) {
                     //bv成功
+                    alert("$scope.device"+$scope.device);
                     if(data.indexOf('<!DOCTYPE html>')!=-1){
+                        alert("返回登录页面成功"+ data.indexOf('<!DOCTYPE html>')!=-1);
                         var param = '{"optType":'+9+',"isSuccess":'+false+'}';
                     } else {
+                        alert("返回登录页面失败");
                         var param = '{"optType":'+9+',"isSuccess":'+true+'}';
                     }
                     document.location = 'http://localhost:8080/bv/?param='+param;
@@ -406,9 +420,17 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 }
                
             },function(data){
+                alert('$scope.device'+$scope.device);
+                alert('调用updateCollaboration失败'+data);
                if($scope.device) {
                     //bv失败
-                    var message = data.message;
+                    alert('$scope.device2'+$scope.device);
+                    var message;
+                    if(!!data){
+                        message = data.message?data.message:'';
+                    } else {
+                        message = '';
+                    }
                     var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
@@ -422,21 +444,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             });
           
         }
-
-
-        //获取标识
-        // Cooperation.getMarkerList().then(function (data) {
-        //     $scope.markerList1 = data;
-        //     console.log($scope.markerList1);
-        //     console.log($scope.collaList);
-        //      debugger;
-        //     $scope.mark1 = _.filter($scope.markerList1, function(o) {
-
-        //         return o.picMarker == $scope.collaList.markerInfo.name;
-        //     });
-        //     console.log('mark1', $scope.mark1);
-        // });
-        //
+       
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
 
             // 详情页面图片资料悬浮出现下载区域
@@ -451,16 +459,19 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             },function(){
                 $(this).find(".detail-search").stop().animate({"bottom":"-38px"})
             })
-            ////	手机端照片搜索按钮的显示
-            //	$(".means-down").click(function(){
-            //		console.info(123)
-            //		//$(this).find(".means-address").slideUp()
+            
             $(".replay-down").hover(function(){
                 $(this).find('.user-down').animate({"bottom":'0'})
             },function(){
                 $(this).find('.user-down').animate({"bottom":'-30px'})
             });
 
+            //防止出现同步加载错误，滚动加载
+            if($scope.device){
+                $timeout(function(){
+                    $(".scrollLoading").scrollLoading();
+                },0);
+            }
         });
 
         //选择相关人
@@ -515,31 +526,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.onTurn = function(){
             //console.info("小白兔")
         }
-
-        //预览功能
-//        $scope.pcPreView = function (docName, uuid) {
-//                var data = {fileName:docName,uuid:uuid};
-//                Manage.getTrendsFileViewUrl(data).then(function (result) {
-////                console.log(typeof result)
-//                $scope.isPreview = true;
-//                $scope.previewUrl =result;
-//                layer.open({
-//                        type: 2,
-//                        //skin: 'layui-layer-lan',
-//                        title: '预览',
-//                        fix: false,
-//                        shadeClose: true,
-//                        maxmin: true,
-//                        area: ['1000px', '500px'],
-//                        content: $scope.previewUrl
-//                    });
-//            },function (data) {
-//                var obj = JSON.parse(data);
-////                console.log(obj);
-//                alert(obj.message);
-//            });
-//
-//        }
 
         $scope.previewSign = function (uuid,docName) {
                 var data ={fileName:docName,uuid:uuid};
@@ -601,25 +587,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 
         //显示更多相关人
         $scope.showMorePerson = function() {
-/*	    	if(!$scope.showMore){
-	    		currentShowPage++;
-	    		if($scope.device){
-	    			$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
-	    		}else{
-	    			$scope.relatedNew = relatedNews.slice(0,currentShowPage*pageSizePc); 
-	    		}
-	    		if(currentShowPage >= totalPage){
-	    			$scope.showMore = true;
-	    		}
-	    	} else {
-	    		if($scope.device){
-	    			$scope.collaList.relevants = sliceRlevants;
-	    		}else{
-	    			$scope.relatedNew = sliceRlevants;
-	    		}
-	    		$scope.showMore = false;
-	    		currentShowPage = 1;
-	    	}*/
         	currentShowPage++;
 	    	if(currentShowPage >=2){
 	    		$scope.collapse = true;
@@ -665,24 +632,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //跳转新页面去除心跳机制
         $scope.$on('$stateChangeStart', 
             function(event, toState, toParams, fromState, fromParams){
-//                console.log(toState, toParams, fromState);
-                clearInterval(ApplicationConfiguration.refreshID);
+            //console.log(toState, toParams, fromState);
+            clearInterval(ApplicationConfiguration.refreshID);
         });
-        /*//显示更多相关人
-        $scope.showMore = false;
-        $scope.showMorePerson = function() {
-            if(!$scope.showMore){
-                currentShowPage++;
-                $scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize);
-                if(currentShowPage >= totalPage){
-                    $scope.showMore = true;
-                }
-            } else {
-                $scope.collaList.relevants = sliceRlevants;
-                $scope.showMore = false;
-                currentShowPage = 1;
-            }
-        }*/
 
 }]);
 

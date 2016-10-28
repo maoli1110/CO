@@ -52,7 +52,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var queryTypeSelected = [];
 	var queryPriorityselected = [];
 	var queryMarkSelected = [];
-	
+	var deptName = null;//项目名称
+	var ppidName = null;//工程名称
     $scope.openNew = function () {
     	$scope.openSignal = true;
     	Cooperation.getTypeList().then(function (data) {
@@ -75,6 +76,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
           }
         });
     		$scope.typeList = data;
+			console.info('typeList',$scope.typeList)
 
     	});
     }
@@ -215,7 +217,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
 
     $scope.trans = function (typeId,typeName) {
-    	$state.go('newcopper', {'typeid': typeId,'typename':typeName,'deptId':queryData.deptId,'ppid':queryData.ppid},{location:'replace'});
+    	$state.go('newcopper', {'typeid': typeId,'typename':typeName,'deptId':queryData.deptId,'ppid':queryData.ppid,'deptName':deptName,'ppidName':ppidName},{location:'replace'});
     	//window.open(url,'_self');
     }
 
@@ -255,6 +257,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		}
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
+			//if(navigator.onLine){
+            //
+			//}else{
+			//	layer.alert('没有网络啦!',function(){
+			//		btn:['确定','取消']
+			//	},function(){
+			//		layer.closeAll()
+			//	})
+			//}
 			var createindex = layer.load(1, {
 				   shade: [0.5,'#000'], //0.1透明度的黑色背景
 			});
@@ -269,7 +280,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		   	$(" .data_count").hide();
 			$(".table-list.basic-project").show();
 			if(queryData.groups.length != 0){
-				$scope.getCollaborationList($(this).attr("id").split("_")[1]);
+				$scope.getCollaborationList($(this).attr("id").split("_")[1],$(this).find('.substr-sideMenus').text());
 			} else {
 				$scope.cooperationList = []; 
 	    			$scope.coNoResult = true;
@@ -280,10 +291,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 
     //获取工程列表
-   	$scope.getprojectInfoList = function (deptId, open) {
+	var  nameCount=0;//点击项目赋值给项目名称
+   	$scope.getprojectInfoList = function (deptId, open,itemDeptName) {
 		//if($(".manage-menus .menus-icon".hasClass('rotate2'))){
 
 		//}
+		deptName = itemDeptName;
 		$(".container-fluid .operation").show();
    		$('.table-list')[0].scrollTop=0;
    		$scope.coNoResult = false;
@@ -293,7 +306,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		$scope.noRelatedNoCo = false;
         $scope.flag.isDraft = false;
       $('#deptbutton_'+deptId).parent().addClass('menusActive');
-      $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive'); 
+      $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive');
    		//初始化数据
        var createindex = layer.load(1, {
            shade: [0.5,'#000'], //0.1透明度的黑色背景,
@@ -314,6 +327,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			Cooperation.getProjectList(deptId).then(function (data) {
 				layer.close(createindex);
 				getimgurl(data,deptId);
+
 				if(ppid&&firstreackflag){
 					$("span[id='projectbutton_"+ppid+"']").click();
 					firstreackflag = false;
@@ -566,7 +580,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	var token = false;
    	//点击工程获取协同列表
-   $scope.getCollaborationList = function (ppid) {
+   $scope.getCollaborationList = function (ppid,projectName) {
 	   $(".container-fluid .operation").show();
    		$('.table-list')[0].scrollTop=0;
 	   $scope.coNoResult = false;
@@ -598,6 +612,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	  if(queryData.searchType == 0) {
 		  queryData.searchType = '';
 	  }
+	   ppidName = projectName;
 	  Cooperation.getCollaborationList(queryData).then(function (data) {
    		   $scope.cooperationList = data;
 		   if($scope.cooperationList.length <= 0){
@@ -1774,7 +1789,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					         x: 'left',
 					         itemGap: 15,
 							left:15,
-							padding: [10,40,10,0],
+							//padding: [10,40,10,0],
 							itemWidth:20,
 							itemHeight:12,
 					        data:coTypeName,

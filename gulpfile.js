@@ -11,10 +11,11 @@ var paths = {
         './modules/cooperation/*.js',
         './modules/cooperation/**/*.js',
         './modules/manage/*.js',
-        './modules/manage/**/*.js'
+        './modules/manage/**/*.js',
+        './lib/jquery.scrollLoading.js'
     ],
     css1: [
-        './css/main.css',
+        './css/main.css'
     ]
 };
 

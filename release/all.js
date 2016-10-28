@@ -31,24 +31,31 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
     	if(clickCount > 0) {		// 第一次点击也要显示
     		$(".header_menus").slideToggle("fast");
+            $('.headerMask').show();
             $(".header_menus ul li").hover(function(){
-                $(".header_menus").show();
-                $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
+                $(this).css({"color":"#69c080"}).children().find("ol").show();
             },function(){
-                $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
-                $(".header_menus").hide();
-                $('.header-shape').removeClass('dispatcher-database')
+                $(this).css({"color":"#333"}).children().find("ol").hide();
+                $('.header-shape').removeClass('dispatcher-database');
             })
+            $('.header_menus').mouseleave(function(){
+                $('.header_menus').hide();
+                $('.headerMask').hide();
+            })
+            //$(".header_menus
     	}
     	$(".header-shape").click(function(){
+            $('.headerMask').show();
             $(".header_menus").slideToggle("fast");
             $(".header_menus ul li").hover(function(){
-                $(".header_menus").show();
-                $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
+                $(this).css({"color":"#69c080"}).children().find("ol").show();
             },function(){
-                $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
-                $(".header_menus").hide();
-                $('.header-shape').removeClass('dispatcher-database')
+                $(this).css({"color":"#333"}).children().find("ol").hide();
+                $('.header-shape').removeClass('dispatcher-database');
+            })
+            $('.header_menus').mouseleave(function(){
+                $('.header_menus').hide();
+                $('.headerMask').hide();
             })
         })
     })
@@ -135,77 +142,6 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
 
 })
  
-'use strict';
-/**
- * 通用方法
- */
-angular.module('core').service('Common', function () {
-
-	var self = this;
-
-	// 补零
-	this.zero = function (num) {
-		num = num < 10 ? "0" + num : num;
-        return num;
-	};
-
-	this.createTimeList = function (arr) {
-		var i = 0,
-            start = ":00:00",
-            end = ":59:59";
-        while (i < 24) {
-            var num = self.zero(i);
-            arr.push({
-                start: num + start,
-                end: num + end
-            });
-            i++;
-        }
-	};
-
-    this.dateFormat = function (date) {
-        var dateStr = date.getFullYear() + "-" + self.zero(date.getMonth() + 1) + "-" + self.zero(date.getDate()) + " " + self.zero(date.getHours()) + ":" + self.zero(date.getMinutes()) + ":" + self.zero(date.getSeconds());
-        return dateStr;
-    };
-
-    this.dateFormat1 = function (date) {
-        var dateStr = date.getFullYear() + "-" + self.zero(date.getMonth() + 1) + "-" + self.zero(date.getDate());
-        return dateStr;
-    };
-});
-/**
- * Created by sdergt on 2016/8/24.
- */
-angular.module("core").service("headerService",function($http,$q){
-    var headerService = {};
-    var basicPath= basePath;
-    // 获取头部菜单数据
-    headerService.enterpriseInfoList = function(params){
-        var url_join = basicPath+"rs/co/enterpriseInfoList";
-        var delay = $q.defer();
-        var obj = JSON.stringify(params);
-        $http.post(url_join,obj,{transformRequest:angular.identity}).then(function(data){
-            delay.resolve(data);
-        },function(err){
-            delay.reject(err)
-        })
-        return delay.promise;
-    }
-    
-    headerService.currentUserInfo = function () {
-        var delay = $q.defer();
-        var url_join= basicPath+"rs/co/userInfo";
-        $http.get(url_join,{cache:true})
-            .success(function (data) {
-                delay.resolve(data);
-            }).error(function (data, status) {
-                delay.reject(data);
-            });
-        return delay.promise;
-    };
-    
-    return headerService;
-})
 'use strict';
 angular.module('core').directive('profit', function($timeout) {
     return {
@@ -837,6 +773,77 @@ angular.module('core').directive('draggable', ['$document', function($document) 
         };
     }]);
 'use strict';
+/**
+ * 通用方法
+ */
+angular.module('core').service('Common', function () {
+
+	var self = this;
+
+	// 补零
+	this.zero = function (num) {
+		num = num < 10 ? "0" + num : num;
+        return num;
+	};
+
+	this.createTimeList = function (arr) {
+		var i = 0,
+            start = ":00:00",
+            end = ":59:59";
+        while (i < 24) {
+            var num = self.zero(i);
+            arr.push({
+                start: num + start,
+                end: num + end
+            });
+            i++;
+        }
+	};
+
+    this.dateFormat = function (date) {
+        var dateStr = date.getFullYear() + "-" + self.zero(date.getMonth() + 1) + "-" + self.zero(date.getDate()) + " " + self.zero(date.getHours()) + ":" + self.zero(date.getMinutes()) + ":" + self.zero(date.getSeconds());
+        return dateStr;
+    };
+
+    this.dateFormat1 = function (date) {
+        var dateStr = date.getFullYear() + "-" + self.zero(date.getMonth() + 1) + "-" + self.zero(date.getDate());
+        return dateStr;
+    };
+});
+/**
+ * Created by sdergt on 2016/8/24.
+ */
+angular.module("core").service("headerService",function($http,$q){
+    var headerService = {};
+    var basicPath= basePath;
+    // 获取头部菜单数据
+    headerService.enterpriseInfoList = function(params){
+        var url_join = basicPath+"rs/co/enterpriseInfoList";
+        var delay = $q.defer();
+        var obj = JSON.stringify(params);
+        $http.post(url_join,obj,{transformRequest:angular.identity}).then(function(data){
+            delay.resolve(data);
+        },function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
+    
+    headerService.currentUserInfo = function () {
+        var delay = $q.defer();
+        var url_join= basicPath+"rs/co/userInfo";
+        $http.get(url_join,{cache:true})
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    };
+    
+    return headerService;
+})
+'use strict';
 
 // 注册核心模块
 ApplicationConfiguration.registerModule('cooperation');
@@ -1135,9 +1142,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					imgsrc = imgsrc+unit+".png";
                     //1.获取后缀 把后缀你push到数组
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
-                }else{
-                	var timestamp=new Date().getTime();
-                	$scope.collaList.pictures[key].name = timestamp + ".png";
+                } else {
+                	$scope.collaList.pictures[key].name = value.md5 + ".png";
                 	unit = 'other';
                 	imgsrc = imgsrc+unit+".png";
                 	$scope.collaList.pictures[key].imgsrc = imgsrc;
@@ -1187,9 +1193,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 							 if(value1.thumbnailUrl){
 	                        	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
 	                        }
-							if(value1.name == null){
+							if(value1.name == null && !$scope.device){
 								var timestamp=new Date().getTime();
-								$scope.collaList.comments[key].docs[key1].name = timestamp + ".png";
+								$scope.collaList.comments[key].docs[key1].name = value1.md5 + ".png";
 							}
 						} else {
 								$scope.collaList.comments[key].docs[key1].suffix = 'other';
@@ -1305,14 +1311,16 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					});
 				} else {
 					isPlay = true;
-					console.log("播放录音")
+					// console.log("播放录音")
 					currentUuid = uuid;
 					$('#open_'+uuid).hide();
 					$('#close_'+uuid).show();
 					Cooperation.getPcMp3Url(uuidList).then(function(data){
 						angular.forEach(data,function(value,key){
-							
+							// debugger
 							refreshID = setInterval(getAudioProgress,1000);
+
+							console.info(currentMp3Id);
 
 							currentMp3Id = BimCo.AudioPlay(value);//调用pc播放录音返回int类型
 						});
@@ -1351,26 +1359,32 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		$scope.AudioStop = function (source, uuid){
 			isPlay = false;
 			currentUuid = null;
-			console.log("关闭录音")
 			if(source == ''){
 				$scope.flag.audioPlaying = false;
 			} else {
 				$('#open_'+uuid).show();
 				$('#close_'+uuid).hide();
 			}
+			clearInterval(refreshID);
 		}
 
 		//轮询当前MP3是否播放完成
-		function getAudioProgress(currentUuid) {
+		function getAudioProgress() {
 			//调用pc端获取进度条
+			//
+			// console.info(currentMp3Id);
 			var currentProgress = BimCo.AudioProgress(currentMp3Id);
+
+			// console.info(currentProgress);
+
+			// var currentProgress = 100;
 			if(currentProgress >= 100){
 				isPlay = false;
 				BimCo.AudioStop(currentMp3Id);
 				$scope.flag.audioPlaying = false;
 				$('#open_'+currentUuid).show();
 				$('#close_'+currentUuid).hide();
-				currentUuid = null;
+				
 				$scope.$apply();
 				clearInterval(refreshID);
 			}
@@ -1636,7 +1650,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$(this).find('.user-down').animate({"bottom":'0'})
 			},function(){
 				$(this).find('.user-down').animate({"bottom":'-30px'})
-			})
+			});
+			//防止出现同步加载错误
+			if($scope.device){
+				$timeout(function(){
+					$(".scrollLoading").scrollLoading();
+				},0);
+			}
 		});
 		
 		//协作操作 PC/BV 签署／签名／通过／拒绝／结束 PC/BV
@@ -2186,8 +2206,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
         
         Cooperation.getCollaboration(coid).then(function (data) {
-
-//        	console.info(data)
         	angular.forEach(data.relevants,function(value,key){
         		value.mustExist = true;	// 编辑时原有的相关人是否必须存在 true必须存在  false可以不存在
         		value.canSign = true;	// 编辑时原有的相关人是否可以修改签字 true可以  false不可以
@@ -2197,16 +2215,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         			$scope.related.noSign.push(value);
         		}
         	});
-        	/*for(var i = 0; i < $scope.related.sign.length;i++){
-        		relatedNews.push($scope.related.sign[i]);
-        	}
-        	for(var i = 0; i < $scope.related.noSign.length;i++){
-        		relatedNews.push($scope.related.noSign[i]);
-        	}*/
         	relatedNews = $scope.related.sign.concat($scope.related.noSign);
         	$scope.relatedNew = relatedNews;
             var currentMarkInfo = data.markerInfo.id;
-//            console.info('标识Id',currentMarkInfo)
             $scope.collaList = data;
             $scope.priority =  data.priority;
             if($scope.device){
@@ -2363,7 +2374,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     imgsrc = imgsrc+unit+".png";
                     //1.获取后缀 把后缀你push到数组
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
-                }else{
+                } else {
+                    $scope.collaList.pictures[key].name = value.md5 + ".png";
                     unit = 'other';
                     imgsrc = imgsrc+unit+".png";
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
@@ -2410,6 +2422,10 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 						}
                         if(value1.thumbnailUrl){
                         	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
+                        }
+                        if(value1.name == null && !$scope.device){
+                            var timestamp=new Date().getTime();
+                            $scope.collaList.comments[key].docs[key1].name = value1.md5 + ".png";
                         }
                     })
                 }
@@ -2505,13 +2521,31 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 priority: $scope.priority,
                 status: $scope.collaList.statusId
             };
+            
+            $.ajax({
+                  type: "POST",
+                  url: basePath+ "rs/co/checkIn/"+coid,
+                  contentType: "application/json; charset=utf-8",
+                  dataType : 'json',
+                  success: function(data,status,XMLHttpRequest){
+                  },
+                  error:function(XMLHttpRequest, textStatus, errorThrown){
+                       console.log(XMLHttpRequest.readyState)
+                       var data = JSON.parse(XMLHttpRequest.responseText);
+                       console.log(data.message);
+                  } 
+            });
 
             Cooperation.updateCollaboration(data).then(function (data,status) {
+                alert("调用updateCollaboration"+data);
                 if($scope.device) {
                     //bv成功
+                    alert("$scope.device"+$scope.device);
                     if(data.indexOf('<!DOCTYPE html>')!=-1){
+                        alert("返回登录页面成功"+ data.indexOf('<!DOCTYPE html>')!=-1);
                         var param = '{"optType":'+9+',"isSuccess":'+false+'}';
                     } else {
+                        alert("返回登录页面失败");
                         var param = '{"optType":'+9+',"isSuccess":'+true+'}';
                     }
                     document.location = 'http://localhost:8080/bv/?param='+param;
@@ -2521,9 +2555,17 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 }
                
             },function(data){
+                alert('调用updateCollaboration失败'+data);
+                alert('$scope.device'+$scope.device);
                if($scope.device) {
                     //bv失败
-                    var message = data.message;
+                    alert('$scope.device2'+$scope.device);
+                    var message;
+                    if(!!data){
+                        message = data.message?data.message:'';
+                    } else {
+                        message = '';
+                    }
                     var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
@@ -2537,21 +2579,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             });
           
         }
-
-
-        //获取标识
-        // Cooperation.getMarkerList().then(function (data) {
-        //     $scope.markerList1 = data;
-        //     console.log($scope.markerList1);
-        //     console.log($scope.collaList);
-        //      debugger;
-        //     $scope.mark1 = _.filter($scope.markerList1, function(o) {
-
-        //         return o.picMarker == $scope.collaList.markerInfo.name;
-        //     });
-        //     console.log('mark1', $scope.mark1);
-        // });
-        //
+       
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
 
             // 详情页面图片资料悬浮出现下载区域
@@ -2566,16 +2594,19 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             },function(){
                 $(this).find(".detail-search").stop().animate({"bottom":"-38px"})
             })
-            ////	手机端照片搜索按钮的显示
-            //	$(".means-down").click(function(){
-            //		console.info(123)
-            //		//$(this).find(".means-address").slideUp()
+            
             $(".replay-down").hover(function(){
                 $(this).find('.user-down').animate({"bottom":'0'})
             },function(){
                 $(this).find('.user-down').animate({"bottom":'-30px'})
             });
 
+            //防止出现同步加载错误，滚动加载
+            if($scope.device){
+                $timeout(function(){
+                    $(".scrollLoading").scrollLoading();
+                },0);
+            }
         });
 
         //选择相关人
@@ -2630,31 +2661,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         $scope.onTurn = function(){
             //console.info("小白兔")
         }
-
-        //预览功能
-//        $scope.pcPreView = function (docName, uuid) {
-//                var data = {fileName:docName,uuid:uuid};
-//                Manage.getTrendsFileViewUrl(data).then(function (result) {
-////                console.log(typeof result)
-//                $scope.isPreview = true;
-//                $scope.previewUrl =result;
-//                layer.open({
-//                        type: 2,
-//                        //skin: 'layui-layer-lan',
-//                        title: '预览',
-//                        fix: false,
-//                        shadeClose: true,
-//                        maxmin: true,
-//                        area: ['1000px', '500px'],
-//                        content: $scope.previewUrl
-//                    });
-//            },function (data) {
-//                var obj = JSON.parse(data);
-////                console.log(obj);
-//                alert(obj.message);
-//            });
-//
-//        }
 
         $scope.previewSign = function (uuid,docName) {
                 var data ={fileName:docName,uuid:uuid};
@@ -2716,25 +2722,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
 
         //显示更多相关人
         $scope.showMorePerson = function() {
-/*	    	if(!$scope.showMore){
-	    		currentShowPage++;
-	    		if($scope.device){
-	    			$scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize); 
-	    		}else{
-	    			$scope.relatedNew = relatedNews.slice(0,currentShowPage*pageSizePc); 
-	    		}
-	    		if(currentShowPage >= totalPage){
-	    			$scope.showMore = true;
-	    		}
-	    	} else {
-	    		if($scope.device){
-	    			$scope.collaList.relevants = sliceRlevants;
-	    		}else{
-	    			$scope.relatedNew = sliceRlevants;
-	    		}
-	    		$scope.showMore = false;
-	    		currentShowPage = 1;
-	    	}*/
         	currentShowPage++;
 	    	if(currentShowPage >=2){
 	    		$scope.collapse = true;
@@ -2780,24 +2767,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         //跳转新页面去除心跳机制
         $scope.$on('$stateChangeStart', 
             function(event, toState, toParams, fromState, fromParams){
-//                console.log(toState, toParams, fromState);
-                clearInterval(ApplicationConfiguration.refreshID);
+            //console.log(toState, toParams, fromState);
+            clearInterval(ApplicationConfiguration.refreshID);
         });
-        /*//显示更多相关人
-        $scope.showMore = false;
-        $scope.showMorePerson = function() {
-            if(!$scope.showMore){
-                currentShowPage++;
-                $scope.collaList.relevants = allRelevants.slice(0,currentShowPage*pageSize);
-                if(currentShowPage >= totalPage){
-                    $scope.showMore = true;
-                }
-            } else {
-                $scope.collaList.relevants = sliceRlevants;
-                $scope.showMore = false;
-                currentShowPage = 1;
-            }
-        }*/
 
 }]);
 
@@ -2856,7 +2828,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var queryTypeSelected = [];
 	var queryPriorityselected = [];
 	var queryMarkSelected = [];
-	
+	var deptName = null;//项目名称
+	var ppidName = null;//工程名称
     $scope.openNew = function () {
     	$scope.openSignal = true;
     	Cooperation.getTypeList().then(function (data) {
@@ -2879,6 +2852,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
           }
         });
     		$scope.typeList = data;
+			console.info('typeList',$scope.typeList)
 
     	});
     }
@@ -3019,7 +2993,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     }
 
     $scope.trans = function (typeId,typeName) {
-    	$state.go('newcopper', {'typeid': typeId,'typename':typeName,'deptId':queryData.deptId,'ppid':queryData.ppid},{location:'replace'});
+    	$state.go('newcopper', {'typeid': typeId,'typename':typeName,'deptId':queryData.deptId,'ppid':queryData.ppid,'deptName':deptName,'ppidName':ppidName},{location:'replace'});
     	//window.open(url,'_self');
     }
 
@@ -3059,6 +3033,15 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		}
 		
 		$("span[id^='projectbutton_']").bind("click", function(){
+			//if(navigator.onLine){
+            //
+			//}else{
+			//	layer.alert('没有网络啦!',function(){
+			//		btn:['确定','取消']
+			//	},function(){
+			//		layer.closeAll()
+			//	})
+			//}
 			var createindex = layer.load(1, {
 				   shade: [0.5,'#000'], //0.1透明度的黑色背景
 			});
@@ -3073,7 +3056,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		   	$(" .data_count").hide();
 			$(".table-list.basic-project").show();
 			if(queryData.groups.length != 0){
-				$scope.getCollaborationList($(this).attr("id").split("_")[1]);
+				$scope.getCollaborationList($(this).attr("id").split("_")[1],$(this).find('.substr-sideMenus').text());
 			} else {
 				$scope.cooperationList = []; 
 	    			$scope.coNoResult = true;
@@ -3084,10 +3067,12 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 
     //获取工程列表
-   	$scope.getprojectInfoList = function (deptId, open) {
+	var  nameCount=0;//点击项目赋值给项目名称
+   	$scope.getprojectInfoList = function (deptId, open,itemDeptName) {
 		//if($(".manage-menus .menus-icon".hasClass('rotate2'))){
 
 		//}
+		deptName = itemDeptName;
 		$(".container-fluid .operation").show();
    		$('.table-list')[0].scrollTop=0;
    		$scope.coNoResult = false;
@@ -3097,7 +3082,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    		$scope.noRelatedNoCo = false;
         $scope.flag.isDraft = false;
       $('#deptbutton_'+deptId).parent().addClass('menusActive');
-      $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive'); 
+      $(':not(#deptbutton_'+deptId+')').parent().removeClass('menusActive');
    		//初始化数据
        var createindex = layer.load(1, {
            shade: [0.5,'#000'], //0.1透明度的黑色背景,
@@ -3118,6 +3103,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			Cooperation.getProjectList(deptId).then(function (data) {
 				layer.close(createindex);
 				getimgurl(data,deptId);
+
 				if(ppid&&firstreackflag){
 					$("span[id='projectbutton_"+ppid+"']").click();
 					firstreackflag = false;
@@ -3370,7 +3356,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	}
 	var token = false;
    	//点击工程获取协同列表
-   $scope.getCollaborationList = function (ppid) {
+   $scope.getCollaborationList = function (ppid,projectName) {
 	   $(".container-fluid .operation").show();
    		$('.table-list')[0].scrollTop=0;
 	   $scope.coNoResult = false;
@@ -3402,6 +3388,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	  if(queryData.searchType == 0) {
 		  queryData.searchType = '';
 	  }
+	   ppidName = projectName;
 	  Cooperation.getCollaborationList(queryData).then(function (data) {
    		   $scope.cooperationList = data;
 		   if($scope.cooperationList.length <= 0){
@@ -4259,7 +4246,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					tooltip: {	// 鼠标移上去显示的黑框
 				        trigger: 'item',
 				        //formatter: "{b}, {c} ({d}%)"
-						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+						transitionDuration:0,
 				    },
 
 				    title : {
@@ -4387,7 +4375,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					tooltip: {	// 鼠标移上去显示的黑框
 				        trigger: 'item',
 				        //formatter: "{b}, {c} ({d}%)"
-						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+						transitionDuration:0,
 				    },
 				    title : {
 				        text: '期限',
@@ -4481,7 +4470,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			var option3 = {
 					tooltip: {	// 鼠标移上去显示的黑框
 				        trigger: 'item',
-				        formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+				        formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+						transitionDuration:0,
 				    },
 				    title : {
 				        text: '标识',
@@ -4555,7 +4545,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						tooltip: {	// 鼠标移上去显示的黑框
 					        trigger: 'item',
 					        //formatter: "{b}, {c} ({d}%)"
-							formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+							formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+							transitionDuration:0,
 					    },
 					    title : {
 					        text: '协作类型',
@@ -4578,7 +4569,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					         x: 'left',
 					         itemGap: 15,
 							left:15,
-							padding: [10,40,10,0],
+							//padding: [10,40,10,0],
 							itemWidth:20,
 							itemHeight:12,
 					        data:coTypeName,
@@ -6105,9 +6096,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	 //   	$scope.responsiblePerson = data;
 	 //   }
     //});
-    if($stateParams.deptId!=-1&&$stateParams.deptId!=0){
+    if($stateParams.deptId && $stateParams.deptId!=-1&&$stateParams.deptId!=0){
     	var currentdeptId = $stateParams.deptId?$stateParams.deptId:'';
     	var currentppid  = $stateParams.ppid?$stateParams.ppid:'';
+		$scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
+		$scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
+		$scope.link.linkProjectName = $stateParams.ppidName?$stateParams.ppidName:'';
+		$scope.link.linkProjectDeptName = $stateParams.deptName?$stateParams.deptName:'';
     }
 
 	headerService.currentUserInfo().then(function(data){
@@ -6291,7 +6286,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.data.bindType = 0;
     var deptId;
 		function isDelete(num){
-			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1){
+			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1||$scope.link.linkProjectName){
 				layer.confirm('您已关联的模型,是否重新关联？', {
 					btn: ['是','否'], //按钮
 					move:false
@@ -6318,6 +6313,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 							}
 							//传给服务器的两个值
 							$scope.data.assembleLps = dataList.assembleLps;
+							console.info('dataList.assembleLps',dataList.assembleLps)
 							$scope.data.ppid = dataList.assembleLps[0].ppid;
 							$scope.data.deptId = dataList.parentNode.value;
 						});
@@ -6484,6 +6480,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				$scope.linkProject1 = false;
 				$scope.linkComponent1 = false;
 				$scope.linkCategoty1 =false;
+				$scope.link.linkProjectName = false;
 				$scope.data = {};
 				$scope.data.bindType = 0;
 				layer.closeAll();
@@ -6940,10 +6937,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    	clearInterval(checkUploadInterval);
 	    }
         function saveCooperation () {
-        	var backJson = BimCo.SubmitAll();
-        	if(backJson){
-        		 backJson = JSON.parse(backJson);
-        	}
+        	// var backJson = BimCo.SubmitAll();
+        	// if(backJson){
+        	// 	 backJson = JSON.parse(backJson);
+        	// }
         	if($scope.dt) {
         		// console.log($scope.dt);
 				var dt = Common.dateFormat($scope.dt);
@@ -7014,6 +7011,12 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			} else {
 				binds = $scope.data.assembleLps?$scope.data.assembleLps:[];
 			}
+
+			if($scope.link.linkProjectName){
+				$scope.data.bindType = 1;
+				binds[0] = {'ppid':$scope.data.ppid,'projType':$scope.link.linkProjectName}
+			}
+
 			$scope.data = {
 		    	binds:binds,
 		    	bindType: $scope.data.bindType,
@@ -8122,8 +8125,10 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var url_join = url + 'rs/co/updateCollaboration';
         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data, status) {
             delay.resolve(data);
-        }).error(function (data) {
+            alert(status)
+        }).error(function (data,status) {
             delay.reject(data);
+            alert(status)
         });
         return delay.promise;
     }
@@ -8466,6 +8471,123 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 	}
 ]);
 'use strict';
+
+angular.module('manage').service('Manage', function ($http, $q) {
+
+    //var trendUrl = ApplicationConfiguration.urls.trendUrl?ApplicationConfiguration.urls.trendUrl:"";
+    var trendUrl = basePath;
+    //trendUrl="http://172.16.21.69:8080/bimco";
+    /**
+     *获取项目部列表
+     */
+    this.getDeptInfoList = function () {
+        var delay = $q.defer();
+        var url_join = trendUrl + 'rs/trends/deptInfoList';
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+                //console.info(data)
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    };
+
+    this.getProjectInfoList = function (params) {
+
+        var delay = $q.defer();
+        var url_join = trendUrl + 'rs/trends/projectInfoList/' + params;
+        $http.get(url_join)
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data, status) {
+                delay.reject(data);
+            });
+        return delay.promise;
+    }
+//    获取项目动态统计
+    this.getProjectTrends = function(obj){
+        var delay = $q.defer();
+        var url_join = trendUrl+"rs/trends/projectTrends";
+        $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data)
+        },function(data){
+            delay.resolve(data)
+        })
+        return delay.promise;
+    }
+
+
+    //静态数据
+    //var param = {
+    //    count:10,
+    //    lastUploadTime:"",
+    //    lastUsername:"",
+    //    ppid:1000,
+    //    searchKey:"",
+    //    searchType:""
+    //};
+//    获取动态列表
+    this.getTrends = function(params){
+        var delay = $q.defer();
+        var url_join = trendUrl+"rs/trends/trends";
+        var obj = JSON.stringify(params);
+//        console.log(obj);
+        $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data);
+            //console.info(data)
+        },function(data){
+            delay.reject(data)
+        })
+        return delay.promise;
+    }
+
+
+//    获取大图效果（获取资料地址）
+//    getTrendsFileViewUrl
+    this.getTrendsFileViewUrl = function(params){
+        var params = JSON.stringify(params);
+        var delay = $q.defer();
+        var url_join = trendUrl+ "rs/trends/viewUrl";
+        $http.post(url_join,params,{transformRequest: angular.identity, transformResponse: angular.identity}).success(function(data){
+           delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+    //系统时间
+    this.getCurrentDate = function () {
+        var cDate = new Date();
+        //console.info($scope.date)
+        var cYear = cDate.getFullYear();
+        var cMouth = cDate.getMonth()+1;
+        var cDay = cDate.getDate();
+        var cWeekday=new Array(7);
+        cWeekday[0]="星期日";
+        cWeekday[1]="星期一";
+        cWeekday[2]="星期二";
+        cWeekday[3]="星期三";
+        cWeekday[4]="星期四";
+        cWeekday[5]="星期五";
+        cWeekday[6]="星期六";
+       var currentDate =  cYear+"年"+ cMouth+"月"+cDay+"日"+cWeekday[cDate.getDay()];
+       return currentDate;
+    }
+//    获取服务器时间
+    this.getTrendsSystem = function(params){
+        var delay = $q.defer();
+        var url_join = trendUrl+"rs/trends/system";
+        var obj = JSON.stringify(params);
+        $http.get(url_join,obj,{transformRequest: angular.identity}).then(function(data){
+            delay.resolve(data);
+        },function(err){
+            delay.reject(err)
+        })
+        return delay.promise;
+    }
+});
+'use strict';
 /**
  * 协作管理
  */
@@ -8747,10 +8869,16 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 //获取当前元素
                 $(this).addClass("menusActive").siblings().removeClass("menusActive");
             });
-            $(".tools_bar").hover(function(){
-                $(this).find(".bar").animate({"bottom":'0'},200);
-            },function(){
-                $(this).find(".bar").animate({"bottom":'-28px'},200)
+            //$(".tools_bar").hover(function(){
+            //    $(this).find(".bar").animate({"bottom":'0'},200);
+            //},function(){
+            //    $(this).find(".bar").animate({"bottom":'-28px'},200)
+            //})
+            $(".tools_bar").mouseenter(function(){
+                $(this).find(".bar").stop().animate({"bottom":'0'},200);
+            })
+            $(".tools_bar").mouseleave(function(){
+                $(this).find(".bar").stop().animate({"bottom":'-28px'},200)
             })
 
 
@@ -9109,120 +9237,81 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 
 
 }]);
-'use strict';
+// if (/zhangxinxu|localhost/.test(location.href)==false) { alert('含外链JS资源，页面即将跳转...');location.href = "http://www.zhangxinxu.com/sp/welcome.php"; }
+/*!
+ * jquery.scrollLoading.js
+ * by zhangxinxu  http://www.zhangxinxu.com
+ * 2010-11-19 v1.0
+ * 2012-01-13 v1.1 偏移值计算修改 position → offset
+ * 2012-09-25 v1.2 增加滚动容器参数, 回调参数
+ * 2015-11-17 v1.3 只对显示元素进行处理
+*/
+(function($) {
+	// debugger
+	$.fn.scrollLoading = function(options) {
+		var defaults = {
+			attr: "data-url",
+			container: $(window),
+			callback: $.noop
+		};
+		var params = $.extend({}, defaults, options || {});
+		params.cache = [];
+		$(this).each(function() {
+			var node = this.nodeName.toLowerCase(), url = $(this).attr(params["attr"]);
+			//重组
+			var data = {
+				obj: $(this),
+				tag: node,
+				url: url
+			};
+			params.cache.push(data);
+		});
+		
+		var callback = function(call) {
+			if ($.isFunction(params.callback)) {
+				params.callback.call(call.get(0));
+			}
+		};
+		//动态显示数据
+		var loading = function() {
+			var contop;
+			var contHeight = params.container.height();
+			if ($(window).get(0).window === window) {
+				contop = $(window).scrollTop();
+			} else {
+				contop = params.container.offset().top;
+			}	
+			$.each(params.cache, function(i, data) {
+				var o = data.obj, tag = data.tag, url = data.url, post, posb;
 
-angular.module('manage').service('Manage', function ($http, $q) {
-
-    //var trendUrl = ApplicationConfiguration.urls.trendUrl?ApplicationConfiguration.urls.trendUrl:"";
-    var trendUrl = basePath;
-    //trendUrl="http://172.16.21.69:8080/bimco";
-    /**
-     *获取项目部列表
-     */
-    this.getDeptInfoList = function () {
-        var delay = $q.defer();
-        var url_join = trendUrl + 'rs/trends/deptInfoList';
-        $http.get(url_join)
-            .success(function (data) {
-                delay.resolve(data);
-                //console.info(data)
-            }).error(function (data, status) {
-                delay.reject(data);
-            });
-        return delay.promise;
-    };
-
-    this.getProjectInfoList = function (params) {
-
-        var delay = $q.defer();
-        var url_join = trendUrl + 'rs/trends/projectInfoList/' + params;
-        $http.get(url_join)
-            .success(function (data) {
-                delay.resolve(data);
-            }).error(function (data, status) {
-                delay.reject(data);
-            });
-        return delay.promise;
-    }
-//    获取项目动态统计
-    this.getProjectTrends = function(obj){
-        var delay = $q.defer();
-        var url_join = trendUrl+"rs/trends/projectTrends";
-        $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
-            delay.resolve(data)
-        },function(data){
-            delay.resolve(data)
-        })
-        return delay.promise;
-    }
-
-
-    //静态数据
-    //var param = {
-    //    count:10,
-    //    lastUploadTime:"",
-    //    lastUsername:"",
-    //    ppid:1000,
-    //    searchKey:"",
-    //    searchType:""
-    //};
-//    获取动态列表
-    this.getTrends = function(params){
-        var delay = $q.defer();
-        var url_join = trendUrl+"rs/trends/trends";
-        var obj = JSON.stringify(params);
-//        console.log(obj);
-        $http.post(url_join,obj,{transformRequest: angular.identity}).then(function(data){
-            delay.resolve(data);
-            //console.info(data)
-        },function(data){
-            delay.reject(data)
-        })
-        return delay.promise;
-    }
-
-
-//    获取大图效果（获取资料地址）
-//    getTrendsFileViewUrl
-    this.getTrendsFileViewUrl = function(params){
-        var params = JSON.stringify(params);
-        var delay = $q.defer();
-        var url_join = trendUrl+ "rs/trends/viewUrl";
-        $http.post(url_join,params,{transformRequest: angular.identity, transformResponse: angular.identity}).success(function(data){
-           delay.resolve(data);
-        }).error(function (data) {
-            delay.reject(data);
-        });
-        return delay.promise;
-    }
-    //系统时间
-    this.getCurrentDate = function () {
-        var cDate = new Date();
-        //console.info($scope.date)
-        var cYear = cDate.getFullYear();
-        var cMouth = cDate.getMonth()+1;
-        var cDay = cDate.getDate();
-        var cWeekday=new Array(7);
-        cWeekday[0]="星期日";
-        cWeekday[1]="星期一";
-        cWeekday[2]="星期二";
-        cWeekday[3]="星期三";
-        cWeekday[4]="星期四";
-        cWeekday[5]="星期五";
-        cWeekday[6]="星期六";
-       var currentDate =  cYear+"年"+ cMouth+"月"+cDay+"日"+cWeekday[cDate.getDay()];
-       return currentDate;
-    }
-//    获取服务器时间
-    this.getTrendsSystem = function(params){
-        var delay = $q.defer();
-        var url_join = trendUrl+"rs/trends/system";
-        var obj = JSON.stringify(params);
-        $http.get(url_join,obj,{transformRequest: angular.identity}).then(function(data){
-            delay.resolve(data);
-        },function(err){
-            delay.reject(err)
-        })
-        return delay.promise;
-    }
-});
+				if (o) {
+					post = o.offset().top - contop, post + o.height();
+	
+					if (o.is(':visible') && (post >= 0 && post < contHeight) || (posb > 0 && posb <= contHeight)) {
+						if (url) {
+							//在浏览器窗口内
+							if (tag === "img") {
+								//图片，改变src
+								callback(o.attr("src", url));	
+							} else {
+								o.load(url, {}, function() {
+									callback(o);
+								});
+							}		
+						} else {
+							// 无地址，直接触发回调
+							callback(o);
+						}
+						data.obj = null;	
+					}
+				}
+			});	
+		};
+		
+		//事件触发
+		//加载完毕即执行
+		loading();
+		//滚动执行
+		params.container.bind("scroll", loading);
+	};
+})(jQuery);

@@ -340,7 +340,7 @@ a:hover{color:#c00;text-decoration:underline;}
 }*/
 
 .action dl dt img{
-    
+    margin-top: 9px;
 }
 .action dl dd{
     line-height:40px;
@@ -372,11 +372,15 @@ a:hover{color:#c00;text-decoration:underline;}
 
 }
 
-.action .picInfo  dl dt>img{
-    width: 72px;
-    width: 70px;
-    margin: 0 auto;
-    margin-top: 19px;
+.action .picInfo dl dt>img.thumb {
+    max-width: 118px;
+}
+.action .picInfo dl dt>img.file-icon {
+    max-width: 118px;
+    vertical-align: middle;
+    position: absolute;
+    left: 10px;
+    top: 9px;
 }
 .action .picInfo  dl dt .deta-down{
     width: 118px;
@@ -440,6 +444,15 @@ a:hover{color:#c00;text-decoration:underline;}
 .reply .say .comment  .dashed {
     border-bottom: 0.1rem dashed #ddd;
     padding: 10px 0;
+}
+.reply .say .comment .dashed dl {
+    width: 66px;
+}
+.reply .say .comment .dashed dl dt {
+    border: 1px solid #ddd;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
 }
 .reply .say .comment  .dashed .btn-replay-audio{
     background:#65C17D;
@@ -806,9 +819,9 @@ html,body{
 }
 .mobile-devices .inline{
     display: inline-block;
-    padding: 0 8px;
-    margin-bottom: 10px;
-    margin-right: 10px;
+    /*padding: 0 8px;*/
+    /*margin-bottom: 10px;*/
+    /*margin-right: 10px;*/
 }
 .mobile-devices .inline > span {
     /*vertical-align: middle;*/
@@ -1052,14 +1065,22 @@ textarea{
 
 }
 .mobile-main .mobile-photo .photo-con .detail-sear{
-    width:70px;
-    height:70px;
-    border:1px solid #ddd;
-}
-.mobile-main .mobile-photo .photo-con .detail-sear>img{
-    width: 56px;
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ddd;
     overflow: hidden;
-    margin-top: 6px;
+}
+.mobile-main .mobile-photo .photo-con .detail-sear:active{
+    border-color:#5c58f9 !important;
+}
+.mobile-main .mobile-photo .photo-con .detail-sear>img.thumb{
+    max-width: 70px;
+}
+.mobile-main .mobile-photo .photo-con .detail-sear>img.file-icon{
+    width: 56px;
+    position: absolute;
+    top: 6px;
+    left: 6px;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear .detail-search{
     width:100%;
@@ -1084,7 +1105,9 @@ textarea{
     margin-bottom: 20px;
     font-size:16px;
 }
-
+.mobile-main .show-more-btn span:active{
+    color:#5c58f9;
+}
 .mobile-main .mobile-photo .photo-con dl dd{
     margin-top:10px;
 }
@@ -1121,6 +1144,9 @@ textarea{
     border:1px solid #ddd;
     margin-bottom: 10px;
 }
+.mobile-main .mobile-means .means-con .means-list .means-down:active{
+    border-color:#5c58f9;
+}
 .mobile-main .mobile-means .means-con .means-list .means-down>img{
     width: 56px;
     overflow:hidden;
@@ -1155,6 +1181,9 @@ textarea{
     border-bottom: 0.1rem dashed #ddd;
     padding: 10px 0;
 }
+.mobile-main .mobile-reply .say-content .dashed dl {
+    width: 66px;   
+}
 .mobile-main .reply-con .reply-reply .reply-icon{
     text-align:center;
     float:left;
@@ -1166,6 +1195,7 @@ textarea{
     width:30px;
     height:30px;
     border-radius:50%;
+    border:1px solid #ddd;
 }
 .mobile-main .reply-con .reply-reply .reply-box{
     min-height:60px;
@@ -1175,7 +1205,28 @@ textarea{
     margin-top:17px;
 }
 .mobile-main .mobile-reply .comment-doclist div{
-    width: 65px;
+    width: 66px;
+}
+.comment-doclist .read-folder>dt{
+    border:1px solid #ddd;
+    width: 60px;
+    height:60px;
+    overflow: hidden;
+}
+.comment-doclist .read-folder>dd{
+    width: 60px;
+}
+.comment-doclist .read-folder>dt>img.thumb{
+    width: 60px;
+}
+.comment-doclist .read-folder>dt>img.file-icon{
+    width: 50px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+}
+.comment-doclist .read-folder>span:active{
+    border-color:#5c58f9;
 }
 .comment-time{
     color:#ddd;text-align:right;padding:10px 0

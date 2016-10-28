@@ -10,24 +10,31 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     $scope.$on("ngRepeatFinished",function(ngRepeatFinishedEvent){
     	if(clickCount > 0) {		// 第一次点击也要显示
     		$(".header_menus").slideToggle("fast");
+            $('.headerMask').show();
             $(".header_menus ul li").hover(function(){
-                $(".header_menus").show();
-                $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
+                $(this).css({"color":"#69c080"}).children().find("ol").show();
             },function(){
-                $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
-                $(".header_menus").hide();
-                $('.header-shape').removeClass('dispatcher-database')
+                $(this).css({"color":"#333"}).children().find("ol").hide();
+                $('.header-shape').removeClass('dispatcher-database');
             })
+            $('.header_menus').mouseleave(function(){
+                $('.header_menus').hide();
+                $('.headerMask').hide();
+            })
+            //$(".header_menus
     	}
     	$(".header-shape").click(function(){
+            $('.headerMask').show();
             $(".header_menus").slideToggle("fast");
             $(".header_menus ul li").hover(function(){
-                $(".header_menus").show();
-                $(this).css({"background":"#f5f6f7","color":"#69c080"}).children().find("ol").show();
+                $(this).css({"color":"#69c080"}).children().find("ol").show();
             },function(){
-                $(this).css({"background":"#fff","color":"#333"}).children().find("ol").hide();
-                $(".header_menus").hide();
-                $('.header-shape').removeClass('dispatcher-database')
+                $(this).css({"color":"#333"}).children().find("ol").hide();
+                $('.header-shape').removeClass('dispatcher-database');
+            })
+            $('.header_menus').mouseleave(function(){
+                $('.header_menus').hide();
+                $('.headerMask').hide();
             })
         })
     })

@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="./css/scrollnice.css">
-<nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl" >
+<nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl">
 		<div class="header clearfix">
 			<div class="navbar-header user" >
 				<img ng-if="currentUser.img==''"  ng-src="./imgs/icon/defalut.png"  alt="头像">
@@ -7,7 +7,7 @@
 				<div class="inline about-company" >
 					<div class="substr header-avatar"  title="{{currentUser.name}}">{{currentUser.name}}</div>
 					<div class="substr header-role" style="max-width:145px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
-					<div class="substr" style="width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
+					<div class="substr" style="max-width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
 				</div>
 				<div class="inline header-shape" ng-click="menus()">
 					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
@@ -25,8 +25,8 @@
 							</p>
 							<div class="child_items">
 								<ol >
-									<li class="substr">动态({{menus.trendsCount}})</li>
-									<li class="substr">协作({{menus.coCount}})</li>
+									<li class="substr ol-item">动态({{menus.trendsCount}})</li>
+									<li class="substr ol-item">协作({{menus.coCount}})</li>
 								</ol>
 							</div>
 						</li>
@@ -60,5 +60,6 @@
 		<input id="ppid_formbe" type="hidden">
 		<!-- <div onclick="transCoManage()" style="position:fixed;z-index:1000;top:20px">transCoManage</div> -->
 </nav>
+<div class="headerMask"></div>
 
 

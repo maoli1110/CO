@@ -190,8 +190,9 @@
                                                 <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
                                               <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
                                                 <div class="replay-down" style="height:80px;">
-                                                    <span ng-if="doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.thumbnailUrl}}') no-repeat center;background-size:cover;display:inline-block;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
-                                                    <span ng-if="!doc.thumbnailUrl" style="width:100px;height:80px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                    <span ng-if="doc.thumbnailUrl" style="width:100px;height:78px;background:url('{{doc.thumbnailUrl}}') no-repeat center;background-size:cover;display:inline-block;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+
+                                                    <span ng-if="!doc.thumbnailUrl" style="width:100px;height:78px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:70px;display:inline-block;" ng-click="previewSign(doc.uuid,doc.name,2)"></span>
 
                                                     <div class="user-down">
                                                         <a ng-href="{{doc.fileUrl}}?name={{doc.name}}"><img class="detail-down" src="imgs/icon_down.png" class="a-{{$index}}"/></a>
@@ -276,7 +277,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     </div>
@@ -286,7 +286,7 @@
         <button type="button" class="btn btn-default foot-btn" ng-show="tgshow" ng-click="doCollaboration(6)">通过</button>
         <button type="button" class="btn btn-default foot-btn" ng-show="jjueshow" ng-click="doCollaboration(7)">拒绝</button>
         <button type="button" class="btn btn-default foot-btn" ng-show="jsshow" ng-click="doCollaboration(8)">结束</button>
-        <!--<button type="button" class="btn btn-default foot-btn" ng-show="dchushow">导出</button>-->
+        <button type="button" class="btn btn-default foot-btn" ng-show="dchushow" ng-click="doExpot()">导出</button>
     </div>
 </div>
 <div ng-if="flag.isPreview" class="pdf-sign">
@@ -308,9 +308,9 @@
         </div>
     </header>
     <!-- 默认预览 -->
-    <div ng-show="flag.isGeneral">
+    <div ng-show="flag.isGeneral" style="overflow:hidden">
         <div style="width:100%;margin-top:42px" ng-show="!isEdit">
-            <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no" frameborder="0"></iframe>
+            <iframe ng-src="{{previewUrl}}" style="height:calc(100vh);width:100%;" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>
     <!-- 电子签名 -->

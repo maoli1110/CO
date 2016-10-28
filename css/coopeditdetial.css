@@ -721,6 +721,9 @@ a:hover{/*color:#000;text-decoration:underline;*/}
     border-radius:5px;
     border:0;
 }
+.btn-success{
+    border:0 !important;
+}
 .btn-success:active{
     background:#449d44 !important;
 }
@@ -785,6 +788,26 @@ html,body{
     padding: 0 8px;
     line-height: 31px !important;
 }
+.calder:visited{
+    border: 1px solid #5c58f9 !important;
+}
+.calder:active{
+    border-color:#5c58f9;
+}
+/*.mobile-main .themer.calder-limter{*/
+    /*border:1px solid #ddd;*/
+/*}*/
+/*.mobile-main .themer.calder-limter:visited{*/
+    /*border-color:#5c58f9 !important;*/
+/*}*/
+.edit-detailC .form-control:focus{
+    border-color: #65C17D;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(101,193,125,.075),0 0 8px rgba(101,193,125,.6);
+    box-shadow: inset 0 1px 1px rgba(101,193,125,.075),0 0 8px rgba(101,193,125,.6);
+}
+
+
 .proInfo .calder:hover{
     border:1px solid #65C17D;
 }
@@ -847,11 +870,18 @@ html,body{
 .btn-group .btn.btn-danger:active{
     background:#449d44  !important;
 }
-.uib-datepicker-current:hover{
-    background:#55ad6c !important;
+/*.uib-datepicker-current:hover{*/
+    /*background:#55ad6c !important;*/
+/*}*/
+.edit-detailC .btn-info{
+    background:#65C17D !important;
+    border-color:#65C17D !important;
 }
-.uib-datepicker-current:active{
-    background:#449d44  !important;
+.edit-detailC .uib-datepicker-current:active{
+    background:#449d44 !important;
+}
+.edit-detailC .btn-sm.uib-datepicker-current:active{
+    background:#449d44 !important;
 }
 .edit-dis{
     padding: 7px 10px !important;
@@ -859,13 +889,60 @@ html,body{
 .edit-dis:hover{
     border:1px solid #65C17D;
 }
+.mobile-main .btn-info{
+    background:#5c58f9 !important;
+    border-color:#5c58f9 !important;
+    color:#fff;
+}
+.mobile-main .active>.text-info{
+    color:#fff !important;
+}
+.mobile-main .active{
+    color:#fff !important;
+}
+.moblie-main .bootstrap-select .dropdown-toggle .btn-info{
+     background:#5c58f9 !important;
+     border-color:#5c58f9 !important;
+ }
+.moblie-main .bootstrap-select .dropdown-toggle .btn-info.active{
+    background:#5c58f9 !important;
+    border-color:#5c58f9 !important;
+}
+
+.mobile-main .btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info{
+    background:#5c58f9 !important;
+    border-color:#5c58f9 !important;
+}
+.mobile-main .btn-info.active, .btn-info:active, .open>.dropdown-toggle .text-info{
+    background:#5c58f9 !important;
+    border:1px solid #5c58f9 !important;
+    color:#fff !important;
+}
+.mobile-main .btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info:focus .mobile-main .text-info{
+    color:#fff !important;
+}
 .mobile-main .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
+}
+.mobile-main .show-more-btn span:active{
+    color:#5c58f9;
 }
 .mobile-devices{
     height:100%;
     /*overflow-x:hidden;*/
     margin-bottom: 35px;
+}
+.mobile-main .btn-group .btn.btn-danger{
+    background:#5c58f9 !important;
+}
+.mobile-main .btn-group .btn.btn-danger:active{
+    background:#4e4ae3!important;
+}
+.mobile-main .btn-sm.uib-datepicker-current:not(.activ){
+    background:#5c58f9 !important;
+}
+.mobile-main .btn-sm.uib-datepicker-current:not(.activ):active{
+    background:#4e4ae3 !important;
 }
 .mobile-main .mobile-relate .show-more-btn {
     position:absolute;
@@ -882,6 +959,10 @@ html,body{
 .mobile-devices input, button{
     font-size:16px;
 }
+.mobile-devices input:focus{
+    border-color:#5c58f9 !important;
+    outline-style:none;
+}
 .mobile-header{
     line-height:40px;
     background:#eceef0;
@@ -893,6 +974,15 @@ html,body{
     position:relative;
     /*overflow:hidden;*/
     padding: 0 7px;
+}
+.mobile-main :focus{
+    outline:0 !important;
+}
+.mobile-main .dropdown-toggle:focus {
+    outline: 0 !important;
+}
+.mobile-main .bootstrap-select.btn-group .dropdown-menu li:focus{
+    border:1px solid #5c58f9;
 }
 .mobile-main .photo-list{
     float:left;
@@ -930,6 +1020,13 @@ html,body{
 .col-xs-1,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8, .col-xs-12{
     padding:0;,
 }
+.mobile-main .form-control:focus{
+    border-color:#5c58f9 !important;
+    border-color: #5c58f9 !important;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(92,88,249,.075),0 0 8px rgba(92,88,249,.6) !important;
+    box-shadow: inset 0 1px 1px rgba(92,88,249,.075),0 0 8px rgba(92,88,249,.6) !important;
+}
 .mobile-main .mobile-main-principal{
     margin-top:20px;
     border-bottom:1px solid #ddd;
@@ -945,8 +1042,17 @@ html,body{
     float:right;
 }
 .mobile-main .uib-datepicker-popup.dropdown-menu {
+    width:260px;
     left: -10% !important;
-    padding:7px;
+    /*padding:7px;*/
+    top: 38px !important;
+
+}
+.mobile-main .uib-datepicker-popup.dropdown-menu:focus{
+    outline-style:none !important;
+}
+.mobile-main .uib-datepicker-popup.dropdown-menu table{
+    width:260px;
 }
 .line-h22{
     margin-top:15px;
@@ -974,6 +1080,9 @@ html,body{
 .mobile-devices .dropdown-toggle {
     border: 1px solid #ddd;
 }
+.mobile-devices .dropdown-toggle:focus{
+    border:1px solid  #5c58f9 !important;
+}
 .mobile-devices .bootstrap-select.btn-group[class*="col-"] .dropdown-toggle {
     height: 32px !important;
 }
@@ -991,10 +1100,28 @@ html,body{
     padding: 10px 0;
 }
 .mobile-main .mobile-reply .say-content .dashed >div {
-    width: 65px;
+    width: 66px;
 }
 .mobile-devices .bootstrap-select.btn-group .dropdown-menu {
     max-width: 100%;
+}
+.mobile-main .mobile-reply .say-content .dashed dl {
+    width: 66px;
+}
+.comment-doclist .read-folder>dt {
+    border: 1px solid #ddd;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+}
+.comment-doclist .read-folder>dt>img.thumb {
+    width: 60px;
+}
+.comment-doclist .read-folder>dt>img.file-icon {
+    width: 50px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
 }
 /*重写ui select样式 */
 .btn-group.open .dropdown-toggle {
@@ -1005,8 +1132,17 @@ html,body{
     background: #fff;
     height:34px;
 }
+.mobile-main .btn-group>.btn.dropdown-toggle:active{
+    border-color:#5c58f9;
+}
+.mobile-main .btn-group>.btn.dropdown-toggle:focus{
+    border-color:#5c58f9 !important;
+}
+.mobile-main .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover{
+   outline-color:#5c58f9 !important;
+}
 .dropdown-menu>li>a {
-    padding: 7px 20px;
+    padding: 7px 12px;
 }
 /*详情描述*/
 .mobile-main .mobile-job-descrition{
@@ -1025,7 +1161,17 @@ html,body{
     border:none;
     -webkit-appearance: none !important;
 }
-
+table:focus{
+    outline-style:none !important;
+}
+.mobile-main .text-info:active{
+    color:#fff !important;
+    border:0 !important;
+}
+.mobile-main .text-info:focus{
+    color:#fff !important;
+    border:0 !important;
+}
 .mobile-devices .b-tilte{
    width:65px;float:left
 }
@@ -1049,10 +1195,13 @@ html,body{
     text-align: center;
     color: #909090;
 }
+.btn-info.active, .btn-info:active .text-info{
+    color: #fff !important;
+}
 .btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info{
     color: #fff;
     background-color: #65C17D;
-    border-color: #65C17D;
+    border: none !important;
 }
 .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle){
     border-radius:5px;
@@ -1129,14 +1278,19 @@ html,body{
     font-size:16px;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear{
-    width:70px;
-    height:70px;
-    border:1px solid #ddd;
-}
-.mobile-main .mobile-photo .photo-con .detail-sear>img{
-    width: 56px;
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ddd;
     overflow: hidden;
-    margin-top: 6px;
+}
+.mobile-main .mobile-photo .photo-con .detail-sear>img.thumb{
+    max-width: 70px;
+}
+.mobile-main .mobile-photo .photo-con .detail-sear>img.file-icon{
+    width: 56px;
+    position: absolute;
+    top: 6px;
+    left: 6px;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear .detail-search{
     width:100%;
@@ -1225,6 +1379,7 @@ html,body{
     width:30px;
     height:30px;
     border-radius:50%;
+    border:1px solid #ddd;
 }
 .mobile-main .reply-con .reply-reply .reply-box{
     /*border:1px solid #ddd;*/
@@ -1327,3 +1482,23 @@ html,body{
 .basicInfo .btn-info.active.focus, .btn-info.active:focus, .btn-info.active:hover, .btn-info:active.focus, .btn-info:active:focus, .btn-info:active:hover, .open>.dropdown-toggle.btn-info.focus, .open>.dropdown-toggle.btn-info:focus, .open>.dropdown-toggle.btn-info:hover{
     background:#55ad6c;
 }
+/*.addcoo .row .new-type a:nth-child(1){*/
+    /*background-color:#74a870 !important;*/
+/*}*/
+/*.addcoo .row .new-type a:nth-child(2){*/
+    /*background-color:#698cdd !important;*/
+/*}*/
+/*.addcoo .row .new-type a:nth-child(3){*/
+    /*background-color:#72b6e5 !important;*/
+/*}*/
+/*.addcoo .row .new-type a:nth-child(4){*/
+    /*background-color:#64b9ae;*/
+/*}*/
+/*.addcoo .row .new-type a:nth-child(5){*/
+    /*background-color:#7bce7f;*/
+ /*}*/
+/*.addcoo .row .new-type a:nth-child(6){*/
+    /*background-color:#aed06d;*/
+/*}*/
+
+

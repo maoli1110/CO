@@ -126,7 +126,11 @@
 		<div class="addcoo absol overflow" ng-show="openSignal">
 			<!-- <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div> -->
 			<div class="row">
-				<div class="col-md-6" ng-repeat="items in typeList"><a ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_{{items.typeImg}}.png') no-repeat"></a></div>
+				<div class="col-md-6 new-type" ng-repeat="items in typeList">
+					<!--<a ng-click="trans(items.typeId,items.name)" style="background-image:url('./imgs/dyfilter/co-type_00{{items.typeImg}}.png') no-repeat"></a>-->
+					<a class="typeImg_{{items.typeImg}}" ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_00{{items.typeImg}}.png') no-repeat"></a>
+					<!--<a ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/new-create.png') 0 120*{{items.typeImg}} +'px' no-repeat">{{items.typeImg}}-1</a>-->
+				</div>
 			</div>
 		</div>
 		

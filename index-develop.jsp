@@ -74,6 +74,7 @@
 		<script type="text/javascript" src="./lib/nginfinite/ng-infinite-scroll.min.js"></script>
 		<script type="text/javascript" src="./lib/layer/layer.min.js"></script>
 		<script type="text/javascript" src="./lib/audio1/jquery.jplayer.min.js"></script>
+		<script src="./lib/jquery.scrollLoading.js"></script>
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 		<!-- upload -->

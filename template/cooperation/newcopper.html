@@ -96,7 +96,7 @@
 							<div class="date-time">
 								<label for="" class="col-xs-3 align-right create-title" style="padding:0;">限制期限：</label>
 								<p class="input-group col-xs-9">
-								  <input type="text" class="form-control" readonly ng-click="open2()"  uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:99.5%"/>
+								  <input type="text" class="form-control create-calder" readonly ng-click="open2()"  uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:99.5%"/>
 								  <!--<span class="input-group-btn">-->
 									<!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
 								  <!--</span>-->
@@ -123,16 +123,19 @@
 				<div class="col-xs-11" >
 					<div class="coop-delete">
 						<div class="inline new-pro relate-pro">
-							<div ng-show="linkProject1" style="line-height:37px">
-								<span class="substr" width="285px">与工程相关： {{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span><!-- <span ng-click="removeLink()" style="margin-left:20px;">重新关联</span> -->
-							</div>
-							<div ng-show="linkComponent1" style="line-height:37px;">
-								<span>与构件相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span><!-- <span ng-click="removeLink()" style="margin-left:20px;">删除</span> -->
-							</div>
-							<div ng-show="linkCategoty1" style="line-height:37px;">
-								<span>与构件类别相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span>
-							</div>
-							<label class="delete-box" ng-click="removeLink()"></label>
+								<!--<div ng-if="link.linkProjectDeptName && (!linkProject1||!linkComponent1||!linkCategoty1) &&!link.linkProjectName" ng-bind="link.linkProjectDeptName" style="line-height:38px;"></div>-->
+								<div ng-if="link.linkProjectName && (!linkProject1||!linkComponent1||!linkCategoty1)" ng-bind="link.linkProjectName" style="line-height:38px;"></div>
+								<div ng-show="linkProject1 &&!link.linkProjectName" style="line-height:37px">
+									<span class="substr" width="285px">与工程相关： {{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span><!-- <span ng-click="removeLink()" style="margin-left:20px;">重新关联</span> -->
+								</div>
+								<div ng-show="linkComponent1 &&!link.linkProjectName" style="line-height:37px;">
+									<span>与构件相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span><!-- <span ng-click="removeLink()" style="margin-left:20px;">删除</span> -->
+								</div>
+								<div ng-show="linkCategoty1 &&!link.linkProjectName" style="line-height:37px;">
+									<span>与构件类别相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span>
+								</div>
+								<label class="delete-box" ng-click="removeLink()"></label>
+
 							<!--<img ng-src="imgs/delete.png" alt="" class="new-del" >-->
 						</div>
 

@@ -224,9 +224,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					imgsrc = imgsrc+unit+".png";
                     //1.获取后缀 把后缀你push到数组
                     $scope.collaList.pictures[key].imgsrc = imgsrc;
-                }else{
-                	var timestamp=new Date().getTime();
-                	$scope.collaList.pictures[key].name = timestamp + ".png";
+                } else {
+                	$scope.collaList.pictures[key].name = value.md5 + ".png";
                 	unit = 'other';
                 	imgsrc = imgsrc+unit+".png";
                 	$scope.collaList.pictures[key].imgsrc = imgsrc;
@@ -276,9 +275,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 							 if(value1.thumbnailUrl){
 	                        	$scope.collaList.comments[key].docs[key1].imgsrc = value1.thumbnailUrl;
 	                        }
-							if(value1.name == null){
+							if(value1.name == null && !$scope.device){
 								var timestamp=new Date().getTime();
-								$scope.collaList.comments[key].docs[key1].name = timestamp + ".png";
+								$scope.collaList.comments[key].docs[key1].name = value1.md5 + ".png";
 							}
 						} else {
 								$scope.collaList.comments[key].docs[key1].suffix = 'other';
@@ -733,7 +732,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$(this).find('.user-down').animate({"bottom":'0'})
 			},function(){
 				$(this).find('.user-down').animate({"bottom":'-30px'})
-			})
+			});
+			//防止出现同步加载错误
+			if($scope.device){
+				$timeout(function(){
+					$(".scrollLoading").scrollLoading();
+				},0);
+			}
 		});
 		
 		//协作操作 PC/BV 签署／签名／通过／拒绝／结束 PC/BV
@@ -1091,6 +1096,17 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
     		$scope.showMore = true;
     		$scope.collapse = false;
     		currentShowPage = 1;
+	    }
+
+	    //导出功能对接客户端
+	    $scope.doExport = function () {
+	    	//1.组装json数据
+	    	var strExportInfo = {
+	    		coopExport:[],
+	    		
+	    	};
+	    	//2.对接客户端导出协作接口，传入导出信息的Json字符串和当前协作的名称
+	    	BimCo.ExportCooperation(strExportInfo, strCoName);
 	    }
 
 	    //预览界面跳转回详情

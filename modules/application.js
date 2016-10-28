@@ -28,18 +28,27 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
                             if (data.result && data.result == "false" && data.errormsg) {
                                 alertService.add('danger', data.errormsg);
                             }
+                            //if(!navigator.onLine){
+                            //    layer.alert('网络出错了!')
+                            //}
                             return response;
                         },
                         // status >= 400
                         responseError: function(rejection) {
                             switch (rejection.status) {
                                 // 401 Unauthorized: jump to login page
-                                case 401:
-                                    location.pathname = membersysConfig.loginPage;
-                                    break;
+                                //case 401:
+                                //    location.pathname = membersysConfig.loginPage;
+                                //    break;
+                                case 404:
+                                    layer.confirm('网络出错啦！', {
+                                        btn: ['确定','取消'] //按钮
+                                    }, function() {
+                                        layer.closeAll();
+                                    })
                                     // other Error
                                 default:
-                                    alertService.add('danger', i18n.get('error.message'));
+                                    //alertService.add('danger', i18n.get('error.message'));
                             }
 
                             return $q.reject(rejection);

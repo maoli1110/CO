@@ -97,13 +97,14 @@
         <div class="mobile-photo col-xs-12 clearfix">
             <div class="photo-title col-xs-2 F16 col-xs-2"> 照片:</div>
             <div class="photo-con col-xs-10 col-md-11" style="float:right;padding:0 6px">
-                <dl class="photo-list" ng-repeat="item in collaList.pictures">
-                    <dt class="rela detail-sear"  style="background:url('{{item.thumbnailUrl}}');background-size:cover;" ng-click="zoom(item.uuid)" ng-if="!!item.thumbnailUrl">
+                <dl class="photo-list" ng-repeat="item in collaList.pictures" profit>
+                    <dt class="rela detail-sear"  ng-if="!!item.thumbnailUrl">
+                        <img  class="scrollLoading thumb" ng-src="./imgs/icon/pixel.gif" data-url="{{item.thumbnailUrl}}" ng-click="zoom(item.uuid)">
                     </dt>
                     <dt class="rela detail-sear is-empty"  ng-if="!item.thumbnailUrl">
-                        <img  ng-src="{{item.imgsrc}}" ng-click="zoom(item.uuid)">
+                        <img  class="scrollLoading file-icon" ng-src="./imgs/icon/pixel.gif" data-url="{{item.imgsrc}}" ng-click="zoom(item.uuid)">
                     </dt>
-                    <dd class="substr" style="width:70px;">{{item.name}}</dd>
+                    <!--<dd class="substr" style="width:70px;">{{item.name}}</dd>-->
                 </dl>
             </div>
         </div>
@@ -113,10 +114,10 @@
             <div class="means-con col-xs-10" style="padding:0 6px">
                 <dl class="means-list" ng-repeat="item in collaList.docs" profit>
                     <dt class="rela means-down is-empty" ng-if="!!item.thumbnailUrl">
-                        <img  ng-src="{{item.thumbnailUrl}}"  ng-click="previewDocs(item.uuid)">
+                        <img class="scrollLoading" ng-src="./imgs/icon/pixel.gif" data-url="{{item.thumbnailUrl}}" ng-click="previewDocs(item.uuid)">
                     </dt>
                      <dt class="rela means-down is-empty" ng-if="!item.thumbnailUrl">
-                        <img  ng-src="{{item.imgsrc}}"  ng-click="previewDocs(item.uuid)">
+                        <img class="scrollLoading" ng-src="./imgs/icon/pixel.gif" data-url="{{item.imgsrc}}"  ng-click="previewDocs(item.uuid)">
                     </dt>
                     <dd title="{{item.name}}" class="is-show">{{item.name}}</dd>
                 </dl>
@@ -129,7 +130,7 @@
                 <div class="reply-reply clearfix">
                     <div class="replys clearfix" ng-repeat="item in collaList.comments track by $index" profit>
                         <div class="reply-icon col-xs-2" style="float:left;padding:0;text-align:left;">
-                            <div style="text-align:center;">
+                            <div style="text-align:center;width:55px">
                                 <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar">
                                 <img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
                                 <p class="substr F14" style="max-width:55px;!important;">{{item.commentator}}</p>
@@ -143,15 +144,15 @@
                                 <div class="dashed break-word text-format" style="font-size:14px;" ng-if="item.comment" id="comment-{{$index}}" ng-bind-html="item.comment | to_trusted"></div>
                                 <!-- 资料 -->
                                 <div class="dashed comment-doclist" ng-if="item.docs.length">
-                                    <div class="inline F14" ng-repeat="doc in item.docs track by $index">
-                                    <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
-                                      <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                      	<!--<span style="border:1px solid #ddd;width:60px;height:60px;background:url('{{doc.imgsrc}}') center no-repeat;background-size:50px;display:inline-block;" ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>-->
-                                        <span ng-if="doc.thumbnailUrl" style="width:60px;height:60px;background:url('{{doc.thumbnailUrl}}') no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;"ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>
-                                        <span ng-if="!doc.thumbnailUrl" style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;" ng-click="previewComment($parent.$parent.$index,doc.uuid)"></span>
-
-                                        <!--<div class="substr" title="{{doc.name}}">{{doc.name}}</div>-->
-                                    </div>
+                                    <dl class="inline F14 read-folder" ng-repeat="doc in item.docs track by $index">
+                                        <dt ng-if="!!doc.thumbnailUrl" class="rela">
+                                            <img class="scrollLoading thumb" ng-src="./imgs/icon/pixel.gif" data-url="{{doc.thumbnailUrl}}"  ng-click="previewComment($parent.$parent.$index,doc.uuid)">
+                                        </dt>
+                                        <dt ng-if="!doc.thumbnailUrl" class="rela">
+                                            <img class="scrollLoading file-icon" ng-src="./imgs/icon/pixel.gif" data-url="{{doc.imgsrc}}"  ng-click="previewComment($parent.$parent.$index,doc.uuid)">
+                                        </dt>
+                                        <dd class="substr" title="{{doc.name}}">{{doc.name}}</dd>
+                                    </dl>
                                 </div>
                                 <!-- 录音 -->
                                 <div class="dashed" ng-if="item.speech.speechUrl">

@@ -280,10 +280,16 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 //获取当前元素
                 $(this).addClass("menusActive").siblings().removeClass("menusActive");
             });
-            $(".tools_bar").hover(function(){
-                $(this).find(".bar").animate({"bottom":'0'},200);
-            },function(){
-                $(this).find(".bar").animate({"bottom":'-28px'},200)
+            //$(".tools_bar").hover(function(){
+            //    $(this).find(".bar").animate({"bottom":'0'},200);
+            //},function(){
+            //    $(this).find(".bar").animate({"bottom":'-28px'},200)
+            //})
+            $(".tools_bar").mouseenter(function(){
+                $(this).find(".bar").stop().animate({"bottom":'0'},200);
+            })
+            $(".tools_bar").mouseleave(function(){
+                $(this).find(".bar").stop().animate({"bottom":'-28px'},200)
             })
 
 

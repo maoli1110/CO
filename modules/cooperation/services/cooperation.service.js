@@ -282,8 +282,10 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var url_join = url + 'rs/co/updateCollaboration';
         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data, status) {
             delay.resolve(data);
-        }).error(function (data) {
+            alert(status)
+        }).error(function (data,status) {
             delay.reject(data);
+            alert(status)
         });
         return delay.promise;
     }
@@ -308,8 +310,9 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var url_join = url + 'rs/co/commentToCollaboration';
         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
-        }).error(function (data) {
+        }).error(function (data,status) {
             delay.reject(data);
+            alert(status);
         });
         return delay.promise; 
     }

@@ -43,9 +43,9 @@
                     </div>
                     <div class="row">
                         <div class="b-tilte mobile-distance F16 line-height30" >期&nbsp;&nbsp;&nbsp;&nbsp;限：</div>
-                        <div class="col-xs-9 themer mobile-distance F16">
-                            <div class="calder date-value-bv"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}">{{dt | date:'yyyy-MM-dd'}}</div>
-                            <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull">不限期</div>
+                        <div class="col-xs-9 themer mobile-distance F16 calder-limter"  >
+                            <div class="calder date-value-bv"  ng-click="open2()" ng-show="!isDeadlineNull" style="color:{{deadlineStyle}}"  tabindex="0">{{dt | date:'yyyy-MM-dd'}}</div>
+                            <div class="calder"  ng-click="open2()" ng-show="isDeadlineNull"  tabindex="0">不限期</div>
                             <input type="hidden" class="calder" uib-datepicker-popup ng-model="dt"  is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="关闭"  clear-text="清除" current-text="今天" ng-click="open2()"/>
                         </div>
                     </div>
@@ -110,12 +110,12 @@
             <div class="photo-title col-xs-2 F16" > 照片: </div>
             <div class="photo-con col-xs-10" style="padding:0 5px;float:right">
                 <dl class="photo-list" ng-repeat="item in collaList.pictures">
-                    <dt class="rela detail-sear"  style="background:url('{{item.thumbnailUrl}}');background-size:cover;" ng-if="!!item.thumbnailUrl">
+                    <dt class="rela detail-sear"  ng-if="!!item.thumbnailUrl">
+                        <img  class="scrollLoading thumb" ng-src="./imgs/icon/pixel.gif" data-url="{{item.thumbnailUrl}}">
                     </dt>
                     <dt class="rela detail-sear is-empty"  ng-if="!item.thumbnailUrl">
-                        <img  ng-src="{{item.imgsrc}}">
+                        <img  class="scrollLoading file-icon" ng-src="./imgs/icon/pixel.gif" data-url="{{item.imgsrc}}">
                     </dt>
-                   <!--  <dd class="substr" style="width:70px;">{{name}}</dd> -->
                 </dl>
             </div>
         </div>
@@ -123,14 +123,14 @@
         <div class="mobile-means col-xs-12 clearfix">
             <div class="means-title col-xs-2 F16"> 资料： </div>
             <div class="means-con col-xs-10" style="padding:0 5px;">
-                <dl class="means-list" ng-repeat="item in collaList.docs" profit> 
+                <dl class="means-list" ng-repeat="item in collaList.docs" profit>
                     <dt class="rela means-down is-empty" ng-if="!!item.thumbnailUrl">
-                        <img  ng-src="{{item.thumbnailUrl}}">
+                        <img class="scrollLoading" ng-src="./imgs/icon/pixel.gif" data-url="{{item.thumbnailUrl}}">
                     </dt>
                      <dt class="rela means-down is-empty" ng-if="!item.thumbnailUrl">
-                        <img  ng-src="{{item.imgsrc}}">
+                        <img class="scrollLoading" ng-src="./imgs/icon/pixel.gif" data-url="{{item.imgsrc}}">
                     </dt>
-                    <dd title="{{item.name}}">{{item.name}}</dd>
+                    <dd title="{{item.name}}" class="is-show">{{item.name}}</dd>
                 </dl>
             </div>
         </div>
@@ -141,7 +141,7 @@
                 <div class="reply-reply clearfix">
                     <div class="replys clearfix" ng-repeat="item in collaList.comments" profit>
                         <div class="reply-icon col-xs-2" style="float:left;padding:0;text-align:left;">
-                            <div style="text-align:center;">
+                            <div style="text-align:center;width:55px">
                                 <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar">
                                 <img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
                                 <p class="substr F14" style="max-width:55px;!important;">{{item.commentator}}</p>
@@ -154,15 +154,16 @@
                                 <!-- 评论 -->
                                 <div class="dashed break-word text-format F16" ng-if="item.comment" id="comment-{{index}}" ng-bind-html="item.comment | to_trusted">{{item.comment}}</div>
                                 <!-- 资料 -->
-                                <div class="dashed comment-doclist" ng-if="item.docs.length" >
-                                    <div class="inline F14" ng-repeat="doc in item.docs track by $index" >
-                                        <!--<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">-->
-                                      <!--   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> -->
-                                        <!--<span style="width:60px;height:60px;background:url('{{doc.imgsrc}}') no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;"></span>-->
-                                        <span ng-if="doc.thumbnailUrl"  style='width:60px;height:60px;background:url("{{doc.thumbnailUrl}}") no-repeat center;background-size:cover;display:inline-block;border:1px solid #ddd;'></span>
-                                        <span ng-if="!doc.thumbnailUrl" style='width:60px;height:60px;background:url("{{doc.imgsrc}}") no-repeat center;background-size:50px;display:inline-block;border:1px solid #ddd;'></span>
-                                        <div class="substr" title="{{doc.name}}">{{doc.name}}</div>
-                                    </div>
+                                <div class="dashed comment-doclist" ng-if="item.docs.length">
+                                    <dl class="inline F14 read-folder" ng-repeat="doc in item.docs track by $index">
+                                        <dt ng-if="!!doc.thumbnailUrl" class="rela">
+                                            <img class="scrollLoading thumb" ng-src="./imgs/icon/pixel.gif" data-url="{{doc.thumbnailUrl}}">
+                                        </dt>
+                                        <dt ng-if="!doc.thumbnailUrl" class="rela">
+                                            <img class="scrollLoading file-icon" ng-src="./imgs/icon/pixel.gif" data-url="{{doc.imgsrc}}">
+                                        </dt>
+                                        <dd class="substr" title="{{doc.name}}">{{doc.name}}</dd>
+                                    </dl>
                                 </div>
                                 <!-- 录音 -->
                                 <div class="dashed" ng-if="item.speech.speechUrl">

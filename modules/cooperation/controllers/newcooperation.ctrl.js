@@ -36,9 +36,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	 //   	$scope.responsiblePerson = data;
 	 //   }
     //});
-    if($stateParams.deptId!=-1&&$stateParams.deptId!=0){
+    if($stateParams.deptId && $stateParams.deptId!=-1&&$stateParams.deptId!=0){
     	var currentdeptId = $stateParams.deptId?$stateParams.deptId:'';
     	var currentppid  = $stateParams.ppid?$stateParams.ppid:'';
+		$scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
+		$scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
+		$scope.link.linkProjectName = $stateParams.ppidName?$stateParams.ppidName:'';
+		$scope.link.linkProjectDeptName = $stateParams.deptName?$stateParams.deptName:'';
     }
 
 	headerService.currentUserInfo().then(function(data){
@@ -222,7 +226,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     $scope.data.bindType = 0;
     var deptId;
 		function isDelete(num){
-			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1){
+			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1||$scope.link.linkProjectName){
 				layer.confirm('您已关联的模型,是否重新关联？', {
 					btn: ['是','否'], //按钮
 					move:false
@@ -249,6 +253,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 							}
 							//传给服务器的两个值
 							$scope.data.assembleLps = dataList.assembleLps;
+							console.info('dataList.assembleLps',dataList.assembleLps)
 							$scope.data.ppid = dataList.assembleLps[0].ppid;
 							$scope.data.deptId = dataList.parentNode.value;
 						});
@@ -415,6 +420,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				$scope.linkProject1 = false;
 				$scope.linkComponent1 = false;
 				$scope.linkCategoty1 =false;
+				$scope.link.linkProjectName = false;
 				$scope.data = {};
 				$scope.data.bindType = 0;
 				layer.closeAll();
@@ -871,10 +877,10 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    	clearInterval(checkUploadInterval);
 	    }
         function saveCooperation () {
-        	var backJson = BimCo.SubmitAll();
-        	if(backJson){
-        		 backJson = JSON.parse(backJson);
-        	}
+        	// var backJson = BimCo.SubmitAll();
+        	// if(backJson){
+        	// 	 backJson = JSON.parse(backJson);
+        	// }
         	if($scope.dt) {
         		// console.log($scope.dt);
 				var dt = Common.dateFormat($scope.dt);
@@ -945,6 +951,12 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			} else {
 				binds = $scope.data.assembleLps?$scope.data.assembleLps:[];
 			}
+
+			if($scope.link.linkProjectName){
+				$scope.data.bindType = 1;
+				binds[0] = {'ppid':$scope.data.ppid,'projType':$scope.link.linkProjectName}
+			}
+
 			$scope.data = {
 		    	binds:binds,
 		    	bindType: $scope.data.bindType,
