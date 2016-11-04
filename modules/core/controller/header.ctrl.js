@@ -73,24 +73,11 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     }
 
     //窗口放大还原
-    var num=0; 
-    $scope.max = true;
     $scope.maxRestore = function ($event) {
-        if(num++ %2 == 0){ 
-//            console.log('max');
-            $scope.max = false;
-            $scope.restore = true;
-            //对接pc
-            BimCo.SysCommand('SC_MAXIMIZE');
-
-        } else { 
-//            console.log('restore');
-            $scope.max = true;
-            $scope.restore = false;
-            //对接pc
-            BimCo.SysCommand('SC_RESTORE');
-        }
+        //对接pc
+        BimCo.SysCommand('SC_MAXIMIZE');
     }
+        
     
     //窗口关闭
     $scope.close = function () {

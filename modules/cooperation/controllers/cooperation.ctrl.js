@@ -1470,7 +1470,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					tooltip: {	// 鼠标移上去显示的黑框
 				        trigger: 'item',
 				        //formatter: "{b}, {c} ({d}%)"
-						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+						transitionDuration:0,
 				    },
 
 				    title : {
@@ -1598,7 +1599,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 					tooltip: {	// 鼠标移上去显示的黑框
 				        trigger: 'item',
 				        //formatter: "{b}, {c} ({d}%)"
-						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+						formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+						transitionDuration:0,
 				    },
 				    title : {
 				        text: '期限',
@@ -1692,7 +1694,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			var option3 = {
 					tooltip: {	// 鼠标移上去显示的黑框
 				        trigger: 'item',
-				        formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+				        formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+						transitionDuration:0,
 				    },
 				    title : {
 				        text: '标识',
@@ -1766,7 +1769,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 						tooltip: {	// 鼠标移上去显示的黑框
 					        trigger: 'item',
 					        //formatter: "{b}, {c} ({d}%)"
-							formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%"
+							formatter: "{b} <br/> 数量 : {c} <br/> 比例 : {d}%",
+							transitionDuration:0,
 					    },
 					    title : {
 					        text: '协作类型',

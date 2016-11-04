@@ -15,10 +15,10 @@
 
 		<!-- project core CSS -->
 		<link rel="stylesheet" href="./css/cooperation.css">
-		<!-- <link rel="stylesheet" href="./css/main.css"> -->
+		<link rel="stylesheet" href="./css/main.css">
 
 		<!-- gulp 压缩 整合 -->
-		<link rel="stylesheet" href="./release/main.min.css">
+		<!-- <link rel="stylesheet" href="./release/main.min.css"> -->
 
 		<!-- 动画css插件加载 -->
 		<link rel="stylesheet" href="./css/animate.min.css">
@@ -74,6 +74,7 @@
 		<script type="text/javascript" src="./lib/nginfinite/ng-infinite-scroll.min.js"></script>
 		<script type="text/javascript" src="./lib/layer/layer.min.js"></script>
 		<script type="text/javascript" src="./lib/audio1/jquery.jplayer.min.js"></script>
+		<script src="./lib/jquery.scrollLoading.js"></script>
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 		<!-- upload -->
@@ -87,9 +88,35 @@
 		<!-- main -->
 		<script type="text/javascript" src="./modules/config.js"></script>
 		<script type="text/javascript" src="./modules/application.js"></script>
+		<!-- core -->
+		<script type="text/javascript" src="./modules/core/core.module.js"></script>
+		<script type="text/javascript" src="./modules/core/config/core.routes.js"></script>
+		<script type="text/javascript" src="./modules/core/directives/directive.js"></script>
+		<script type="text/javascript" src="./modules/core/services/common.service.js"></script>
+		<script	 type="text/javascript" src="./modules/core/controller/header.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/core/services/header.service.js"></script>
+		<!-- manage -->
+		<script type="text/javascript" src="./modules/manage/manage.module.js"></script>
+		<script type="text/javascript" src="./modules/manage/config/manage.routes.js"></script>
+		<script type="text/javascript" src="./modules/manage/controllers/manage.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/manage/services/manage.service.js"></script>
+		<!-- cooperation -->
+		<script type="text/javascript" src="./modules/cooperation/cooperation.module.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/config/cooperation.routes.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/cooperation.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperation.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/coopdetail.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/updatecomment.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkproject.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkcomponent.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkbe.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/linkform.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
 
 		<!-- core manage cooperation js gulp 整合 -->
-		<script type="text/javascript" src="./release/all.min.js"></script>
+		<!-- <script type="text/javascript" src="./release/all.min.js"></script> --> 
 
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
@@ -107,6 +134,19 @@
 			     	//   $('#ppid_formbe').val(ppid);
 			     	//   $('#deptId_formbe').click();
 		    }
+		</script>
+		<script>
+			//显示大图标
+			function Restore  () {
+				$('#w-middle').css('display','none');
+				$('#w-max').css('display','block');
+	        }
+	        //显示小图标
+			function Zoom  () {
+				$('#w-middle').css('display','block');
+				$('#w-max').css('display','none');
+	        }
+	    
 		</script>
 		</body>
 		</html>

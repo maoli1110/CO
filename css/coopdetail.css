@@ -759,6 +759,21 @@ html,body{
     z-index:1;
     display:none;
 }
+.detail-computer .export-mobile-mark{
+    z-index:150;
+}
+.export-mobile-mark{
+    width:100%;
+    height:100%;
+    background:#000;
+    opacity:0.5;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom: 0;
+    z-index:1;
+    display:none;
+}
 .text-format{
     /*text-indent:28px;*/
     line-height:20px;

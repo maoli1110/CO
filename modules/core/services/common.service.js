@@ -36,3 +36,9 @@ angular.module('core').service('Common', function () {
         return dateStr;
     };
 });
+
+angular.module('core').service('Communication', function () {
+
+    return {};
+
+});

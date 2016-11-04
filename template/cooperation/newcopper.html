@@ -41,8 +41,8 @@
 				<div class="label_tools">
 					<img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
 					<div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-						<img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
-						<img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+						<img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max">
+                        <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle">
 					</div>
 					<span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
 				</div>
@@ -356,9 +356,9 @@
 				</div>
 			<div class="label_tools">
 				<img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-				<div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-					<img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
-					<img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+				<div  ng-click="maxRestore()" class="inline" style="display:inline;margin-left:18px;">
+					<img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max">
+                    <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle">
 				</div>
 				<span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
 			</div>

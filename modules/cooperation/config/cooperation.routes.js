@@ -7,7 +7,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 
 		$stateProvider.
 		 state('cooperation', {
-			url:"/cooperation?deptId&ppid",
+			url:"/cooperation?deptId&ppid&source",
 			templateUrl: 'template/cooperation/cooperation.html',
 			controller: 'coopreationCtrl',
 			data: {
@@ -17,7 +17,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 				'deptId': null,
 				'ppid': null,
 				'status':null,
-				'transignal': null
+				'transignal': null,
+				'source':null
 			}
 		})
 		.state('newcopper', {
@@ -66,4 +67,18 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 		//$locationProvider.html5Mode(true);
 
 	}
-]);
+])
+// .run(function($rootScope){
+// 	$rootScope
+//         .$on('$viewContentLoading',
+//             function(event, viewConfig){ 
+//                 console.log("View Load: the view is loading, and DOM rendered!");
+//         });
+
+//     $rootScope
+//         .$on('$viewContentLoaded',
+//             function(event, viewConfig){ 
+//                 console.log("View Load: the view is loaded, and DOM rendered!");
+//                 alert('9090')
+//         });
+// });

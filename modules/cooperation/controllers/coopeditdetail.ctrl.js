@@ -402,15 +402,15 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             });*/
 
             Cooperation.updateCollaboration(data).then(function (data,status) {
-                alert("调用updateCollaboration"+data);
+                // alert("调用updateCollaboration"+data);
                 if($scope.device) {
                     //bv成功
-                    alert("$scope.device"+$scope.device);
+                    // alert("$scope.device"+$scope.device);
                     if(data.indexOf('<!DOCTYPE html>')!=-1){
-                        alert("返回登录页面成功"+ data.indexOf('<!DOCTYPE html>')!=-1);
+                        // alert("返回登录页面成功"+ data.indexOf('<!DOCTYPE html>')!=-1);
                         var param = '{"optType":'+9+',"isSuccess":'+false+'}';
                     } else {
-                        alert("返回登录页面失败");
+                        // alert("返回登录页面失败");
                         var param = '{"optType":'+9+',"isSuccess":'+true+'}';
                     }
                     document.location = 'http://localhost:8080/bv/?param='+param;
@@ -420,18 +420,15 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 }
                
             },function(data){
-                alert('$scope.device'+$scope.device);
-                alert('调用updateCollaboration失败'+data);
                if($scope.device) {
                     //bv失败
-                    alert('$scope.device2'+$scope.device);
-                    var message;
-                    if(!!data){
-                        message = data.message?data.message:'';
+                    var param;
+                    if(data && data.message){
+                        //data.message存在
+                        param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+data.message+'"}';
                     } else {
-                        message = '';
+                        param = '{"optType":'+9+',"isSuccess":'+false+'}';
                     }
-                    var param = '{"optType":'+9+',"isSuccess":'+false+',"message":"'+message+'"}';
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
                     layer.close(createindex);//关闭layer加载层
@@ -560,25 +557,13 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             BimCo.SysCommand('SC_MINIMIZE');
         }
 
-        //窗口放大还原
-        var num=0; 
+         //窗口放大还原
         $scope.max = true;
         $scope.maxRestore = function ($event) {
-            if(num++ %2 == 0){ 
-//                console.log('max');
-                $scope.max = false;
-                $scope.restore = true;
-                //对接pc
-                BimCo.SysCommand('SC_MAXIMIZE');
-
-            } else { 
-//                console.log('restore');
-                $scope.max = true;
-                $scope.restore = false;
-                //对接pc
-                BimCo.SysCommand('SC_RESTORE');
-            }
+            //对接pc
+            BimCo.SysCommand('SC_MAXIMIZE');
         }
+        
         
         //窗口关闭
         $scope.close = function () {

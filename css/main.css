@@ -147,6 +147,7 @@ li {
 }
 .manage-menus{
     color:#fff;
+    padding: 16px 20px;
 }
 
 .sidebar .mCustomScrollBox{
@@ -279,6 +280,7 @@ li {
 .btn {
     border-radius: 0;
 }
+
 /*日起控件 样式调整*/
 /*.dropdown-menu{
     border-radius:0;
@@ -869,10 +871,11 @@ li {
     letter-spacing:2px;
 }
 .user .header-shape{
-    margin-left:7px;
+    margin-left:10px;
     margin-top:36px;
     margin-right:10px;
     float:right;
+
 }
 .user .header_trigon{
     border:6px solid #fff;
@@ -882,12 +885,12 @@ li {
 
 }
 .header .header_menus{
-    width: 232px;
+    width: 340px;
     height: auto;
     background: #fff;
     position: absolute;
     top: 61px;
-    left: 87px;
+    left: 0px;
     z-index: 134;
     display:none;
 }
@@ -928,17 +931,18 @@ li {
     position:relative;
     list-style:none;
     padding:10px 20px;
-    line-height:20px;
+    line-height:25px;
     border-bottom:1px solid #ddd;
     font-size:14px;
 }
 .header .header_menus ul li p b{
     font-weight: normal;
-    width: 203px;
+    width: 278px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: inline-block;
+    /*display: inline-block;*/
+    float:left;
     padding-right:3px;
 }
 .header .min-window{
@@ -961,6 +965,13 @@ li {
 }
 .header .max-window:hover{
     background:#54b36d;
+}
+
+#w-max{
+    display: inline-block;
+}
+#w-middle{
+    display: none;
 }
 /*头部文件*/
 .about-company{
@@ -1006,7 +1017,7 @@ li {
     background:#fff;
     position:absolute;
     top:0;
-    left:251px;
+    left:340px;
     display:none;
 }
 .header .header_menus ul li .child_items ol li{
@@ -1031,6 +1042,7 @@ li {
 .navbar-header {
     float: left;
     margin-top: 5px;
+    width:330px;
     /*cursor:pointer;*/
 }
 .navbar-header>div>div {
@@ -1501,8 +1513,9 @@ li {
     color: #ccc;
     display: inline-block;
     padding: 0 10px;
-    margin-top: -73px;
-    vertical-align: middle;
+    margin-top: 68px;
+    margin-left:-3px;
+    vertical-align: top;
     cursor: pointer;
 }
 .change:hover{
@@ -1526,6 +1539,9 @@ li {
 /*}*/
 .uib-datepicker-popup.dropdown-menu{
     padding-top: 0 !important;
+}
+.dropdown-menu{
+    border-radius:0 !important;
 }
 .look-book{
     padding:0;
@@ -2370,6 +2386,9 @@ textarea{
     height:30px;
     color:#fff;
 }
+.linkbe .dropdown-menu {
+    margin-top:10px;
+}
 .linkbe .right .pagination>li>a, .pagination>li>span{
     color:#333;
 }
@@ -2535,6 +2554,12 @@ textarea{
     border-radius:0!important;
     margin-top:-1px;
 }
+.select-project .form-inline .form-control:focus{
+    border-color: #65c17d;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(101, 193, 125,.075),0 0 8px rgba(101, 193, 125,.6);
+    box-shadow: inset 0 1px 1px rgba(101, 193, 125,.075),0 0 8px rgba(101, 193, 125,.6);
+}
 /*.select-project .form-inline .form-control:hover{*/
     /*border:1px solid #65c17d;*/
 /*}*/
@@ -2633,9 +2658,12 @@ textarea{
 .panel-group{
     margin-bottom:0 !important;
 }
+.trents span[id^=projectbutton_]:hover{
+    background:#171a21;
+}
 .trents .panel-heading{
     background: #353944;
-    padding: 16px 20px;
+    padding: 0px;
 }
 .trents .panel-heading:hover{
     background: #2b2f38;
@@ -2645,7 +2673,7 @@ textarea{
     color:#fff;
     border:none;
     cursor:pointer;
-    padding: 0 7px;
+    /*padding: 0 7px;*/
     height:100%;
 }
 .manage_proList span{
@@ -2663,7 +2691,7 @@ textarea{
 
 .manage_proList span >img{
     width: 18px;
-    margin-left:10px;
+    margin-left:19px;
     margin-right:4px;
 }
 .panel-title a span .sidebar-title{

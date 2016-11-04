@@ -11,7 +11,9 @@
 <div class="detail-computer" ng-show="!device && !flag.isPreview">
 
     <!--mobile-mark-->
-    <div class="mobile-mark"></div>
+        <div class="mobile-mark"></div>
+        <div class="export-mobile-mark"></div>
+        <div class="loading-icon" style="display:none;z-index:100;position:fixed;left:50%;top:50%;margin-left:-20px;margin-top:-20px;"><img src="./imgs/icon/loading-1.gif" alt=""></div>
         <div class="main" style="margin-bottom:50px;min-width:320px;">
         <!--main_content-->
         <div class="coop-detail inner">
@@ -23,9 +25,9 @@
                     </div>
                     <div class="label_tools">
                         <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-                        <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-                            <img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
-                            <img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+                        <div  ng-click="maxRestore()" class="inline" style="display:inline;margin-left:18px;">
+                            <img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max">
+                            <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle">
                         </div>
                         <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
                     </div>
@@ -68,7 +70,7 @@
                                 <div class="F16"> <span class="F16">标识:</span><span class="coop-name substr" title="{{collaList.markerInfo.name}}" style="max-width:100px;position:absolute"><i class ="chara"style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></div>
                             </div>
                             <div class="col-xs-3">
-                                <p class="F16"><span class="F16">发起时间：</span><span class=" " style=" display:inline-block;position: absolute;">{{collaList.createTime.split(' ')[0]}}</span></p>
+                                <p class="F16"><span class="F16">创建时间：</span><span class=" " style=" display:inline-block;position: absolute;">{{collaList.createTime.split(' ')[0]}}</span></p>
                             </div>
                             <div class="col-xs-5">
                                 <p class="F16"><span class="F16 oSpan">更新时间：</span><span class=" " style=" display:inline-block;position: absolute;">{{collaList.updateTime.split(' ')[0]}}</span></p>
@@ -281,12 +283,12 @@
     </div>
     </div>
     <div class="footer footer-commom">
-        <button type="button" class="btn a-222 btn-default foot-btn"  ng-click="allowEditTrans()" ng-show="bjshow">编辑协作</button>
-        <button type="button" class="btn btn-default foot-btn" ng-click="updateComment()" ng-show="tjshow">添加更新</button>
-        <button type="button" class="btn btn-default foot-btn" ng-show="tgshow" ng-click="doCollaboration(6)">通过</button>
-        <button type="button" class="btn btn-default foot-btn" ng-show="jjueshow" ng-click="doCollaboration(7)">拒绝</button>
-        <button type="button" class="btn btn-default foot-btn" ng-show="jsshow" ng-click="doCollaboration(8)">结束</button>
-        <button type="button" class="btn btn-default foot-btn" ng-show="dchushow" ng-click="doExpot()">导出</button>
+        <button type="button" class="btn a-222 btn-default foot-btn" ng-disabled="!loadComplete" ng-click="allowEditTrans()" ng-show="bjshow">编辑协作</button>
+        <button type="button" class="btn btn-default foot-btn" ng-disabled="!loadComplete" ng-click="updateComment()" ng-show="tjshow">添加更新</button>
+        <button type="button" class="btn btn-default foot-btn" ng-disabled="!loadComplete" ng-show="tgshow" ng-click="doCollaboration(6)">通过</button>
+        <button type="button" class="btn btn-default foot-btn" ng-disabled="!loadComplete" ng-show="jjueshow" ng-click="doCollaboration(7)">拒绝</button>
+        <button type="button" class="btn btn-default foot-btn" ng-disabled="!loadComplete" ng-show="jsshow" ng-click="doCollaboration(8)">结束</button>
+        <button type="button" class="btn btn-default foot-btn" ng-disabled="!loadComplete" ng-show="dchushow" ng-click="doExport()">导出</button>
     </div>
 </div>
 <div ng-if="flag.isPreview" class="pdf-sign">
@@ -299,7 +301,7 @@
             </div>
             <div class="label_tools">
                 <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-                <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+                <div  ng-click="maxRestore()" class="inline" style="display:inline;margin-left:18px;">
                     <img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
                     <img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
                 </div>

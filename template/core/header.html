@@ -4,20 +4,20 @@
 			<div class="navbar-header user" >
 				<img ng-if="currentUser.img==''"  ng-src="./imgs/icon/defalut.png"  alt="头像">
 				<img ng-if="currentUser.img!=''"  ng-src="{{currentUser.img}}"  alt="头像">
-				<div class="inline about-company" >
-					<div class="substr header-avatar"  title="{{currentUser.name}}">{{currentUser.name}}</div>
-					<div class="substr header-role" style="max-width:145px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
-					<div class="substr" style="max-width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
-				</div>
-				<div class="inline header-shape" ng-click="menus()">
-					<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
-					<div class="header_trigon" style="margin-top: -4px;cursor: pointer;">
-
+					<div class="inline about-company" style="float:left" >
+						<div class="substr header-avatar"  title="{{currentUser.name}}">{{currentUser.name}}</div>
+						<div class="substr header-role" style="max-width:145px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
+						<div class="substr" style="max-width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
 					</div>
-				</div>
-				<div class="header_menus" style="width: 251px;">
+					<div class="inline header-shape" ng-click="menus()" style="float:left">
+						<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
+						<div class="header_trigon" style="margin-top: -4px;cursor: pointer;">
+
+						</div>
+					</div>
+				<div class="header_menus">
 					<ul>
-						<li ng-repeat="menus in headerMenus track by $index" profit>
+						<li ng-repeat="menus in headerMenus track by $index" class ="clearfix" profit>
 							<p ng-click="switchCompany(menus.enterpriseId)">
 								<b>{{menus.enterpriseName}}</b>
 								<!-- <span class="glyphicon glyphicon-chevron-right"></span> -->
@@ -37,6 +37,7 @@
 				<li  ui-sref="cooperation" ng-class="{navActive:$state.includes('cooperation')}">
 					<img ng-src="imgs/icon02.png" alt="">
 					<a>协作管理</a>
+
 				</li>
 				<li ui-sref="manage" ng-class="{navActive:$state.includes('manage')}">
 					<img ng-src="imgs/icon01.png" alt="">
@@ -45,16 +46,17 @@
 			</ul>
 			<div class="label_tools">
 				<span class="min-window" ng-click="minimize()">
-					<img ng-src="imgs/icon/icon-small.png" alt=""  >
+					<img ng-src="imgs/icon/icon-small.png" alt="">
 				</span>
-				<div  class="max-window" ng-click="maxRestore($event)" class="inline" >
-					<img ng-src="imgs/icon/icon-restore.png" class="max-restore" ng-show="max">
-					<img ng-src="imgs/icon/icon-big.png" class="max-restore" ng-show="restore">
-				</div>
-				
+				<span class="max-window" ng-click="maxRestore()">
+					<img ng-src="imgs/icon/icon-max.png" class="max-restore" id="w-max">
+					<img ng-src="imgs/icon/icon-middle.png" class="max-restore" id="w-middle">
+				</span>
 				<span class="change-window" ng-click="close()"><img ng-src="imgs/icon/icon-close.png" alt="" ></span>
 			</div>
 		</div>
+		<button onclick="Restore()">Restore</button>
+					<button onclick="Zoom()">Zoom</button>
 		<!-- 跳转协作管理frombe -->
 		<input id="deptId_formbe" type="hidden" ng-click="transCoManageFrombe()">
 		<input id="ppid_formbe" type="hidden">

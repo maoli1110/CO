@@ -83,10 +83,10 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
    		}
 	    
        	$scope.ok = function() {
-			// if(!$scope.comment){
-			// 	$scope.isUpdataOK = true;
-			// 	return;
-			// }
+			if(!$scope.comment){
+				$scope.isUpdataOK = true;
+				return;
+			}
 			//调用layer加载层
        		var createindex = layer.load(1, {
                     shade: [0.5,'#000'] //0.1透明度的黑色背景
