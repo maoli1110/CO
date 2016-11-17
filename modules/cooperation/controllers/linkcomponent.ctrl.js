@@ -38,6 +38,7 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			}
          };
 		$scope.projectTree = [];
+		$scope.flagok = true;//弹出框禁用标识
 		//获取工程树
 		Cooperation.getProjectTree().then(function (data) {
 //			console.log(data);
@@ -121,9 +122,13 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			projType = dataList.assembleLps.value.split('-')[0];
 			console.log('treeNode',treeNode);
 			if(treeNode.isParent == true) {
-				$('.confirm').attr('disabled', true);
+				// $('.confirm').attr('disabled', true);
+				$scope.flagok = true;
+				$scope.$apply();
 			} else {
-				$('.confirm').attr('disabled', false);
+				// $('.confirm').attr('disabled', false);
+				$scope.flagok = false;
+				$scope.$apply();
 			}
 			treeObj = $.fn.zTree.getZTreeObj("tree");
 			var sNodes = treeObj.getSelectedNodes();

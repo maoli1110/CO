@@ -7,6 +7,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Common,Manage,$sce,alertService,headerService,$timeout) {
     //默认值
     var popStateNum=0;
+    var binds = [];//bind的工程
 	$scope.typeName = $stateParams.typename;
 		//console.log($stateParams.typename,'$stateParams.typeid')
     $scope.isDoc = false; //是否是doc
@@ -26,21 +27,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	$scope.responsiblePerson = {};//重组负责人
 	$scope.createUser = {};
 	$scope.beStates = false ;//be的选择状态
-//    console.log($stateParams.typeid);
-   	//获取当前用户信息
-   	//$.ajax({
-	 //   type: "get",
-	 //   url: basePath+'rs/co/currentUser',
-	 //   contentType:'application/json',
-	 //   success: function(data){
-	 //   	$scope.responsiblePerson = data;
-	 //   }
-    //});
+	$scope.data.bindType = 0; //默认没有选中工程
+	$scope.link.linkProjectName ='';
+	$scope.link.linkProjectDeptName='';
     if($stateParams.deptId && $stateParams.deptId!=-1&&$stateParams.deptId!=0){
     	var currentdeptId = $stateParams.deptId?$stateParams.deptId:'';
     	var currentppid  = $stateParams.ppid?$stateParams.ppid:'';
-		$scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
-		$scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
+		// $scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
+		// $scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
 		$scope.link.linkProjectName = $stateParams.ppidName?$stateParams.ppidName:'';
 		$scope.link.linkProjectDeptName = $stateParams.deptName?$stateParams.deptName:'';
     }
@@ -64,6 +58,26 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		else
 			return this.slice(0,n).concat(this.slice(n+1,this.length));
 	};
+		function restrom(){
+			$('#w-middle').css('display','inline-block');
+			$('#w-max').css('display','none');
+			$('#w-middle2').css('display','inline-block');
+			$('#w-max2').css('display','none');
+			$('#w-middle-inner').css('display','inline-block');
+			$('#w-max-inner').css('display','none');
+		}
+			var  status = BimCo.GetWindowStatus();
+			if(status){
+				$timeout(function(){
+					restrom()
+				},100)
+			}
+	if($scope.link.linkProjectName && currentppid){
+		$scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
+		$scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
+		$scope.data.bindType = 1;
+		binds[0] = {ppid:currentppid,projType:currentdeptId};
+	}
 	var modalInstance;
     //选择负责人
     $scope.selectResponsible = function () {
@@ -223,7 +237,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
 
     //与工程关联
-    $scope.data.bindType = 0;
+  
     var deptId;
 		function isDelete(num){
 			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1||$scope.link.linkProjectName){
@@ -423,6 +437,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				$scope.link.linkProjectName = false;
 				$scope.data = {};
 				$scope.data.bindType = 0;
+				binds = [];
 				layer.closeAll();
 				$scope.$apply();
 			});
@@ -945,17 +960,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			});
 			docsList = docSelectedList1.concat(formSelectedList1, uploadDocList);
 
-			var binds = [];//bind的工程
+			
 			if($scope.data.bindType == 2) {
 				binds = [];
 			} else {
-				binds = $scope.data.assembleLps?$scope.data.assembleLps:[];
+				binds = $scope.data.assembleLps?$scope.data.assembleLps:binds;
 			}
 
-			if($scope.link.linkProjectName){
-				$scope.data.bindType = 1;
-				binds[0] = {'ppid':$scope.data.ppid,'projType':$scope.link.linkProjectName}
-			}
+			
 
 			$scope.data = {
 		    	binds:binds,
@@ -1161,14 +1173,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		 }, function(){
 			layer.closeAll();
 			BimCo.CancelSubmitAll();
-			$state.go('cooperation',{'deptId':currentdeptId, 'ppid':currentppid},{ location: 'replace'});
+			$state.go('cooperation',{'deptId':currentdeptId, 'ppid':currentppid,'source':'rember'},{ location: 'replace'});
 
 		  });
     }
 
     //新建页面跳转回homepage(cooperation)
    	$scope.backCooperation = function (){
-   		$state.go('cooperation',{'deptId':currentdeptId, 'ppid':currentppid},{ location: 'replace'});
+   		$state.go('cooperation',{'deptId':currentdeptId, 'ppid':currentppid, 'source':'rember'},{ location: 'replace'});
    	}
 
    	//反查formbe,跳转详情页面

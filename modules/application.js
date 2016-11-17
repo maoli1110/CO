@@ -41,16 +41,15 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
                                 //    location.pathname = membersysConfig.loginPage;
                                 //    break;
                                 case 404:
-                                    layer.confirm('网络出错啦！', {
+                                    layer.confirm('当前网络服务出错！', {
                                         btn: ['确定','取消'] //按钮
                                     }, function() {
                                         layer.closeAll();
-                                    })
-                                    // other Error
+                                    });
+                                    break;
                                 default:
                                     //alertService.add('danger', i18n.get('error.message'));
                             }
-
                             return $q.reject(rejection);
                         }
                     };

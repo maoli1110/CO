@@ -40,7 +40,7 @@
 				</div>
 				<div class="label_tools">
 					<img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-					<div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
+					<div  ng-click="maxRestore($event)" class="inline" style="margin-left:18px;">
 						<img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max">
                         <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle">
 					</div>
@@ -96,14 +96,16 @@
 							<div class="date-time">
 								<label for="" class="col-xs-3 align-right create-title" style="padding:0;">限制期限：</label>
 								<p class="input-group col-xs-9">
-								  <input type="text" class="form-control create-calder" readonly ng-click="open2()"  uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" ng-disabled="!checksignal" style="width:99.5%"/>
-								  <!--<span class="input-group-btn">-->
+									<input type="text" class="form-control create-calder" readonly ng-click="open2()"  uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="关闭" clear-text="清除" current-text="今天" style="width:99.5%"/>
+								  	<!-- 勿删 -->
+								  	<!--<span class="input-group-btn">-->
 									<!--<button type="button" class="btn btn-default btn-calendar" ><i class="glyphicon glyphicon-calendar"></i></button>-->
-								  <!--</span>-->
-									<label>
+								  	<!--</span>-->
+								  	<!-- 勾选之后才可选日期 -->
+									<!-- <label>
 										<input type="checkbox" class="new-car" style="opacity:0;" ng-click="isChecked()">
 										<span class="new-state"></span>
-									</label>
+									</label> -->
 								</p>
 						</div>
 					</div>
@@ -356,9 +358,9 @@
 				</div>
 			<div class="label_tools">
 				<img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-				<div  ng-click="maxRestore()" class="inline" style="display:inline;margin-left:18px;">
-					<img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max">
-                    <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle">
+				<div  ng-click="maxRestore()" class="inline" style="margin-left:18px;">
+					<img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max-inner">
+                    <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle-inner">
 				</div>
 				<span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
 			</div>

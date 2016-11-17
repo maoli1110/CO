@@ -31,6 +31,22 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             yearRows  :3,
             yearColumns:3
         };
+        function restrom(){
+            $('#w-middle').css('display','inline-block');
+            $('#w-max').css('display','none');
+            $('#w-middle2').css('display','inline-block');
+            $('#w-max2').css('display','none');
+            $('#w-middle-inner').css('display','inline-block');
+            $('#w-max-inner').css('display','none');
+        }
+        if(!$scope.device){
+            var  status = BimCo.GetWindowStatus();
+            if(status){
+                $timeout(function(){
+                    restrom()
+                },100)
+            }
+        }
         //详情描述多行文本框随内容去撑开
         $scope.open2 = function () {
             //console.info(123123131)
@@ -558,7 +574,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
         }
 
          //窗口放大还原
-        $scope.max = true;
         $scope.maxRestore = function ($event) {
             //对接pc
             BimCo.SysCommand('SC_MAXIMIZE');

@@ -180,7 +180,7 @@
                                         <dt class="rela"><img src="imgs/saber.jpg" ng-click="zoom()"/><div class="absol show-icon"><span class="glyphicon glyphicon-zoom-in"></span><span class="glyphicon glyphicon-save"></span><span class="glyphicon glyphicon-map-marker"></span></div></dt>
                                         <dd>打桩</dd>
                                     </dl> -->
-                                    <dl class="means-list" ng-repeat="item in collaList.docs" profit>
+                                    <dl class="means-list" ng-repeat="item in collaList.docs">
                                         <dt class="rela means-down">
                                             <img ng-src="{{item.imgsrc}}" ng-click="pcPreView(item.name, item.uuid)"/>
                                         </dt>
@@ -272,9 +272,9 @@
                 </div>
                 <div class="label_tools">
                     <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-                    <div  ng-click="maxRestore($event)" class="inline" style="display:inline;margin-left:18px;">
-                        <img src="imgs/icon/icon-restore-h.png" class="max-restore" ng-show="max">
-                        <img src="imgs/icon/icon-big-h.png" class="max-restore" ng-show="restore">
+                    <div  ng-click="maxRestore($event)" class="inline" style="margin-left:18px;">
+                        <img src="imgs/icon/icon-max-h.png" class="max-restore">
+                        <img src="imgs/icon/icon-middle-h.png" class="max-restore">
                     </div>
                     <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
                 </div>

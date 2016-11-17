@@ -126,6 +126,15 @@ li {
 .create .coop-delete .new-pro:hover{
     border:1px solid #65c17d;
 }
+.create .most-leave .dropdown-menu li a:focus,.create .coop-Levels .dropdown-menu li a:focus{
+    color:#65C17D;
+}
+.create .most-leave .dropdown-menu li a,.create .coop-Levels .dropdown-menu li a{
+    outline-style:none !important;
+}
+.create .most-leave  .dropdown-menu li a:hover,.create .coop-Levels .dropdown-menu li a:hover{
+    color:#65C17D;
+}
     /*菜单栏字体*/
 .menusFont14{
     font-size:14px;
@@ -719,8 +728,15 @@ li {
 .dropdown-menu ul li a{
     outline-color: #69c080 !important;
 }
+.dropdown-menu ul li a{
+    outline-style:none !important;
+}
+.dropdown-menu ul li a:focus{
+    color:#65C17D !important;
+}
 .dropdown-menu ul li a:hover{
     background:#f5f6f7;
+    color: #65C17D;
 }
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
     outline: none;
@@ -865,14 +881,16 @@ li {
 .user .inline div:nth-child(1){
     font-size:14px;
     letter-spacing:2px;
+    display:inline-block;
 }
 .user .inline div:nth-child(2){
     font-size:14px;
     letter-spacing:2px;
+    display:inline-block;
 }
 .user .header-shape{
-    margin-left:10px;
-    margin-top:36px;
+    margin-left:5px;
+    margin-top:33px;
     margin-right:10px;
     float:right;
 
@@ -946,8 +964,9 @@ li {
     padding-right:3px;
 }
 .header .min-window{
-    padding: 0 5px;
+    /*padding: 0 5px;*/
     width: 25px;
+    height:22px;
     line-height: 22px;
     text-align: center;
     display: inline-block;
@@ -958,19 +977,31 @@ li {
 .header .max-window{
     padding: 0 5px;
     width: 25px;
+    height:22px;
     line-height: 22px;
     text-align: center;
     display: inline-block;
-    margin-left:5px;
+    /*margin-left:5px;*/
 }
 .header .max-window:hover{
     background:#54b36d;
 }
-
-#w-max{
+#w-max,#w-max2{
     display: inline-block;
 }
-#w-middle{
+#w-middle,#w-middle2{
+    display: none;
+}
+#w-max-inner{
+    display: inline-block;
+}
+#w-middle-inner{
+    display: none;
+}
+#w-max2{
+    display: inline-block;
+}
+#w-middle2{
     display: none;
 }
 /*头部文件*/
@@ -1083,6 +1114,10 @@ li {
     float:right;
     line-height:59px;
 }
+.label_tools span{
+    height:22px;
+    line-height:22px;
+}
 .label_tools img{
     width:15px;
     height:12px;
@@ -1090,8 +1125,8 @@ li {
 .change-window{
     display: inline-block;
     width: 25px;
-    height: 20px;
-    line-height: 20px;
+    height: 22px;
+    line-height: 22px;
     padding-left: 5px;
     margin-left:5px;
 }
@@ -1508,19 +1543,20 @@ li {
     border:1px solid #65c17d;
 }
 .change{
-    border: 1px solid #ccc;
-    line-height: 25px;
-    color: #ccc;
+    border: 1px solid #65c17d;
+    line-height: 17px;
+    color: #65c17d;
     display: inline-block;
-    padding: 0 10px;
-    margin-top: 68px;
-    margin-left:-3px;
+    padding: 0 5px;
+    margin-top: 64px;
+    margin-left: -36px;
     vertical-align: top;
     cursor: pointer;
+    font-size: 11px;
 }
 .change:hover{
-    border:1px solid #65c17d;
-    color: #65c17d;
+    border:1px solid #55ad6c ;
+    color: #55ad6c;
 }
 .create .btn-link1 {
     width: 200px;
@@ -2339,7 +2375,7 @@ textarea{
 }
 .linkbe .simulate-select .project-list >ul li:hover{
     background: #f5f6f7;
-
+    color:#65C17D;
 }
 .simulate-select:focus {
     /* outline: 0px auto -webkit-focus-ring-color !important; */
@@ -3089,8 +3125,17 @@ textarea{
     border:0;
 }
 .layui-layer-btn .layui-layer-btn0:hover{
-    background:#55AD6C ;
+    background:#55AD6C !important; ;
     border:0;
+}
+.layui-layer-btn .layui-layer-btn0:active{
+    background-color:#4a965e !important;
+}
+.layui-layer-btn .layui-layer-btn1:active{
+    background-color:#5b6171  !important;
+}
+.layui-layer-btn a:active{
+    opacity:1 !important;
 }
 .layui-layer-btn .layui-layer-btn1{
     background:#979BA8;
@@ -3098,7 +3143,7 @@ textarea{
     border:0;
 }
 .layui-layer-btn .layui-layer-btn1:hover{
-    background:#777b8a;
+    background:#777b8a !important;
     color:#fff;
     border:0;
 }
@@ -3275,6 +3320,9 @@ textarea{
 }
 .create .delete-box:active{
     background:url(../imgs/delete.png) 0 -46px no-repeat;
+}
+.create .pro_man .dropdown-menu ul li a{
+    outline:none !important;
 }
  .new-mask{
     width:100%;
@@ -3671,7 +3719,53 @@ textarea{
     opacity:0.6;
 
 }
+.detail-search img{
+    width:20px !important;
+    height:20px !important;
+    margin-top:0 !important;
+}
 /*滚动条效果*/
 .mCSB_dragger_bar{
    background:#ddd !important;
 }
+/*下拉框的获取焦点背景*/
+.date-time .btn-default.active:hover{
+    background-color:#ddd !important;
+}
+.date-time .btn-default.active:hover span{
+    color:#65C17D !important;
+}
+.operation  .dropdown-toggle .btn-default.active.focus, .operation  .btn-default.active:focus,.operation  .btn-default.active:hover,.operation  .btn-default:active.focus,.operation  .btn-default:active:focus,.operation  .btn-default:active:hover,.operation  .open>.dropdown-toggle.btn-default.focus,.operation  .open>.dropdown-toggle.btn-default:focus,.operation  .open>.dropdown-toggle.btn-default:hover{
+    background:  #fff !important;
+    border-color:  #ddd !important;
+}
+.operation  .btn-default.active,.operation  .btn-default:active,.operation  .open>.dropdown-toggle.btn-default{
+    background:#fff !important;
+    border-color:#ddd !important;
+}
+.operation .dropdown-toggle:hover{
+    border-color:#65C17D !important;
+}
+.operation .dropdown-toggle button[aria-expanded="true"]{
+    background:#fff !important;
+    border-color:#ddd !important;
+}
+.operation .dropdown-menu>li>a:focus{
+    color:#65C17D !important;
+}
+.operation .dropdown-toggle .bootstrap-select.btn-group .dropdown-menu li a{
+    outline-style:none !important;
+}
+.operation .dropdown-toggle .bootstrap-select.btn-group .dropdown-menu li a:hover{
+    color:#65C17D;
+}
+.operation .dropdown-toggle .btn-default{
+    border-color:#ddd !important;
+}
+.add-related span{
+    font-size:21px;
+    margin-top: -4px;
+    display: inline-block;
+}
+
+/*----------------------------------*/

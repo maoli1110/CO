@@ -29,7 +29,8 @@
  -->
                     <div class="simulate-select" id="project-select" ng-blur="blurCancle()">
                         <div class="project-selected select" title="{{projectSelected.projectName}}" style="padding-left: 10px;">
-                           <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px;float: left;"><input type="hidden" ng-model="projectOption" ng-click="switchPpid(projectOption)">
+                           <img ng-src="{{projectSelected.typeImg}}" alt="" style="width:20px;float: left;" />
+                           <input type="hidden" ng-model="projectOption" ng-click="switchPpid(projectOption)" />
                            <div class="substr" title="{{projectSelected.projectName}}" style="text-align:left;float: left;width: 74%;">
 	                           <span>{{projectSelected.projectName}}</span>
 					  		</div>

@@ -68,7 +68,6 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	     	searchText:'',
 	     	pageInfo:{}
 	     };
-
         //获取项目部
 		Cooperation.getDeptList().then(function (data) {
 			$scope.deptInfo.availableOptions = data;
@@ -218,10 +217,21 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 	$scope.switchDept = function (params) {
 	 		deptId = params;
 			Cooperation.projectList(params).then(function (data) {
+				if(data[0] != undefined) {	// 项目部下有工程
+					$(".project-selected img").css('display','block');
+					$(".project-selected .bs-caret").removeClass("downBoxPosition");
+					$("#tree").css('display','block');
+					$scope.projectOption = data[0].ppid+'';
+					//getDocTagList(data[0].ppid);
+					initProjectSelected(data[0]);
+				} else {	// 项目部下无工程，设置下拉框为空
+					data = [{projectName: "空"}];
+					$scope.projectSelected.projectName = "空";
+					$(".project-selected img").css('display','none');
+					$(".project-selected .bs-caret").addClass("downBoxPosition");
+					$("#tree").css('display','none');
+				}
 				$scope.projectList.availableOptions = data;
-				$scope.projectOption = data[0].ppid+'';
-				//getDocTagList(data[0].ppid);
-				initProjectSelected(data[0]);
 			  	
 			});
 	 	}

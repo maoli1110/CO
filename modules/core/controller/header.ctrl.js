@@ -3,7 +3,7 @@
  */
 //var app = angular.module("myApp",[]);
 var clickCount = 0;		// 头部小三角点击次数
-angular.module("core").controller("headerCtrl",function($scope,headerService,$state,Cooperation){
+angular.module("core").controller("headerCtrl",function($scope,headerService,$state,Cooperation,$timeout){
     //console.info("我是头部标签")
     //分公司列表的状态
     //   点击工具栏三角形出现二级菜单
@@ -63,7 +63,15 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     	$scope.currentUser.job = data.roleName;
     	$scope.currentUser.compName = data.enterpriseName;
     });
-
+    function restrom(){
+        $('#w-middle').css('display','inline-block');
+        $('#w-max').css('display','none');
+        $('#w-middle2').css('display','inline-block');
+        $('#w-max2').css('display','none');
+        $('#w-middle-inner').css('display','inline-block');
+        $('#w-max-inner').css('display','none');
+    }
+   
     //最大化、最小化、还原、关闭
     //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  
     //窗口缩小
@@ -71,7 +79,6 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
         BimCo.SysCommand('SC_MINIMIZE');
 
     }
-
     //窗口放大还原
     $scope.maxRestore = function ($event) {
         //对接pc
@@ -102,9 +109,16 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     //跳转新页面去除心跳机制
     $scope.$on('$stateChangeStart', 
         function(event, toState, toParams, fromState, fromParams){
-//            console.log(toState, toParams, fromState);
-            clearInterval(ApplicationConfiguration.refreshID);
+        //console.log(toState, toParams, fromState);
+        clearInterval(ApplicationConfiguration.refreshID);
     })
+
+    var  status = BimCo.GetWindowStatus();
+    if(status){
+        $timeout(function(){
+            restrom()
+        },100)
+    }
 
 })
  

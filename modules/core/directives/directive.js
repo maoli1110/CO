@@ -97,32 +97,37 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(".user-chioce").hide();
                 $(this).find(".user-chioce").show();
             })
-         //   新建相关人点击选中事件委托
+            //新建相关人点击选中事件委托
             $(".select-person-related-modal .left .person-list").on("click",".select-check",function(){
                 //删除默认状态
                 $('li ').css("background",'#fff')
-                $(".user-chioce").hide();
+                // $(".user-chioce").hide();
                 //给当前获取焦点添加一个样式
                 //debugger;
-                $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
-                $(this).css("background",'#eceef0').siblings().css("background","#fff");
+                // $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
+                // $(this).css("background",'#eceef0').siblings().css("background","#fff");
+                $(this).find(".user-chioce").show();
+                $(this).css("background",'#eceef0');
 
-            })
+            });
+            //编辑页面
             $(".edit-related .left .person-list").on("click",".select-check",function(){
                 //删除默认状态
                 $('li ').css("background",'#fff')
-                $(".user-chioce").hide();
+                // $(".user-chioce").hide();
                 //给当前获取焦点添加一个样式
                 //debugger;
-                $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
-                $(this).css("background",'#eceef0').siblings().css("background","#fff");
+                // $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
+                // $(this).css("background",'#eceef0').siblings().css("background","#fff");
+                $(this).find(".user-chioce").show();
+                $(this).css("background",'#eceef0');
 
             })
+
 
 		}
 	};
 });
-
 
 angular.module('core').directive('showIcon', function () {
     return {
@@ -465,6 +470,20 @@ angular.module('core').directive('detail', function($timeout) {
             }
         }
 
+    };
+});
+
+angular.module('core').directive('attrSelect', function($timeout) {
+    return {
+        restrict: 'AE',
+        link: function(scope, element, attr) {
+                $timeout(function() {
+                   $('.selectpicker').selectpicker({
+                      style: 'btn-default',
+                      width: '102px'
+                    });
+                },0);
+            }
     };
 });
 

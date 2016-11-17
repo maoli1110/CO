@@ -44,13 +44,13 @@
                             <span>{{user.role}}</span>
                         </a>
                         <ul class="sub-nav" id="uib_{{$index}}" uib-collapse="!isCollapsed">
-                            <li ng-repeat="item in user.users track by $index" class="select-check" ng-click="addRelated(item)" ng-class="{true:'grey',false:'default'}[item.add]">
+                            <li ng-repeat="item in user.users track by $index" class="select-check" ng-click="addRelated(item)" ng-class="{true:'grey',false:'default'}[item.add]"  profit>
                                 <label >
                                    <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{item.avatar}}" />
                                    <!--  <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.uuid==null||item.uuid==''" id="{{$parent.$parent.$index}}_default_{{$index}}" src="" />
                                     <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.uuid!=null&&item.uuid!=''" id="{{$parent.$parent.$index}}_{{item.uuid}}_{{$index}}" src="" />--><span>{{item.username}}</span> 
                                 </label>
-                                <div class="user-chioce"></div>
+                                <div class="user-chioce selected_{{$parent.$index}}_{{$index}}" style="display:{{item.select}}"></div>
                             </li>
                         </ul>
                     </div>

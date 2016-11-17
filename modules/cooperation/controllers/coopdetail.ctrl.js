@@ -4,7 +4,8 @@
  */
 angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Manage','$sce','$timeout','Common',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Manage,$sce,$timeout,Common) {
-//		console.log('detail',$stateParams);
+		console.log('detail',$stateParams);
+		var frombeFlag = false; //是否从be跳转(非cooperation界面)
 		var currentEditOfficeUuid = '';
 	    var currentSuffix = '';
 	    var currentReact = '45,50,1080,720';
@@ -28,15 +29,32 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
 			$scope.device = true;
 		}
-
 		//bv播放按钮显示不同颜色
 		if($scope.device) {
 			$('.palys').addClass('play-bv');
 		} else {
 			$('.palys').addClass('play-pc');
 		}
+		function restrom(){
+			$('#w-middle').css('display','inline-block');
+			$('#w-max').css('display','none');
+			$('#w-middle2').css('display','inline-block');
+			$('#w-max2').css('display','none');
+			$('#w-middle-inner').css('display','inline-block');
+			$('#w-max-inner').css('display','none');
+		}
+		if(!$scope.device){
+			var  status = BimCo.GetWindowStatus();
+			if(status){
+				$timeout(function(){
+					restrom()
+				},100)
+			 }
+		}
 		//根据ui-sref路由拿到对应的coid
-	   	var coid = $stateParams.coid;
+		var coidFrombe = '';
+	   	var coid = $stateParams.coid.trim();
+	   	console.log('coid'+coid)
 	   	var ppid = 0;
 	   	var coTypeVo = 0;
 	   	var status = "";
@@ -49,20 +67,22 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	var currentShowPage = 1;
 	   	$scope.transcoid = coid;
 	   	//导出
+	   	$scope.downloadTotal = 0;
 	   	var detailExport = {
 			coopExport:[],
 			coid:''
 		};
-	   
 
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
-
 	   		$scope.collaList = data;
+	   		var defaultDesc = data.desc; //默认的desc
+	   		var defaultComment = _.cloneDeep(data.comments);
 	   		//详情转换“\n”
 	   		if(data.desc){
 				// document.getElementById("mobile-textarea").innerHTML=replaceAll(data.desc,"\n","</br>");
 				$scope.collaList.desc = replaceAll(data.desc,"\n","</br>");
+				console.log(data.desc+'dta.desd-------')
 	   		}
 
 	   		//遍历评论转换“\n”
@@ -73,7 +93,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   				}
 	   			});
 	   		}
-	   		
+
+
 	   		if($scope.device){
 	   			allRelevants = data.relevants;
 	   			totalPage = parseInt((allRelevants.length + pageSize -1) / pageSize);
@@ -258,9 +279,10 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                 	$scope.collaList.docs[key].imgsrc = imgsrc;
                 }
             });
-
+			var commentDocTotal = 0; //评论的文件个数
 			angular.forEach($scope.collaList.comments, function(value, key) {
 				//如果存在后缀名
+				commentDocTotal = commentDocTotal + value.docs.length + parseInt((value.speech && value.speech.uuid)?1:0);
 				if(value.docs) {
 					angular.forEach(value.docs, function(value1, key1) {
 						var imgsrc = "imgs/pro-icon/icon-";
@@ -300,41 +322,63 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			}else if(!$scope.link && $scope.speachShow){
 				$(".mobile-devices .play-audio").css({"width":'100%'})
 			}
+			//下载文件的总个数
+			if(data.speach && data.speach.uuid) {
+				$scope.downloadTotal = data.pictures.length + data.docs.length + commentDocTotal + 1;
+			} else {
+				$scope.downloadTotal = data.pictures.length + data.docs.length + commentDocTotal;
+			}
 
+			console.log($scope.downloadTotal);
+
+			var picTypeArr = ['jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip'];
+			var vedioTypeArr = ['avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
+			var docTypeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx'];
 			//导出功能
 			var coopExportTemp = {
 				firstTitle:'',
 				secondTitle:[]
 			};
 			var info = [];
-			var defaultTitle = {firstTitle:'协作主题：',secondTitle:'1.1协作信息',threeTitle:'1.2更新内容及资料'};
+			var defaultTitle = {firstTitle:'协作主题：',secondTitle:'1.协作信息',threeTitle:'2.更新内容及资料'};
 			var secondTitleTemp = {
 				title:"",
 				info:[]
 			};
 			var infoTemp = {
-				coopMsg:'',
+				coopMsg:[],
 				docs:[]
 			};
 			var currentDeadline;
-			coopExportTemp.firstTitle = defaultTitle.firstTitle+data.name+'';
+			coopExportTemp.firstTitle = defaultTitle.firstTitle+data.coTypeVo.name+' '+data.name+'';
 			secondTitleTemp.title = defaultTitle.secondTitle;
-			var coopMsgArr = [];
 			if(data.deadline && data.deadline != '不限期'){
 				currentDeadline = Common.dateFormat(new Date(data.deadline)).split(' ')[0];
 			} else {
 				currentDeadline = '不限期';
 			}
-			coopMsgArr.push('协作类型：'+data.coTypeVo.name);
-			coopMsgArr.push('负责人：'+data.collaborator);
-			coopMsgArr.push('优先级：'+data.priority);
-			coopMsgArr.push('限期：'+currentDeadline);
-			coopMsgArr.push('状态：'+data.status);
-			coopMsgArr.push('标识：'+data.markerInfo.name);
-			coopMsgArr.push('描述：'+data.desc);
-			coopMsgArr.push('创建人：'+data.creator);
-			coopMsgArr.push('创建时间：'+data.createTime.split(' ')[0]);
-			infoTemp.coopMsg = coopMsgArr.join('\n');
+			if(!data.desc){
+				data.desc = '';
+			}
+			var msgArrTemp = [];
+			var nameArrTemp = ['协作类型：','负责人：','优先级：','限期：','状态：','标识：','描述：','创建人：','创建时间：'];
+			msgArrTemp.push(data.coTypeVo.name);
+			msgArrTemp.push(data.collaborator);
+			msgArrTemp.push(data.priority);
+			msgArrTemp.push(currentDeadline);
+			msgArrTemp.push(data.status); 
+			msgArrTemp.push(data.markerInfo.name);
+			msgArrTemp.push(defaultDesc);
+			msgArrTemp.push(data.creator);
+			msgArrTemp.push(data.createTime.split(' ')[0]);
+			for(var i=0;i<nameArrTemp.length;i++){
+				var coopMsgTemp = {};
+				if(nameArrTemp[i]==='描述：' && !data.desc) {
+					continue;
+				}
+				coopMsgTemp = {name:nameArrTemp[i],msg:msgArrTemp[i],isFirstLine:false};
+				infoTemp.coopMsg.push(coopMsgTemp);
+			}
 
 			//pic type 1 pic 2 doc 3 comment
 			angular.forEach(data.pictures,function(value,key){
@@ -350,13 +394,40 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				temp.type = 1;
 				infoTemp.docs.push(temp);
 			});
+
 			//doc
+			//按顺序重组 pic doc other
+			var docSort = [];
 			angular.forEach(data.docs,function(value,key){
+				if(value.name && value.name.indexOf('.') !== -1){
+                    var unit = value.name.split('.')[value.name.split('.').length - 1];
+					if(picTypeArr.indexOf(unit) !== -1) {
+						docSort.push(value);
+					}
+                }
+			});
+
+			angular.forEach(data.docs,function(value,key){
+				if(value.name && value.name.indexOf('.') !== -1){
+                    var unit = value.name.split('.')[value.name.split('.').length - 1];
+					if(picTypeArr.indexOf(unit) == -1) {
+						docSort.push(value);
+					}
+                }
+			});
+
+			angular.forEach(data.docs,function(value,key){
+				if(value.name && value.name.indexOf('.') == -1){
+					docSort.push(value);
+                }
+			});
+
+			angular.forEach(docSort,function(value,key){
 				var temp = {};
 				temp.uuid = value.uuid;
 				temp.fileName = value.name;
 				temp.type = 2;
-				infoTemp.docs.push(temp);
+                infoTemp.docs.push(temp);
 			});
 
 			if(data.speach && data.speach.uuid){
@@ -379,33 +450,58 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				title:"",
 				info:[]
 			};
-			angular.forEach(data.comments, function(value, key) {
+			
+			
+			angular.forEach(defaultComment, function(value, key) {
+				var commentDoc = [];
+				var tempTitle = '2.' + (key + 1); 
+				secondTitleTemp.title = defaultTitle.threeTitle;
 				infoTemp = {
-					coopMsg:'',
+					coopMsg:[],
 					docs:[]
 				};
-				commentMsgArr = [];
+				var commentNameArrTemp = ['添加人：','添加时间：','描述：'];
+				var commentMsgArrTemp = [];
 				if(value.status){
-					commentMsgArr.push('状态：'+value.status);
+					commentNameArrTemp = ['状态：','添加人：','添加时间：','描述：'];
+					commentMsgArrTemp.push(value.status);
 				}
-				secondTitleTemp.title = defaultTitle.threeTitle;
-				commentMsgArr.push('添加人：'+value.commentator);
-				commentMsgArr.push('添加时间：'+ Common.dateFormat(new Date(value.commentTime)));
-				commentMsgArr.push('描述：'+value.comment);
-				infoTemp.coopMsg = commentMsgArr.join('\n');
+				commentMsgArrTemp.push(value.commentator);
+				commentMsgArrTemp.push(Common.dateFormat(new Date(value.commentTime)));
+				commentMsgArrTemp.push(value.comment);
+				for(var i=0;i<commentNameArrTemp.length;i++){
+					var coopMsgTemp = {};
+					if(i===0){
+						coopMsgTemp = {name:tempTitle+commentNameArrTemp[i],msg:commentMsgArrTemp[i],isFirstLine:true};
+						infoTemp.coopMsg.push(coopMsgTemp);
+					} else {
+						coopMsgTemp = {name:commentNameArrTemp[i],msg:commentMsgArrTemp[i],isFirstLine:false};
+						infoTemp.coopMsg.push(coopMsgTemp);
+					}
+				}
+				//按顺序重组 pic doc other
 				if(value.docs) {
-					angular.forEach(value.docs, function(value1, key1) {
-						var temp = {};
-						if(value1.name){
-							temp.fileName = value1.name;
-						} else {
-							temp.fileName = value1.md5 + ".png";
+					angular.forEach(value.docs,function(value1,key1){
+						if(picTypeArr.indexOf(value1.suffix)!==-1){
+							commentDoc.push(value1);
 						}
-						temp.uuid = value1.uuid;
+					});
+					angular.forEach(value.docs,function(value3,key3){
+						if(picTypeArr.indexOf(value3.suffix)==-1 || !value3.suffix){
+							commentDoc.push(value3);
+						}
+					});
+					angular.forEach(commentDoc, function(value2, key2) {
+						var temp = {};
+						if(!value2.name && picTypeArr.indexOf(value2.suffix)!==-1){
+							temp.fileName = value2.md5 + '.png';
+						} else {
+							temp.fileName = value2.name; 
+						}
+						temp.uuid = value2.uuid;
 						temp.type = 3;
 						infoTemp.docs.push(temp);
-						
-					})
+					});
 				}
 				//comment speech
 				if(value.speech && value.speech.uuid){
@@ -430,10 +526,11 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 		//导出功能对接客户端
 	    $scope.doExport = function () {
+	    	console.log($scope.downloadTotal+'downloadTotal')
 	    	var exportRefreshID;
-	    	var createindex1;
 	    	var strExportInfo = JSON.stringify(detailExport);
-	    	var strCoName = $scope.collaList.name;
+	    	console.log(strExportInfo);
+	    	var strCoName = $scope.collaList.coTypeVo.name +' '+$scope.collaList.name;
 	    	//1.对接客户端导出协作接口，传入导出信息的Json字符串和当前协作的名称
 	   		BimCo.ExportCooperation(strExportInfo, strCoName);
     		
@@ -448,15 +545,19 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	        function refreshState() {
 	        	//true执行加载中 false取消加载中
 	 			var reCode = BimCo.IsShowProgressBar();
-
-	 			if(reCode && !createindex1){
+	 			if(reCode){
 	 				//调用加载层防止调用客户端时间过长
-		    		createindex1 = layer.load(1, {
-						shade: [0.5,'#000'] //0.1透明度的黑色背景
-					});
+		    		$('.downloading').css('display','block');
+		    		$('.down-mark').css('display','block');
+		    		$('.downloadIndex').css('display','block');
+		    		$('html').css('overflow-y','hidden');
 	 			} else if (!reCode){
+	 				//清除轮询 不显示加载层
 					clearInterval(exportRefreshID);
-    				layer.close(createindex1);
+    				$('.downloading').css('display','none');
+		    		$('.down-mark').css('display','none');
+		    		$('.downloadIndex').css('display','none');
+		    		$('html').css('overflow-y','');
 	 			}
 	 		}
 
@@ -1247,13 +1348,19 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   			//未关联
 	   			$scope.collaList.deptId = -1;
 	   		}
-	   		$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId},{ location: 'replace'});
+	   		var rember = ($stateParams.source || frombeFlag)?'':'rember'; //cooperation & other界面标志不同
+	   		if(!rember){
+	   			sessionStorage.clear();
+	   		}
+	   		$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId,'source':rember},{ location: 'replace'});
 	   	}
 
 	   	//反查formbe,跳转详情页面
 	   	var currentPage = 'coopdetail';
+	   
 	   	$scope.checkFromBe = function() {
-	   		var coidFrombe = $('#checkformbe').val();
+	   		frombeFlag = true;
+	   		coidFrombe = $('#checkformbe').val();
 	   		if($scope.flag.isPdfsign){
 	   			//当前正在签署且已经签出协作
 	   			var rtn = BimCo.MessageBox("提示","当前正在签署中，是否跳转？", 0x31);
@@ -1312,11 +1419,5 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                 	modalInstance.dismiss();
                 }
         });
-
-  //       $scope.$on('$viewContentLoaded', function(event) {
-		//     console.log(event);
-		//     alert('loaded');
-		   
-		// });
 
 }]);

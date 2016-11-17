@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="modal-body">
-        <div class="row" style="margin-bottom:15px;" >
+        <div class="row" style="margin-bottom:15px;">
             <div class="form-inline">
                 <div class="form-group col-xs-3" show-select>
                     <select class="form-control selectpicker" ng-change="treeSearch(1,1)" ng-model="projtype">
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success confirm" type="button" ng-click="ok()">确定</button>
+        <button class="btn btn-success" type="button" ng-click="ok()" ng-disabled="flagok">确定</button>
         <button class="btn btn-cancel" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

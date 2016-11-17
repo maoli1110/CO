@@ -20,10 +20,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
         	noSign: [], //不需要签字的相关人
         	sign: items.sign //需要签字的相关人
         };
-//		$scope.trans_selected.sign = items.sign;
-		//保存联系人的值
-//		$scope.avatar = [];
-//		$scope.downUrl = [];
 		//查询值
 		var queryData = {
 			deptId:defaultDeptId,
@@ -46,99 +42,10 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
             }, 300);
 			//默认联系人列表
 			Cooperation.getUserList(queryData).then(function (data) {
-				// var imgSrc = './imgs/icon/defalut.png';
-				// console.log('start',Date.parse(new Date()));
-//				 angular.forEach(data,function(value,key){
-//					var avater = {
-//						key:key,//对应的key值
-//						avater:[]//保存的头像地址信息
-//					};
-//				 	angular.forEach(value.users,function(value1,key1) {
-//				 		var urls = {
-//				 			uuid:value1.uuid,
-//				 			url:value1.avatar
-//				 		};
-//				 		avater.avater.push(urls);
-//				 	})
-//				 	$scope.avatar.push(avater);
-//				 });
-				// console.log('start',Date.parse(new Date()));
 				$scope.userList = data;
-				//console.log(data)
+				defaultSelectedStyle();
 			});
 		});
-
-		//获取指定角色目录下的所有用户的头像
-//		$scope.getUserAvaterUrl = function(index){
-//			index = parseInt(index);
-//			//获取指定的数据
-//			var avater = $scope.avatar[index];
-////			$scope.$apply(function(){
-////				$("#uib_"+index).attr("uib-collapse",false);
-////			});
-//			if(avater.key != index){
-//				return;
-//			}
-//			var urls = avater.avater;
-//			//获取所有的UUID，根据UUID区获取下载地址
-//			var uuids = [];
-//			angular.forEach(urls,function(value,key){
-//				if(value.uuid){
-//					var url = $scope.getDownUrl(value.uuid)
-//					if(url == null){
-//						uuids.push(value.uuid);
-//					}
-//				}
-//			});
-//			//获取UUID地址,
-//			var mapUrl = '';
-//			if(uuids.length > 0){
-//				uuids = JSON.stringify(uuids)
-////				Cooperation.getDownFileUrl(uuids).then(function (data) {
-////					mapUrl = data.data;
-////				});
-//				$.ajax({
-//		              type: "post",
-//		              url: basePath+'rs/co/downFileUrl',
-//		              data:uuids,
-//		              async:false,
-//		              contentType:'application/json',
-//		              success: function(data){
-//		            	  mapUrl = data;
-//		              }
-//		        });
-//			}
-//			angular.forEach(urls,function(value,key){
-//				var url = "default";
-//				var down = "./imgs/icon/defalut.png";
-//				var uuid = value.uuid;
-//				if(uuid){
-//					  angular.forEach(mapUrl,function(value,key){
-//						  if(key == uuid){
-//							  url = uuid;
-//							  down = value;
-//							  var downUrl = {
-//								  uuid:key,
-//								  url:value
-//							  };
-//							  $scope.downUrl.push(downUrl);
-//						  }
-//					  })
-//				}
-//				$("#"+index+"_"+url+"_"+key).attr("src",down);
-//			});
-//		}
-		
-		//获取指定的url
-//		$scope.getDownUrl =function (uuid){
-//			var url = null;
-//			 angular.forEach($scope.downUrl,function(value,key){
-//				 if(value.uuid == uuid){
-//					 url = value.url;
-//				 }
-//			 });
-//			 return url;
-//		}
 		
 		//切换项目部切换联系人
 		$scope.switchUsers = function (params) {
@@ -148,34 +55,29 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			};
 			Cooperation.getUserList(queryData).then(function (data) {
 				$scope.userList = data;
+				defaultSelectedStyle();
 			});
 			if($scope.queryForm){
 				$scope.isCollapsed = true;
 			}else{
 				$scope.isCollapsed = false;
 			}
-			
 		}
 
 		//选择负责人联系人--搜索功能
 		$scope.responsibleSearch = function () {
+			queryData = {
+					deptId:$scope.selectedOption,
+					searchText:$scope.queryForm
+				};
+				Cooperation.getUserList(queryData).then(function (data) {
+					$scope.userList = data;
+					defaultSelectedStyle();
+				});
+			
 			if($scope.queryForm) {
 				$scope.isCollapsed = true;
-				queryData = {
-					deptId:$scope.selectedOption,
-					searchText:$scope.queryForm
-				};
-				Cooperation.getUserList(queryData).then(function (data) {
-					$scope.userList = data;
-				});
 			} else if (!$scope.queryForm) {
-				queryData = {
-					deptId:$scope.selectedOption,
-					searchText:$scope.queryForm
-				};
-				Cooperation.getUserList(queryData).then(function (data) {
-					$scope.userList = data;
-				});
 				$scope.isCollapsed = false;
 			}
 		}
@@ -205,7 +107,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					}
 			});
 			$scope.responsiblePerson = user;
-
 		}
 
 		//选中的相关人
@@ -216,10 +117,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		$scope.relatedSelected = a ? a : [];
 
 		$scope.addRelated = function (current) {
-//			var url = $scope.getDownUrl(current.uuid);
-//			if(url){
-//				current.avatar = url;
-//			}
 			var currentUser = {avatar:	current.avatar,
 					avatarUuid:current.uuid,
 					isPassed	:false,
@@ -234,17 +131,45 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			//数组去重
 			var unique = _.uniqBy($scope.relatedSelected, 'username');
 			$scope.relatedSelected = unique;
+			console.log('$scope.relatedSelected',$scope.relatedSelected);
 		}
-		
 		$scope.removeRelated = function (current) {
 			var removeRelated = _.filter($scope.relatedSelected, function (o) {
 				return o.username != current.username;
-			})
+			});
+			//右侧已选中的联系人跟左侧联系人比较，相同则做相应操作
+			angular.forEach($scope.userList,function(value, key){
+				angular.forEach(value.users,function(value1,key1){
+					if(value1.username === current.username && value1.avatar === current.avatar){
+						$('.selected_'+key+'_'+key1).hide();
+					}
+				})
+			});
 			$scope.relatedSelected = removeRelated;
 			var idx = signSelected.indexOf(current);
 			if(idx != -1) {
 				signSelected.splice(idx,1);
 			}
+		}
+
+		function defaultSelectedStyle() {
+			var selectUsernames = [];
+			angular.forEach($scope.relatedSelected,function(value2,key2){
+				selectUsernames.push(value2.username);
+			})
+			console.log(selectUsernames);
+			//默认第一次点击选择联系人，右侧已选中的联系人跟左侧联系人比较，相同则做相应操作
+			angular.forEach($scope.userList,function(value, key){
+				angular.forEach(value.users,function(value1,key1){
+					console.log(value1);
+					for(var i = 0 ;i<selectUsernames.length;i++){
+						if(selectUsernames[i]==value1.username){
+							value1.select = "block"
+							break;
+						}
+					}
+				})
+			});
 		}
 
 		//选择需要签字的相关人
@@ -272,7 +197,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
         }
  
         $scope.isSelected = function(id){
-        	//console.log('signSelected.indexOf(id)',signSelected.indexOf(id))
             return signSelected.indexOf(id)>=0;
         }
 
@@ -288,7 +212,6 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 
         //选择负责人-确定按钮
 		$scope.ok = function () {
-//			console.log('relatedSelected', $scope.responsiblePerson);
 			if($scope.responsiblePerson != '') {
 				$uibModalInstance.close($scope.responsiblePerson);
 			} else {
@@ -310,9 +233,10 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 
 		//全选
 		$scope.allSelected = function () {
+			$(".user-chioce").show();
 			$scope.flag.forbidAll = true;
 			angular.forEach($scope.userList,function (value, key) {
-				angular.forEach(value.users, function (value1,key) {
+				angular.forEach(value.users, function (value1,key1) {
 					var currentUser = {avatar:	value1.avatar,
 							avatarUuid:value1.uuid,
 							isPassed	:false,
@@ -327,23 +251,9 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 				})
 			});
 			$scope.relatedSelected = _.uniqBy($scope.relatedSelected, 'username');
-			/*
-			//$scope.isSelected = true;
-			$scope.relatedSelected = [];	// 无论全选与否，值先清掉
-			if($scope.flag.allSelected && !$scope.flag.forbidAll){
-				$scope.flag.forbidAll = true;
-				angular.forEach($scope.userList,function (value, key) {
-					angular.forEach(value.users, function (value1,key) {
-						$scope.relatedSelected.push(value1);
-					})
-				});
-			} else {
-				$scope.flag.forbidAll = false;
-				$scope.trans_selected.sign = [];
-				signSelected = [];
-			}*/
 		}
 		$scope.delAll = function(){
+			$('.user-chioce').hide();
 			var noDelete = [];
 			var needSign = [];
 			for(var i=0; i < $scope.relatedSelected.length; i++) {
@@ -357,11 +267,14 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			$scope.relatedSelected =noDelete;
 			$scope.trans_selected.sign = needSign;
 			signSelected = needSign;
-//			$scope.flag.forbidAll = false;
 		}
 
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		}
+
+//		$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
+//			defaultSelectedStyle();
+//		});
 
 }]);

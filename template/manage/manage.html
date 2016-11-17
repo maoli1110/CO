@@ -218,9 +218,9 @@
             </div>
             <div class="label_tools">
                 <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-                <div  ng-click="maxRestore()" class="inline" style="display:inline;margin-left:18px;">
-                    <img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max">
-                    <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle">
+                <div  ng-click="maxRestore()" class="inline" style="margin-left:18px;">
+                    <img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max-inner">
+                    <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle-inner">
                 </div>
                 <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
             </div>
@@ -260,7 +260,7 @@
     }
     //跳转协作详情
     function transCoDetail (coid) {
-        document.location= '#/coopdetail/?coid='+ coid;
+        document.location= '#/coopdetail/?coid='+coid;
     }
 </script>
 

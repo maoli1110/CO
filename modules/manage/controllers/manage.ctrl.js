@@ -18,6 +18,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.isNoSearchValueBook = false;//搜索资料
     $scope.isNoSearchValueReject = false;//搜索无结果
     $scope.isShowProList = false;
+    //清空session
+    sessionStorage.clear();
     $scope.openNew = function () {
     	$scope.openSignal = true;
     }
@@ -609,7 +611,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //调用心跳机制
         Cooperation.heartBeat();
         //跳转新页面去除心跳机制
-        $scope.$on('$stateChangeStart', 
+        $scope.$on('$stateChangeStart',
             function(event, toState, toParams, fromState, fromParams){
                 clearInterval(ApplicationConfiguration.refreshID);
                 layer.closeAll();
@@ -623,8 +625,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         }
 
         //窗口放大还原
-        $scope.max = true;
-        $scope.maxRestore = function ($event) {
+        $scope.maxRestore = function () {
             //对接pc
             BimCo.SysCommand('SC_MAXIMIZE');
         }

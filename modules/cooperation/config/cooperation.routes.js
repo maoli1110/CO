@@ -38,7 +38,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 			}
 		})
 		.state('coopdetail', {
-			'url':"/coopdetail/?coid",
+			'url':"/coopdetail/?coid&source",
 			templateUrl: 'template/cooperation/coop_detail.html',
 			controller: 'coopdetailCtrl',
 			data: {

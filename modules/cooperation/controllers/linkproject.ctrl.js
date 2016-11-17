@@ -44,6 +44,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
          };
 		$scope.projectTree = [];
 		$scope.openSignal = true;
+		$scope.flagok = true;//弹出框禁用标识
 		//获取工程树
 		Cooperation.getProjectTree().then(function (data) {
 //			console.log(data);
@@ -130,11 +131,14 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			dataList.assembleLps = treeNode;
 			ppid = dataList.assembleLps.value.split('-')[2];
 			projType = dataList.assembleLps.value.split('-')[0];
-//			console.log('treeNode',treeNode);
 			if(treeNode.isParent == true) {
-				$('.confirm').attr('disabled', true);
+				// $('.confirm').attr('disabled', true);
+				$scope.flagok = true;
+				$scope.$apply();
 			} else {
-				$('.confirm').attr('disabled', false);
+				// $('.confirm').attr('disabled', false);
+				$scope.flagok = false;
+				$scope.$apply();
 			}
 			treeObj = $.fn.zTree.getZTreeObj("tree");
 			var sNodes = treeObj.getSelectedNodes();
@@ -143,9 +147,22 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			}
 			dataList.parentNode = node;
 	 	}
+
+	 	//选择构件类别确定按钮标志
+	 	function onCheckZtree () {
+	 		var selectedNodes = [];
+	 		//当前选中的所有的节点
+	 		var treeObj = $.fn.zTree.getZTreeObj("tree1");
+			selectedNodes = treeObj.getCheckedNodes(true);
+			if(selectedNodes.length){
+				$scope.flagok = false;
+				$scope.$apply();
+			}
+	 	}
 	 	
 	 	$scope.ok = function () {
 	 		//debugger;
+	 		
 	 		switch (projType) {
 	 			case "1":
 	 			projType = '土建预算';
@@ -170,6 +187,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 	//点击确定按钮获取构件类别表单
 	 	$scope.ok3 = function () {
 	 		//点击确定按钮切换显示获取的构件类别openSignal
+	 		$scope.flagok = true;
 	 		$scope.openSignal = false;
 	 		$scope.projectTree = [];
 	 		var obj = {ppid:ppid, projType:projType};
@@ -180,10 +198,10 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 				},
 				check: {
 					enable: true
+				},
+				callback:{
+					onCheck: onCheckZtree
 				}
-				// callback:{
-				// 	onCheck: onCheck
-				// }
 	         };
 	         dataList.assembleLps =obj;
 			//获取构件类别树
@@ -251,7 +269,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 		var treeObj = $.fn.zTree.getZTreeObj("tree1");
 	 		//当前选中的所有的节点
 			selectedNodes = treeObj.getCheckedNodes(true);
-			
+			console.log('selectedNodes',selectedNodes);
 			var lastNodeList = _.filter(selectedNodes,function(value,key){
 				if(projType!=5){
 					return value.type == 3;

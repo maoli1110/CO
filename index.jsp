@@ -29,34 +29,34 @@
 
 		<script type="text/javascript">
 		<%@page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
-		<%
+			<%
 		    String path = request.getContextPath();
 		    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 		%>
 		</script>
 
 		<script>
-			var basePath = "<%=basePath %>";
+		var basePath = "<%=basePath %>";
 		</script>
-		
+
 		</head>
 		<body>
 
 		<div class="content-main" ui-view>
-			
-		</div> 
-		
+
+		</div>
+
 		<!-- 警告弹框 -->
 		<!-- <div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
-		    <alert>
-		        <span ng-bind="alert.msg"></span>
-		    </alert>
+		<alert>
+		<span ng-bind="alert.msg"></span>
+		</alert>
 		</div> -->
 
 		<!-- <div ng-repeat="alert in alerts" class="alert {{alert.type}}">
-		    <alert>
-		       <span ng-bind="alert.msg"></span>
-		    </alert>
+		<alert>
+		<span ng-bind="alert.msg"></span>
+		</alert>
 		</div> -->
 
 		<!-- vendor -->
@@ -65,7 +65,7 @@
 		<script type="text/javascript" src="./lib/jquery/dist/jquery.min.js"></script>
 		<!--<script src="js/jquery-1.9.0.js" type="text/javascript"></script>-->
 		<script type="text/javascript" src="./lib/angular/angular.min.js"></script>
-		
+
 		<script type="text/javascript" src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script type="text/javascript" src="./lib/angular-i18n.js"></script>
 		<script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
@@ -116,7 +116,7 @@
 		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
 
 		<!-- core manage cooperation js gulp 整合 -->
-		<!-- <script type="text/javascript" src="./release/all.min.js"></script> --> 
+		<!-- <script type="text/javascript" src="./release/all.min.js"></script> -->
 
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
@@ -124,29 +124,42 @@
 		<!--autosize(多行文本高度自适应)-->
 		<script	src="./js/autosize.min.js" ></script>
 		<script>
-		    //客户端点击协作管理调出bimco （当前定位代码注释--勿删）
-		    function transCoManage (deptId,ppid) {
-		        //pc跳转传递deptId, ppid 定位到当前工程---勿删
-				   	// $('#deptId_formbe').val(deptId);
-			     	//   if(ppid <= 0){
-					// $('#deptId_formbe').val("");
-				   	// }
-			     	//   $('#ppid_formbe').val(ppid);
-			     	//   $('#deptId_formbe').click();
-		    }
+		//客户端点击协作管理调出bimco （当前定位代码注释--勿删）
+		function transCoManage (deptId,ppid) {
+		//pc跳转传递deptId, ppid 定位到当前工程---勿删
+		// $('#deptId_formbe').val(deptId);
+		//   if(ppid <= 0){
+		// $('#deptId_formbe').val("");
+		// }
+		//   $('#ppid_formbe').val(ppid);
+		//   $('#deptId_formbe').click();
+		}
 		</script>
 		<script>
-			//显示大图标
-			function Restore  () {
-				$('#w-middle').css('display','none');
-				$('#w-max').css('display','block');
-	        }
-	        //显示小图标
-			function Zoom  () {
-				$('#w-middle').css('display','block');
-				$('#w-max').css('display','none');
-	        }
-	    
+		//显示大图标
+		function Restore  (status) {
+
+
+		$('#w-middle').css('display','none');
+		$('#w-max').css('display','inline-block');
+		$('#w-middle2').css('display','none');
+		$('#w-max2').css('display','inline-block');
+		$('#w-middle-inner').css('display','none');
+		$('#w-max-inner').css('display','inline-block');
+
+
+		}
+		//显示小图标
+		function Zoom  (status) {
+		$('#w-middle').css('display','inline-block');
+		$('#w-max').css('display','none');
+		$('#w-middle2').css('display','inline-block');
+		$('#w-max2').css('display','none');
+		$('#w-middle-inner').css('display','inline-block');
+		$('#w-max-inner').css('display','none');
+
+		}
+
 		</script>
 		</body>
 		</html>
