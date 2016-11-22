@@ -1,10 +1,5 @@
 'use strict';
-var bvShare = angular.module('bvShare',['ui.router']).run([
-      "$rootScope", "$state", "$stateParams", function($rootScope, $state, $stateParams) {
-        $rootScope.$state = $state;
-        return $rootScope.$stateParams = $stateParams;
-      }
-    ]).config(['$httpProvider',
+var bvShare = angular.module('bvShare',['ui.router','infinite-scroll']).config(['$httpProvider',
         function($httpProvider) {
             $httpProvider.interceptors.push(['$q',
                 function($q) {

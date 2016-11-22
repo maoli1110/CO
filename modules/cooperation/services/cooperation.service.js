@@ -579,7 +579,57 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         });
         return delay.promise;
     }
-    
 
 
+
+    //$.ajax({
+    //    type: "POST",
+    //    url: basePath+'rs/co/shareDetail',
+    //    data:coid,
+    //    async:false,
+    //    contentType:'text/plain',
+    //    success: function(data){
+    //        console.log(data);
+    //    },
+    //    error:function(){}
+    //
+    //});
+    //分享页面的详情
+    this.shareDetail = function(coid){
+        var delay = $q.defer();
+        $.ajax({
+            type: "POST",
+            url: basePath+'rs/co/shareDetail',
+            data:coid,
+            async:false,
+            contentType:'text/plain',
+            success: function(data){
+                delay.resolve(data);
+            },
+            error:function(error){
+                delay.reject(error);
+            }
+
+        });
+        return delay.promise;
+    }
+    //分享页面的
+    this.shareOperation = function(coid){
+        var delay = $q.defer();
+        $.ajax({
+            type: "POST",
+            url: basePath+'rs/co/shareOperation',
+            data:coid,
+            async:false,
+            contentType:'text/plain',
+            success: function(data){
+                delay.resolve(data);
+            },
+            error:function(){
+                delay.reject(error);
+            }
+
+        });
+        return delay.promise;
+    }
 });

@@ -1001,6 +1001,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					}	
 					layer.msg('创建协作成功',{time:3000});
 				}
+				sessionStorage.clear();
 				$state.go('cooperation',{'deptId':$scope.data.deptId, 'ppid':$scope.data.ppid},{ location: 'replace'});
 				// $state.go('cooperation',{'transignal':$scope.data.deptId},{ location: 'replace'});
 				//上传之后将coid传给客户端

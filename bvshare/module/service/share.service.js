@@ -1,16 +1,14 @@
 'use strict';
 
 bvShare.service('Share', function ($http, $q) {
-    alert('service')
     var url = basePath;
-    alert('basePath'+basePath);
- 
     //分享页面的详情
     this.shareDetail = function(coid){
         var delay = $q.defer();
         $.ajax({
             type: "POST",
             url: basePath+'rs/co/shareDetail',
+            // url: 'detail.json',
             data:coid,
             async:false,
             contentType:'text/plain',

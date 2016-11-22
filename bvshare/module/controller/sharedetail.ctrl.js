@@ -2,19 +2,18 @@
 /**
  * coopdetailCtrl
  */
-bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
-    function ($scope,$stateParams,$state,Share) {
+bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share','$timeout',
+    function ($scope,$stateParams,$state,Share,$timeout) {
 		$scope.link = false;
 		$scope.speachShow = false;
-		// $scope.device = false;
 		$scope.flag = {};
 		$scope.isTypePdf = true;//判断文件类型是否是pdf格式
 		$scope.showMore = false;
 		$scope.collapse = false;
 		//判断pc or bv
-		// if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
+		if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
 			$scope.device = true;
-		// }
+		}
 		//bv播放按钮显示不同颜色
 		if($scope.device) {
 			$('.palys').addClass('play-bv');
@@ -23,13 +22,28 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 		}
 		//根据ui-sref路由拿到对应的coid
 		
-	   	var coid = $stateParams.coid;
-	   	coid = decodeURIComponent(window.location.search.substr(6));
-	   	// alert(window.location.search.substr(6));
+	   	var coid = ''; //coid
+	   	var ename = '';	//企业名称
+	   	var eid = ''; //企业id
+
+	   	var urlParams = window.location.search.substr(1); //截取url参数
+	   	var urlParamsTemp = urlParams.split('&');
+	   	var encodeCoid = urlParamsTemp[0].substr(5); //url传递的加密coid
+	   	for(var i=0;i<urlParamsTemp.length;i++){
+	   		if(urlParamsTemp[i].indexOf('coid')!==-1){
+	   			coid = decodeURIComponent(urlParamsTemp[i].substr(5)); //decode编码
+	   		}
+	   		if(urlParamsTemp[i].indexOf('ename')!==-1){
+	   			ename = urlParamsTemp[1].substr(6);
+	   		}
+	   		if(urlParamsTemp[i].indexOf('eid') !== -1){
+	   			eid = urlParamsTemp[2].substr(4);
+	   		}
+	   	}
+	   
 	   	var ppid = 0;
 	   	var coTypeVo = 0;
 	   	var status = "";
-	   	var currentTimestamp = Date.parse(new Date());
 	   	var allRelevants = [];
 	   	var sliceRlevants = [];
 	   	var totalPage = 0;
@@ -37,9 +51,11 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 		var pageSizePc = 16;
 	   	var currentShowPage = 1;
 	   	$scope.transcoid = coid;
+	   	var  previewCount = 1;
+		var fileUrlImg;
+		var arrType=['jpg','png','bmp','tif','tiff','gif','jpeg','PNG','GIF','JPG'];
         //coid 1wuUA4dGiDVbpsJMORDqsHmCooFGS5bul7PLOOm4d%2FM%3D%0D%0A
 	   	Share.shareDetail(coid).then(function (data) {
-
 	   		$scope.collaList = data;
 	   		//详情转换“\n”
 	   		if(data.desc){
@@ -103,35 +119,38 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 				$scope.flag.noNeedSign = true;
 			}
 			//详情描述
-            if(data.desc ==null || data.desc==''){
-                $('.mobile-job-descrition,.pc-job-descrition').css("display",'none')
-            }else{
-                $('.mobile-job-descrition,.pc-job-descrition').css("display",'block')
-            }
-            //详情联系人
-            if(data.relevants.length==0){
-                $(".mobile-relate,.pc-relate").css('display','none')
-            }else{
-                $(".mobile-relate,.pc-relate").css('display','block')
-            }
-            //详情照片
-            if(data.pictures.length==0){
-                $(".mobile-photo,.pc-photo").css('display','none')
-            }else{
-                $(".mobile-photo,.pc-photo").css('display','block')
-            }
-            //详情资料
-            if(data.docs.length==0){
-                $(".mobile-means,.pc-means").css('display','none')
-            }else{
-                $(".mobile-means,.pc-means").css('display','block')
-            }
-            //详情回复
-            if(data.comments.length==0){
-                $(".mobile-reply,.pc-reply").css('display','none')
-            }else{
-                $(".mobile-reply,.pc-reply").css('display','block')
-            }
+			$timeout(function(){
+				if(data.desc ==null || data.desc==''){
+		            $('.mobile-job-descrition,.pc-job-descrition').css("display",'none');
+		            }else{
+		                $('.mobile-job-descrition,.pc-job-descrition').css("display",'block');
+		            }
+		            //详情联系人
+		            if(data.relevants.length==0){
+		                $(".mobile-relate,.pc-relate").css('display','none');
+		            }else{
+		                $(".mobile-relate,.pc-relate").css('display','block');
+		            }
+		            //详情照片
+		            if(data.pictures.length==0){
+		                $(".mobile-photo,.pc-photo").css('display','none');
+		            }else{
+		                $(".mobile-photo,.pc-photo").css('display','block');
+		            }
+		            //详情资料
+		            if(data.docs.length==0){
+		                $(".mobile-means,.pc-means").css('display','none');
+		            }else{
+		                $(".mobile-means,.pc-means").css('display','block');
+		            }
+		            //详情回复
+		            if(data.comments.length==0){
+		                $(".mobile-reply,.pc-reply").css('display','none');
+		            }else{
+		                $(".mobile-reply,.pc-reply").css('display','block');
+		            }
+        	},20);
+            
 
 			//详情描述记录换行
 			function replaceAll (strM,str1,str2) {
@@ -142,7 +161,6 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 	   			var newstr='';
 	   			for(var j=0;j<stringList.length;j++)newstr+=stringList[j];
 	   				return newstr;
-
 	   		}
 
 			var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
@@ -166,8 +184,8 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
                 	imgsrc = imgsrc+unit+".png";
                 	$scope.collaList.pictures[key].imgsrc = imgsrc;
                 }
-
 			});
+
 			angular.forEach($scope.collaList.docs, function(value, key) {
                 var imgsrc = "imgs/pro-icon/icon-";
 				//如果存在后缀名
@@ -230,8 +248,8 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 			}else if(!$scope.link && $scope.speachShow){
 				$(".mobile-devices .play-audio").css({"width":'100%'})
 			}
-
 	   	});
+
 		var id = "#jquery_jplayer_1";
 
 		var flashHtml = '';
@@ -272,7 +290,7 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 			if(oldSpeechUrl != speechUrl){
 				$.ajax({
 		              type: "POST",
-		              url: basePath+'rs/co/getMP3URL',
+		              url: basePath+'rs/co/shareMP3URL',
 		              data:speechUrl,
 		              async:false,
 		              contentType:'text/HTML',
@@ -280,6 +298,7 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 		            	   if(mp3url.indexOf('<!DOCTYPE html>')!=-1){
 		            	 		document.location = 'co_detail.jsp?coid='+ coid;
 		            	   	}
+		            	   	// debugger
 		            	  	datamp3url = mp3url;
 		              }
 		        });
@@ -292,6 +311,12 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 
 		}
 
+		//play-audio(播放声音的显示播放窗口事件)
+		$scope.audioClose = function () {
+			$("#jquery_jplayer_1").jPlayer("stop");
+			$(".detail-voice").hide();
+			$(".detail-close").hide();
+		}
 
 		function jMap(){
 			//私有变量
@@ -319,51 +344,6 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 					fn(key,arr[key])
 				}
 			}
-		}
-
-	   	//移动端交互
-	   	$scope.checkModel = function () {
-	   		//判断是否在播放中
-	   		if($(".detail-voice").css("display") == "block"){
-	   			$scope.audioClose();
-	   		}
-	   		sendCommand(1,coid);
-	   	}
-
-	   	$scope.zoom = function (uuid) {
-	   		sendCommand(6,coid,uuid);
-	   	}
-
-	   	$scope.previewComment = function (index,uuid){
-	   		sendCommand(7,index,uuid);
-	   	}
-
-	   	$scope.docsOpen = function (uuid) {
-	   		sendCommand(5,coid,uuid);
-	   	}
-
-	   	$scope.previewDocs = function (uuid) {
-	   		sendCommand(2,coid,uuid);
-	   	}
-
-	   	$scope.downDocs = function (uuid) {
-	   		sendCommand(3,coid,uuid);
-	   	}
-
-		function sendCommand(optType,id,uuid){
-
-		    var param = '{"optType":'+optType+',"coid":"'+id+'"}';
-		    if(optType==2||optType==3||optType==5||optType==6){
-				param = '{"optType":'+optType+',"coid":"'+id+'","fileUUID":"'+ uuid +'","isPreview":true'+'}';
-		    }
-		    if(optType==7){
-		    	param = '{"optType":'+optType+',"index":"'+id+'","fileUUID":"'+ uuid +'","isPreview":true'+'}';
-		    }
-		    if(optType==8){
-		    	param = '{"title":'+title+'}'
-		    }
-
-		    document.location = 'http://localhost:8080/bv/?param='+param;
 		}
 
 		//侧边栏获取动态列表
@@ -425,7 +405,7 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 		$scope.getOperationList = function() {
 			if(trendflag){
 				$scope.scrollend = false;
-				Cooperation.shareOperation(coid).then(function (data) {
+				Share.shareOperation(coid).then(function (data) {
 					$scope.operationAllList = data;
 					$scope.operationList = data.slice(0,dynamicCurrentShowPage*dynamicPageSize);
 					var size = $scope.operationList.length;
@@ -458,7 +438,17 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
 			},function(){
 				$(this).find('.user-down').animate({"bottom":'-30px'})
 			})
+
+			//防止出现同步加载错误
+            // if($scope.device){
+                $timeout(function(){
+                    $(".scrollLoading").scrollLoading();
+                },0);
+            // }
 		});
+
+		
+
 
 	    //显示更多相关人
 	    $scope.showMorePerson = function() {
@@ -482,72 +472,171 @@ bvShare.controller('sharedetailCtrl', ['$scope','$stateParams','$state','Share',
     		$scope.collapse = false;
     		currentShowPage = 1;
 	    }
-		//预览界面
-		$scope.previewSign = function (uuid,docName,isPdfsign) {
-			$scope.flag.isGeneral = false;
-			var suffix = '';
-			if(docName && docName.indexOf('.')!=-1){
-				suffix = docName.split('.')[docName.split('.').length-1];
-			} else {
-				suffix = '';
-			}
-			//获取电子签名uuid
-			if(suffix=='pdf' && isPdfsign == 1){
-				//调用加载层防止调用客户端时间过长
-				var createindex;
-				$timeout(function(){
-					createindex = layer.load(1, {
-						shade: [0.5,'#000'] //0.1透明度的黑色背景
-					});
-				},10);
 
-				$timeout(function(){
-					//pdf签署（客户端）调用不成功则返回详情界面
-					var pdfSign = BimCo.PdfSign(uuid,suffix,currentReact,coid);
-					if(!pdfSign) {
-						//调用客户端失败取消加载层
-						layer.close(createindex);
-						return;
-					} else {
-						//调用客户端成功取消加载层，执行跳转
-						layer.close(createindex);
-						$scope.flag.isPreview = true;
-						$scope.flag.isApprove = true;
-						$scope.flag.isGeneral = false;
-						$scope.flag.isPdfsign = false;
+	    //bv 分享页面图片预览功能start
+		$scope.previewSignEle = function(obj,fileUrl,source){
+			fileUrlImg = fileUrl;
+			previewCount++;
+			if(source === 2){
+					if(arrType.indexOf(obj.suffix)===-1){
+						$scope.transToBv()
+						return ;
 					}
-				},500)
-			} else {
-				//普通预览（除去pdf以外的文件）
-				var data ={fileName:docName,uuid:uuid};
-				Manage.getTrendsFileViewUrl(data).then(function (result) {
-//		        		console.log(typeof result)
-					$scope.flag.isPreview = true;
-					$scope.flag.isGeneral = true;
-					$scope.flag.isPdfsign = false;
-					$scope.flag.isApprove = false;
-					$scope.previewUrl = $sce.trustAsResourceUrl(result);
-				},function (data) {
-					$scope.flag.isPreview = false;
-					$scope.previewUrl ='';
-					var obj = JSON.parse(data);
-					layer.alert(obj.message, {
-						title:'提示',
-						closeBtn: 0,
-						move:false
-					});
-				});
 			}
+			var showImgMSG = '<div class="preview-tools"><div class="show-pictures"><div style="background:url('+fileUrlImg+');background-size:cover"></div></div></div>';
+			$('body').append(showImgMSG);
+			$('.preview-tools').css('display','block');
+			$('.showMsg-mask').css('display','block');
 		}
+
+		$scope.removeImg = function () {
+			$('.preview-tools').css('display','none');
+			$('.preview-tools').remove();
+			$('.showMsg-mask').css('display','none');
+		}
+
 		//coid = encodeURI(coid);
 		//console.info('coiddddddddddddddddddddd',coid)
-//		反查模型动画
+		//反查模型动画
 		$scope.pegRelative = function(){
-
-        	$('.app-mask').animate({'bottom':'0px'});
-			$timeout(function(){
-				$('.app-mask').animate({'bottom':'-65px'});
-			},2000)
+        	alert('请打开be')
 		}
 
+	//判断是否在微信中打开
+	function isWeiXin() {
+		var D = navigator.userAgent;
+		var e = (D.match(/Chrome\/([\d.]+)/) || D.match(/CriOS\/([\d.]+)/)) ? true: false;
+		var G = (D.match(/(Android);?[\s\/]+([\d.]+)?/)) ? true: false;
+		var p = (D.match(/(iPad).*OS\s([\d_]+)/)) ? true: false;
+		var x = (!p && D.match(/(iPhone\sOS)\s([\d_]+)/)) ? true: false;
+		var f = navigator.userAgent.indexOf("MicroMessenger") >= 0;
+		if (f) {
+			return true;
+		}
+		return false;
+	}
+	
+	function isIOS() {
+		var D = navigator.userAgent;
+		var e = (D.match(/Chrome\/([\d.]+)/) || D.match(/CriOS\/([\d.]+)/)) ? true: false;
+		var G = (D.match(/(Android);?[\s\/]+([\d.]+)?/)) ? true: false;
+		var p = (D.match(/(iPad).*OS\s([\d_]+)/)) ? true: false;
+		var x = (!p && D.match(/(iPhone\sOS)\s([\d_]+)/)) ? true: false;
+		if (x) {
+			return true;
+		}
+		return false;
+	}
+	
+	function isAndroid() {
+		var D = navigator.userAgent;
+		var e = (D.match(/Chrome\/([\d.]+)/) || D.match(/CriOS\/([\d.]+)/)) ? true: false;
+		var G = (D.match(/(Android);?[\s\/]+([\d.]+)?/)) ? true: false;
+		var p = (D.match(/(iPad).*OS\s([\d_]+)/)) ? true: false;
+		var x = (!p && D.match(/(iPhone\sOS)\s([\d_]+)/)) ? true: false;
+		if (G) {
+			return true;
+		}
+		return false;
+	}
+	
+ 	//应用宝地址
+ 	var weiXinUrl = "http://fusion.qq.com/cgi-bin/qzapps/unified_jump?appid=12154464&isTimeline=false&actionFlag=0&params=pname%3Dcom.lubansoft.bimview4phone%26versioncode%3D1%26channelid%3D%26actionflag%3D0";
+ 	
+ 	//打开app
+ 	// function openApp(url) {
+ 	// 	$("#load_app").remove();  
+		// var L = document.createElement("iframe");
+		// var v = "load_app";
+  //       L.id = v;
+  //       L.src=url;
+  //       document.body.appendChild(L);
+  //       document.getElementById(v).style.display = "none";
+  //       document.getElementById(v).style.width = "0px";
+  //       document.getElementById(v).style.height = "0px";
+ 	// }
+
+ 	function openApp(url,source) {
+      var timeout, t = 1000,hasApp=true;
+	  var tt = 0;
+	  setTimeout(function () {
+	    if (hasApp) { 
+	      	// alert('安装了app');
+	    } else { 
+	    	if(source === 'ios'){
+	    		alert('i am ios')
+	    		window.location.href="https://itunes.apple.com/cn/app/bim-view/id1037676936"
+	    	} else {
+	    		window.location.href = "http://down.lubansoft.com/BIM%20View%20V1.0.0%20for%20Android.apk";
+	    	}
+	     	alert('当前BimView手机客户端未安装或未启动, 已安装请先打开, 未安装根据链接下载安装即可！');
+	    } 
+	    document.body.removeChild(ifr);
+	  }, 2000) 
+	  
+	  var t1 = Date.now();
+	  var ifr = document.createElement("iframe"); 
+	  ifr.setAttribute('src', url); 
+	  ifr.setAttribute('style', 'display:none');
+	  document.body.appendChild(ifr);
+	  timeout = setTimeout(function () { 
+	     var t2 = Date.now(); 
+	     if (!t1 || t2 - t1 < t + 100) {
+	       tt = t2-t1;
+	       hasApp = false;
+	     }
+	  }, t); 
+
+    }
+	  
+
+ 	$scope.transToBv = function(){
+		transToBv()
+	}
+ 	
+ 	//判断是否打开及跳转
+	function transToBv(){
+		if(!$scope.device){
+			alert('请在手机端打开BimView软件！');
+			return;
+		}
+		var url = "bv4phone://lubanmobile.share?opt=1&eid="+eid+"&ename="+encodeURIComponent(ename)+"coid="+encodeCoid;
+		// var url = "bv4phone://lubanmobile.share?opt=1&eid=11&ename=firstnamecoid=1212"; //test
+
+		if(isWeiXin()){
+			if(isIOS()){
+				//	alert("IOS版本暂未上线");
+				alert("请点击右上角，选择 '在 Safari 中打开'。")
+			} else if(isAndroid()) {
+				//alert("IOS版本暂未上线");
+				alert("请点击右上角，选择 '在浏览器中打开'（非QQ浏览器）。")
+				// shade.style.display='block';
+				// info.style.display='none';
+				// downapp.style.display='none';
+				// Layer1.style.display='block';
+			}
+		} else {
+			if(isIOS()){
+				if(navigator.userAgent.indexOf("Safari") > -1){
+					// alert('Safari33');
+					openApp(url,'ios');  //1.0.0版本的打开方式（适用于ios9.0以下）
+					// location.href = url;
+				 //    setTimeout(function() {
+				 //        window.location = 'https://itunes.apple.com/cn/app/bim-view/id1037676936';
+				 //    }, 250);
+				    // setTimeout(function() {
+				    //     location.reload();
+				    // }, 1000); 
+				}else{
+					//alert("请点击右上角，选择 '在浏览器中打开'（非QQ浏览器）。")
+					alert("请点击右上角，选择 '在 Safari 中打开'。")
+				}
+			}
+			else if(isAndroid()) {
+				// alert('6767');
+				openApp(url,'android');
+			}
+		}
+	}
+ 			
 }]);

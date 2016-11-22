@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="./css/main.css">
 
 		<!-- gulp 压缩 整合 -->
-		<!-- <link rel="stylesheet" href="./release/main.min.css"> -->
+		<!-- <link rel="stylesheet" href="./build/main.min.css"> -->
 
 		<!-- 动画css插件加载 -->
 		<link rel="stylesheet" href="./css/animate.min.css">
@@ -38,6 +38,8 @@
 		<script>
 		var basePath = "<%=basePath %>";
 		</script>
+
+		<!-- <base href="basePath"></base> -->
 
 		</head>
 		<body>
@@ -107,6 +109,7 @@
 		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperation.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/coopdetail.ctrl.js"></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/sharedetail.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/updatecomment.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/controllers/linkproject.ctrl.js"></script>
@@ -116,7 +119,7 @@
 		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
 
 		<!-- core manage cooperation js gulp 整合 -->
-		<!-- <script type="text/javascript" src="./release/all.min.js"></script> -->
+		<!-- <script type="text/javascript" src="./build/all.min.js"></script> -->
 
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
@@ -159,6 +162,7 @@
 		$('#w-max-inner').css('display','none');
 
 		}
+	
 
 		</script>
 		</body>

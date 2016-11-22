@@ -157,6 +157,9 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			if(selectedNodes.length){
 				$scope.flagok = false;
 				$scope.$apply();
+			} else {
+				$scope.flagok = true;
+				$scope.$apply();
 			}
 	 	}
 	 	

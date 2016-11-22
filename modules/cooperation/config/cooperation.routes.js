@@ -53,7 +53,19 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 			'url':"/editdetail/?coid",
 			templateUrl:"template/cooperation/coop_editdetail.html",
 			controller:"editdetailCtrl"
-		});
+		}).state('sharedetail', {
+			'url':"/sharedetail/?coid",
+			templateUrl: 'template/cooperation/share_detail.html',
+			controller: 'sharedetailCtrl',
+			data: {
+				displayName: 'sharedetail'
+			},
+			params: {
+				'deptId':null,
+				'ppid':null,
+				'coid':null
+			}
+		})
 
 		// .state('home.all', {
 		// 	'url': "/all",

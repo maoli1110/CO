@@ -5,6 +5,7 @@
 angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Manage','$sce','$timeout','Common',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Manage,$sce,$timeout,Common) {
 		console.log('detail',$stateParams);
+		var reCode = '';
 		var frombeFlag = false; //是否从be跳转(非cooperation界面)
 		var currentEditOfficeUuid = '';
 	    var currentSuffix = '';
@@ -44,7 +45,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			$('#w-max-inner').css('display','none');
 		}
 		if(!$scope.device){
-			var  status = BimCo.GetWindowStatus();
+			// var  status = BimCo.GetWindowStatus();
 			if(status){
 				$timeout(function(){
 					restrom()
@@ -350,7 +351,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				docs:[]
 			};
 			var currentDeadline;
-			coopExportTemp.firstTitle = defaultTitle.firstTitle+data.coTypeVo.name+' '+data.name+'';
+			coopExportTemp.firstTitle = defaultTitle.firstTitle+data.name+'';
 			secondTitleTemp.title = defaultTitle.secondTitle;
 			if(data.deadline && data.deadline != '不限期'){
 				currentDeadline = Common.dateFormat(new Date(data.deadline)).split(' ')[0];
@@ -544,7 +545,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 
 	        function refreshState() {
 	        	//true执行加载中 false取消加载中
-	 			var reCode = BimCo.IsShowProgressBar();
+	 			reCode = BimCo.IsShowProgressBar();
 	 			if(reCode){
 	 				//调用加载层防止调用客户端时间过长
 		    		$('.downloading').css('display','block');
@@ -1361,6 +1362,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	$scope.checkFromBe = function() {
 	   		frombeFlag = true;
 	   		coidFrombe = $('#checkformbe').val();
+	   		reCode = BimCo.IsShowProgressBar();
 	   		if($scope.flag.isPdfsign){
 	   			//当前正在签署且已经签出协作
 	   			var rtn = BimCo.MessageBox("提示","当前正在签署中，是否跳转？", 0x31);
@@ -1372,6 +1374,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    			Cooperation.checkIn(coid).then(function(data) {
 	   	 			});
 	   			}
+	   		} else if (reCode){
+	   			layer.alert('当前正在导出，无法切换！', {
+				  	title:'提示',
+				  	closeBtn: 0,
+				  	move:false
+				});
 	   		} else if($scope.flag.isApprove && !$scope.flag.isPdfsign){
 	   			//当前正在签署预览界面但没有签出协作
 	   			var rtn = BimCo.MessageBox("提示","当前正在签署中，是否跳转？", 0x31);
