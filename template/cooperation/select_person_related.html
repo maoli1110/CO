@@ -45,10 +45,8 @@
                         </a>
                         <ul class="sub-nav" id="uib_{{$index}}" uib-collapse="!isCollapsed">
                             <li ng-repeat="item in user.users track by $index" class="select-check" ng-click="addRelated(item)" ng-class="{true:'grey',false:'default'}[item.add]"  profit>
-                                <label >
-                                   <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{item.avatar}}" />
-                                   <!--  <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.uuid==null||item.uuid==''" id="{{$parent.$parent.$index}}_default_{{$index}}" src="" />
-                                    <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.uuid!=null&&item.uuid!=''" id="{{$parent.$parent.$index}}_{{item.uuid}}_{{$index}}" src="" />--><span>{{item.username}}</span> 
+                                <label class="substr">
+                                   <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{item.avatar}}" /><span ng-if="item.realname">{{item.realname}}({{item.username}})</span><span ng-if="!item.realname">{{item.username}}</span>
                                 </label>
                                 <div class="user-chioce selected_{{$parent.$index}}_{{$index}}" style="display:{{item.select}}"></div>
                             </li>
@@ -66,7 +64,7 @@
                 <div style="margin-top: 10px;">
                     <table class="table">
                         <tbody>
-                            <tr ng-repeat="row in relatedSelected track by $index"  align="center" style="line-height:40px;">
+                            <tr ng-repeat="row in relatedSelected track by $index"  align="center" style="line-height:40px;" class="substr">
                                 <td class="is-sign">
                                     <label class="rela" style="">
                                         <input ng-if="!row.canSign" disabled type="checkbox" ng-checked="isSelected(row)" ng-click="updateSelection($event,row)" ng-model="typeCheck" style="opacity:0;" >
@@ -74,9 +72,8 @@
                                         <div class="absol handle-state">需签字</div>
                                     </label>
                                     <div class="avatar-pic"><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{row.avatar}}" ng-show="row.avatar"/><img src="./imgs/icon/defalut.png" alt="" ng-show="row.avatar==null"></div>
-                                    <span>{{row.username}}</span>
+                                   <span style="substr" style="width:300px;text-align:left;" ng-if="row.realname">{{row.realname}}({{row.username}})</span><span class="substr" style="width:300px;text-align:left;" ng-if="!row.realname">{{row.username}}</span>
                                 </td>
-                                <!--<td></td>-->
                                 <td style="text-align:center;">
                                	 <span ng-if="!row.mustExist"  class="error-del"  ng-click="removeRelated(row)"></span>
                                </td>

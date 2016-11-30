@@ -117,6 +117,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 		$scope.relatedSelected = a ? a : [];
 
 		$scope.addRelated = function (current) {
+			console.log(current);
 			var currentUser = {avatar:	current.avatar,
 					avatarUuid:current.uuid,
 					isPassed	:false,
@@ -126,7 +127,9 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 					needSign:false,
 					username:current.username,
 					mustExist:false,
-					canSign:true};
+					canSign:true,
+					realname:current.realname
+					};
 			$scope.relatedSelected.push(currentUser);
 			//数组去重
 			var unique = _.uniqBy($scope.relatedSelected, 'username');
@@ -161,7 +164,7 @@ angular.module('cooperation').controller('selectpersonCtrl',['$scope', '$http', 
 			//默认第一次点击选择联系人，右侧已选中的联系人跟左侧联系人比较，相同则做相应操作
 			angular.forEach($scope.userList,function(value, key){
 				angular.forEach(value.users,function(value1,key1){
-					console.log(value1);
+					// console.log(value1);
 					for(var i = 0 ;i<selectUsernames.length;i++){
 						if(selectUsernames[i]==value1.username){
 							value1.select = "block"

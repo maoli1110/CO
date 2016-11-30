@@ -632,4 +632,17 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         });
         return delay.promise;
     }
+//    删除协作
+    this.removeCoopertion = function(coid){
+        var delay = $q.defer();
+        var join_url =url+'rs/co/remove/'+coid;
+        var params = JSON.stringify(coid);
+        $http.delete(join_url,params,{transformRequest: angular.identity}).success(function(data){
+            delay.resolve(data)
+            console.info(data);
+        }).error(function(error){
+            delay.reject(error);
+        })
+        return delay.promise;
+    }
 });

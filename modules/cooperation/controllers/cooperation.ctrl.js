@@ -50,7 +50,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	$scope.projNoCo = false;
 	$scope.searchNoCo = false;
 	$scope.noRelatedNoCo = false;
-
+	var detailDeptId = '';
+	var detailPpid = '';
 	var queryTypeSelected = sessionStorage.queryTypeSelected?JSON.parse(sessionStorage.queryTypeSelected):[];
 	var queryPriorityselected = sessionStorage.queryPriorityselected?JSON.parse(sessionStorage.queryPriorityselected):[];
 	var queryMarkSelected = sessionStorage.queryMarkSelected?JSON.parse(sessionStorage.queryMarkSelected):[];
@@ -71,32 +72,32 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var deptName = null;//项目名称
 	var ppidName = null;//工程名称
     $scope.openNew = function () {
-    	$scope.openSignal = true;
-    	Cooperation.getTypeList().then(function (data) {
-        $('.overlay').css('top','0px');
-        $('.overlay').css('height','calc(100vh - 65px)');
-        $('.overlay').css('display','block');
-        angular.forEach(data,function(value,key) {
-          if(value.name == '问题整改'){
-            data[key].typeImg = 1;
-          } else if(value.name == '阶段报告'){
-            data[key].typeImg = 2;
-          }else if(value.name == '方案报审'){
-            data[key].typeImg = 3;
-          }else if(value.name == '方案会签'){
-            data[key].typeImg = 4;
-          }else if(value.name == '现场签证'){
-            data[key].typeImg = 5;
-          } else if(value.name == '图纸变更'){
-            data[key].typeImg = 6;
-          }
-        });
-		$scope.typeList = data;
-		console.info('typeList',$scope.typeList);
-    	});
-    }
+		$scope.openSignal = true;
+		Cooperation.getTypeList().then(function (data) {
+			$('.overlay').css('top', '0px');
+			$('.overlay').css('height', 'calc(100vh - 65px)');
+			$('.overlay').css('display', 'block');
+			angular.forEach(data, function (value, key) {
+				if (value.name == '问题整改') {
+					data[key].typeImg = 1;
+				} else if (value.name == '阶段报告') {
+					data[key].typeImg = 2;
+				} else if (value.name == '方案报审') {
+					data[key].typeImg = 3;
+				} else if (value.name == '方案会签') {
+					data[key].typeImg = 4;
+				} else if (value.name == '现场签证') {
+					data[key].typeImg = 5;
+				} else if (value.name == '图纸变更') {
+					data[key].typeImg = 6;
+				}
+			});
+			$scope.typeList = data;
 
+		});
+	}
 	$scope.link = function(id){
+
 		$(".operation").show();
 		$('.table-list')[0].scrollTop=0;
 		$scope.coNoResult = false;
@@ -125,6 +126,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		if(queryData.groups.length > 0){
 				Cooperation.getCollaborationList(queryData).then(function (data) {
 				$scope.cooperationList = data;
+
 				// 无搜索条件则显示当前无协作
 				if(($scope.markCheck && $scope.priorityCheck && $scope.typeCheck) && $scope.cooperationList.length <= 0) {
 					$scope.coNoResult = true;
@@ -213,7 +215,9 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
     //点击显示列表每条协作的详情
     $scope.openDetail = function (item) {
+	//console.info(item)
       $scope.detailSignal = true;
+		$('.coo-detail').show();
       $('.overlay').css('top','0px');
        $('.overlay').css('height','calc(100vh - 65px)');
       $('.overlay').css('display','block');
@@ -221,6 +225,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     	  item.deadline = item.deadline.substr(0,10);
       }
       $scope.everyDetail = item;
+		detailDeptId = item.deptId;
+		detailPpid = item.ppid;
     }
 
     $scope.trans = function (typeId,typeName) {
@@ -533,7 +539,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			}
 			angular.forEach(queryTypeSelected, function(value,key){
 				var findIndex = _.findIndex($scope.coQueryType, value);
-				console.log(findIndex);
+				//console.log(findIndex);
 				typeIndex.push(findIndex);
 			});
 			// var typeDiffrence = _.difference(typeIndexDefault,typeIndex);
@@ -746,7 +752,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
         	case 1:
         		type = queryTypeSelected;
         		$scope.checkboxSelsectType[index] = {index:index, checkbox:checkbox};
-        		 console.log($scope.checkboxSelsectType[0]+'9090');
+        		 //console.log($scope.checkboxSelsectType[0]+'9090');
         		break;
         	case 2:
         		type = queryPriorityselected;
@@ -858,7 +864,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     			for(var i = 0;i<$scope.coPriority.length;i++){
     				var type = {name:$scope.coPriority[i].name,flag:false};
     				oldPriority[i] = type;
-    				console.log(oldPriority+'comeon');
+    				//console.log(oldPriority+'comeon');
     			}
     		}
     	}
@@ -1903,10 +1909,11 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
    
     //跳转详情传filter值
     $scope.transCoDetail = function(currentItem) {
-    	
     	addSessionValue();
-
-       	$state.go('coopdetail',{'coid':currentItem.coid},{ location:'replace' });
+		if( queryData.deptId=='' || queryData.deptId==null){
+			queryData.deptId = searId;
+		}
+       	$state.go('coopdetail',{'coid':currentItem.coid,'deptId':queryData.deptId,'ppid':queryData.ppid},{ location:'replace' });
     }
 
     /**
@@ -2026,7 +2033,69 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     $scope.$on('$viewContentLoaded', function(event){
     	$scope.flag.homeLoading = true;
     });
+	//删除协作
+		function deleteDetail(coid,isRead){
+				$('tr[coid="'+coid+'"]').remove();//删除元素
+				//window.location.reload();
+				var deptUpdataCount = $('.manage-menus span[id=deptbutton_'+detailDeptId+'] +i').text();//项目更新数
+				var noRelateCount =  $('#no-relate>i').text();
+				var ppidUpdataCount = $('span[id=projectbutton_'+detailPpid+'] >b').text();//工程更新数
+				if((deptUpdataCount.length>0 || ppidUpdataCount.length>0) && !isRead){//判断更新数石村存不存在
+					deptUpdataCount  = Number(deptUpdataCount .substr(1,deptUpdataCount .length-2));//截取项目更新数据的数量转换成数字类型进行加减运算
+					deptUpdataCount--;
+					$('.manage-menus span[id=deptbutton_'+detailDeptId+'] +i').text('('+deptUpdataCount+')');//将参与运算的更新数的新值复制给对象
+					ppidUpdataCount = Number(ppidUpdataCount .substr(1,ppidUpdataCount .length-2))
+					ppidUpdataCount--;
+					$('span[id=projectbutton_'+detailPpid+'] >b').text('('+ppidUpdataCount+')')//将参与运算的更新数的新值复制给对象
 
+					//if(ppidUpdataCount.length>0 && !isRead){
+					//	}
+
+					if(deptUpdataCount==0){
+						$('.manage-menus span[id=deptbutton_'+detailDeptId+'] +i').text('');//如果更新数的值为0内容填充为空
+					}
+					if(ppidUpdataCount==0){
+						$('span[id=projectbutton_'+detailPpid+'] >b').text('');
+					}
+				}else if(noRelateCount.length>0 && !isRead){
+					noRelateCount  = Number(noRelateCount .substr(1,noRelateCount .length-2));//截取项目更新数据的数量转换成数字类型进行加减运算
+					debugger;
+					console.info('noRelateCount',noRelateCount)
+					noRelateCount--;
+					$('#no-relate>i').text('('+noRelateCount+')');//将参与运算的更新数的新值复制给对象
+					if(noRelateCount==0){
+						$('#no-relate>i').text('');
+					}
+				}
+		}
+		$scope.deleteCoop = function(coid,isRead){
+
+			layer.confirm('确认要删除该协作吗？',{
+				btn:['确认','取消'],
+				move:false
+			},function(){
+				$('.coo-detail,.overlay').hide();
+				layer.closeAll();
+				Cooperation.removeCoopertion(coid).then(function(data){
+					deleteDetail(coid,isRead);
+				},function(error){
+					layer.alert(error.message, {
+						title:'提示',
+						closeBtn: 0,
+						move:false
+					}, function(){
+						layer.closeAll();
+						if(error.infoCode == '1005'){
+							//当前被删除的情况,走一遍删除
+							deleteDetail(coid,isRead);
+						}
+					});
+				});
+
+			});
+		}
+
+		
 
 }]);
 

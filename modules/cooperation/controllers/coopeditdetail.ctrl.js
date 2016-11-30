@@ -40,7 +40,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             $('#w-max-inner').css('display','none');
         }
         if(!$scope.device){
-            var  status = BimCo.GetWindowStatus();
+            //var  status = BimCo.GetWindowStatus();
             if(status){
                 $timeout(function(){
                     restrom()

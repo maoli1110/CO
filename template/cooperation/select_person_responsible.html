@@ -32,9 +32,9 @@
                     </a>
                     <ul class="sub-nav" uib-collapse="!isCollapsed">
                         <li ng-repeat="item in user.users" class="lili" ng-click="changeStaus($index, $parent.$index,item)" ng-class="{true:'grey',false:'default'}[item.add]">
-                            <label class="checkA">
+                            <label class="checkA substr" style="text-align:left;">
                                 <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
-                                <span>{{item.username}}</span>
+                                <span style="width:260px" ng-if="item.realname">{{item.realname}}({{item.username}})</span><span style="width:260px;" ng-if="!item.realname">{{item.username}}</span>
                                 <div class="user-chioce"></div>
                             </label>
                         </li>

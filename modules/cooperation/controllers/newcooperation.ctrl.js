@@ -48,6 +48,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		relateUser.avatar = data.avatarUrl;
 		relateUser.mustExist = true;
 		relateUser.canSign = true;
+		relateUser.realname = data.realname;
 		$scope.related.noSign[0]=relateUser;
 	})
 	

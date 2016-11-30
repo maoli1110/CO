@@ -185,7 +185,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}">
+						<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}" coid="{{item.coid}}">
 							<td class="problems-rect" ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
 								<span class="cop-edit" ng-show="item.isLock"></span>
 								<div class='problems-box' style="background:{{item.type.color}};">{{item.type.name}}</div>
@@ -256,6 +256,9 @@
 					 	<div class="coop-detial-right" ng-if="everyDetail.deadline == null">不期限</div>
 					 	<div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline | date:'yyyy-MM-dd'}}</div>
 					 </div>
+				</div>
+				<div class="coop-btns">
+					<button type="button" ng-click="deleteCoop(everyDetail.coid,everyDetail.isRead)">删除</button>
 				</div>
 			</div>
 			<!--data_count（统计页面）-->
