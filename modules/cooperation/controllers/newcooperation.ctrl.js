@@ -67,7 +67,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			$('#w-middle-inner').css('display','inline-block');
 			$('#w-max-inner').css('display','none');
 		}
-			var  status = BimCo.GetWindowStatus();
+			// var  status = BimCo.GetWindowStatus();
 			if(status){
 				$timeout(function(){
 					restrom()

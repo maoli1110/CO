@@ -113,7 +113,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
         clearInterval(ApplicationConfiguration.refreshID);
     })
 
-    var  status = BimCo.GetWindowStatus();
+    // var  status = BimCo.GetWindowStatus();
     if(status){
         $timeout(function(){
             restrom()

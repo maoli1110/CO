@@ -40,7 +40,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             $('#w-max-inner').css('display','none');
         }
         if(!$scope.device){
-            //var  status = BimCo.GetWindowStatus();
+            var  status = BimCo.GetWindowStatus();
             if(status){
                 $timeout(function(){
                     restrom()
@@ -432,7 +432,8 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     document.location = 'http://localhost:8080/bv/?param='+param;
                 } else {
                     layer.close(createindex);//关闭layer加载层
-                    document.location = 'co_detail.jsp?coid='+ coid;
+                    // document.location = 'co_detail.jsp?coid='+ coid;
+                    document.location= '#/coopdetail/?coid='+coid+'+&source='+'frombe';
                 }
                
             },function(data){
@@ -620,7 +621,10 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                     move: false
                 },function(){
                     layer.closeAll();
-                    $state.go('coopdetail',{'coid':coidFrombe})
+                    $state.go('coopdetail',{'coid':coidFrombe});
+                    //提交不成功签入协作，跳转回详情界面
+                    Cooperation.checkIn(coid).then(function(data) {
+                    });
                 });
             }
         }

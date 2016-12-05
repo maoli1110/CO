@@ -856,6 +856,9 @@ li {
     margin-left: -500px;
     margin-top: -350px;
 }
+.select-person-related .form-control:focus{
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(105,192,128,.6);
+}
 .right-content .table-list td .cop-add:hover{
     background: url(../imgs/icon/icon-add.png) no-repeat 0 0px;
 }
@@ -1706,6 +1709,9 @@ li {
 .select-person-related-modal .modal-body{
     height:593px !important;
 }
+.select-person-related-modal .form-control:focus{
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(105,192,128,1) !important;
+}
 .select-person-related-modal .modal-dialog{
     position: absolute;
     top: 50%;
@@ -2190,6 +2196,16 @@ textarea{
     left: 50%;
     margin-left: -230px;
     margin-top: -263px;
+}
+.select-person-responsible-modal .form-control:hover{
+    border-color: #65c17d;
+}
+
+.select-person-responsible-modal .form-control:focus{
+    border-color: #65c17d;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(105,192,128,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(105,192,128,.6);
 }
 .select-person-responsible-modal .select .choice-responsible option{
     width:100px;

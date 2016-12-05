@@ -1,6 +1,6 @@
 <style>
 	.content-container {
-	     height:calc(100vh - 110px);
+	     height:calc(100vh - 180px);
 	 }
 	.content-scroll-container {
 	    overflow:auto;
@@ -112,7 +112,6 @@
 											</label>
 										</div>
 									</div>
-									
 								</div>
 							</div>
 						</form>
@@ -130,7 +129,21 @@
 					</div>
 				</div>
 			</div>
-			
+			<div>
+			   	<table ng-if="!coNoResult" class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
+					<thead>
+						<tr style="background:#d2d7de;height:47px;">
+							<th>协作类型</th>
+							<th style="width:45%">主题</th>
+							<th style="min-width:20%">优先级</th>
+							<th>更新时间</th>
+							<th ng-show="!flag.isDraft" class="updata-person" >更新人</th>
+							<th ng-show="flag.isDraft">删除</th>
+							<th>详情</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
 			<div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
 				<div  ng-show="coNoResult">
 					<!--搜索无工程-->
@@ -172,8 +185,9 @@
 			            </dl>
 			        </div>
 			   </div>
+			   
 				<table ng-if="!coNoResult" class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
-					<thead>
+					<!-- <thead>
 						<tr style="background:#d2d7de;height:47px;">
 							<th>协作类型</th>
 							<th style="width:45%">主题</th>
@@ -183,7 +197,7 @@
 							<th ng-show="flag.isDraft">删除</th>
 							<th>详情</th>
 						</tr>
-					</thead>
+					</thead> -->
 					<tbody>
 						<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}" coid="{{item.coid}}">
 							<td class="problems-rect" ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >

@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="./css/main.css">
 
 		<!-- gulp 压缩 整合 -->
-		<!-- <link rel="stylesheet" href="./build/main.min.css"> -->
+		<!-- <link rel="stylesheet" href="./release/main.min.css"> -->
 
 		<!-- 动画css插件加载 -->
 		<link rel="stylesheet" href="./css/animate.min.css">
@@ -38,8 +38,6 @@
 		<script>
 		var basePath = "<%=basePath %>";
 		</script>
-
-		<!-- <base href="basePath"></base> -->
 
 		</head>
 		<body>
@@ -119,7 +117,7 @@
 		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
 
 		<!-- core manage cooperation js gulp 整合 -->
-		<!-- <script type="text/javascript" src="./build/all.min.js"></script> -->
+		<!-- <script type="text/javascript" src="./release/all.min.js"></script> --> 
 
 		<!--滚动条-->
 		<script src="js/jquery.mCustomScrollbar.js"></script>
@@ -141,29 +139,28 @@
 		<script>
 		//显示大图标
 		function Restore  (status) {
-
-
-		$('#w-middle').css('display','none');
-		$('#w-max').css('display','inline-block');
-		$('#w-middle2').css('display','none');
-		$('#w-max2').css('display','inline-block');
-		$('#w-middle-inner').css('display','none');
-		$('#w-max-inner').css('display','inline-block');
-
+			$('#w-max').addClass('maxStates');
+			if($('#w-max').hasClass('maxStates')){
+				$('#w-middle').css('display','none');
+				$('#w-max').css('display','inline-block');
+				$('#w-middle2').css('display','none');
+				$('#w-max2').css('display','inline-block');
+				$('#w-middle-inner').css('display','none');
+				$('#w-max-inner').css('display','inline-block');
+			}
 
 		}
 		//显示小图标
 		function Zoom  (status) {
-		$('#w-middle').css('display','inline-block');
-		$('#w-max').css('display','none');
-		$('#w-middle2').css('display','inline-block');
-		$('#w-max2').css('display','none');
-		$('#w-middle-inner').css('display','inline-block');
-		$('#w-max-inner').css('display','none');
-
+			$('#w-middle').css('display','inline-block');
+			$('#w-max').css('display','none');
+			$('#w-middle2').css('display','inline-block');
+			$('#w-max2').css('display','none');
+			$('#w-middle-inner').css('display','inline-block');
+			$('#w-max-inner').css('display','none');
+		    $('#w-max').removeClass('maxStates');
 		}
-	
-
+	    
 		</script>
 		</body>
 		</html>

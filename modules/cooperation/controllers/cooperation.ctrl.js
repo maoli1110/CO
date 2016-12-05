@@ -496,7 +496,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     
     var filterflag = true;
 	$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
-		
 		$('.table-list table tbody tr').click(function(){
 			$(this).find(".cop-edit").show();
 			$(this).siblings().find(".cop-edit").hide();
@@ -2069,7 +2068,38 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 				}
 		}
 		$scope.deleteCoop = function(coid,isRead){
+			var checkCoLocked = false;
+			$.ajax({
+				type: "POST",
+				url: basePath+'rs/co/checkCoLocked/'+coid,
+				async:false,
+				contentType:'text/HTML',
+				success: function(data,status,XMLHttpRequest){
+					if(data){
+						checkCoLocked = true;
+						layer.alert('当前协作已被“'+data+'”签出，请稍后重试！', {
+							title:'提示',
+							closeBtn: 0,
+							move:false
+						},function(index){
+							layer.close(index);
+						});
+					}
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					layer.alert(textStatus, {
+						title:'提示',
+						closeBtn: 0,
+						move:false
+					},function(index){
+						layer.close(index);
+					});
+				}
 
+			});
+			if(checkCoLocked){
+				return ;
+			}
 			layer.confirm('确认要删除该协作吗？',{
 				btn:['确认','取消'],
 				move:false
