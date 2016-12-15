@@ -496,6 +496,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     
     var filterflag = true;
 	$scope.$on('ngRepeatFinished',function(ngRepeatFinishedEvent){
+		
 		$('.table-list table tbody tr').click(function(){
 			$(this).find(".cop-edit").show();
 			$(this).siblings().find(".cop-edit").hide();

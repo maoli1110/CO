@@ -2839,11 +2839,11 @@ textarea{
 }
 
 .operation .left .search img {
-    position: absolute;
+
     width: 18px;
     height: 18px;
-    top: 17px;
-    right: 6px;
+    float:right;
+    margin-top:6px;
 
 }
 .operation .btn ,.operation .btn-default{
@@ -2872,18 +2872,19 @@ textarea{
     border:1px solid #65C17D;
 }
 .good_L .good_search001{
-    width:32px;
-    height:32px;
-    position:absolute;
-    top:10px;
-    bottom:1px;
-    right:0;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    bottom: 1px;
+    right: 2px;
+    background: #fff;
+    top: 11px;
 }
 .good_L .good_search001 img{
-    float:left;
-    width:14px;
-    height:14px;
-    margin:9px;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin: 7px;
 }
 .prolist_left{
 
