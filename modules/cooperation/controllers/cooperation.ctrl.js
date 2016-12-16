@@ -6,6 +6,8 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,$location,$timeout) {
     var urlParams = $location.search(); //截取url参数
     $scope.flag = {};
+    $scope.flag.coTypeFilter = true;
+    $scope.flag.coMarkFilter = true;
     $scope.flag.homeLoading = false;
     $scope.flag.isEmptyUrl = $.isEmptyObject(urlParams); //判断当前url参数否为空 false:有值 true：空
     var firstflag = true; //筛选全选只加载一次标识
@@ -18,7 +20,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 	var sourceflag = urlParams.source?urlParams.source:'';
 	$scope.scrollend = false;//停止滚动加载
     $scope.flag.filterOk = false;//默认false，点击筛选设置为true，拿到数据设置为false（目的在于禁止没拿到数据前调用addmore）
-	$scope.branchList = false;//子公司弹窗列表初始状态
 	$scope.searchkey = sessionStorage.searchkey?sessionStorage.searchkey:'';
     $scope.currentDate =  Cooperation.getCurrentDate();
     $scope.cooperationList = [];
@@ -96,6 +97,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
 		});
 	}
+
 	$scope.link = function(id){
 
 		$(".operation").show();
@@ -188,14 +190,6 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		});
 	}
 
-     //弹出筛选框
-    $scope.openfilter = function () {
-      $scope.isCollapsed = true;
-      $('.overlay1').css('display','block');
-      $('.overlay1').css('top','59px');
-      $('.overlay1').css('height','calc(100vh - 115px)');
-	  $('.operation-mask').css('display','block')
-    }
     //点击蒙层隐藏筛选匡
     $scope.clicklay = function () {
       $scope.isCollapsed = false;
@@ -501,35 +495,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 			$(this).find(".cop-edit").show();
 			$(this).siblings().find(".cop-edit").hide();
 		});
-		if(firstflag && filterflag && !sourceflag){
-  			$scope.typeCheck = true;
-	        $scope.priorityCheck = true;
-	    	$scope.markCheck = true;
-	    	$scope.allType();
-	      	$scope.allPriority();
-	      	$scope.allMark();
-		}
-		//协作筛选状态被改变时触发
-		// if(!$scope.typeCheck ||!$scope.priorityCheck||!$scope.markCheck){
-		// 	$('.cop-filter').addClass('filter-active');
-		// }else{
-		// 	$('.cop-filter').removeClass('filter-active');
-		// }
-		if(queryTypeSelected.length == $scope.coQueryType.length){
-			$scope.typeCheck = true;
-		}
-		if(queryPriorityselected.length == $scope.coPriority.length){
-			$scope.priorityCheck = true;
-		}
-		if(queryMarkSelected.length == $scope.coMark.length){
-			$scope.markCheck = true;
-		}
-		if($scope.markCheck && $scope.priorityCheck &&$scope.typeCheck){
-			isCheck();
-		}else{
-			isNotCheck();
-		}
-
+		
 		if(sourceflag === 'rember' && filterflag){
 			//根据session值返回
 			var typeIndex = [];
@@ -697,288 +663,47 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 		   layer.close(createindex);
    	  });   	  
    }
-    
-	// action值为add或remove
-    var updateSelected = function(action,id,type,index,signal){
-        var findIndex = _.findIndex(type, id);
-        var signalIs1 = signal == 1 ? true : false;
-        var signalIs2 = signal == 2 ? true : false;
-        var signalIs3 = signal == 3 ? true : false;
-        if(action == 'add' && findIndex == -1){
-            type.push(id);
-       	}
-         if(action == 'remove' && findIndex !=-1){
-            type.splice(findIndex,1);
-        }
-        if(action == 'add') {
-            if(signalIs1) {
-                $('.bg' + index).removeClass('bg' + index).addClass('bgs' + index);
-            }
-        }
-        if(action == 'remove'){
-            if(signalIs1) {
-                $('.bgs' + index).removeClass('bgs' + index).addClass('bg' + index);
-                $('#allTypeId').prop('checked',false);
-            }else if(signalIs2 ){
-            	$('#allPriorityId').prop('checked',false); 
-            }else if(signalIs3){
-            	$('#allMarkId').prop('checked',false);
-            }
-        }else{
-        	 if(signalIs1) {
-        		 if($scope.coQueryType.length == type.length){
-        			 $('#allTypeId').prop('checked',true);
-        			 $scope.typeCheck = true;
-        		 }
-             }else if(signalIs2 ){
-            	 if($scope.coPriority.length == type.length){
-            		 $('#allPriorityId').prop('checked',true); 
-            		 $scope.priorityCheck = true;
-            	 }
-             }else if(signalIs3){
-            	 if($scope.coMark.length == type.length){
-            		 $('#allMarkId').prop('checked',true); 
-            		 $scope.markCheck = true;
-            	 }
-             }
-        }
-     }
-    $scope.updateSelection = function($event,id,signal,index){
-    	var checkbox = $event.target;
-        var action = (checkbox.checked?'add':'remove');
-        var type;
-		var obj = {index:index, flag:checkbox.checked};
-        switch (signal) {
-        	case 1:
-        		type = queryTypeSelected;
-        		$scope.checkboxSelsectType[index] = {index:index, checkbox:checkbox};
-        		 //console.log($scope.checkboxSelsectType[0]+'9090');
-        		break;
-        	case 2:
-        		type = queryPriorityselected;
-        		$scope.checkboxPriority[index] = {index:index, checkbox:checkbox};
-        		break;
-        	case 3:
-        		type = queryMarkSelected;
-        		$scope.checkboxMark[index] = {index:index, checkbox:checkbox};
-        		break;
-        }
-        updateSelected(action,id,type,index,signal);
-        // 改变$scope.typeCheck  $scope.priorityCheck  $scope.markCheck的值如果在掉updateSelected方法之前
-        // queryTypeSelected  queryPriorityselected  queryMarkSelected的length还是旧值 起不到作用
-        switch (signal) {
-	    	case 1:
-	    		if(queryTypeSelected.length == $scope.coQueryType.length) {
-	    			$scope.typeCheck = true;
-	    		} else {
-	    			$scope.typeCheck = false;
-	    		}
-	    		break;
-	    	case 2:
-	    		if(queryPriorityselected.length == $scope.coPriority.length) {
-	    			$scope.priorityCheck = true;
-	    		} else {
-	    			$scope.priorityCheck = false;
-	    		}
-	    		break;
-	    	case 3:
-	    		if(queryMarkSelected.length == $scope.coMark.length) {
-	    			$scope.markCheck = true;
-	    		} else {
-	    			$scope.markCheck = false;
-	    		}
-	    		break;
-        }
 
-    }
-    
-    $scope.isSelected = function(id){
-        return queryTypeSelected.indexOf(id)>=0;
-    }
-    //选中
-	function isCheck(){
-		$(".icon-sub").attr("src",'imgs/icon/funnel.png');
-	}
-	//非选中
-	function isNotCheck(){
-		$(".icon-sub").attr("src",'imgs/icon/funnel-1.png');
-	}
-    //alltype全选
-	$scope.allType = function () {
-		$scope.checkboxSelsectType = new Array($scope.coQueryType.length);
-		if(firstflag && !sourceflag) {
-			oldSelsectType = new Array($scope.coQueryType.length);
+    $scope.updateSelection = function(item,signal){
+    	//1.根据signal确定隐藏的栏目2.根据item append template3.根据item组合group条件同时搜索
+    	console.log(item.name+'item');
+    	if(signal == 'coType') {
+    		$scope.flag.coTypeFilter = false;
+    	}
+    	if(signal == 'coMark') {
+    		$scope.flag.coMarkFilter = false;
+    	}
+    	var filterOptionsTemp = '<span key="'+item.key+'" type="'+signal+'">'+item.name+'</span>';
+		if($('.filterOptions').find('span').length){
+			$('.filterOptions span:last').after(filterOptionsTemp);
 		} else {
-			for(var i = 0; i<$scope.checkboxSelsectType.length;i++) {
-				$scope.checkboxSelsectType[i] = $('.checkbox_type_' + i );
+			$('.filterOptions').append(filterOptionsTemp);
+		}
+		//group组合的值
+		queryData.groups.push(item);
+		console.log(queryData.groups);
+
+    	$scope.getCooperation(assemblyGroups(queryData.groups));
+		$('.filterOptions span').bind("click", function(){
+			if($(this).attr('type') == 'coType'){
+				$scope.flag.coTypeFilter = true;
 			}
-		}
-		if($scope.typeCheck) {
-			$('.type-check').find('input').prop('checked',true);
-            queryTypeSelected = _.cloneDeep($scope.coQueryType);
-            for(var i=0;i<$scope.coQueryType.length;i++) {
-                $('.bg' + i).removeClass('bg' + i).addClass('bgs' + i);
-               if(firstflag && !sourceflag) {
-                	var type = {name:$scope.coQueryType[i].name,flag:true};
-					oldSelsectType[i] = type;
-				}
-            }
-		} else {
-            for(var i=0;i<$scope.coQueryType.length;i++) {
-                $('.bgs' + i).removeClass('bgs' + i).addClass('bg' + i);
-               if(firstflag && !sourceflag) {
-                	var type = {name:$scope.coQueryType[i].name,flag:false};
-					oldSelsectType[i] = type;
-				}
-            }
-			$('.type-check').find('input').prop('checked',false);
-			queryTypeSelected = [];
-		}
-	}
-
-	//allPriority全选-优先级
-    $scope.allPriority = function () {
-    	$scope.checkboxPriority = new Array($scope.coPriority.length);
-    	if(firstflag && !sourceflag) {
-    		oldPriority = new Array($scope.coPriority.length);
-		} else {
-			for(var i = 0; i<$scope.checkboxPriority.length;i++) {
-				$scope.checkboxPriority[i] = $('.checkbox_priority_' + i );
+			if($(this).attr('type') == 'coMark'){
+				$scope.flag.coTypeFilter = true;
 			}
-		}
-        $('.priority-check label').addClass('input-check');
-    	if($scope.priorityCheck) {
-    		$('.priority-check').find('input').prop('checked',true);
-    		queryPriorityselected = _.cloneDeep($scope.coPriority);
-    		if(firstflag && !sourceflag) {
-    			for(var i = 0;i<$scope.coPriority.length;i++){
-    				var type = {name:$scope.coPriority[i].name,flag:true};
-    				oldPriority[i] = type;
-    			}
-    		}
-
-    	} else {
-    		$('.priority-check').find('input').prop('checked',false);
-    		queryPriorityselected = [];
-    		if(firstflag && !sourceflag) {
-    			for(var i = 0;i<$scope.coPriority.length;i++){
-    				var type = {name:$scope.coPriority[i].name,flag:false};
-    				oldPriority[i] = type;
-    				//console.log(oldPriority+'comeon');
-    			}
-    		}
-    	}
+			//移除当前节点
+			$(this).remove();
+			angular.forEach(queryData.groups,function(value,key){
+				queryData.groups = _.remove(queryData.groups,function(n){
+					return n.key == $(this).attr('key');
+				});
+			})
+			$scope.getCooperation(assemblyGroups(queryData.groups));
+			console.log(queryData.groups.key+'queryData.groups');
+			$scope.$apply();
+		});
     }
 
-    //marking标识全选
-    $scope.allMark = function () {
-    	$scope.checkboxMark = new Array($scope.coMark.length);
-    	if(firstflag && !sourceflag) {
-    		oldMark = new Array($scope.coMark.length);
-		} else {
-			for(var i = 0; i<$scope.checkboxMark.length;i++) {
-				$scope.checkboxMark[i] = $('.checkbox_mark_' + i );
-			}
-		}
-    	if($scope.markCheck) {
-    		$('.mark-check').find('input').prop('checked',true);
-    		queryMarkSelected = _.cloneDeep($scope.coMark);
-    		if(firstflag && !sourceflag) {
-    			for(var i=0;i<$scope.coMark.length;i++){
-    				var type = {name:$scope.coMark[i].name,flag:true};
-    				oldMark[i] = type;
-    			}
-    		}
-    	} else {
-    		$('.mark-check').find('input').prop('checked',false);
-    		queryMarkSelected = [];
-    		if(firstflag && !sourceflag) {
-    			for(var i=0;i<$scope.coMark.length;i++){
-    				var type = {name:$scope.coMark[i].name,flag:false};
-    				oldMark[i] = type;
-    			}
-    		}
-    	}
-    }
-    //动态筛选-确定-按钮-搜索
-    $scope.filterOk = function () {
-    	$scope.flag.filterOk = true;
-        $scope.coNoResult = false;
-  	    $scope.deptNoCo = false;
-  	    $scope.projNoCo = false;
-  	    $scope.searchNoCo = false;
-  	    $scope.noRelatedNoCo = false;
-
-        $scope.scrollend = false;
-        queryData.modifyTime = '';
-        queryData.modifyTimeCount = 0;
-
-		$('.operation-mask').css('display','none');
-		
-        $scope.isCollapsed = false;
-        $('.overlay1').css('display','none');
-    	var groups = [];
-    	if(queryTypeSelected.length == 0) {
-    		for(var i=0;i<oldSelsectType.length;i++) {	// 确定时 新值覆盖旧值-协作类型
-    			oldSelsectType[i].flag = false;
-    		}
-    	} else {
-    		for(var i=0;i<oldSelsectType.length;i++) {	// 确定时 新值覆盖旧值-协作类型
-    			var oldName = oldSelsectType[i].name;
-    			for(var j=0;j<queryTypeSelected.length;j++) {
-    				var newName = queryTypeSelected[j].name;
-    				if(oldName == newName) {
-    					oldSelsectType[i].flag = true;
-    					break;
-    				} else {
-    					oldSelsectType[i].flag = false;
-    				}
-    			}
-    		}
-    	}
-    	if(queryPriorityselected.length == 0) {
-    		for(var i=0;i<oldPriority.length;i++) {	// 确定时 新值覆盖旧值-优先级
-    			oldPriority[i].flag = false;
-    		}
-    	} else {
-    		for(var i=0;i<oldPriority.length;i++) {	// 确定时 新值覆盖旧值-优先级
-    			var oldName = oldPriority[i].name;
-    			for(var j=0;j<queryPriorityselected.length;j++) {
-    				var newName = queryPriorityselected[j].name;
-    				if(oldName == newName) {
-    					oldPriority[i].flag = true;
-    					break;
-    				} else {
-    					oldPriority[i].flag = false;
-    				}
-    			}
-    		}
-    	}
-		
-    	if(queryMarkSelected.length == 0) {
-    		for(var i=0;i<oldMark.length;i++) {	// 确定时 新值覆盖旧值-标识
-    			oldMark[i].flag = false;
-    		}
-    	} else {
-    		for(var i=0;i<oldMark.length;i++) {	// 确定时 新值覆盖旧值-标识
-    			var oldName = oldMark[i].name;
-    			for(var j=0;j<queryMarkSelected.length;j++) {
-    				var newName = queryMarkSelected[j].name;
-    				if(oldName == newName) {
-    					oldMark[i].flag = true;
-    					break;
-    				} else {
-    					oldMark[i].flag = false;
-    				}
-    			}
-    		}
-    	}
-    	// 根据筛选 选中的条件组装需要向后台发送的数据
-    	groups = groups.concat(assemblyGroups(queryTypeSelected, queryPriorityselected, queryMarkSelected));
-    	queryData.groups = groups;
-    	$scope.getCooperation(groups);
-    }
-    
     /**
      * 根据传入的筛选条件组装条件
      * type: 协作类型
@@ -2125,6 +1850,7 @@ angular.module('cooperation').controller('coopreationCtrl', ['$scope', '$http', 
 
 			});
 		}
+
 
 		
 
