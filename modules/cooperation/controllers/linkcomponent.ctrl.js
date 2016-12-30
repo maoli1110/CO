@@ -22,7 +22,7 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 		var searchPpid=[];//最终合并ppid
 		var maxlevel=0;//最大层级
 		var dataList = {};
-		var ppid,projType,treeObj;
+		var ppid,projType,treeObj,productId;
 		var setting = {  
 			view:{
 				selectedMulti: false
@@ -95,7 +95,7 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			
 			var str0 = node.value.split("-")[0];
 			var str1 = node.value.split("-")[1];
-			var str2 = node.value.split("-")[2];
+			var str2 = node.value.split("-")[3];
 			initPpid.push(str2);
 			projTypeSearchPpid.push(str2);
 		    TextSearchPpid.push(str2);
@@ -118,8 +118,9 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			//点击工程
 			dataList.linkProjectSelected = treeNode;
 			dataList.assembleLps = treeNode;
-			ppid = dataList.assembleLps.value.split('-')[2];
+			ppid = dataList.assembleLps.value.split('-')[3];
 			projType = dataList.assembleLps.value.split('-')[0];
+			productId = dataList.assembleLps.value.split('-')[2];
 			console.log('treeNode',treeNode);
 			if(treeNode.isParent == true) {
 				// $('.confirm').attr('disabled', true);
@@ -173,7 +174,7 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			 var shownodes = treeObj.getNodesByFilter(filterchild);
 			 var TextSearchPpid=[];
 			 for(var i=0;i<shownodes.length;i++){
-			 	var str2 = shownodes[i].value.split("-")[2];
+			 	var str2 = shownodes[i].value.split("-")[3];
 			 	TextSearchPpid.push(str2);
 			 }
 			 return TextSearchPpid;
@@ -255,7 +256,7 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 		}
 
 		function filterbyppid(node) {
-		    return (node.type == 3 && searchPpid.indexOf(node.value.split("-")[2])>-1);
+		    return (node.type == 3 && searchPpid.indexOf(node.value.split("-")[3])>-1);
 		}
 
 		//全部功能筛选树结构
@@ -270,7 +271,6 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 			// 	console.log(data);
 			// 	return data
 			// });
-
 			$.ajax({
 				contentType: "application/json; charset=utf-8",
 				dataType : 'json',
@@ -342,8 +342,10 @@ angular.module('cooperation').controller('linkcomponentCtrl',['$scope', '$http',
 	 		// 	break;
 	 		// }
 	 		dataList.assembleLps =[{ppid:ppid, projType:projType}];
-	 		//通知pc端执行选择构件的方法
-	 		BimCo.SelectComponent(ppid);
+	 		dataList.productId = productId;
+	 		// alert(dataList.productId);
+	 		//通知pc端执行选择构件的方法(ppid coid productId)
+	 		BimCo.SelectComponent(ppid,'',productId);
 	 		//1.轮询2.获取状态
 	 		// 001 - 完成
 	 		// 002 - 取消选择

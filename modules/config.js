@@ -27,10 +27,7 @@ var ApplicationConfiguration = (function(){
 		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
 		registerModule: registerModule,
 		urls:urls,
-
 	};
-
-
 })();
 
 
@@ -215,7 +212,14 @@ var client = function(){
     };
 
 }();
-
+//判断pc or bv
+if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
+    var device = true;
+}
+//权限码全局配置文件
+var accessCodeConfig = {createCode:'30012001',updateCode:'30012002',deleteCode:'300120030',coManageCode:'30012004'};
+//从客户端获取权限码（正式代码不注释）
+var accessCode; 
 
 var jPlayerAndroidFix = (function($) {
     var fix = function(id, media, options) {

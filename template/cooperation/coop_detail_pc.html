@@ -7,7 +7,7 @@
         overflow:auto;
     }
 </style>
-<!-- 特殊的返回按钮 -->
+<!-- 特殊的返回按钮,当界面数据无法加载,或加载过慢时显示 -->
 <div class="detail-computer coop-detail inner">
     <header ng-show="!loadComplete">
         <div class="header-operation clearfix">
@@ -129,7 +129,7 @@
                                                     <div class="" style="margin-left:-3px;">
                                                         <dl ng-repeat="item in collaList.relevants" class="photoImg">
                                                             <dt><img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                                                            <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
+                                                            <dd class="substr" title="{{item.realname}}" style="width:55px;">{{item.realname}}</dd>
                                                             <dd  ng-class="{'margin-bottom20':isRevlentMore}" ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
                                                             <dd  ng-class="{'margin-bottom20':isRevlentMore}" ng-if="!item.isPassed && !item.isRejected && !item.isReaded " class="color-green">未读</dd>
                                                             <dd  ng-class="{'margin-bottom20':isRevlentMore}" ng-if="item.isPassed" class="color-blue">已通过</dd>
@@ -314,8 +314,6 @@
             <button type="button" class="btn btn-default foot-btn" ng-click="deleteCoop()">删除</button>
         </div>
     </div>
-
-</div>
 </div>
 <div ng-show="!loadComplete">
     <img src="./imgs/detail-loading.gif" alt="" style="position:fixed;left:50%;top:50%;margin-left:-120px;margin-top:-100px;">

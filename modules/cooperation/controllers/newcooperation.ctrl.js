@@ -8,6 +8,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     //默认值
     var popStateNum=0;
     var binds = [];//bind的工程
+    var productId = '';
 	$scope.typeName = $stateParams.typename;
 		//console.log($stateParams.typename,'$stateParams.typeid')
     $scope.isDoc = false; //是否是doc
@@ -40,7 +41,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
 
 	headerService.currentUserInfo().then(function(data){
-		$scope.responsiblePerson.username = data.userName;
+		$scope.responsiblePerson.username = data.realname;
 		$scope.responsiblePerson.avatar = data.avatarUrl;
 		$scope.createUser = $scope.responsiblePerson;
 		var relateUser = {};
@@ -59,20 +60,20 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		else
 			return this.slice(0,n).concat(this.slice(n+1,this.length));
 	};
-		function restrom(){
-			$('#w-middle').css('display','inline-block');
-			$('#w-max').css('display','none');
-			$('#w-middle2').css('display','inline-block');
-			$('#w-max2').css('display','none');
-			$('#w-middle-inner').css('display','inline-block');
-			$('#w-max-inner').css('display','none');
-		}
-			// var  status = BimCo.GetWindowStatus();
-			if(status){
-				$timeout(function(){
-					restrom()
-				},100)
-			}
+	function restrom(){
+		$('#w-middle').css('display','inline-block');
+		$('#w-max').css('display','none');
+		$('#w-middle2').css('display','inline-block');
+		$('#w-max2').css('display','none');
+		$('#w-middle-inner').css('display','inline-block');
+		$('#w-max-inner').css('display','none');
+	}
+	// var  status = BimCo.GetWindowStatus();
+	if(status){
+		$timeout(function(){
+			restrom()
+		},100)
+	}
 	if($scope.link.linkProjectName && currentppid){
 		$scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
 		$scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
@@ -129,7 +130,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					$scope.responsiblePerson = selectedItem;
 					return;
 				}
-				
 			}
 			
 			for(var i = 0;i < $scope.related.noSign.length;i++) {
@@ -295,6 +295,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 								$scope.linkComponent1 = true;
 								$scope.linkCategoty1 =false;
 							}
+							//获取productId
+							productId = dataList.productId;
 						});
 					}else if($scope.linkCategotyClick){
 						modalInstance = $uibModal.open({
@@ -1011,7 +1013,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					BimCo.UpLoadComponent(coid);
 				}
 				//创建成功一条协作，通知客户端
-				BimCo.CreateCoSucceed();
+				BimCo.CreateCoSucceed(productId);
 			},function(data) {
 				layer.close(createindex);
 				$scope.flag.beginCreate = false;

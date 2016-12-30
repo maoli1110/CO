@@ -339,13 +339,23 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var params = JSON.stringify(params);
         $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
             delay.resolve(data);
-            //console.info("统计页面",data)
         },function(err){
             delay.reject(err)
         })
         return delay.promise;
     }
-
+    //过滤掉不存在的类型
+    this.typeForCoStatistics = function(params){
+        var  delay = $q.defer();
+        var url_join = url+"rs/co/typeForCoStatistics";
+        var params = JSON.stringify(params);
+        $http.post(url_join,params,{transformRequest:angular.identity}).success(function(data){
+            delay.resolve(data);
+        }).error(function(error){
+            delay.reject(error);
+        })
+        return delay.promise;
+    }
     // 协作操作 PC/BV 签署／签名／通过／拒绝／结束 PC/BV
     this.doCollaboration = function(params){
         var delay = $q.defer();
@@ -625,24 +635,42 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             success: function(data){
                 delay.resolve(data);
             },
-            error:function(){
+            error:function(error){
                 delay.reject(error);
             }
 
         });
         return delay.promise;
     }
-//    删除协作
+    //删除协作
     this.removeCoopertion = function(coid){
         var delay = $q.defer();
         var join_url =url+'rs/co/remove/'+coid;
         var params = JSON.stringify(coid);
         $http.delete(join_url,params,{transformRequest: angular.identity}).success(function(data){
             delay.resolve(data)
-            console.info(data);
         }).error(function(error){
             delay.reject(error);
         })
+        return delay.promise;
+    }
+    
+    //批量删除协作
+    this.removeAll = function(params){
+        var params = JSON.stringify(params);
+        var delay = $q.defer();
+        $.ajax({
+            type: "DELETE",
+            url: basePath+'rs/co/removeAll',
+            data:params,
+            contentType:'application/json',
+            success: function(data){
+                delay.resolve(data);
+            },
+            error:function(error){
+                delay.reject(error);
+            }
+        });
         return delay.promise;
     }
 });
