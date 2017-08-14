@@ -64,7 +64,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	     //组合查询条件
 	     var queryData = {
 	     	ppid: '',
-	     	tagids:[],
+	     	pathIdList:[],
 	     	searchText:'',
 	     	pageInfo:{}
 	     };
@@ -104,7 +104,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
         var getDocList = function () {
 			//组合搜索条件
 			queryData.ppid = $scope.projectOption;
-			queryData.tagids = selectedItem;
+			queryData.pathIdList = selectedItem;
 			queryData.searchText = $scope.searchname;
 			queryData.pageInfo = {
 				currentPage:$scope.currentPage?$scope.currentPage:1,
@@ -141,7 +141,7 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 			nodes = treeObj.getCheckedNodes(true);
 			//type=2的节点
 			var unit = _.filter(nodes, function(o){
-				return o.type === 2
+				return o.type === 1
 			});
 //			console.log(unit)
 			var tempselectedItem = [];
@@ -215,6 +215,8 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 		};
 		//根据deptId取工程列表
 	 	$scope.switchDept = function (params) {
+	 		$scope.totalItems = 0;
+			$scope.docList = [];
 	 		deptId = params;
 			Cooperation.projectList(params).then(function (data) {
 				if(data[0] != undefined) {	// 项目部下有工程
@@ -273,6 +275,8 @@ angular.module('cooperation').controller('linkbeCtrl', ['$scope', '$http', '$uib
 	 		});
 	 	}
 	 	$scope.switchPpid = function (projectOption) {
+	 		$scope.totalItems = 0;
+	 		$scope.docList = [];
 			ppid = projectOption;
 			getDocTagList(ppid);
 		}

@@ -77,7 +77,7 @@
 					</div>
 					<div class="row coop-Levels">
 						<label class="col-xs-2 create-title">标识：</label>
-					  	<select class="selectpicker1 col-xs-6" ng-model="mark" ng-click="switchMark(mark)">
+					  	<select class="selectpicker1 col-xs-6" ng-model="mark">
 					  		<option value="{{item.markerId}}" 
 					  			data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
 					  					<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
@@ -157,7 +157,7 @@
 						<ul class="inline rela relative-ion">
 							<img ng-src="{{responsiblePerson.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="responsiblePerson.avatar"/>
 							<img ng-src="./imgs/icon/defalut.png" ng-if="responsiblePerson.avatar==null" alt=""/>
-							<li class="substr" title="{{responsiblePerson.username}}" style="width:55px;margin-top:14px;">{{responsiblePerson.username}}</li>
+							<li class="substr" title="{{responsiblePerson.realname}}" style="width:55px;margin-top:14px;">{{responsiblePerson.realname}}</li>
 						</ul>
 						<!--负责人-->
 						<div class="change"  ng-click="selectResponsible()">更改</div>
@@ -172,12 +172,12 @@
 							<div class="detail-sign" ng-if="item.needSign">
 								<img src="imgs/detail-icon-sign.png" alt="">
 							</div>
-							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:14px;">{{item.username}}</li>
+							<li class="substr" title="{{item.realname}}" style="width:55px;margin-top:14px;"><span ng-if="item.realname">{{item.realname}}</span><span ng-if="!item.realname">{{item.username}}</span></li>
 						</ul>
 						<ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
 							<img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
-							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:14px;">{{item.username}}</li>
+							<li class="substr" title="{{item.realname}}" style="width:55px;margin-top:14px;"><span ng-if="item.realname">{{item.realname}}</span><span ng-if="!item.realname">{{item.username}}</span></li>
 						</ul>
 					<button class="btn add-related" ng-click="selectRelated()"><span>+</span></button>
 				</div>

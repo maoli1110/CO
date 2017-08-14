@@ -1,329 +1,370 @@
 <style>
-	.content-container {
-	     height:calc(100vh - 180px);
-	 }
+	/*@media screen and  (min-width:1080px) and(max-width:1380px)  {*/
+		/*.content-container {*/
+			/*height:calc(100vh - 478px) !important;*/
+		/*}*/
+	/*}*/
+	/*@media screen and  (min-width:1381px) and(max-width:1920px)  {*/
+		/*.content-container {*/
+			/*height:calc(100vh - 440px) !important;;*/
+		/*}*/
+	/*}*/
+/*	.content-container {
+		height:calc(100vh - 440px);
+	}*/
+	.data_count {
+		height: calc(100vh - 62px);
+	}
 	.content-scroll-container {
-	    overflow:auto;
+		overflow:auto;
+	}
+	.noStatistics{
+		display: none;
 	}
 </style>
 <div ng-show="flag.homeLoading">
 	<header ng-include="'template/core/header.html'"></header>
-	<div class="content" id="dvCompute" style="font-size:14px;position:absolute;visibility:hidden;"></div>
-	<!--分公司遮罩弹层-->
-	<div ng-if="branchList" class="branch-list">
-		<div class="trent-branch" >
-			<!--标题-->
-			<div class="clearfix">
-				<h3 class="branch-title">选择分公司</h3>
-				<span class="close" ng-click="closeCompany()"></span>
-			</div>
-			<div  id="content-a15" style="height:367px;overflow:auto;background:#fff;" scroll-directive>
-				<ul ng-repeat="item in companyList track by $index">
-					<a><li class="substr" ng-click="changeCompany(item.orgId,item.orgName)" title="{{item.orgName}}">{{item.orgName}}</li></a>
-				</ul>
-			</div>
-		</div>
-		<div class="trent-branch-mask" ng-click="closeCompany()"></div>
-	</div>
-	<div class="main-container rela" >
-		<div class="sidebar absol" ng-include="'template/core/sidebar.html'"></div>
-
-		<div class="right-content rela" >
+	<div class="content" resize-left id="dvCompute" style="font-size:14px;position:absolute;visibility:hidden;"></div>
+	<div class="main-container rela">
+		<div class="sidebar" ng-include="'template/core/sidebar.html'" id="siderbar"></div>
+		<div class="right-content rela" id="contentView">
 			<!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
-			<div class="container-fluid rela">
-				<div class="operation clearfix">
-					<div class="left">
-						<button  type="button" class="btn btn-default cop-filter" ng-click="openfilter()"><span ><img class="icon-sub"
-								ng-src="imgs/icon/funnel.png" alt=""></span>筛选</button>
-						<select class="selectpicker cop-list" ng-change="changeAttr()" ng-model="coopattr" attr-select>
-							<option value="0">全部</option>
-						  	<option value="1">我负责的</option>
-						  	<option value="2">我签署的</option>
-						  	<option value="3">与我相关</option>
-						  	<option value="4">已结束</option>
-						</select>
-						<div class="rela search inline">
-							<input type="text" class="form-control coop-searchKey" id="exampleInputName1" style="height:34px;" ng-keyUp = "searchEnter($event)"placeholder="搜索主题" ng-model="searchkey">
-							<img ng-src="imgs/seache.png" alt="" ng-click="inputSearch()">
+			<div class="first-screen">
+				<div class="container-fluid rela">
+					<div class="operation clearfix">
+						<div class="left">
+							<div class="rela search inline">
+								<input type="text" class="form-control coop-searchKey" id="exampleInputName1" style="height:34px;" ng-keyUp = "searchEnter($event)" placeholder="搜索主题" ng-model="flag.searchkey">
+								<div class="search-bj"><img ng-src="imgs/seache.png" alt="" ng-click="inputSearch()"></div>
+							</div>
+							<div class="filter-btn rela" ng-click="isShowComboBox()">
+								<div class="cop-filter" style="width:74px" >筛选条件</div>
+								<span class="double-arrow absol" style="top:0;right:0">
+									<span class="direction-arrow"></span>
+									<span class="single-arrow"></span>
+
+								</span>
+							</div>
 						</div>
-						<!-- <button type="button" class="btn btn-default" ng-click="inputSearch()">搜索</button> -->
+						<div class="right">
+							<div  id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;" ng-disabled="!flag.isVisible">统计</div>
+							<button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>
+						</div>
+						<div class="operation-mask"></div>
 					</div>
-					<div class="right ">
-	                    <!--<button type="button" id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;">统计</button>-->
-	                    <div  id="comboBox_count" ng-click="comboxCount()" class="btn  btn_count" style="margin-right:12px;" ng-disabled="!flag.isVisible">统计</div>
-						<button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>
-	                </div>
-					<div class="operation-mask"></div>
 				</div>
-			</div>
-			<!--筛选框-->
-			<div class="comboBox clearfix rela" copy-radio>
-				<div class="row absol filter clearfix" ng-show="isCollapsed">
-					<div class="filter-table clearfix">
-						<form class="form-inline">
-							<div class="tabs">
-								<div class="checkbox combo-typeAll">
-									<label class="filter_title rela">
-										<input id="allTypeId" type="checkbox" class="comboBox_checkType" ng-click="allType()" ng-model="typeCheck">协作类型
-										<div class="absol check-funnel" style="margin-top: 4px;"></div>
-									</label>
-								</div>
-								<div class="first-list">
-									<div class="type-check rela inline check-sub " ng-repeat="item in coQueryType track by $index" profit>
-										<label class="rela bg{{$index}} bg-isCheck">
-											<input type="checkbox" class="absol checkbox_type_{{$index}}"  ng-click="updateSelection($event, item, 1, $index)" style="opacity:0;">
-										</label>
+				<!--筛选框-->
+				<div class="comboBox filter-box clearfix rela" copy-radio>
+					<div class="filter-tab" ng-show="flag.filterExist">
+						<div class="search clearfix">
+							<div class="filterOptions inline"><!-- <span style="border:1px solid #ccc;">问题整改 x</span> --><!--<button ng-if="flag.coTypeFilter || flag.coAffiliation || flag.coMarkFilter || flag.coStatus ||flag.coCreateTime" type="button" value="清空筛选" class="btn btn-default new-btnFail"></button>--></div><button  type="button" value="清空筛选" class="noFilter btn btn-default new-btnFail" ng-show="flag.filterExist" ng-click="clearAllFiltertemplate()">清空筛选</button>
+						</div>
+					</div>
+					<div class="row filter clearfix" ng-show="closeStause">
+						<div class="filter-table clearfix">
+							<form class="form-inline">
+								<!-- 协作类型 -->
+								<div class="tabs coType check-sub" ng-show="!flag.coTypeFilter">
+									<div class="inline ">
+										<label class="filter_title"><span>协作类型:</span></label>
 									</div>
-								</div>
-							</div>
-							<!--most(优先级)-->
-							<div class="tabs">
-								<div class="checkbox">
-									<label class="filter_title">
-										<input id="allPriorityId" type="checkbox" class="comboBox_checkType" ng-click="allPriority()" ng-model="priorityCheck">优先级
-										<div class="absol check-funnel"></div>
-									</label>
-								</div>
-								<div  class="marklist second-level" style="margin-left:138px;margin-top:-34px;">
-									<div class="priority-check   rela inline check-sub1 priority_{{$index}}" ng-repeat="item in coPriority track by $index" profit>
-										<label class="rela " style="background: none;margin-right:13px;">
-											<span>{{item.name}}</span>
-											<input type="checkbox" class="absol checkbox_priority_{{$index}}" ng-click="updateSelection($event, item, 2, $index)">
-											<div class="absol check-funnel bg-goodLevel">{{item.name}}</div>
-										</label>
-									</div>
-								</div>
-							</div>
-							<!--marking标识-->
-							<div class="marking" style="clear:both;margin-top:35px;">
-								<div class="tabs " style="margin-bottom:0;">
-									<div class="checkbox" style="float:left;margin-top:19px;">
-										<label class="filter_title">
-											<input id="allMarkId" type="checkbox"class="comboBox_checkType" ng-click="allMark()" ng-model="markCheck">标识
-											<div class="absol check-funnel"></div>
-										</label>
-									</div>
-									<div class="marklist" style="margin-top:-7px;">
-										<div class="mark-check rela inline check-sub1  mark_{{$index}}" ng-repeat="item in coMark track by $index" profit>
-											<label class="rela" style="z-index:1;" title="{{item.name}}">
-												<span class="width50">{{item.name}}</span>
-												<input type="checkbox" class="absol checkbox_mark_{{$index}}" ng-click="updateSelection($event, item, 3, $index)">
-												<div class="absol width50" >{{item.name}}</div>
+									<div class="inline check-sub">
+										<div class="rela inline" ng-repeat="item in coQueryType track by $index" pro-profit>
+											<label class="rela" title="{{item.name}}">
+												<!-- <input type="checkbox" class="absol checkbox_type_{{$index}}"   style="opacity:0;"> -->
+												<span ng-click="changeFilter(item,601)" title="{{item.name}}">{{item.name}}</span>
 											</label>
 										</div>
 									</div>
 								</div>
-							</div>
-						</form>
-					</div>
-				<div class="filter-button"><div class="btn btn-default btn-success btn-green" ng-click="filterOk()" style="margin-right:20px;">确定</div><div ng-click="filterCancel()" class="btn btn-default btn-cancel">取消</div></div>
-			</div>
-			</div>
-			<div class="overlay" style="display:none;top:59px;" ng-click="clicklay()"></div>
-			<div class="overlay1" style="display:none;top:59px;" ng-click="clicklay1()"></div>
-			<!--新建类型列表-->
-			<div class="addcoo absol overflow" ng-show="openSignal">
-				<div class="row">
-					<div class="col-md-6 new-type" ng-repeat="items in typeList">
-						<a class="typeImg_{{items.typeImg}}" ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_00{{items.typeImg}}.png') no-repeat"></a>
+								<!-- 协作归属 -->
+								<div class="tabs check-sub" ng-show="!flag.coAffiliation">
+									<div class="inline">
+										<label class="filter_title"><span>协作归属:</span></label>
+									</div>
+									<div class="inline">
+										<div class="rela inline" ng-repeat="item in coAffiliation track by $index" pro-profit>
+											<label class="rela" title="{{item.name}}">
+												<!-- <input type="checkbox" class="absol checkbox_type_{{$index}}"   style="opacity:0;"> -->
+												<span ng-click="changeFilter(item,606)">{{item.name}}</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!-- 标识 -->
+								<div class="tabs coMark check-sub" ng-show="!flag.coMarkFilter">
+									<div class="tabs clearfix">
+										<div class="inline pull-left">
+											<label class="filter_title"><span>标识:</span></label>
+										</div>
+										<div class="marklist">
+											<div class="rela inline" ng-repeat="item in coMark track by $index" pro-profit>
+												<label class="rela" title="{{item.name}}">
+													<span ng-click="changeFilter(item,603)">{{item.name}}</span>
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- 状态 -->
+								<div class="tabs coMark check-sub" ng-show="!flag.coStatus">
+									<div class="tabs clearfix">
+										<div class="inline pull-left">
+											<label class="filter_title"><span>状态:</span></label>
+										</div>
+										<div style="margin-left:93px;">
+											<div class="rela inline" ng-repeat="item in coStatus track by $index" profit pro-profit>
+												<label class="rela" title="{{item.name}}">
+													<span ng-click="changeFilter(item,605)">{{item.name}}</span>
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- 发起时间 -->
+								<div class="tabs check-sub" ng-show="!flag.coCreateTime">
+									<div class="tabs clearfix">
+										<div class="inline">
+											<label class="filter_title"><span>创建时间:</span></label>
+										</div>
+										<div class="inline">
+											<div class="rela inline" ng-repeat="item in coCreateTime track by $index" profit pro-profit>
+												<label class="rela" title="{{item.name}}">
+													<span ng-click="changeFilter(item,607)">{{item.name}}</span>
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div>
-			   	<table ng-if="!coNoResult" class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
-					<thead>
+				<div class="overlay" style="display:none;top:59px;" ng-click="clicklay()"></div>
+				<div class="overlay1" style="display:none;top:59px;" ng-click="clicklay1()"></div>
+				<!--新建类型列表-->
+				<div class="addcoo absol overflow" ng-show="openSignal">
+					<div class="row">
+						<div class="col-md-6 new-type" ng-repeat="items in typeList">
+							<a class="typeImg_{{items.typeImg}}" ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_00{{items.typeImg}}.png') no-repeat"></a>
+						</div>
+					</div>
+				</div>
+				<div class="table-list table-simulate">
+					<table class="table">
+						<thead>
 						<tr style="background:#d2d7de;height:47px;">
-							<th>协作类型</th>
-							<th style="width:45%">主题</th>
-							<th style="min-width:20%">优先级</th>
-							<th>更新时间</th>
-							<th ng-show="!flag.isDraft" class="updata-person" >更新人</th>
+							<th style="width:170px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;协作类型</th>
+							<th style="min-width:20%">主题</th>
+							<th style="width:10%">标识</th>
+							<th style="width:10%">当前状态</th>
+							<th style="width:18%">更新时间</th>
+							<th style="width:10%"ng-show="!flag.isDraft" class="updata-person" >更新人</th>
 							<th ng-show="flag.isDraft">删除</th>
-							<th>详情</th>
+							<th style="width:6%">详情</th>
 						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" >
-				<div  ng-show="coNoResult">
-					<!--搜索无工程-->
-			        <div class="noSearch" ng-show="deptNoCo">
-			            <dl class="noProject">
-			                <dt>
-			                    <img src="imgs/co-search.png" alt="">
-			                    <span></span>
-			                </dt>
-			                <dd>当前项目部无协作</dd>
-			            </dl>
-			        </div>
-			        <!--搜索无结果-->
-			        <div class="noSearch" ng-show="projNoCo">
-			            <dl class="noProject">
-			                <dt>
-			                    <img src="imgs/co-search.png" alt="">
-			                    <span></span>
-			                </dt>
-			                <dd>当前工程无协作</dd>
-			            </dl>
-			        </div>
-			        <div class="noSearch" ng-show="searchNoCo">
-			            <dl class="noProject">
-			                <dt>
-			                    <img src="imgs/co-search.png" alt="">
-			                    <span></span>
-			                </dt>
-			                <dd>当前无结果</dd>
-			            </dl>
-			        </div>
-			        <div class="noSearch" ng-show="noRelatedNoCo">
-			            <dl class="noProject">
-			                <dt>
-			                    <img src="imgs/co-search.png" alt="">
-			                    <span></span>
-			                </dt>
-			                <dd>当前无协作</dd>
-			            </dl>
-			        </div>
-			   </div>
-			   
-				<table ng-if="!coNoResult" class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend">
-					<!-- <thead>
-						<tr style="background:#d2d7de;height:47px;">
-							<th>协作类型</th>
-							<th style="width:45%">主题</th>
-							<th style="min-width:20%">优先级</th>
-							<th>更新时间</th>
-							<th ng-show="!flag.isDraft" class="updata-person" >更新人</th>
-							<th ng-show="flag.isDraft">删除</th>
-							<th>详情</th>
-						</tr>
-					</thead> -->
-					<tbody>
-						<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}" coid="{{item.coid}}">
-							<td class="problems-rect" ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
-								<span class="cop-edit" ng-show="item.isLock"></span>
-								<div class='problems-box' style="background:{{item.type.color}};">{{item.type.name}}</div>
+						</thead>
+					</table>
+				</div>
+				<div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true">
+					<!--<div  ng-show="coNoResult">-->
+						<!--&lt;!&ndash;搜索无工程&ndash;&gt;-->
+						<!--<div class="noSearch" ng-show="deptNoCo">-->
+							<!--<dl class="noProject">-->
+								<!--<dt>-->
+									<!--<img src="imgs/co-search.png" alt="">-->
+									<!--<span></span>-->
+								<!--</dt>-->
+								<!--<dd>当前项目部无协作</dd>-->
+							<!--</dl>-->
+						<!--</div>-->
+						<!--&lt;!&ndash;搜索无结果&ndash;&gt;-->
+						<!--<div class="noSearch" ng-show="projNoCo">-->
+							<!--<dl class="noProject">-->
+								<!--<dt>-->
+									<!--<img src="imgs/co-search.png" alt="">-->
+									<!--<span></span>-->
+								<!--</dt>-->
+								<!--<dd>当前工程无协作</dd>-->
+							<!--</dl>-->
+						<!--</div>-->
+						<!--<div class="noSearch" ng-show="searchNoCo">-->
+							<!--<dl class="noProject">-->
+								<!--<dt>-->
+									<!--<img src="imgs/co-search.png" alt="">-->
+									<!--<span></span>-->
+								<!--</dt>-->
+								<!--<dd>当前无结果</dd>-->
+							<!--</dl>-->
+						<!--</div>-->
+						<!--<div class="noSearch" ng-show="noRelatedNoCo">-->
+							<!--<dl class="noProject">-->
+								<!--<dt>-->
+									<!--<img src="imgs/co-search.png" alt="">-->
+									<!--<span></span>-->
+								<!--</dt>-->
+								<!--<dd>当前无协作</dd>-->
+							<!--</dl>-->
+						<!--</div>-->
+					<!--</div>-->
+					<table ng-if="!coNoResult" class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-
+						   distance="0" infinite-scroll-disabled="scrollend">
+						<div  ng-show="coNoResult">
+							<!--搜索无工程-->
+							<!-- <div class="noSearch" ng-show="deptNoCo">
+								<dl class="noProject">
+									<dt>
+										<img src="imgs/co-search.png" alt="">
+										<span></span>
+									</dt>
+									<dd>当前项目部无协作</dd>
+								</dl>
+							</div> -->
+							<!--搜索无结果-->
+							<div class="noSearch" ng-show="projNoCo">
+								<dl class="noProject">
+									<dt>
+										<img src="imgs/co-search.png" alt="">
+										<span></span>
+									</dt>
+									<dd>当前工程无协作</dd>
+								</dl>
+							</div>
+							<div class="noSearch" ng-show="searchNoCo">
+								<dl class="noProject">
+									<dt>
+										<img src="imgs/co-search.png" alt="">
+										<span></span>
+									</dt>
+									<dd>当前无结果</dd>
+								</dl>
+							</div>
+							<div class="noSearch" ng-show="noRelatedNoCo">
+								<dl class="noProject">
+									<dt>
+										<img src="imgs/co-search.png" alt="">
+										<span></span>
+									</dt>
+									<dd>当前无协作</dd>
+								</dl>
+							</div>
+						</div>
+						<tbody>
+						<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" colist-repeat-finished ng-class="{'bold':!item.isRead,'bg-lock':item.isLock}"
+							coid="{{item.coid}}">
+							<td class="problems-rect" style="border:none;position:relative;width:170px;position:relative;text-align:left;word-wrap:break-word;  ">
+
+								<label class="rela multi-choice" >
+									<input type="checkbox" class="remove-signal" ng-click="updateSelection($event, item)" >
+									<div class="absol check-funnel" style="margin-top: 4px;"></div>
+								</label>
+								<!--<span class="cop-edit" ng-show="item.isLock"></span>-->
+								<span class="cop-edit" ng-class ="{true: 'isShow', false: 'isHide'}[item.isLock]"></span>
+								<div class='problems-box' style="background:{{item.type.color}};" ng-click="transCoDetail(item)">{{item.type.name}}</div>
 							</td>
-							<td ng-click="transCoDetail(item)" style=" max-width:57%;border:none;text-align:left;">{{item.name}}</td>
-							<td ng-click="transCoDetail(item)" style="border:none;">{{item.priority}}</td>
-							<td ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-							<td ng-show="!flag.isDraft" class="edit-click" title="{{item.updater}}" style="text-align:left;max-width: 47px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.updater}}</td>
+							<td ng-click="transCoDetail(item)"  style="max-width:20% !important;border:none;text-align:left;margin-right:10px;word-break:break-all;">{{item.name}}</td>
+							<td ng-click="transCoDetail(item)" class="substr" style="border:none;width:10%;"><b class="colorBox" style="background:{{item.markerColor}}"></b><span class="substr" title={{item.markerName}} style="width:37px;vertical-align:middle;display:inline-block;">{{item.markerName}}</span></td>
+							<td style="width:10%" ng-click="transCoDetail(item)">{{item.status}}</td>
+							<td style="width:18%" ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							<td style="width:10%" ng-show="!flag.isDraft" class="edit-click" title="{{item.updater}}" style="text-align:left;overflow: hidden;white-space: nowrap;text-overflow:
+ellipsis;">{{item.updater}}</td>
 							<td ng-show="flag.isDraft" class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
-							<td ng-click="openDetail(item)">
+							<td ng-click="openDetail(item)" style="width:6%">
 								<!--<img ng-src="imgs/icon/detail.png" alt="">-->
 								<span class="cop-add"></span>
 							</td>
 						</tr>
-					</tbody>
-				</table>
-				<!-- <table class="table" class="info_list" id ="table1scroll"  infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" ng-show="flag.isDraft">
-	 				<thead>
-	 				<tr style="background:#d2d7de;height:47px;">
-	 					<th>协做类型</th>
-	 					<th>主题</th>
-	 					<th>优先级</th>
-	 					<th>最后更新时间</th>
-	 					<th>删除</th>
-	 					<th>详情</th>
-	 				</tr>
-	 				</thead>
-	 				<tbody infinite-scroll="addMoreData()"  infinite-scroll-immediate-check="false"  infinite-scroll-distance="0" infinite-scroll-disabled="false">
-	 				<tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" profit ng-class="{'bold':!item.isRead}">
-	 					<td ng-click="transCoDetail(item)" width="15%" style="border:none;position:relative;" >
-	 						<span class="cop-edit" ng-show="item.isLock"></span>
-	 						<div style="background:{{item.type.color}}">{{item.type.name}}</div>
-	 					</td>
-	 					<td ng-click="transCoDetail(item)" style="border:none;text-align:left;">{{item.name}}</td>
-	 					<td ng-click="transCoDetail(item)" style="border:none;">{{item.priority}}</td>
-	 					<td ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-	 					<td class="td-del" ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
-	 					<td ng-click="openDetail(item)" >
-	 						<span class="cop-add"></span>
-	 					</td>
-	 				</tr>
-	 				</tbody>
-	 			</table> -->
-			</div>
-			<div class="coo-detail absol" ng-show="detailSignal">
-				<div class="title">协作详情</div>
-				<div class="row list">
-					 <div class="col-xs-6 them-title" style="padding-left:0">
-					 	<div ><span>类型：</span></div>
-					 	<div><span>主题：</span></div>
-					 	<div><span>负责人：</span></div>
-					 	<div ><span>标识：</span></div>
-					 	<div ><span>创建时间：</span></div>
-					 	<div><span>更新时间：</span></div>
-					 	<div ><span>更新人：</span></div>
-					 	<div ><span>当前状态：</span></div>
-					 	<div ><span>期限：</span></div>
-					 </div>
-					 <div class="col-xs-6" style="padding: 0;">
-					 	<div class="coop-detial-right">{{everyDetail.type.name}}</div>
-					 	<div class="substr deta-main coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.name}}" >{{everyDetail.name}}</div>
-					 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.collaborator}}">{{everyDetail.collaborator}}</div>
-					 	<div class="coop-detial-right substr" style="max-width:100px;text-align:left;" title="{{everyDetail.markerName}}"><span class="mark" style="background:{{everyDetail.markerColor}}"></span>{{everyDetail.markerName}}</div>
-					 	<div class="coop-detial-right">{{everyDetail.createTime}}</div>
-					 	<div class="coop-detial-right">{{everyDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-					 	<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.updater}}">{{everyDetail.updater}}</div>
-					 	<div class="coop-detial-right">{{everyDetail.status}}</div>
-					 	<div class="coop-detial-right" ng-if="everyDetail.deadline == null">不期限</div>
-					 	<div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline | date:'yyyy-MM-dd'}}</div>
-					 </div>
+						</tbody>
+					</table>
+
 				</div>
-				<div class="coop-btns">
-					<button type="button" ng-click="deleteCoop(everyDetail.coid,everyDetail.isRead)">删除</button>
+				<div class="cooper-remove clearfix" ng-show="flag.isVisible">
+					<div style="width:170px;text-align:center;display:inline-block;float:left;margin-top:7px;">
+						<label class="rela checkStatus" >
+							<input type="checkbox" class="remove-signal absol" ng-click="allSelect()" ng-model="allSelected">
+							<div class=" check-funnel" style="margin-top: 4px;"></div>
+						</label>
+						<button style="margin-left:10px;width:70px;float:right;margin-right:20px;" ng-click="removeAll()" class="btn btn-default new-btnFail">删除</button>
+					</div>
+							<span style="margin-top:5px;margin-right:10px;" class="total inline pull-right">本次共搜索到<span ng-if="coItemsTotals">{{coItemsTotals}}</span><span ng-if="!coItemsTotals">0</span>条协作</span>
+				</div>
+				<div class="coo-detail absol" ng-show="detailSignal">
+					<div class="title">协作详情</div>
+					<div class="row list">
+						<div class="col-xs-6 them-title" style="padding-left:0">
+							<div ><span>类型：</span></div>
+							<div><span>主题：</span></div>
+							<div><span>负责人：</span></div>
+							<div ><span>标识：</span></div>
+							<div ><span>创建时间：</span></div>
+							<div><span>更新时间：</span></div>
+							<div ><span>更新人：</span></div>
+							<div ><span>创建人：</span></div>
+							<div ><span>当前状态：</span></div>
+							<div ><span>期限：</span></div>
+						</div>
+						<div class="col-xs-6" style="padding: 0;">
+							<div class="coop-detial-right">{{everyDetail.type.name}}</div>
+							<div class="substr deta-main coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.name}}" >{{everyDetail.name}}</div>
+							<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.collaborator}}">{{everyDetail.collaborator}}</div>
+							<div class="coop-detial-right substr" style="max-width:100px;text-align:left;" title="{{everyDetail.markerName}}"><span class="mark" style="background:
+{{everyDetail.markerColor}}"></span>{{everyDetail.markerName}}</div>
+							<div class="coop-detial-right">{{everyDetail.createTime}}</div>
+							<div class="coop-detial-right">{{everyDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+							<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.updater}}">{{everyDetail.updater}}</div>
+							<div class="coop-detial-right substr" style="width:62px;text-align:left;" title="{{everyDetail.creator}}">{{everyDetail.creator}}</div>
+							<div class="coop-detial-right">{{everyDetail.status}}</div>
+							<div class="coop-detial-right" ng-if="everyDetail.deadline == null">不期限</div>
+							<div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline | date:'yyyy-MM-dd'}}</div>
+						</div>
+					</div>
+					<div class="coop-btns">
+						<button type="button" ng-click="deleteCoop(everyDetail)">删除</button>
+					</div>
 				</div>
 			</div>
+
 			<!--data_count（统计页面）-->
-			<div class="data_count" scroll-directive >
+			<div class="data_count" scroll-directive>
 				<div class="data_Totle">
-					<div class="pull-left detail-return data_back" style="line-height:49px;" ng-click="backCooperation()">
+					<div class="pull-left detail-return data_back" style="line-height:47px;">
 						<span class="detail-gt" style="margin-left:24px;display:inline-block;top:19px"></span>
 						<a  style="text-decoration: none;margin-left:18px;">返回</a>
 					</div>
 					<!--<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>-->
 					<!--<button type="butt	on" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>-->
 					<h4>统计结果</h4>
-
+				</div>
+				<div  class="noSearch">
+					<div>
+						<dl class="noProject noStatistics" style="left: 50%; top: 50%; margin-left: -110px; margin-top: -135px;">
+							<dt>
+								<img src="imgs/noReject.png" alt="">
+								<span></span>
+							</dt>
+							<dd>当前统计无结果</dd>
+						</dl>
+					</div>
 				</div>
 				<!--data_list-->
 				<div class="data_list clearfix row" copy-radio style="padding:0" >
 					<!--data_every-->
-
-						<div class="data_every col-lg-6 first" style="padding:0" >
+					<div class="statistics-menus col-xs-2">
+						<ul id="count-menus">
+						</ul>
+					</div>
+					<div class="echart-shape col-xs-10">
+						<div class="data_every col-lg-6 second"  style="padding:0;margin-top:8px;"  >
 							<div class="count-echart">
-								<div id="data_graph" class="data_graph" style="height:465px;width:98%"></div>
-								<!-- <div class=" data_titleInfo first">
-									<h4>优先级</h4>
-									<ul>
-										<li ng-repeat="mostState in arrString track by $index">
-											<span class="data_raduis"></span>
-											<p class="substr" style="text-align: left;" title="{{mostState.name}}">{{mostState.name}}</p>
-										</li>
-									</ul>
-								</div> -->
+								<div id="data_graph4" class="data_graph" style="height:300px;width:98%;"></div>
 							</div>
-							<span></span>
 						</div>
-					<div class="data_every col-lg-6 second"  style="padding:0"  >
-						<div class="count-echart">
-							<div id="data_graph4" class="data_graph" style="height:465px;width:98%;"></div>
+						<div class="data_every col-lg-6 forth" style="padding:0;margin-top:8px;"  >
+							<div class="count-echart">
+								<div id="data_graph3" class="data_graph" style="height:300px;width:98%;"></div>
+							</div>
 						</div>
 					</div>
-					<!--<div class="long-line" ></div>-->
-						<div class="data_every col-lg-6 third"  style="padding:0" >
-							<div class="count-echart">
-								<div id="data_graph2" class="data_graph"  style="height:465px;width:98%"></div>
-							</div>
-						</div>
-						<!--transverse-line(统计中的田字格)-->
-						<!--<div class="clearfix transverse-line" ></div>-->
-						<div class="data_every col-lg-6 forth" style="padding:0"  >
-							<div class="count-echart">
-								<div id="data_graph3" class="data_graph" style="height:465px;width:98%;"></div>
-							</div>
-						</div>
 				</div>
 			</div>
 		</div>
@@ -345,14 +386,21 @@
 		if(ppid <= 0){
 			$('#deptId_formbe').val("");
 		}
-	    $('#ppid_formbe').val(ppid);
-	    $('#deptId_formbe').click();
+		$('#ppid_formbe').val(ppid);
+		$('#deptId_formbe').click();
 		$('.new_cooper').click();
 	}
 	//跳转协作详情
 	function transCoDetail (coid) {
 		document.location= '#/coopdetail/?coid='+coid+'+&source='+'frombe';
 	}
+	// $(function(){
+	// 	window.onresize = function(){
+	// 		setTimeout(function(){
+	// 			alert('coopreationhtml')
+	// 			$('.content-container').height($(window).height()-$('.comboBox').height()-160);
+	// 			// $('.table-list .noSearch').height($(window).height()-($('.filter-table').height()+250));
+	// 		},50)
+	// 	}
+	// })
 </script>
-
-

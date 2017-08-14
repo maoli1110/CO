@@ -12,11 +12,14 @@
         overflow-x:hidden;
 	}
     .box img{max-width:100px;height:auto;width:expression(this.width>100?"100px":this.width);}
+    .trends .noSearch{
+        height:calc(100vh - 124px);
+    }
 </style>
 <header ng-include="'template/core/header.html'" ng-show="!flag.isPreview"></header>
-<div class="main-container rela" scroll-directive ng-show="!flag.isPreview">
-    <div class="sidebar absol "  ng-include="'template/core/sidebar-trends.html'"  ></div>
-    <div class="right-content" >
+<div class="main-container" scroll-directive  resize-left ng-show="!flag.isPreview">
+    <div class="sidebar"  id="siderbarTrent"  ng-include="'template/core/sidebar-trends.html'" ></div>
+    <div class="right-content" id="rightViewTrent">
         <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
         <div class="container-fluid rela">
             <div class="operation clearfix goodlist_left">

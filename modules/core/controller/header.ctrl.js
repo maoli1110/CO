@@ -58,10 +58,19 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
 		compName:""
 	};
     headerService.currentUserInfo().then(function(data){
-        $scope.currentUser.img = data.avatarUrl;
-    	$scope.currentUser.name = data.userName;
-    	$scope.currentUser.job = data.roleName;
-    	$scope.currentUser.compName = data.enterpriseName;
+    	 $scope.currentUser.img = data.avatarUrl;
+         if(data.realname){
+             $scope.currentUser.name = data.realname;
+         } else {
+             $scope.currentUser.name = data.userName;
+         }
+         $scope.currentUser.job = data.roleName;
+         $scope.currentUser.compName = data.enterpriseName;
+         //获取用户信息再去获取权限码
+         accessCode = BimCo.GetAuthCode()?BimCo.GetAuthCode():'';
+         //给客户端推送当前用户姓名
+         BimCo.GetCurrentUserInfo($scope.currentUser.name);
+         // alert(accessCode+'accessCode');
     });
     function restrom(){
         $('#w-middle').css('display','inline-block');
@@ -113,7 +122,7 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
         clearInterval(ApplicationConfiguration.refreshID);
     })
 
-    // var  status = BimCo.GetWindowStatus();
+    var  status = BimCo.GetWindowStatus();
     if(status){
         $timeout(function(){
             restrom()

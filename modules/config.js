@@ -1,5 +1,5 @@
 'use strict';
-
+//增强版模块模式
 var ApplicationConfiguration = (function(){
 	// 应用程序名和依赖
     var refreshId; 
@@ -26,13 +26,36 @@ var ApplicationConfiguration = (function(){
 		applicationModuleName: applicationModuleName,
 		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
 		registerModule: registerModule,
-		urls:urls,
-
+		urls:urls
 	};
-
-
 })();
 
+//增强版模块模式(正式发版注释掉)
+// var BimCo = (function(){
+//     var GetAuthCode = function(){
+//         return '';
+//     }
+//     var GetWindowStatus = function(){
+//         return '';
+//     }
+//     var SubmitAll = function(){
+//          return '';
+//     }
+//     var PdfSign = function(){
+//         return true;
+//     }
+//     var IsModify = function(){
+//         return true;
+//     }
+//     return {
+//         GetAuthCode:GetAuthCode,
+//         GetWindowStatus:GetWindowStatus,
+//         SubmitAll:SubmitAll,
+//         PdfSign:PdfSign,
+//         IsModify:IsModify
+//     };
+
+// })();
 
 var client = function(){
 
@@ -215,7 +238,14 @@ var client = function(){
     };
 
 }();
-
+//判断pc or bv
+if(client.system.winMobile||client.system.wii||client.system.ps||client.system.android || client.system.ios||client.system.iphone||client.system.ipod||client.system.ipad||client.system.nokiaN) {
+    var device = true;
+}
+//权限码全局配置文件
+var accessCodeConfig = {createCode:'33012001',updateCode:'33012002',deleteCode:'330120030',coManageCode:'33012004'};
+//从客户端获取权限码（正式代码不注释）
+var accessCode; 
 
 var jPlayerAndroidFix = (function($) {
     var fix = function(id, media, options) {

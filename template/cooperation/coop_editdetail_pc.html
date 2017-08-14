@@ -101,7 +101,7 @@
                                                         <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt="">
                                                         <!-- <span class="absol glyphicon glyphicon-pencil" style="right:5px;top:28px;color:#1298DD"></span> -->
                                                     </dt>
-                                                    <dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>
+                                                    <dd class="substr" title="{{item.realname}}" style="width:55px;">{{item.realname}}</dd>
                                                     <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
                                                     <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded"  class="color-green">未读</dd>
                                                     <dd ng-if="item.isPassed" class="color-blue">已通过</dd>

@@ -2,14 +2,15 @@
 /**
  * 新建协作
  */
-
 angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Common','Manage','$sce','alertService','headerService','$timeout',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Common,Manage,$sce,alertService,headerService,$timeout) {
     //默认值
+    var modalInstance;
     var popStateNum=0;
     var binds = [];//bind的工程
+    var productId = $stateParams.productId?$stateParams.productId:'';
 	$scope.typeName = $stateParams.typename;
-		//console.log($stateParams.typename,'$stateParams.typeid')
+	//console.log($stateParams.typename,'$stateParams.typeid')
     $scope.isDoc = false; //是否是doc
     $scope.priority = '1'; //优先级
     $scope.flag = {};
@@ -30,6 +31,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	$scope.data.bindType = 0; //默认没有选中工程
 	$scope.link.linkProjectName ='';
 	$scope.link.linkProjectDeptName='';
+
     if($stateParams.deptId && $stateParams.deptId!=-1&&$stateParams.deptId!=0){
     	var currentdeptId = $stateParams.deptId?$stateParams.deptId:'';
     	var currentppid  = $stateParams.ppid?$stateParams.ppid:'';
@@ -40,7 +42,13 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     }
 
 	headerService.currentUserInfo().then(function(data){
-		$scope.responsiblePerson.username = data.userName;
+		if(data.realname){
+			$scope.responsiblePerson.username = data.userName;
+			$scope.responsiblePerson.realname = data.realname;
+		} else {
+			$scope.responsiblePerson.username = data.userName;
+			$scope.responsiblePerson.realname = data.userName;
+		}
 		$scope.responsiblePerson.avatar = data.avatarUrl;
 		$scope.createUser = $scope.responsiblePerson;
 		var relateUser = {};
@@ -52,38 +60,37 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		$scope.related.noSign[0]=relateUser;
 	})
 	
-	
 	Array.prototype.del=function(n) {
 		if(n<0)
 			return this;
 		else
 			return this.slice(0,n).concat(this.slice(n+1,this.length));
 	};
-		function restrom(){
-			$('#w-middle').css('display','inline-block');
-			$('#w-max').css('display','none');
-			$('#w-middle2').css('display','inline-block');
-			$('#w-max2').css('display','none');
-			$('#w-middle-inner').css('display','inline-block');
-			$('#w-max-inner').css('display','none');
-		}
-			// var  status = BimCo.GetWindowStatus();
-			if(status){
-				$timeout(function(){
-					restrom()
-				},100)
-			}
+
+	function restrom(){
+		$('#w-middle').css('display','inline-block');
+		$('#w-max').css('display','none');
+		$('#w-middle2').css('display','inline-block');
+		$('#w-max2').css('display','none');
+		$('#w-middle-inner').css('display','inline-block');
+		$('#w-max-inner').css('display','none');
+	}
+	var  status = BimCo.GetWindowStatus();
+	if(status){
+		$timeout(function(){
+			restrom()
+		},100)
+	}
 	if($scope.link.linkProjectName && currentppid){
 		$scope.data.deptId = $stateParams.deptId?$stateParams.deptId:'';
 		$scope.data.ppid = $stateParams.ppid?$stateParams.ppid:'';
 		$scope.data.bindType = 1;
 		binds[0] = {ppid:currentppid,projType:currentdeptId};
 	}
-	var modalInstance;
+
     //选择负责人
     $scope.selectResponsible = function () {
-    	//alert('111');
-    		modalInstance = $uibModal.open({
+    	modalInstance = $uibModal.open({
 			windowClass: 'select-person-responsible-modal',
     		backdrop : 'static',
 			animation:false,
@@ -129,7 +136,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					$scope.responsiblePerson = selectedItem;
 					return;
 				}
-				
 			}
 			
 			for(var i = 0;i < $scope.related.noSign.length;i++) {
@@ -173,7 +179,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	var num;
     var contracts = [];
     $scope.selectRelated = function () {
-    		modalInstance = $uibModal.open({
+    	modalInstance = $uibModal.open({
 			windowClass: 'select-person-related-modal',
     		backdrop : 'static',
 			animation:false,
@@ -233,108 +239,22 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
          }
     });
 
-    $scope.switchMark = function() {
-    	console.log($scope.mark);
-    }
-
     //与工程关联
-  
     var deptId;
-		function isDelete(num){
-			if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1||$scope.link.linkProjectName){
-				layer.confirm('您已关联的模型,是否重新关联？', {
-					btn: ['是','否'], //按钮
-					move:false
-				}, function(){
-					layer.closeAll();
-					if($scope.linkProjectClick ){
-						modalInstance = $uibModal.open({
-							windowClass: 'link-project-modal',
-							backdrop : 'static',
-							animation:false,
-							templateUrl: 'template/cooperation/link_project.html',
-							controller:'linkprojectCtrl'
-						});
-						modalInstance.result.then(function (dataList) {
-							//关联工程页面显示的值
-							$scope.link.linkProjectName = dataList.linkProjectSelected.name;
-							$scope.link.linkProjectDptName = dataList.parentNode.name;
-							if($scope.link.linkProjectDptName ){
-								$(".new-del").show();
-								$scope.data.bindType = 1;
-								$scope.linkProject1 = true;
-								$scope.linkComponent1 = false;
-								$scope.linkCategoty1 =false;
-							}
-							//传给服务器的两个值
-							$scope.data.assembleLps = dataList.assembleLps;
-							console.info('dataList.assembleLps',dataList.assembleLps)
-							$scope.data.ppid = dataList.assembleLps[0].ppid;
-							$scope.data.deptId = dataList.parentNode.value;
-						});
-					}else if($scope.linkComponentClick ){
-						modalInstance = $uibModal.open({
-							windowClass:'link-component-modal',
-							backdrop : 'static',
-							animation:false,
-							templateUrl: 'template/cooperation/link_component.html',
-							controller:'linkcomponentCtrl'
-						});
-						modalInstance.result.then(function (dataList) {
-							//面显示的值
-							$scope.link.linkProjectDptName = dataList.parentNode.name;
-							$scope.link.linkProjectName = dataList.linkProjectSelected.name;
-							//传给服务器的两个值
-							$scope.data.assembleLps = dataList.assembleLps;
-							$scope.data.deptId = dataList.parentNode.value;
-							$scope.data.ppid = dataList.assembleLps[0].ppid;
-							if($scope.link.linkProjectDptName ){
-								$(".new-del").show();
-								$scope.data.bindType = 2;
-								$scope.linkProject1 = false;
-								$scope.linkComponent1 = true;
-								$scope.linkCategoty1 =false;
-							}
-						});
-					}else if($scope.linkCategotyClick){
-						modalInstance = $uibModal.open({
-							windowClass:'link-categoty-modal',
-							backdrop : 'static',
-							animation:false,
-							templateUrl: 'template/cooperation/link_component_category.html',
-							controller:'linkprojectCtrl'
-						});
-						modalInstance.result.then(function (dataList) {
-							//关联工程页面显示的值
-							$scope.link.linkProjectName = dataList.linkProjectSelected.name;
-							$scope.link.linkProjectDptName = dataList.parentNode.name;
-							$scope.linkProjectSelected = dataList.selectedCategory;
-							//传给服务器的两个值
-							$scope.data.assembleLps = dataList.assembleLps;
-							$scope.data.deptId = dataList.parentNode.value;
-							$scope.data.ppid = dataList.assembleLps[0].ppid;
-							console.log('ppid',dataList.assembleLps.ppid);
-							if($scope.link.linkProjectDptName ){
-								$scope.data.bindType = 3;
-								$(".new-del").show();
-								$scope.linkProject1 = false;
-								$scope.linkComponent1 = false;
-								$scope.linkCategoty1 =true;
-							}
-						});
-					}
-				},function(){
-					return;
-				});
-			}else{
-				if(num==1){
-					layer.closeAll();
+	function isDelete(num){
+		if($scope.linkProject1 ||$scope.linkComponent1 ||$scope.linkCategoty1||$scope.link.linkProjectName){
+			layer.confirm('您已关联的模型,是否重新关联？', {
+				btn: ['是','否'], //按钮
+				move:false
+			}, function(){
+				layer.closeAll();
+				if($scope.linkProjectClick ){
 					modalInstance = $uibModal.open({
 						windowClass: 'link-project-modal',
 						backdrop : 'static',
 						animation:false,
 						templateUrl: 'template/cooperation/link_project.html',
-						controller:'linkprojectCtrl',
+						controller:'linkprojectCtrl'
 					});
 					modalInstance.result.then(function (dataList) {
 						//关联工程页面显示的值
@@ -349,10 +269,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 						}
 						//传给服务器的两个值
 						$scope.data.assembleLps = dataList.assembleLps;
+						console.info('dataList.assembleLps',dataList.assembleLps)
 						$scope.data.ppid = dataList.assembleLps[0].ppid;
 						$scope.data.deptId = dataList.parentNode.value;
+						//获取productId
+						productId = dataList.productId;
+						// alert(productId+'productId')
 					});
-				}else if(num ==2){
+				}else if($scope.linkComponentClick ){
 					modalInstance = $uibModal.open({
 						windowClass:'link-component-modal',
 						backdrop : 'static',
@@ -375,15 +299,18 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 							$scope.linkComponent1 = true;
 							$scope.linkCategoty1 =false;
 						}
+						//获取productId
+						productId = dataList.productId;
+						// alert(productId+'productId')
 					});
-				}else if(num ==3){
+				}else if($scope.linkCategotyClick){
 					modalInstance = $uibModal.open({
 						windowClass:'link-categoty-modal',
-							backdrop : 'static',
-							animation:false,
-							templateUrl: 'template/cooperation/link_component_category.html',
-							controller:'linkprojectCtrl'
-						});
+						backdrop : 'static',
+						animation:false,
+						templateUrl: 'template/cooperation/link_component_category.html',
+						controller:'linkprojectCtrl'
+					});
 					modalInstance.result.then(function (dataList) {
 						//关联工程页面显示的值
 						$scope.link.linkProjectName = dataList.linkProjectSelected.name;
@@ -401,10 +328,101 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 							$scope.linkComponent1 = false;
 							$scope.linkCategoty1 =true;
 						}
+						//获取productId
+						productId = dataList.productId;
+						// alert(productId+'productId')
 					});
 				}
+			},function(){
+				return;
+			});
+		}else{
+			if(num==1){
+				layer.closeAll();
+				modalInstance = $uibModal.open({
+					windowClass: 'link-project-modal',
+					backdrop : 'static',
+					animation:false,
+					templateUrl: 'template/cooperation/link_project.html',
+					controller:'linkprojectCtrl',
+				});
+				modalInstance.result.then(function (dataList) {
+					//关联工程页面显示的值
+					$scope.link.linkProjectName = dataList.linkProjectSelected.name;
+					$scope.link.linkProjectDptName = dataList.parentNode.name;
+					if($scope.link.linkProjectDptName ){
+						$(".new-del").show();
+						$scope.data.bindType = 1;
+						$scope.linkProject1 = true;
+						$scope.linkComponent1 = false;
+						$scope.linkCategoty1 =false;
+					}
+					//传给服务器的两个值
+					$scope.data.assembleLps = dataList.assembleLps;
+					$scope.data.ppid = dataList.assembleLps[0].ppid;
+					$scope.data.deptId = dataList.parentNode.value;
+					//获取productId
+					productId = dataList.productId;
+					// alert(productId+'productId')
+				});
+			}else if(num ==2){
+				modalInstance = $uibModal.open({
+					windowClass:'link-component-modal',
+					backdrop : 'static',
+					animation:false,
+					templateUrl: 'template/cooperation/link_component.html',
+					controller:'linkcomponentCtrl'
+				});
+				modalInstance.result.then(function (dataList) {
+					//面显示的值
+					$scope.link.linkProjectDptName = dataList.parentNode.name;
+					$scope.link.linkProjectName = dataList.linkProjectSelected.name;
+					//传给服务器的两个值
+					$scope.data.assembleLps = dataList.assembleLps;
+					$scope.data.deptId = dataList.parentNode.value;
+					$scope.data.ppid = dataList.assembleLps[0].ppid;
+					if($scope.link.linkProjectDptName ){
+						$(".new-del").show();
+						$scope.data.bindType = 2;
+						$scope.linkProject1 = false;
+						$scope.linkComponent1 = true;
+						$scope.linkCategoty1 =false;
+					}
+					//获取productId
+					productId = dataList.productId;
+				});
+			}else if(num ==3){
+				modalInstance = $uibModal.open({
+					windowClass:'link-categoty-modal',
+						backdrop : 'static',
+						animation:false,
+						templateUrl: 'template/cooperation/link_component_category.html',
+						controller:'linkprojectCtrl'
+					});
+				modalInstance.result.then(function (dataList) {
+					//关联工程页面显示的值
+					$scope.link.linkProjectName = dataList.linkProjectSelected.name;
+					$scope.link.linkProjectDptName = dataList.parentNode.name;
+					$scope.linkProjectSelected = dataList.selectedCategory;
+					//传给服务器的两个值
+					$scope.data.assembleLps = dataList.assembleLps;
+					$scope.data.deptId = dataList.parentNode.value;
+					$scope.data.ppid = dataList.assembleLps[0].ppid;
+					console.log('ppid',dataList.assembleLps.ppid);
+					if($scope.link.linkProjectDptName ){
+						$scope.data.bindType = 3;
+						$(".new-del").show();
+						$scope.linkProject1 = false;
+						$scope.linkComponent1 = false;
+						$scope.linkCategoty1 =true;
+					}
+					//获取productId
+					productId = dataList.productId;
+					// alert(productId+'productId')
+				});
 			}
 		}
+	}
     $scope.linkProject = function () {
     	$scope.linkProjectClick =true;
         $scope.linkComponentClick = false;
@@ -445,8 +463,8 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		}
     }
 
-	$scope.docSelectedList =[];
-	$scope.formSelectedList = [];
+	$scope.docSelectedList =[]; 	//本地上传文件
+	$scope.formSelectedList = [];	//表单上传
 	var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];
 	//引用BE资料
 
@@ -514,32 +532,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     		console.log("$scope.formSelectedList",$scope.formSelectedList.length);
     	});
 	}
-	//选择表单勾选之后需要签字的文件
-	// var formNeedSignList = [];
-	// var updateSelected = function(action,id,name){
- //        if(action == 'add' && formNeedSignList.indexOf(id) == -1){
- //           formNeedSignList.push(id);
- //       	}
- //         if(action == 'remove' && formNeedSignList.indexOf(id)!=-1){
- //            var idx = formNeedSignList.indexOf(id);
- //            formNeedSignList.splice(idx,1);
- //         }
- //     }
-
- //    $scope.updateSelection = function($event, id){
- //        var checkbox = $event.target;
- //        var action = (checkbox.checked?'add':'remove');
- //        updateSelected(action,id,checkbox.name);
- //        angular.forEach($scope.formSelectedList, function (value, key) {
-	// 		angular.forEach(formNeedSignList, function (value1, key1) {
-	// 			if(value == value1) {
-	// 				value.needSign = true;
-	// 				$scope.formSelectedList.splice(key,1,value);
-	// 			}
-	// 		})
-	// 	});
-	// 	console.log($scope.formSelectedList);
- //    }
 	//	删除be照片
 		$scope.removePhoto = function(item){
 			_.pull($scope.uploader.queue,item);
@@ -570,10 +562,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
             picturesUploadList.push(item);
             if(picturesUploadList.length > 30){
-            	// alertService.add('time-bottom',"上传照片不能多于30个！");
             	if(!$scope.flag.pictrueRepeatMind){
-            		// alert("上传资料不能多于30个！")
-            		// alertService.add('time-bottom','上传照片不能多于30个！')
             		layer.alert('上传照片不能多于30个！', {
             		  	title:'提示',
 					  	closeBtn: 0,
@@ -673,19 +662,14 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		$(".new-mask").css('display','block');
 		$('body').css('overflow','hidden')
 	}
-		$(".new-mask").click(function(){
-			$scope.beStates = false;
-			notScroll();
-			$(this).hide();
-			$scope.$apply();
-		})
-	//$scope.isEven=function () {
-	//	if (popStateNum % 2 == 0)
-	//		return beStates = true;
-	//	else
-	//		return beStates = false;
-    //
-	//}
+
+	$(".new-mask").click(function(){
+		$scope.beStates = false;
+		notScroll();
+		$(this).hide();
+		$scope.$apply();
+	})
+
 	//监听描述的状态
 	$scope.changeDesc = function(){
 		// 描述字符控制
@@ -696,6 +680,7 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	var uploadPictureList = []; //上传照片list
 	var uploadDocList = [];		//上传资料list
 	var onCompleteAllSignal = false; //是否上传成功signal
+	var uploadErrorSignal = false; //是否上传成功signal
 	
 	uploader.onAfterAddingFile  = function(fileItem) {
 		var errorMessage='';
@@ -738,11 +723,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	 * @param  {[status]} 0-草稿箱 1 提交
 	 */
 	$scope.save = function (status) {
-		// if($scope.flag.beginCreate){
-		// 	return;
-		// }
-		// debugger
-//		console.log('data.linkProjectDptName',$scope.link.linkProjectDptName);
 		var desc = $("#desc").val();
 		$scope.flag.beginCreate = true;
 		//主题为空
@@ -770,23 +750,77 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				return;
 			}
 		}
+		//上传成功之后调用更新对UI
+		function updateUploadList (response,uploaderSource) {
+			if(response[0].type != "error") {
+   				var unit = {};
+	            unit.name = response[0].result.fileName;
+	            unit.md5 = response[0].result.fileMd5;
+	            unit.size = response[0].result.fileSize;
+	            unit.uuid = response[0].result.uuid;
+	            if(uploaderSource == 'uploader1'){
+	            	unit.sourceType = 3;
+	            	uploadDocList.push(unit);
+	            } else {
+	            	uploadPictureList.push(unit);
+	            }
+   			} else {	// 提交失败 弹框提示
+   				layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    shadeClose: true,
+                    skin: 'yourclass',
+					move:false,
+                    content: '<div class="tips">'+response[0].info+'</div><div class="tips_ok" onclick="layer.closeAll();">好</div>'
+                  });
+       			return;
+   			}
+		}
 
 		var createindex = layer.load(1, {
 			shade: [0.5,'#000'] //0.1透明度的黑色背景
 		});
-		
+		uploader.onErrorItem = function (item, response, status, headers){
+			layer.closeAll();
+			$timeout(function(){
+				if(!uploadErrorSignal){
+					layer.alert("网络错误，上传失败，请重新上传！", {
+	        		  	title:'提示',
+					  	closeBtn: 0,
+						move:false
+					});
+			        uploader.cancelAll();
+			        uploader.clearQueue();
+			        uploader1.cancelAll();
+		        	uploader1.clearQueue();
+			        uploadErrorSignal = true;
+		        }
+			},1000)
+	    }
+     	uploader1.onErrorItem = function (item, response, status, headers){
+     		layer.closeAll();
+     		$timeout(function(){
+				if(!uploadErrorSignal){
+		     		layer.alert("网络错误，上传失败，请重新上传！", {
+	        		  	title:'提示',
+					  	closeBtn: 0,
+						move:false
+					});
+	     			uploader.cancelAll();
+			        uploader.clearQueue();
+		        	uploader1.cancelAll();
+		        	uploader1.clearQueue();
+		        	uploadErrorSignal = true;
+	     		}
+			},1000)
+        }
+		//上传分4种情况，照片和资料(2*2)
 		if(uploader.queue.length && uploader1.queue.length) {
-   			var uploadResult = uploader.uploadAll();
+   			uploader.uploadAll();
 	   		//每个上传成功之后的回调函数
 	   		uploader.onSuccessItem = function(fileItem, response, status, headers) {
-		            console.info('onSuccessItem', fileItem, response, status, headers);
-		            var unit = {};
-		            unit.name = response[0].result.fileName;
-		            unit.md5 = response[0].result.fileMd5;
-		            unit.size = response[0].result.fileSize;
-		            unit.uuid = response[0].result.uuid;
-		            uploadPictureList.push(unit);
-//		            console.log('uploadPictureList',uploadPictureList);
+		           updateUploadList(response,'uploader');
 			};
 			//全部成功的回调函数
 			uploader.onCompleteAll = function() {
@@ -794,98 +828,56 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 		   	 	uploader1.uploadAll();
 		   		//每个上传成功之后的回调函数
 		   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
-			            console.info('onSuccessItem', fileItem, response, status, headers);
-			            var unit = {};
-			            unit.name = response[0].result.fileName;
-			            unit.md5 = response[0].result.fileMd5;
-			            unit.size = response[0].result.fileSize;
-			            unit.uuid = response[0].result.uuid;
-						unit.sourceType = 3;
-			            uploadDocList.push(unit);
-//			            console.log('uploadDocList',uploadDocList);
+			            updateUploadList(response,'uploader1');
 				};
 				//全部成功的回调函数
 				uploader1.onCompleteAll = function() {
 		            onCompleteAllSignal = true;
 		        };
 	        };
+	        
 	    }
 
 	    if( uploader.queue.length && !uploader1.queue.length) {
-   			var uploadResult = uploader.uploadAll();
-   		
+   			uploader.uploadAll();
 	   		//每个上传成功之后的回调函数
 	   		uploader.onSuccessItem = function(fileItem, response, status, headers) {
-//		            console.info('onSuccessItem', fileItem, response, status, headers);
-		   			if(response[0].type != "error") {
-		   				var unit = {};
-			            unit.name = response[0].result.fileName;
-			            unit.md5 = response[0].result.fileMd5;
-			            unit.size = response[0].result.fileSize;
-			            unit.uuid = response[0].result.uuid;
-			            uploadPictureList.push(unit);
-		   			} else {	// 提交失败 弹框提示
-		   				layer.open({
-		                    type: 1,
-		                    title: false,
-		                    closeBtn: 0,
-		                    shadeClose: true,
-		                    skin: 'yourclass',
-							move:false,
-		                    content: '<div class="tips">'+response[0].info+'</div><div class="tips_ok" onclick="layer.closeAll();">好</div>'
-		                  });
-		       			return;
-		   			}
+			//console.info('onSuccessItem', fileItem, response, status, headers);
+		   			updateUploadList(response,'uploader');
 			};
 			//全部成功的回调函数
 			uploader.onCompleteAll = function() {
 	            onCompleteAllSignal = true;
 	        };
+	       
 
 	    }
-
-	     if( !uploader.queue.length && uploader1.queue.length) {
-   			var uploadResult = uploader1.uploadAll();
+	    if( !uploader.queue.length && uploader1.queue.length) {
+   			uploader1.uploadAll();
 	   		//每个上传成功之后的回调函数
 	   		uploader1.onSuccessItem = function(fileItem, response, status, headers) {
-//		            console.info('onSuccessItem', fileItem, response, status, headers);
-	   			if(response[0].type != "error") {
-	   				var unit = {};
-	   				unit.name = response[0].result.fileName;
-	   				unit.md5 = response[0].result.fileMd5;
-	   				unit.size = response[0].result.fileSize;
-	   				unit.uuid = response[0].result.uuid;
-	   				unit.sourceType = 3;
-	   				uploadDocList.push(unit);
-	   			} else {	// 提交失败 弹框提示
-	   				// TODO 弹框提示错误信息 (上传文件size=0时会报错)
-	   				condole.log(response.info);
-	   				layer.open({
-	                    type: 1,
-	                    title: false,
-	                    closeBtn: 0,
-	                    shadeClose: true,
-	                    skin: 'yourclass',
-						move:false,
-	                    content: '<div class="tips">'+response[0].info+'</div><div class="tips_ok"onclick="layer.closeAll();">好</div>'
-	                  });
-	       			return;
-	   			}
+			//console.info('onSuccessItem', fileItem, response, status, headers);
+	   				updateUploadList(response,'uploader1');
 			};
 			//全部成功的回调函数
 			uploader1.onCompleteAll = function() {
 	            onCompleteAllSignal = true;
 	        };
+	        
 	    }
 	    if( !uploader.queue.length && !uploader1.queue.length) {
    			saveCooperation();
 	    }
 	    //轮询是否上传成功
 	    var checkUploadInterval = setInterval(function() {
-	    	if(onCompleteAllSignal == true){
+	    	if(onCompleteAllSignal == true && uploadErrorSignal == false){
+	    		
 	    		clearUploadInterval();
 	    		//alert('onCompleteAllSignal',onCompleteAllSignal);
 	    		saveCooperation();
+	    	} else if(uploadErrorSignal == true) {
+	    		clearUploadInterval();
+	    		uploadErrorSignal = false;
 	    	}
 	    },100);
 	    //清除轮询
@@ -947,7 +939,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	        					modifys.push(value1.PdfModify[i]);
 	        				}
 	        			}
-
 	        		});
 	        	}
 	        	a.modifys = modifys;
@@ -961,14 +952,11 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 			});
 			docsList = docSelectedList1.concat(formSelectedList1, uploadDocList);
 
-			
 			if($scope.data.bindType == 2) {
 				binds = [];
 			} else {
 				binds = $scope.data.assembleLps?$scope.data.assembleLps:binds;
 			}
-
-			
 
 			$scope.data = {
 		    	binds:binds,
@@ -1003,15 +991,17 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 					layer.msg('创建协作成功',{time:3000});
 				}
 				sessionStorage.clear();
-				$state.go('cooperation',{'deptId':$scope.data.deptId, 'ppid':$scope.data.ppid},{ location: 'replace'});
+				$state.go('cooperation',{'deptId':$scope.data.deptId, 'ppid':$scope.data.ppid,'source':'rember'},{ location: 'replace'});
 				// $state.go('cooperation',{'transignal':$scope.data.deptId},{ location: 'replace'});
 				//上传之后将coid传给客户端
 				if($scope.data.bindType == 2){
-					//debugger
 					BimCo.UpLoadComponent(coid);
 				}
 				//创建成功一条协作，通知客户端
-				BimCo.CreateCoSucceed();
+				if(productId && (typeof(productId) == 'number')){
+					productId = productId + '';
+				}
+				BimCo.CreateCoSucceed(productId);
 			},function(data) {
 				layer.close(createindex);
 				$scope.flag.beginCreate = false;
@@ -1021,9 +1011,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 				  	closeBtn: 0,
 					move:false
 				});
-				//if(status==1) {
-				//	alert(obj.message)
-				//}
 			});
         }
 
@@ -1144,7 +1131,6 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
 	    		$scope.isClick = true;
 		    }
     	}
-    	
     }
 
     //最大化、最小化、还原、关闭
@@ -1210,15 +1196,17 @@ angular.module('cooperation').controller('newcoopreationCtrl', ['$scope', '$http
     //跳转新页面去除心跳机制
     $scope.$on('$stateChangeStart', 
         function(event, toState, toParams, fromState, fromParams){
-//            console.log(toState, toParams, fromState);
+			//console.log(toState, toParams, fromState);
             clearInterval(ApplicationConfiguration.refreshID);
             if(!!modalInstance){
                 modalInstance.dismiss();
             }
     });
-//		图片预览
-		$scope.isNotPreview = function(){
-			layer.msg('文件暂时不支持预览！',{time:2000});
-		}
+
+	//预览提示
+	$scope.isNotPreview = function(){
+		layer.msg('文件暂时不支持预览！',{time:2000});
+	}
+
 
 }]);

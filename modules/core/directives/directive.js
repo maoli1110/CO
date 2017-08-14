@@ -10,6 +10,32 @@ angular.module('core').directive('profit', function($timeout) {
             }
 
         }
+    };
+});
+angular.module('core').directive('proProfit', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                    scope.$emit('ngProfit');
+                });
+            }
+
+        }
+    };
+});
+angular.module('core').directive('colistRepeatFinished', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                    scope.$emit('colistRepeatFinished');
+                });
+            }
+
+        }
 
     };
 });
@@ -192,7 +218,7 @@ angular.module('core').directive('scrollDirective', function () {
             restrict: 'AE',
             link: function (scope, ele, attr) {
 
-                var sideHeight = $(window).height()-124;
+                var sideHeight = $(window).height()-123;
                $("#content-a2").mCustomScrollbar({
                    mouseWheelPixels:200,
                    scrollAmount:10,
@@ -608,6 +634,26 @@ angular.module('core').directive('bvOperation', function($document) {
         }
     };
 });
+
+//window-reize窗口大小变动
+angular.module('core').directive('windowResize', function($document,$window) {
+    return {
+        restrict: 'AE',
+        link: function(scope, element, attr) {
+            scope.onResize = function() {
+                //当前combobox
+                if(!$('.comboBox').outerHeight()) return;
+               var currentTaleHeight1 = document.documentElement.clientHeight - 110 - $('.comboBox').outerHeight()-48;
+                $('.content-container').height(currentTaleHeight1);
+            }
+            scope.onResize();
+            angular.element($window).bind('resize', function() {
+                scope.onResize();
+            })
+        }
+    };
+});
+
 //$(" #content-a3").height($(window).height()-125)
 window.onresize = function(){
     $(" #content-a3").height($(window).height()-52);
@@ -647,3 +693,98 @@ angular.module('core').directive('draggable', ['$document', function($document) 
             }
         };
     }]);
+////拖拽左右菜单
+angular.module('core').directive('resizeLeft', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+
+
+            var maxWidth = 342;//最大宽度
+            var minWidth = 252;//最小宽度
+            var offsetX = 0;//x偏移值
+            var isDrag = false;//是否可拖动
+            var currentLeft = minWidth;//控制柄
+            var leftWidth = minWidth -2;//左边菜单
+            function $$(obj){//获取对象
+                return document.getElementById(obj);
+            }
+            function stopEvent(evt){//组织默认时间
+                var event= window.event?window.event:evt;
+                if(event.preventDefault){
+                    event.preventDefault();
+                    event.stopPropagation();
+                }else{
+                    event.returnValue = false;
+                }
+
+            }
+            function drag(control,menus){
+                control.style.left = minWidth;
+                menus.style.width = minWidth -2;
+                control.onmousedown = function(evt){
+                    var event = window.event?window.event:evt;
+                    if((event.which && event.which==1) || (event.button && event.button ==1)){
+                        isDrag = true;
+                        offsetX = event.clientX;
+                        isdrag(event);
+                    }
+                    stopEvent(event);
+
+
+                }
+                document.onmousemove = function(evt){
+                    if(isDrag){
+                        var event = window.event?window.event:evt;
+                        if(event.clientX >maxWidth){
+                            control.style.left = maxWidth +'px';
+                            menus.style.width = (maxWidth -2)+'px';
+                        }else if(event.clientX<minWidth){
+                            control.style.left = minWidth +'px';
+                            menus.style.width = (minWidth -2)+'px';
+                        }else{
+                            control.style.left = event.clientX - offsetX +currentLeft +'px';
+                          menus.style.width = event.clientX - offsetX +leftWidth +'px';
+                        }
+                        stopEvent(event);
+                    }
+                }
+                document.onmouseup = function(evt){
+                    isDrag = false;
+                    var  event = window.event?window.event:evt;
+                    // stopEvent(event);
+                    isdrag(event);
+                    $timeout(function(){
+                        $('.table-list .noSearch').height($(window).height()-($('.filter-table').height()+250));
+                        //if(scope.flag.filterExist){
+                            $('.content-container ').height($(window).height()-($('.filter-table').height()+$('.filter-tab').height()+160));
+                       /* }else{
+                            $('.content-container ').height($(window).height()-($('.filter-table').height()+$('.filter-tab').height()+160));
+                        }*/
+                    },1000);
+                }
+                function  isdrag(evt){
+                    var event = window.event?window.event:evt;
+                    if(event.clientX > maxWidth){
+                        currentLeft = maxWidth;
+                        leftWidth = maxWidth -2;
+                    }else if(event.clientX < minWidth){
+                        currentLeft = minWidth;
+                        leftWidth = minWidth -2;
+                    }else{
+                        currentLeft = parseInt(control.style.left);
+                        leftWidth = parseInt(menus.style.width);
+                    }
+                }
+
+            }
+            $timeout(function(){
+                if($('.sidebar').attr('id')=='siderbar'){//协作管理
+                    drag($$('siderControl'), $$('siderbar'));
+                }else if($('.sidebar').attr('id')=='siderbarTrent') {//资料动态
+                    drag($$('siderControlT'), $$('siderbarTrent'));
+                }
+            },600)
+        }
+    };
+});

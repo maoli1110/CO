@@ -19,7 +19,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     $scope.isNoSearchValueReject = false;//搜索无结果
     $scope.isShowProList = false;
     //清空session
-    sessionStorage.clear();
+    // sessionStorage.clear();
     $scope.openNew = function () {
     	$scope.openSignal = true;
     }
@@ -293,7 +293,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".tools_bar").mouseleave(function(){
                 $(this).find(".bar").stop().animate({"bottom":'-28px'},200)
             })
-
+            if ($( "#siderbarTrent:has('#siderControlT')" ).length==0){
+                $('#siderbarTrent').append('<div id="siderControlT"></div>');
+            }
 
         });
 
@@ -608,14 +610,14 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $state.go('cooperation', {'transignal':'be'});
         }
 
-        //调用心跳机制
-        Cooperation.heartBeat();
-        //跳转新页面去除心跳机制
-        $scope.$on('$stateChangeStart',
-            function(event, toState, toParams, fromState, fromParams){
-                clearInterval(ApplicationConfiguration.refreshID);
-                layer.closeAll();
-        });
+        // //调用心跳机制
+        // Cooperation.heartBeat();
+        // //跳转新页面去除心跳机制
+        // $scope.$on('$stateChangeStart',
+        //     function(event, toState, toParams, fromState, fromParams){
+        //         clearInterval(ApplicationConfiguration.refreshID);
+        //         layer.closeAll();
+        // });
 
         //最大化、最小化、还原、关闭
         //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  

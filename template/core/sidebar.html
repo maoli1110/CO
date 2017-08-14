@@ -1,4 +1,4 @@
-<div style="height:calc(100vh - 62px);overflow:hidden;background:#353944" class="trents">
+<div style="height:calc(100vh - 65px);overflow:hidden;background:#353944" class="trents">
 	<!--<div class="ng-scope menusFont14 currentTime system-time">{{serviceTime.sysTime}}<span class="">{{serviceTime.sysWeek}}</span></div>-->
 	<div scroll-directive id="content-b1" style="overflow:auto;" class="manage_bar" copy-radio>
 		<uib-accordion close-others="true" class="sider-bar">
@@ -6,7 +6,7 @@
 			   <uib-accordion-heading class="sideText">
 				 <!--<span id="deptbutton_{{item.deptId}}"  ng-if="item.deptId !=-1 && item.deptId !=0" ng-click="getprojectInfoList(item.deptId,status.open)"  title="{{deptInList.deptName}}">{{item.deptName}}<i style="margin-left:10px;font-style:normal">({{item.count}})</i>-->
 				 <!--</span>-->
-				   <div ng-if="item.deptId !=-1 && item.deptId !=0" class="manage-menus general" ng-click="getprojectInfoList(item.deptId,status.open)" >
+				   <div ng-if="item.deptId !=-1 && item.deptId !=0" class="manage-menus general" ng-click="getprojectInfoList(item.deptId,status.open,event)" >
 					   <span  id="deptbutton_{{item.deptId}}" class="substr-sideMenus" style="max-width:142px;display:inline-block !important;"  title="{{item.deptName}}"title="{{item.deptName}}">{{item.deptName}}</span>
 					   <i style="display:inline;font-style:normal" ng-if="item.count > 0">({{item.count}})</i>
 					   <b ng-class="{'menus-icon-down': status.open, 'menus-icon-left': !status.open}"></b>

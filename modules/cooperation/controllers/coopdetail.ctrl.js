@@ -5,7 +5,7 @@
 angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '$uibModal','$httpParamSerializer','FileUploader','Cooperation','$state','$stateParams','Manage','$sce','$timeout','Common','headerService',
     function ($scope, $http, $uibModal, $httpParamSerializer,FileUploader,Cooperation,$state,$stateParams,Manage,$sce,$timeout,Common,headerService) {
 		console.log('detail',$stateParams.coid);
-		var reCode = '';
+		var reCode = '';//是否正在导出
 		var frombeFlag = false; //是否从be跳转(非cooperation界面)
 		var currentEditOfficeUuid = '';
 	    var currentSuffix = '';
@@ -17,6 +17,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		var isLocking = false;
 		var selfDeptId = null;;//详情页面自带的deptId
 		var selfPpid = null;//详情页面自带的ppid
+		var productId = '';
 		$scope.link = false;
 		$scope.speachShow = false;
 		$scope.device = false;
@@ -52,13 +53,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			$('#w-max-inner').css('display','none');
 		}
 		if(!$scope.device){
-
 			var  status = BimCo.GetWindowStatus();//缩放窗口记录状态
 			if(status){
 				$timeout(function(){
 					restrom()
 				},100)
-			 }
+			}
 		}
 		//根据ui-sref路由拿到对应的coid
 		var coidFrombe = '';
@@ -87,6 +87,8 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    });
 	   	//获取coid对应的协同详情列表
 	   	Cooperation.getCollaboration(coid).then(function (data) {
+	   		//房建、市政等不同段的产品id
+	   		productId = data.productId + '';
 	   		$scope.collaList = data;
 			//console.info('详情页面的数据展示',data);
 			selfDeptId = data.deptId;
@@ -108,7 +110,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   				}
 	   			});
 	   		}
-
 
 	   		if($scope.device){
 	   			allRelevants = data.relevants;
@@ -135,7 +136,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 			
 			status = data.status;
 			if(data.bindType !== 0 && data.binds.length) {
-//				console.info('关联模型',data.bindType)
 				$scope.link = true;
 				ppid = data.binds[0].ppid;
 			}
@@ -188,7 +188,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
             }else{
                 $(".mobile-reply,.pc-reply").css('display','block')
             }
-			
+			//(isSign -1不需要签字 0需要签字 1已签字)
 			//2.2.2	当当前用户为负责人但是不需要签字时
 			if(data.isCollaborator && data.isSign == -1) {
 				$scope.bjshow = true;
@@ -199,7 +199,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true; 
 			}
 			//2.2.3	当当前用户不是负责人但是需要签字时
-			if((!data.isCollaborator && data.isSign==0) ||(!data.isCollaborator && data.isSign==1)) {
+			if(!data.isCollaborator && data.isSign==0) {
 				$scope.bjshow = false;
 				$scope.tjshow = true;
 				$scope.tgshow = true;
@@ -217,6 +217,16 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.dchushow = true;
 			}
 
+			//白名单开放所有权限,accessCode-从客户端获取的权限码 accessCodeConfig-权限码配置 (正式代码不注释)
+			if(!$scope.device && accessCode && accessCode.indexOf(accessCodeConfig.coManageCode) != -1){
+				$scope.bjshow = true;
+				$scope.tjshow = true;
+				$scope.tgshow = true;
+				$scope.jjueshow = true;
+				$scope.jsshow = true;
+				$scope.dchushow = true;
+			}
+
 			//是否编辑协作
 			var statusReject = ['已结束','未通过','已通过','已拒绝'];
 			if (statusReject.indexOf(data.status) != -1) {
@@ -225,20 +235,18 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.tgshow = false;
 				$scope.jjueshow = false;
 				$scope.jsshow = false;
-				$scope.flag.noNeedSign = true;
+				//控制页面添加审批是否显示
+				$scope.flag.noNeedSign = true; 
 			}
 
 			//判断当前用户已经点过通过/拒绝按钮
 			if(data.isSign == 1){
+				$scope.bjshow = false;
 				$scope.tgshow = false;
 				$scope.jjueshow = false;
-			}
-			//当前用户是负责人
-			if(data.isSign == 1 && data.isCollaborator){
 				$scope.jsshow = false;
-				$scope.bjshow = false;
 			}
-
+			
 			//详情描述记录换行
 			function replaceAll (strM,str1,str2) {
 	   			var stringList =strM.split(str1);
@@ -407,9 +415,10 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				}
 				temp.uuid = value.uuid?value.uuid:'';
 				temp.type = 1;
-				infoTemp.docs.push(temp);
+				if(temp.uuid){
+					infoTemp.docs.push(temp);
+				}
 			});
-
 			//doc
 			//按顺序重组 pic doc other
 			var docSort = [];
@@ -442,7 +451,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				temp.uuid = value.uuid;
 				temp.fileName = value.name;
 				temp.type = 2;
-                infoTemp.docs.push(temp);
+                if(temp.uuid){
+					infoTemp.docs.push(temp);
+				}
 			});
 
 			if(data.speach && data.speach.uuid){
@@ -450,7 +461,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				temp.uuid = data.speach.uuid;
 				temp.fileName = data.speach.md5+'.mp3';
 				temp.type = 2;
-				infoTemp.docs.push(temp);
+				if(temp.uuid){
+					infoTemp.docs.push(temp);
+				}
 			}
 			
 			secondTitleTemp.info.push(infoTemp);
@@ -465,7 +478,6 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				title:"",
 				info:[]
 			};
-			
 			
 			angular.forEach(defaultComment, function(value, key) {
 				var commentDoc = [];
@@ -497,12 +509,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				//按顺序重组 pic doc other
 				if(value.docs) {
 					angular.forEach(value.docs,function(value1,key1){
-						if(picTypeArr.indexOf(value1.suffix)!==-1){
+						if(picTypeArr.indexOf(value1.suffix)!==-1 && value1.uuid){
 							commentDoc.push(value1);
 						}
 					});
 					angular.forEach(value.docs,function(value3,key3){
-						if(picTypeArr.indexOf(value3.suffix)==-1 || !value3.suffix){
+						if(picTypeArr.indexOf(value3.suffix)==-1 || !value3.suffix && value3.uuid){
 							commentDoc.push(value3);
 						}
 					});
@@ -511,11 +523,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 						if(!value2.name && picTypeArr.indexOf(value2.suffix)!==-1){
 							temp.fileName = value2.md5 + '.png';
 						} else {
-							temp.fileName = value2.name; 
+							temp.fileName = value2.name;
 						}
 						temp.uuid = value2.uuid;
 						temp.type = 3;
-						infoTemp.docs.push(temp);
+						if(temp.uuid){
+							infoTemp.docs.push(temp);
+						}
 					});
 				}
 				//comment speech
@@ -524,11 +538,11 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					temp.fileName = value.speech.md5 +'.mp3';
 					temp.uuid = value.speech.uuid;
 					temp.type = 3;
-					infoTemp.docs.push(temp);
+					if(temp.uuid){
+						infoTemp.docs.push(temp);
+					}
 				}
-
 				secondTitleTemp.info.push(infoTemp);
-				
 				});
 				//push 1.2的info值
 				coopExportTemp.secondTitle.push(secondTitleTemp);
@@ -539,8 +553,9 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				$scope.loadComplete = true;
 			    //console.info('currentDeptId',currentDeptId)
 	   	},function(error){
-	   		if(!$scope.device && error.infoCode=='1005'){
-	   			layer.alert(error.message, {//error.message
+	   		//简单提示信息error-infoCode-1000，删除相关error-infoCode-1005
+	   		if(!$scope.device){
+	   			layer.alert(error.message, {
 					title:'提示',
 					closeBtn: 0,
 					move:false
@@ -553,14 +568,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					if(currentDeptId==-1){
 						$state.go('cooperation',{'deptId':currentDeptId?currentDeptId:selfDeptId, 'source':rember},{ location: 'replace'});
 					}
-					console.log(currentDeptId+'currentDeptId');
-					console.log(currentPpid+'currentPpid');
 					$state.go('cooperation',{'deptId':currentDeptId, 'ppid':currentPpid,'source':rember},{ location: 'replace'});
 				});
-	   		} else {
+	   		} else if ($scope.device) {
+	   			//error信息跳转url(bv)
 	   			sendCommand(10,coid,error.message);
 	   		}
-
 	   	});
 
 		//导出功能对接客户端
@@ -568,6 +581,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	    	//console.log($scope.downloadTotal+'downloadTotal')
 	    	var exportRefreshID;
 	    	var strExportInfo = JSON.stringify(detailExport);
+	    	// return
 	    	//console.log(strExportInfo);
 	    	var strCoName = $scope.collaList.coTypeVo.name +' '+$scope.collaList.name;
 	    	//1.对接客户端导出协作接口，传入导出信息的Json字符串和当前协作的名称
@@ -839,15 +853,26 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   	 		Cooperation.checkOut(coid).then(function(data) {
 	   	 			$state.go('editdetail', {coid: coid});
 	   	 		},function(error){
-	   	 			layer.alert(error.message, {
-	        		  	title:'提示',
-					  	closeBtn: 0,
-					  	move:false
-					},function(){
-
-						layer.closeAll();
-						isReadyDelete();
-					});
+	   	 			//1005跳转主界面 1000刷新当前页
+	   	 			if(error.infoCode == '1005'){
+	   	 				layer.alert(error.message, {
+		        		  	title:'提示',
+						  	closeBtn: 0,
+						  	move:false
+						},function(){
+							layer.closeAll();
+							isReadyDelete();
+						});
+	   	 			} else {
+	   	 				layer.alert(error.message, {
+		        		  	title:'提示',
+						  	closeBtn: 0,
+						  	move:false
+						},function(){
+							layer.closeAll();
+	   	 					$state.go($state.current, {}, {reload: true});
+						});
+	   	 			}
 	   	 		});
 	   	 	} else {
 	   	 		layer.alert('当前协作已被“'+$scope.collaList.operationName+'”签出，请稍后重试！', {
@@ -864,7 +889,12 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   		if($(".detail-voice").css("display") == "block"){
 	   			$scope.audioClose();
 	   		}
-	   		BimCo.LocateComponent(ppid,coid);
+	   		//工程id 协同id 产品id
+	   		var LocateComponentSignal =  BimCo.LocateComponent(ppid,coid,productId);
+	   		//反查失败页面不做任何操作
+	   		if(!LocateComponentSignal){
+	   			return;
+	   		}
 	   	}
 
 	   	//移动端交互
@@ -989,6 +1019,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		//更新评论
 		var modalInstance;
         $scope.updateComment = function () {
+        	if(!accessCode && accessCode.indexOf(accessCodeConfig.updateCode)==-1){
+	    		layer.alert('没有当前功能使用权限，请联系企业管理员', {
+					title:'提示',
+					closeBtn: 0,
+					move:false　
+				});
+				return;
+	    	}
             var trans = {};
             trans.coid = coid;
             trans.coTypeVo = coTypeVo; 
@@ -1015,11 +1053,15 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					  	closeBtn: 0,
 					  	move:false
 					},function(){
-						layer.closeAll();
-						isReadyDelete();
+						//infoCode1005代表删除协作相关操作
+						if(data.infoCode=='1005'){
+							layer.closeAll();
+							isReadyDelete();
+						} else {
+							layer.closeAll();
+						}
 					});
 				});
-
             });
         }
 
@@ -1132,9 +1174,13 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					  	closeBtn: 0,
 					  	move:false
 					},function(){
+						//当前协作被删除1005
 						if(data.infoCode === '1005'){
 							layer.closeAll();
 							isReadyDelete();
+						} else {
+							layer.closeAll();
+							$state.go($state.current, {}, {reload: true});
 						}
 					});
 				});
@@ -1420,12 +1466,14 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   			//未关联
 	   			$scope.collaList.deptId = -1;
 	   		}
-	   		var rember = ($stateParams.source || frombeFlag)?'':'rember'; //cooperation & other界面标志不同
+	   		var rember = (($stateParams.source == 'formbe') || frombeFlag)?'':'rember'; //cooperation & other界面标志不同
 	   		if(!rember){
 	   			sessionStorage.clear();
 	   		}
 	   		$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId,'source':rember},{ location: 'replace'});
-	   	}
+				$('.content-container ').height($(window).height()-($('.filter-table').height()+160));
+				$('.table-list .noSearch').height($(window).height()-($('.filter-table').height()+250));
+	   		}
 
 	   	//反查formbe,跳转详情页面
 	   	var currentPage = 'coopdetail';
@@ -1452,7 +1500,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 				  	closeBtn: 0,
 				  	move:false
 				});
-	   		} else if($scope.flag.isApprove && !$scope.flag.isPdfsign){
+	   		} else if ($scope.flag.isApprove && !$scope.flag.isPdfsign){
 	   			//当前正在签署预览界面但没有签出协作
 	   			var rtn = BimCo.MessageBox("提示","当前正在签署中，是否跳转？", 0x31);
 	   			//确定1取消2
@@ -1463,22 +1511,7 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 	   			}
 	   		} else if (coidFrombe != coid){
 	   			//非签署状态不同协作
-	   			layer.confirm('当前已有打开的协作, 是否跳转？', {
-					btn: ['确定','取消'], //按钮
-					move:false
-				},function(){
-					layer.closeAll();
-					$state.go('coopdetail',{'coid':coidFrombe,'deptId':selfDeptId,"ppid":selfPpid})
-				});
-	   		} else if (!!modalInstance){
-	   			//添加更新状态
-	   			layer.confirm('当前正在添加更新, 是否跳转？', {
-					btn: ['确定','取消'], //按钮
-					move:false
-				},function(){
-					layer.closeAll();
-					$state.go('coopdetail',{'coid':coidFrombe},{reload:true})
-				});
+				$state.go('coopdetail',{'coid':coidFrombe,'deptId':selfDeptId,"ppid":selfPpid})
 	   		} else if (coidFrombe == coid && !$scope.flag.isApprove && !modalInstance){
 	   			//非签署状态相同协作非添加更新状态
 	   			$state.go('coopdetail',{'coid':coidFrombe,'deptId':selfDeptId,"ppid":selfPpid},{reload:true});
@@ -1488,6 +1521,15 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 		
 		//删除协作
 		$scope.deleteCoop = function(){
+			//判断是否有删除权限
+			if(!accessCode && accessCode.indexOf(accessCodeConfig.deleteCode)==-1){
+				layer.alert('没有当前功能使用权限，请联系企业管理员', {
+					title:'提示',
+					closeBtn: 0,
+					move:false
+				});
+				return;
+			}
 			//确认要删除该协作吗？
 			var checkCoLocked = false;
 			$.ajax({
@@ -1544,27 +1586,27 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
 					$state.go('cooperation',{'deptId':$scope.collaList.deptId, 'ppid':$scope.collaList.ppid,'status':$scope.collaList.statusId,'source':rember},{ location: 'replace'});
 				},function(error){
 					//协作被删除的情况下或者被签出的情况
-
-						layer.alert(error.message, {
-							title:'提示',
-							closeBtn: 0,
-							move:false
-						},function(){
-							if(error.infoCode=='1005'){
-								layer.closeAll();
-								isReadyDelete();
-							}
-						});
-
-
+					layer.alert(error.message, {
+						title:'提示',
+						closeBtn: 0,
+						move:false
+					},function(){
+						if(error.infoCode=='1005'){
+							layer.closeAll();
+							isReadyDelete();
+						} else {
+							layer.closeAll();
+						}
+					});
 				});
 			})
 		}
 	   	//调用心跳机制
 	   	if(!$scope.device){
 	   		Cooperation.heartBeat();
+	   		console.log('coopdetail')
 	   	}
-        //跳转新页面去除心跳机制
+        //跳转新页面去除心跳机制(同理也可以进入不同控制器清楚refreshID)
         $scope.$on('$stateChangeStart', 
             function(event, toState, toParams, fromState, fromParams){
 			//console.log(toState, toParams, fromState);
@@ -1573,5 +1615,4 @@ angular.module('cooperation').controller('coopdetailCtrl', ['$scope', '$http', '
                 	modalInstance.dismiss();
                 }
         });
-
 }]);

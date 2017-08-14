@@ -47,6 +47,13 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
                                         layer.closeAll();
                                     });
                                     break;
+                                case 500:
+                                    layer.confirm(rejection.data.message, {
+                                        btn: ['确定','取消'] //按钮
+                                    }, function() {
+                                        layer.closeAll();
+                                    });
+                                    break;
                                 default:
                                     //alertService.add('danger', i18n.get('error.message'));
                             }

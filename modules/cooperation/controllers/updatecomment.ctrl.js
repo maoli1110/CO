@@ -48,7 +48,7 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
     	//上传资料
 	    var uploader1 = $scope.uploader1 = new FileUploader({
 	    		url: basePath + 'fileupload/upload.do'
-	    });
+	    });  
 
 	    //FILTERS
 	    uploader1.filters.push({
@@ -128,16 +128,16 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
    			}else if(response[0].type == 'error'){
    				//上传失败,记录失败的记录，提示用户
    				uploadResult = false;
-   				errorUpload+="<br/>";
-   				errorUpload+=fileItem.file.name;
+                //勿删
+   				// errorUpload+="<br/>";
+                // errorUpload+=fileItem.file.name;
+   				errorUpload=response[0].info;
    			}
    			
    		};
    		
    		uploader1.onErrorItem = function(item, response, status, headers){
-   			if(status == 404){
-   				errorUpload = "文件大小超过50M限制！";
-   			}
+   			errorUpload = "网络错误，文件上传失败，请重新上传！";
    			uploadResult = false;
    		}
    		
@@ -147,12 +147,12 @@ angular.module('cooperation').controller('updatecommentCtrl',['$rootScope','$sco
    			data.comment.docs = uploadList;
    			if(!uploadResult){
                 layer.close(createindex);
-   				layer.alert("以下文件上传失败：" + errorUpload, {
+   				layer.alert(errorUpload, {
    					title:'提示',
    					closeBtn: 0
    				},function(index){
-   				  //do something
-   					$uibModalInstance.dismiss();
+   				    layer.closeAll();
+   				    $uibModalInstance.dismiss();
    				});
    			}else{
    				Cooperation.commentToCollaboration(data).then(function (data) {
