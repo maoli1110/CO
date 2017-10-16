@@ -104,7 +104,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			
 			var str0 = node.value.split("-")[0];
 			var str1 = node.value.split("-")[1];
-			var str2 = node.value.split("-")[2];
+			var str2 = node.value.split("-")[3];
 			initPpid.push(str2);
 			projTypeSearchPpid.push(str2);
 		    TextSearchPpid.push(str2);
@@ -129,7 +129,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			//点击工程
 			dataList.linkProjectSelected = treeNode;
 			dataList.assembleLps = treeNode;
-			ppid = dataList.assembleLps.value.split('-')[2];
+			ppid = dataList.assembleLps.value.split('-')[3];
 			projType = dataList.assembleLps.value.split('-')[0];
 			if(treeNode.isParent == true) {
 				// $('.confirm').attr('disabled', true);
@@ -196,6 +196,12 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 	 		var obj = {ppid:ppid, projType:projType};
 	 		var params = JSON.stringify(obj);
 	 		var setting1 = {  
+	 			// 以下注释是用来切换树的显示名字
+	 			// data:{
+	 			// 	key:{
+	 			// 		name:'value'
+	 			// 	}
+	 			// },
 				view:{
 					selectedMulti: false
 				},
@@ -327,6 +333,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			 * public static final Integer COMP_NODE_SUBCLASS = 3;//小类
 			 */ 
 	 		var selectedCategory = []; //组合选中数据
+	 		console.log('selectedNodesList',selectedNodesList);
 			angular.forEach(selectedNodesList,function(value,key1){
 				var unit={};
 				angular.forEach(value,function(value1,key1){
@@ -414,7 +421,6 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 //	 		console.log(new Date());
 			treeObj.showNodes(nodelist);
 			//根据专业查询对应子节点
-			//debugger;
 			if(type==1){
 				if($scope.projtype==0){
 					projTypeSearchPpid	= initPpid;
@@ -464,7 +470,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 			 var shownodes = treeObj.getNodesByFilter(filterchild);
 			 var TextSearchPpid=[];
 			 for(var i=0;i<shownodes.length;i++){
-			 	var str2 = shownodes[i].value.split("-")[2];
+			 	var str2 = shownodes[i].value.split("-")[3];
 			 	TextSearchPpid.push(str2);
 			 }
 			 return TextSearchPpid;
@@ -475,7 +481,7 @@ angular.module('cooperation').controller('linkprojectCtrl',['$scope', '$http', '
 		}
 
 		function filterbyppid(node) {
-		    return (node.type == 3 && searchPpid.indexOf(node.value.split("-")[2])>-1);
+		    return (node.type == 3 && searchPpid.indexOf(node.value.split("-")[3])>-1);
 		}
 
 		//全部功能筛选树结构

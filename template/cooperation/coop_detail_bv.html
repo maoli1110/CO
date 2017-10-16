@@ -43,7 +43,7 @@
             <p><span class="F16 oSpan">优先级：</span><span class="F16">{{collaList.priority}}</span></p>
             <p class=""><span  class="F16 oSpan">状&nbsp;&nbsp;&nbsp;态：</span><span class="F16">{{collaList.status}}</span></p>
             <p ><span class="F16 oSpan">限&nbsp;&nbsp;&nbsp;期：</span><span  class="F16" style="color:{{deadlineStyle}}">{{collaList.deadline | date:'yyyy-MM-dd'}}</span></p>
-            <p class=""><span class="F16 oSpan">标&nbsp;&nbsp;&nbsp;识：</span><span class="substr F16" style=" display:inline-block;position: absolute;max-width: 104px;"><i class="chara" style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></p>
+            <p class=""><span class="F16 oSpan">标&nbsp;&nbsp;&nbsp;识：</span><span class="substr F16" style=" display:inline-block;position: absolute;max-width: 200px;"><i class="chara" style="background:{{collaList.markerInfo.color}};"></i>{{collaList.markerInfo.name}}</span></p>
             <p class=""><span class="F16 oSpan">创建时间：</span><span class=" F16" style=" display:inline-block;position: absolute;">{{collaList.createTime.split(' ')[0]}}</span></p>
             <p class="last-p"><span class="F16 oSpan">更新时间：</span><span class=" F16" style=" display:inline-block;position: absolute;">{{collaList.updateTime.split(' ')[0]}}</span></p>
 
@@ -76,11 +76,11 @@
             <div class="col-xs-9 col-md-11 mobile-relate-con clearfix" style="float:right;width:82%;margin-bottom:15px;">
                 <dl ng-repeat="item in collaList.relevants" class="photoImg" >
                     <dt><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                    <dd class="substr" title="{{item.username}}" style="font-size:14px;">{{item.username}}</dd>
-                    <dd   ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
-                    <dd   ng-if="!item.isPassed && !item.isRejected && !item.isReaded" class="color-green">未读</dd>
-                    <dd   ng-if="item.isPassed" class="color-blue">已通过</dd>
-                    <dd    ng-if="item.isRejected" class="color-orange">已拒绝</dd>
+                    <dd class="substr" title="{{item.realname}}" style="font-size:14px;">{{item.realname}}</dd>
+                    <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
+                    <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded" class="color-green">未读</dd>
+                    <dd ng-if="item.isPassed" class="color-blue">已通过</dd>
+                    <dd ng-if="item.isRejected" class="color-orange">已拒绝</dd>
                     <div class="detail-sign" ng-if="item.needSign">
                         <img src="imgs/detail-icon-sign.png" alt="">
                     </div>
@@ -151,7 +151,7 @@
                                         <dt ng-if="!doc.thumbnailUrl" class="rela">
                                             <img class="scrollLoading file-icon" ng-src="./imgs/icon/pixel.gif" data-url="{{doc.imgsrc}}"  ng-click="previewComment($parent.$parent.$index,doc.uuid)">
                                         </dt>
-                                        <dd class="substr" title="{{doc.name}}">{{doc.name}}</dd>
+                                        <dd ng-if="!doc.thumbnailUrl" class="substr" title="{{doc.name}}">{{doc.name}}</dd>
                                     </dl>
                                 </div>
                                 <!-- 录音 -->

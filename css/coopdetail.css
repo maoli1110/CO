@@ -1127,6 +1127,7 @@ textarea{
 }
 .mobile-main .mobile-photo .photo-con .detail-sear>img.thumb{
     max-width: 70px;
+    min-height: 68px;
 }
 .mobile-main .mobile-photo .photo-con .detail-sear>img.file-icon{
     width: 56px;
@@ -1270,6 +1271,7 @@ textarea{
 }
 .comment-doclist .read-folder>dt>img.thumb{
     width: 60px;
+    min-height: 58px;
 }
 .comment-doclist .read-folder>dt>img.file-icon{
     width: 50px;
@@ -1391,7 +1393,7 @@ textarea{
     right: 31px;
     position: absolute;
 }
-}
+
 /*图片预览功能*/
 .preview-tools{
     width:100%;

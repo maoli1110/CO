@@ -40,7 +40,7 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
             $('#w-max-inner').css('display','none');
         }
         if(!$scope.device){
-            var  status = BimCo.GetWindowStatus();
+            var  status = BimCo.GetWindowStatus(); 
             if(status){
                 $timeout(function(){
                     restrom()
@@ -184,7 +184,6 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                             });
                         },0);
                     }
-                   
                 });
                 // data.coTypeVo.type === 1 问题整改
         		var isShowArr = ["已结束","已通过","已拒绝"];
@@ -219,25 +218,9 @@ angular.module('cooperation').controller('editdetailCtrl', ['$scope', '$http', '
                 $(".mobile-reply,.pc-reply").css('display','block')
             }
 
-            //选择负责人
-            $scope.selectResponsible = function () {
-                var modalInstance = $uibModal.open({
-                    //windowClass: 'select-person-responsible-modal',
-                    backdrop : 'static',
-                    templateUrl: 'template/cooperation/select_person_responsible.html',
-                    controller:'selectpersonCtrl',
-                    resolve:{
-                        items: function () {
-                            return [];
-                        }
-                    }
-                });
-                modalInstance.result.then(function (selectedItem) {
-                    $scope.responsiblePerson = selectedItem;
-                });
-            }
+            //负责人头像路径及名字
             headerService.currentUserInfo().then(function(data){
-                $scope.responsiblePerson.username = data.userName;
+                $scope.responsiblePerson.username = $scope.collaList.collaborator;
                 $scope.responsiblePerson.avatar = data.avatarUrl;
             })
             var typeArr = ['txt','doc','pdf','ppt','docx','xlsx','xls','pptx','jpeg','bmp','PNG','GIF','JPG','png','jpg','gif','dwg','rar','zip','avi','mp4','mov','flv','swf','wmv','mpeg','mpg','mp3'];

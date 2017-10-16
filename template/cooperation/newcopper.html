@@ -172,12 +172,12 @@
 							<div class="detail-sign" ng-if="item.needSign">
 								<img src="imgs/detail-icon-sign.png" alt="">
 							</div>
-							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:14px;">{{item.username}}</li>
+							<li class="substr" title="{{item.realname}}" style="width:55px;margin-top:14px;">{{item.realname}}</li>
 						</ul>
 						<ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index">
 							<img ng-src="{{item.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
 							<img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
-							<li class="substr" title="{{item.username}}" style="width:55px;margin-top:14px;">{{item.username}}</li>
+							<li class="substr" title="{{item.realname}}" style="width:55px;margin-top:14px;">{{item.realname}}</li>
 						</ul>
 					<button class="btn add-related" ng-click="selectRelated()"><span>+</span></button>
 				</div>

@@ -62,6 +62,10 @@ angular.module("core").controller("headerCtrl",function($scope,headerService,$st
     	$scope.currentUser.name = data.userName;
     	$scope.currentUser.job = data.roleName;
     	$scope.currentUser.compName = data.enterpriseName;
+        //获取用户信息再去获取权限码
+        // accessCode = BimCo.GetAuthCode()?BimCo.GetAuthCode():'';
+        // alert('accessCode--start')
+        // alert(accessCode+'accessCode');   
     });
     function restrom(){
         $('#w-middle').css('display','inline-block');

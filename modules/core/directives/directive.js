@@ -10,9 +10,25 @@ angular.module('core').directive('profit', function($timeout) {
             }
 
         }
+    };
+});
+
+angular.module('core').directive('colistRepeatFinished', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                    scope.$emit('colistRepeatFinished');
+                });
+            }
+
+        }
 
     };
 });
+
+
 
 angular.module('core').directive('profitDept', function($timeout) {
     return {
@@ -608,6 +624,26 @@ angular.module('core').directive('bvOperation', function($document) {
         }
     };
 });
+
+//window-reize窗口大小变动
+angular.module('core').directive('windowResize', function($document,$window) {
+    return {
+        restrict: 'AE',
+        link: function(scope, element, attr) {
+            scope.onResize = function() {
+                //当前combobox
+                if(!$('.comboBox').outerHeight()) return;
+               var currentTaleHeight1 = document.documentElement.clientHeight - 110 - $('.comboBox').outerHeight()-48;
+                $('.content-container').height(currentTaleHeight1);
+            }
+            scope.onResize();
+            angular.element($window).bind('resize', function() {
+                scope.onResize();
+            })
+        }
+    };
+});
+
 //$(" #content-a3").height($(window).height()-125)
 window.onresize = function(){
     $(" #content-a3").height($(window).height()-52);

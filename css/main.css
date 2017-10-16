@@ -415,7 +415,12 @@ li {
     /* line-height: 29px; */
     margin-top: 6px;
 }
-
+.search-bj{
+    background: #fff;
+    position: absolute;
+    top: 12px;
+    right: 4px;
+}
 .modal-body .search img  {
     position: absolute;
     width: 18px;
@@ -805,9 +810,12 @@ li {
     /*height: 500px;*/
     /*border: 1px solid #ccc;*/
 }
+.right-content .table-list table {
+    margin-bottom: 0px;
+}
 .right-content .table-list table th,.right-content .table-list table td{
     text-align: center;
-    vertical-align: middle;
+    vertical-align: middle; 
 }
 .right-content .table-list td > div {
     border-radius: 9px 0px 9px 0px;
@@ -835,6 +843,35 @@ li {
 }
 .right-content .table-list tbody tr:hover{
     background:#f5f6f7;
+}
+.problems-rect *{
+    vertical-align: middle;
+}
+.problems-rect label input[type=checkbox] + div{
+    top: 9px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ddd;
+    left: -9px;
+    background: #fff;
+}
+.problems-rect label input[type=checkbox]:checked + div, .remove-all label input[type=checkbox]:checked + div {
+    top: 9px;
+    background: url('../lib/ztree/css/img/zTreeStandard1.png') -61px -90px;
+    width:18px;
+    height: 16px;
+    border:none;
+}
+.problems-rect label input[type=checkbox], .remove-all label input[type=checkbox]{
+    opacity: 0;
+}
+.remove-all label input[type=checkbox] + div {
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ddd;
+    left: 35px;
+    background: #fff;
 }
 .cop-edit{
     width: 24px;
@@ -1145,9 +1182,6 @@ li {
 .change-window:active{
     background:#499d5f;
 }
-
-
-
 .label_tools img:nth-child(2){
     width:16px;
     height:13px;
@@ -1216,15 +1250,22 @@ li {
     width: 113px;
 }
 .filter-table label{
-    font-weight:normal;
-}
-.filter-table .tabs .marklist.secone-level{
-    margin-left:138px;
-    margin-top:-34px;
+    font-weight: normal;
+    margin-bottom: 0px;
+    padding: 6px 8px;
 }
 .filter-table .tabs .first-list,.tabs .priority-check,.tabs .marklist{
     font-weight:normal !important;
     font-size:14px;
+}
+.filter-table .tabs .marklist{
+    margin-left: 90px;
+}
+.filter-tab .filterOptions span{
+    padding: 4px 6px;
+    color: #fff;
+    background: #65C17D;
+    margin-right: 10px;
 }
 /*筛选问题类型*/
 .filter-table .tabs label.bg-isCheck:hover{
@@ -1260,21 +1301,6 @@ li {
     height: 21px;
     border:1px solid #69c080;
 }
-.filter-table .checkbox label input[type=checkbox] {
-    opacity: 0;
-}
-.filter-table .checkbox label input[type=checkbox] + div{
-    top: 2px;
-    /* background: url('../imgs/dyfilter/checked-icon-1.png'); */
-    width: 22px;
-    height: 21px;
-    border: 1px solid #ddd;
-    left: -9px;
-    background: #fff;
-}
-.filter-table .checkbox label input[type=checkbox] + div:hover{
-    border:1px solid #69c080;
-}
 .comboBox {
     z-index: 101;
 }
@@ -1283,7 +1309,7 @@ li {
     position: absolute;
     background: #000;
     opacity: 0.5;
-    z-index: 100;
+    z-index: 101;
     width: 100%;
     height: calc(100vh - 61px) !important;
 }
@@ -1323,22 +1349,22 @@ li {
     margin-top: 15px;
 }
 .addcoo .row  a.typeImg_1{
-    background-color:#74a870 !important;  ;
+    background-color:#74a870 !important;
 }
 .addcoo .row  a.typeImg_2{
-    background-color:#698cdd !important;  ;
+    background-color:#698cdd !important;
 }
 .addcoo .row  a.typeImg_3{
-    background-color:#72b6e5 !important;  ;
+    background-color:#72b6e5 !important;
 }
 .addcoo .row  a.typeImg_4{
-    background-color:#64b9ae !important;  ;
+    background-color:#64b9ae !important;
 }
 .addcoo .row  a.typeImg_5{
-    background-color:#7bce7f !important;  ;
+    background-color:#7bce7f !important;
 }
 .addcoo .row  a.typeImg_6{
-    background-color:#aed06d !important;  ;
+    background-color:#aed06d !important;
 }
 
 .addcoo .row  a:hover{
@@ -1353,7 +1379,7 @@ li {
     font-size: 18px;
 }
 .right-content .filter {
-    background: #eee;
+    /*background: #eee;*/
     /*height: 20%;*/
     margin: 0;
     z-index:10;
@@ -1415,13 +1441,6 @@ li {
 .create .uib-close:hover{
     background:#777b8a ;
 }
-/*.create .uib-close:active{*/
-/*background:#5b6171;*/
-/*}*/
-/*.create .uib-datepicker-current:hover,.create .uib-clear:hover{*/
-/*background:#55ad6c !important;*/
-/*border:0 !important;*/
-/*}*/
 .create .uib-datepicker-current:active{
     background:#4a965e !important;
     border:0 !important;
@@ -1791,11 +1810,6 @@ li {
 
 
 }
-/*.link-project-modal .modal-body input.link-search{*/
-/*border-radius: 0;*/
-/*background: none !important;*/
-/*border:1px solid #ddd;*/
-/*}*/
 .link-project-modal .modal-body .link-inputSear .link-search{
     position: absolute;
     right: 23px;
@@ -2698,10 +2712,6 @@ textarea{
     max-height:374px !important;
     width:195px;
 }
-.remove-all{
-
-    float:right;
-}
 .panel-heading{
     border-radius: 0;
 }
@@ -2839,11 +2849,11 @@ textarea{
 }
 
 .operation .left .search img {
-    position: absolute;
+
     width: 18px;
     height: 18px;
-    top: 17px;
-    right: 6px;
+    float:right;
+    margin-top:6px;
 
 }
 .operation .btn ,.operation .btn-default{
@@ -2872,18 +2882,19 @@ textarea{
     border:1px solid #65C17D;
 }
 .good_L .good_search001{
-    width:32px;
-    height:32px;
-    position:absolute;
-    top:10px;
-    bottom:1px;
-    right:0;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    bottom: 1px;
+    right: 2px;
+    background: #fff;
+    top: 11px;
 }
 .good_L .good_search001 img{
-    float:left;
-    width:14px;
-    height:14px;
-    margin:9px;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin: 7px;
 }
 .prolist_left{
 
@@ -2991,6 +3002,18 @@ textarea{
 }
 .comboBox .check-funnel{
     margin-top: 4px;
+}
+/*批量删除*/
+.remove-all {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #eceef0;
+}
+.remove-all * {
+    vertical-align: middle;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 /*详情*/
 .coo-detail .title{
@@ -3422,7 +3445,6 @@ textarea{
 }
 /*-------------------------main slide_Content(右边的核心内容)------------------*/
 .trends  .main .right_Content{
-
     width: 75%;
     height:660px;
     background:#F4F2F2;
