@@ -48,12 +48,16 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
                                     });
                                     break;
                                 case 500:
-                                    layer.confirm(rejection.data.message, {
-                                        btn: ['确定','取消'] //按钮
-                                    }, function() {
-                                        layer.closeAll();
-                                    });
-                                    break;
+                                    if(rejection.data.infoCode !== '1007'){ //账号被踢或者超时由客户端提示，前端过滤掉提示信息
+                                        layer.confirm(rejection.data.message, {
+                                            btn: ['确定','取消'] //按钮
+                                        }, function() {
+                                            layer.closeAll();
+                                        }, function(){
+                                            layer.closeAll();
+                                        });
+                                        break;
+                                    }
                                 default:
                                     //alertService.add('danger', i18n.get('error.message'));
                             }

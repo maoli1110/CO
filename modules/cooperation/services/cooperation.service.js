@@ -1,48 +1,48 @@
 'use strict';
 
 angular.module('cooperation').service('Cooperation', function ($http, $q) {
-    
+
     var url = basePath;
- 
+
     //url="http://172.16.21.69:8080/bimco";
     /**
      *获取项目部列表 旧
      */
     this.getDeptInfo = function () {
         var delay = $q.defer();
-        var url_join= url+"rs/co/deptInfoList";
+        var url_join = url + "rs/co/deptInfoList";
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     };
-    
+
     /**
      * 根据公司id获取项目部列表
      */
-    this.getDeptInfoList = function(params){
+    this.getDeptInfoList = function (params) {
         var delay = $q.defer();
-        var url_join = url+'rs/co/deptInfoList/'+params;
-        $http.get(url_join).success(function(data){
+        var url_join = url + 'rs/co/deptInfoList/' + params;
+        $http.get(url_join).success(function (data) {
             delay.resolve(data)
-        }).error(function(err){
+        }).error(function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
-    
+
     /**
      * 根据项目部id获取工程以及协同状态
      */
-    this.getProjectInfoList = function(params){
+    this.getProjectInfoList = function (params) {
         var delay = $q.defer();
-        var url_join = url+'rs/co/getProjectInfoList/'+params;
-        $http.get(url_join).success(function(data){
+        var url_join = url + 'rs/co/getProjectInfoList/' + params;
+        $http.get(url_join).success(function (data) {
             delay.resolve(data)
-        }).error(function(err){
+        }).error(function (err) {
             delay.reject(err)
         })
         return delay.promise;
@@ -51,13 +51,13 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取新建页面项目部列表
     this.getDeptList = function () {
         var delay = $q.defer();
-        var url_join= url+"rs/co/deptList";
+        var url_join = url + "rs/co/deptList";
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     };
 
@@ -66,20 +66,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/pcUserList';
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{cache:true,transformRequest:angular.identity})
-            .success(function (data) {
-                delay.resolve(data);
-            }).error(function (data) {
-                delay.reject(data);
-        });
-        return delay.promise;
-    }
-
-    //获取项目部下工程列表
-    this.projectList = function (params) {
-        var delay = $q.defer();
-        var url_join = url +'rs/co/projectList/'+ params;
-        $http.get(url_join,{cache:false})
+        $http.post(url_join, params, {cache: true, transformRequest: angular.identity})
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
@@ -87,26 +74,39 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         });
         return delay.promise;
     }
-    
-    //获取项目下工程
-    this.getProjectList = function(params){
+
+    //获取项目部下工程列表
+    this.projectList = function (params) {
         var delay = $q.defer();
-        var url_join = url+'rs/co/projectInfoList/'+params;
-        $http.get(url_join).success(function(data){
+        var url_join = url + 'rs/co/projectList/' + params;
+        $http.get(url_join, {cache: false})
+            .success(function (data) {
+                delay.resolve(data);
+            }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+
+    //获取项目下工程
+    this.getProjectList = function (params) {
+        var delay = $q.defer();
+        var url_join = url + 'rs/co/projectInfoList/' + params;
+        $http.get(url_join).success(function (data) {
             delay.resolve(data)
-        }).error(function(err){
+        }).error(function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
 
     //获取bv
-    this.getBVRectifyStatus = function(){
+    this.getBVRectifyStatus = function () {
         var delay = $q.defer();
-        var url_join = url+'rs/co/getBVRectifyStatus';
-        $http.get(url_join,{cache:true}).success(function(data){
+        var url_join = url + 'rs/co/getBVRectifyStatus';
+        $http.get(url_join, {cache: true}).success(function (data) {
             delay.resolve(data)
-        }).error(function(err){
+        }).error(function (err) {
             delay.reject(err)
         })
         return delay.promise;
@@ -116,7 +116,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var params = JSON.stringify(params);
         var delay = $q.defer();
         var url_join = url + 'rs/co/collaborationList';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -129,12 +129,12 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var url_join = url + 'rs/co/docTagList/' + params;
         $http.get(url_join)
             .success(function (data) {
-            	// 添加全部跟节点
-            	var allNode = {name:"全部", value:"全部", type:0, children:data};
+                // 添加全部跟节点
+                var allNode = {name: "全部", value: "全部", type: 0, children: data};
                 delay.resolve(allNode);
             }).error(function (data) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
     //获取工程对应资料列表
@@ -142,7 +142,7 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/docList';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -157,15 +157,15 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
     //获取构件
     this.getFloorCompClassList = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/floorCompClassList';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -176,39 +176,39 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.getCollaboration = function (coid) {
         var delay = $q.defer();
         // var url_join= tempUrl + 'detail/' + coid;
-        var url_join= url + 'rs/co/detail/' + coid;
+        var url_join = url + 'rs/co/detail/' + coid;
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     };
 
     //获取类型列表
     this.getTypeList = function () {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/typeList';
+        var url_join = url + 'rs/co/typeList';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
     //获取选择表单列表
     this.getTemplateNode = function (params) {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/template/' + params + '/pdf';
+        var url_join = url + 'rs/co/template/' + params + '/pdf';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
@@ -217,7 +217,10 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     this.createCollaboration = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/collaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity, transformResponse: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity
+        }).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -228,33 +231,33 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取标识
     this.getMarkerList = function (params) {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/markers';
+        var url_join = url + 'rs/co/markers';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
     //获取优先级列表
     this.getPriorityList = function () {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/priorityList';
+        var url_join = url + 'rs/co/priorityList';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
     //获取有相关功能的工程列表 
     this.getProjTipInfo = function (params) {
         var delay = $q.defer();
         var url_join = url + 'rs/co/getProjTipInfo';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -265,24 +268,24 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //获取筛选动态列表
     this.getCoQueryFilter = function (params) {
         var delay = $q.defer();
-        var params = JSON.stringify({queryBvToPc:true});
+        var params = JSON.stringify({queryBvToPc: true});
         var url_join = url + 'rs/co/coQueryFilter';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
         });
         return delay.promise;
     }
-    
+
     //编辑协作
     this.updateCollaboration = function (params) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/updateCollaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data, status) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data, status) {
             delay.resolve(data);
-        }).error(function (data,status) {
+        }).error(function (data, status) {
             delay.reject(data);
         });
         return delay.promise;
@@ -290,28 +293,28 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     //协作详情右侧动态列表
     this.getOperationList = function (coid) {
         var delay = $q.defer();
-        var url_join= url + 'rs/co/operation/' + coid;
+        var url_join = url + 'rs/co/operation/' + coid;
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
-    
+
     //更新评论
     this.commentToCollaboration = function (params) {
         var delay = $q.defer();
         var params = JSON.stringify(params);
         var url_join = url + 'rs/co/commentToCollaboration';
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
         });
-        return delay.promise; 
+        return delay.promise;
     }
 
     //获取系统时间
@@ -319,49 +322,49 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         var cDate = new Date();
         //console.info($scope.date)
         var cYear = cDate.getFullYear();
-        var cMouth = cDate.getMonth()+1;
+        var cMouth = cDate.getMonth() + 1;
         var cDay = cDate.getDate();
-        var cWeekday=new Array(7);
-        cWeekday[0]="星期日";
-        cWeekday[1]="星期一";
-        cWeekday[2]="星期二";
-        cWeekday[3]="星期三";
-        cWeekday[4]="星期四";
-        cWeekday[5]="星期五";
-        cWeekday[6]="星期六";
-       var currentDate =  cYear+"年"+ cMouth+"月"+cDay+"日"+cWeekday[cDate.getDay()];
-       return currentDate;
+        var cWeekday = new Array(7);
+        cWeekday[0] = "星期日";
+        cWeekday[1] = "星期一";
+        cWeekday[2] = "星期二";
+        cWeekday[3] = "星期三";
+        cWeekday[4] = "星期四";
+        cWeekday[5] = "星期五";
+        cWeekday[6] = "星期六";
+        var currentDate = cYear + "年" + cMouth + "月" + cDay + "日" + cWeekday[cDate.getDay()];
+        return currentDate;
     }
     //统计页面获取数据
-    this.getCoStatisticsInfo = function(params){
+    this.getCoStatisticsInfo = function (params) {
         var delay = $q.defer();
         var url_join = url + "rs/co/coStatistics";
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.post(url_join, params, {transformRequest: angular.identity}).then(function (data) {
             delay.resolve(data);
-        },function(err){
+        }, function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
     //过滤掉不存在的类型
-    this.typeForCoStatistics = function(params){
-        var  delay = $q.defer();
-        var url_join = url+"rs/co/typeForCoStatistics";
+    this.typeForCoStatistics = function (params) {
+        var delay = $q.defer();
+        var url_join = url + "rs/co/typeForCoStatistics";
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest:angular.identity}).success(function(data){
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
-        }).error(function(error){
+        }).error(function (error) {
             delay.reject(error);
         })
         return delay.promise;
     }
     // 协作操作 PC/BV 签署／签名／通过／拒绝／结束 PC/BV
-    this.doCollaboration = function(params){
+    this.doCollaboration = function (params) {
         var delay = $q.defer();
         var url_join = url + "rs/co/doCollaboration";
         var params = JSON.stringify(params);
-         $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -371,36 +374,36 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
 
     //获取签名uuid
     this.getSignature = function () {
-       var delay = $q.defer();
-        var url_join= url + 'rs/co/signature';
+        var delay = $q.defer();
+        var url_join = url + 'rs/co/signature';
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     }
 
     // 获取服务器时间
-    this.getTrendsSystem = function(params){
+    this.getTrendsSystem = function (params) {
         var delay = $q.defer();
         var url_join = url + "rs/trends/system";
         var obj = JSON.stringify(params);
-        $http.get(url_join,obj,{transformRequest: angular.identity}).then(function(data){
+        $http.get(url_join, obj, {transformRequest: angular.identity}).then(function (data) {
             delay.resolve(data);
-        },function(err){
+        }, function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
 
     //签入
-    this.checkIn = function(coid){
+    this.checkIn = function (coid) {
         var delay = $q.defer();
-        var url_join = url + "rs/co/checkIn/"+coid;
+        var url_join = url + "rs/co/checkIn/" + coid;
         var params = JSON.stringify(params);
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -409,28 +412,28 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
     }
 
     //签出
-    this.checkOut = function(coid){
+    this.checkOut = function (coid) {
         var delay = $q.defer();
-        var url_join = url + "rs/co/checkOut/"+coid;
+        var url_join = url + "rs/co/checkOut/" + coid;
         var params;
         // var params={"coid":coid}
         // var params = JSON.stringify(params);
-       $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
         });
         return delay.promise;
     }
-    
+
     //检查协作是否锁定
-    this.checkCoLocked = function(coid){
+    this.checkCoLocked = function (coid) {
         var delay = $q.defer();
-        var url_join = url + "rs/co/checkCoLocked/"+coid;
+        var url_join = url + "rs/co/checkCoLocked/" + coid;
         var params = JSON.stringify(params);
         // var params={"coid":coid}
         // var params = JSON.stringify(params);
-       $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -438,149 +441,154 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 //    草稿箱信息删除
-    this.removeDraft = function(coid){
+    this.removeDraft = function (coid) {
         var delay = $q.defer();
-        var url_join = url + "rs/co/removeDraft/"+coid;
+        var url_join = url + "rs/co/removeDraft/" + coid;
         var params;
-        $http.get(url_join,params,{transformRequest: angular.identity}).then(function(data){
+        $http.get(url_join, params, {transformRequest: angular.identity}).then(function (data) {
             delay.resolve(data);
-        },function(err){
+        }, function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
     //获取当前用户信息
-    this.getCurrentUser = function(){
+    this.getCurrentUser = function () {
         var delay = $q.defer();
         var url_join = url + "rs/co/currentUser";
-        $http.get(url_join,{},{transformRequest: angular.identity, transformResponse: angular.identity}).then(function(data){
+        $http.get(url_join, {}, {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity
+        }).then(function (data) {
             delay.resolve(data);
-        },function(err){
+        }, function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
     //选择分公司
-    this.getOrgInfo = function(){
+    this.getOrgInfo = function () {
         var delay = $q.defer();
-        var url_join = url+'rs/co/orgInfo';
-        $http.get(url_join,{},{transformRequest: angular.identity, transformResponse: angular.identity}).success(function(data){
+        var url_join = url + 'rs/co/orgInfo';
+        $http.get(url_join, {}, {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity
+        }).success(function (data) {
             delay.resolve(data)
-        }).error(function(err){
+        }).error(function (err) {
             delay.reject(err)
         })
         return delay.promise;
     }
-
-    //心跳机制
-    function getheartBeat  () {
+    //协作列表标记为已读
+    this.remarkRead = function (params) {
         var delay = $q.defer();
-        var url_join= url+"rs/co/heartBeat";
+        var url_join = url + 'rs/co/markRead';
+        var params = JSON.stringify(params);
+        $http.put(url_join, params, {transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+    //心跳机制
+    function getheartBeat() {
+        var delay = $q.defer();
+        var url_join = url + "rs/co/heartBeat";
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     };
 
     function refreshState() {
-        getheartBeat().then(function(){});
+        getheartBeat().then(function () {
+        });
     }
 
-    //设置间隔获取状态
+    //设置间隔获取状态10mins跟服务器通信一次
     this.heartBeat = function () {
-        ApplicationConfiguration.refreshID = setInterval(refreshState, 20*60*1000);
+        ApplicationConfiguration.refreshID = setInterval(refreshState, 10 * 60 * 1000);
         // ApplicationConfiguration.refreshID = setInterval(refreshState, 10*1000);
     }
-    //心跳机制end
 
-    //获取指定的UUID的下载地址
-//    this.getDownFileUrl = function (uuids){
-//    	var delay = $q.defer();
-//    	var url_join = url + "rs/co/downFileUrl";
-//    	$http.post(url_join,uuids,{transformRequest: angular.identity}).then(function(data){
-//    		delay.resolve(data);
-//    	},function(err){
-//            delay.reject(err);
-//        })
-//        return delay.promise;
-//    }
-    
     // 树节点展开或关闭  e={type:"",operObj:"",level: 1}  
     // 展开e.type="expand"  收起e.type="collapse"		e.operObj对应树节点信息ul的id
     // e.level:当前展开到第几层 
-    this.openOrClose = function (e){
-    	var level = e.level;	// 当前展开到第几层
-    	var type = e.type;	// 展开e.type="expand"  收起e.type="collapse"
-    	var operObj = e.operObj;	// e.operObj对应树节点信息ul的id
-    	
-    	var zTree = $.fn.zTree.getZTreeObj(operObj);
-    	var treeNodes = zTree.transformToArray(zTree.getNodes());
-    	var flag=true;
-    	var maxLevel=-1;	// 该树的最大层数
-    	//点击展开、折叠的时候需要判断一下当前level的节点是不是都为折叠、展开状态
-    	for (var i = 0;i < treeNodes.length; i++) {
-    		if(treeNodes[i].level >= maxLevel){	// 获取状态树的深度
-				maxLevel = treeNodes[i].level;
-			}
-    		if(treeNodes[i].level == level && treeNodes[i].isParent){
-    			if (type == "expand" && !treeNodes[i].open) {
-    				flag=false;
-    				break;
-    			} else if (type == "collapse" && treeNodes[i].open) {
-    				flag=false;
-    				break;
-    			}
-    		}
-    	}
-    	if(flag){
-    		//说明当前level的节点都为折叠或者展开状态
-    		if(type == "expand"){
-    			if(level < maxLevel-1){
-    				level++;
-    			}
-    		}else if(type == "collapse"){
-    			if(level == 0){
-    				return level;
-    			}
-    			level--;
-    		}
-    	}
-    	for (var i = 0;i < treeNodes.length; i++) {
-    		if(treeNodes[i].level == level && treeNodes[i].isParent){
-    			if (type == "expand" && !treeNodes[i].open) {
-    				zTree.expandNode(treeNodes[i], true, false, null, true);
-    			} else if (type == "collapse" && treeNodes[i].open) {
-    				zTree.expandNode(treeNodes[i], false, false, null, true);
-    			}
-    		}
-    	}
-    	return level;
+    this.openOrClose = function (e) {
+        var level = e.level;	// 当前展开到第几层
+        var type = e.type;	// 展开e.type="expand"  收起e.type="collapse"
+        var operObj = e.operObj;	// e.operObj对应树节点信息ul的id
+
+        var zTree = $.fn.zTree.getZTreeObj(operObj);
+        var treeNodes = zTree.transformToArray(zTree.getNodes());
+        var flag = true;
+        var maxLevel = -1;	// 该树的最大层数
+        //点击展开、折叠的时候需要判断一下当前level的节点是不是都为折叠、展开状态
+        for (var i = 0; i < treeNodes.length; i++) {
+            if (treeNodes[i].level >= maxLevel) {	// 获取状态树的深度
+                maxLevel = treeNodes[i].level;
+            }
+            if (treeNodes[i].level == level && treeNodes[i].isParent) {
+                if (type == "expand" && !treeNodes[i].open) {
+                    flag = false;
+                    break;
+                } else if (type == "collapse" && treeNodes[i].open) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag) {
+            //说明当前level的节点都为折叠或者展开状态
+            if (type == "expand") {
+                if (level < maxLevel - 1) {
+                    level++;
+                }
+            } else if (type == "collapse") {
+                if (level == 0) {
+                    return level;
+                }
+                level--;
+            }
+        }
+        for (var i = 0; i < treeNodes.length; i++) {
+            if (treeNodes[i].level == level && treeNodes[i].isParent) {
+                if (type == "expand" && !treeNodes[i].open) {
+                    zTree.expandNode(treeNodes[i], true, false, null, true);
+                } else if (type == "collapse" && treeNodes[i].open) {
+                    zTree.expandNode(treeNodes[i], false, false, null, true);
+                }
+            }
+        }
+        return level;
     }
-    
+
     // 展开全部节点，并返回当前展开层数 即最大层数
-    this.expandAll = function(treeId) {
-    	var treeObj = $.fn.zTree.getZTreeObj(treeId);
-		//全部打开
-		treeObj.expandAll(true);
-		// 设置当前打开的层数
-		var treeNodes = treeObj.transformToArray(treeObj.getNodes());
-		for(var i = 0 ; i<treeNodes.length;i++){
-			if(treeNodes[i].level >= maxLevel){
-				maxLevel = treeNodes[i].level;
-			}
-		}
-    	return maxLevel;
+    this.expandAll = function (treeId) {
+        var treeObj = $.fn.zTree.getZTreeObj(treeId);
+        //全部打开
+        treeObj.expandAll(true);
+        // 设置当前打开的层数
+        var treeNodes = treeObj.transformToArray(treeObj.getNodes());
+        for (var i = 0; i < treeNodes.length; i++) {
+            if (treeNodes[i].level >= maxLevel) {
+                maxLevel = treeNodes[i].level;
+            }
+        }
+        return maxLevel;
     }
 
     //获取pc mp3url
-    this.getPcMp3Url = function(uuid){
+    this.getPcMp3Url = function (uuid) {
         var delay = $q.defer();
         var url_join = url + "rs/co/downFileUrl";
         var params = JSON.stringify(uuid);
-        $http.post(url_join,params,{transformRequest: angular.identity}).success(function (data) {
+        $http.post(url_join, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data);
         }).error(function (data) {
             delay.reject(data);
@@ -588,33 +596,19 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
 
-
-
-    //$.ajax({
-    //    type: "POST",
-    //    url: basePath+'rs/co/shareDetail',
-    //    data:coid,
-    //    async:false,
-    //    contentType:'text/plain',
-    //    success: function(data){
-    //        console.log(data);
-    //    },
-    //    error:function(){}
-    //
-    //});
     //分享页面的详情
-    this.shareDetail = function(coid){
+    this.shareDetail = function (coid) {
         var delay = $q.defer();
         $.ajax({
             type: "POST",
-            url: basePath+'rs/co/shareDetail',
-            data:coid,
-            async:false,
-            contentType:'text/plain',
-            success: function(data){
+            url: basePath + 'rs/co/shareDetail',
+            data: coid,
+            async: false,
+            contentType: 'text/plain',
+            success: function (data) {
                 delay.resolve(data);
             },
-            error:function(error){
+            error: function (error) {
                 delay.reject(error);
             }
 
@@ -622,18 +616,18 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
     //分享页面的
-    this.shareOperation = function(coid){
+    this.shareOperation = function (coid) {
         var delay = $q.defer();
         $.ajax({
             type: "POST",
-            url: basePath+'rs/co/shareOperation',
-            data:coid,
-            async:false,
-            contentType:'text/plain',
-            success: function(data){
+            url: basePath + 'rs/co/shareOperation',
+            data: coid,
+            async: false,
+            contentType: 'text/plain',
+            success: function (data) {
                 delay.resolve(data);
             },
-            error:function(error){
+            error: function (error) {
                 delay.reject(error);
             }
 
@@ -641,59 +635,161 @@ angular.module('cooperation').service('Cooperation', function ($http, $q) {
         return delay.promise;
     }
     //删除协作
-    this.removeCoopertion = function(coid){
+    this.removeCoopertion = function (coid) {
         var delay = $q.defer();
-        var join_url =url+'rs/co/remove/'+coid;
+        var join_url = url + 'rs/co/remove/' + coid;
         var params = JSON.stringify(coid);
-        $http.delete(join_url,params,{transformRequest: angular.identity}).success(function(data){
+        $http.delete(join_url, params, {transformRequest: angular.identity}).success(function (data) {
             delay.resolve(data)
-        }).error(function(error){
+        }).error(function (error) {
             delay.reject(error);
         })
         return delay.promise;
     }
-    
+
     //批量删除协作
-    this.removeAll = function(params){
+    this.removeAll = function (params) {
         var params = JSON.stringify(params);
         var delay = $q.defer();
         $.ajax({
             type: "DELETE",
-            url: basePath+'rs/co/removeAll',
-            data:params,
-            contentType:'application/json',
-            success: function(data){
+            url: basePath + 'rs/co/removeAll',
+            data: params,
+            contentType: 'application/json',
+            success: function (data) {
                 delay.resolve(data);
             },
-            error:function(error){
+            error: function (error) {
                 delay.reject(JSON.parse(error.responseText));
             }
         });
         return delay.promise;
     }
 
-     function getheartBeat  () {
+    function getheartBeat() {
         var delay = $q.defer();
-        var url_join= url+"rs/co/heartBeat";
+        var url_join = url + "rs/co/heartBeat";
         $http.get(url_join)
             .success(function (data) {
                 delay.resolve(data);
             }).error(function (data, status) {
-                delay.reject(data);
-            });
+            delay.reject(data);
+        });
         return delay.promise;
     };
 
     //根据ppid获取对应的productId
-    this.getProductId = function(param){
-       var delay = $q.defer();
-       var url_join = url + "rs/co/productid/"+param;
-       $http.get(url_join).success(function(data){
+    this.getProductId = function (param) {
+        var delay = $q.defer();
+        var url_join = url + "rs/co/productid/" + param;
+        $http.get(url_join).success(function (data) {
             delay.resolve(data);
-       }).error(function(data){
+        }).error(function (data) {
             delay.reject(data);
-       });
-       return delay.promise;
+        });
+        return delay.promise;
     }
 
+    //获取显示设置(跟随账号)
+    this.getDisPlaySetting = function (param) {
+        var delay = $q.defer();
+        var url_join = url + "rs/co/display";
+        $http.get(url_join).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+
+    //保存显示设置(跟随账号)
+    this.saveDisPlaySetting = function (param) {
+        var delay = $q.defer();
+        var url_join = url + "rs/co/display";
+        var param = JSON.stringify(param);
+        $http.post(url_join, param, {transformRequest: angular.identity}).success(function (data) {
+            delay.resolve(data);
+        }).error(function (data) {
+            delay.reject(data);
+        });
+        return delay.promise;
+    }
+
+    /**
+     * 记录日志
+     * @param  {Boolean} defaultLog 不区分两栏、三栏的情况 0：不区分 1：区分
+     * @param  {string}  route              标识三栏、两栏
+     * @param  {Boolean} LgDetailMode       true:三栏展开详情界面/两详情界面 false:非三栏详情界面
+     * @param  {string}  progressName       流程名称组合
+     * @param  {Number} isSavePds          是否保存到eds端1保存0 不保存
+     * @param  {string}  topicName          协作主题
+     */
+    this.writeLog = function (defalutLog, route, LgDetailMode, progressName, isSavePds, topicName, previewSignName) {
+        var progressPrefix; //日志的流程前缀
+        if (!defalutLog) {
+            progressPrefix = LogConfiguration.progressPrefix.default;
+        } else {
+            console.log(route);
+            if (route == 'cooperation.secondCloumn' || LgDetailMode) {
+                progressPrefix = LogConfiguration.progressPrefix.secondCloumn;
+            } else if (route == 'manage') {
+                progressPrefix = LogConfiguration.progressPrefix.manage;
+            } else {
+                progressPrefix = LogConfiguration.progressPrefix.threeCloumn;
+            }
+
+            if (previewSignName) {
+                progressName += previewSignName;
+            }
+        }
+
+        var funcName = progressName.split('→')[progressName.split('→').length - 1]; //截取功能名称
+        var groupName = progressPrefix + progressName; //流程名称组合
+
+        if (isSavePds) {
+            funcName = groupName;
+        }
+        /**
+         * 调用客户端记录日志
+         * Bimco.WriteLog(‘新建协作’， ‘协作->新建协作’， 1)
+         * @param  {string}  funcName  功能名称(固定)
+         * @param  {string}  groupName 流程名称组合
+         * @param  {Boolean} isSavePds 是否保存到eds端
+         * @param  {string}  topicName 协助主题
+         * @return {[type]}            [description]
+         */
+        // alert("funcName" + funcName, "groupName" + groupName, "isSavePds" + isSavePds, "topicName" + topicName);
+        console.log(funcName, groupName, isSavePds, topicName);
+        BimCo.WriteLog(funcName, groupName, isSavePds, topicName);
+    }
+
+    /**  */
+    this.verifyAccessCode = function (accessCode,type) {
+        var currentAccessCode;
+        switch (type) {
+            case 'create':
+                currentAccessCode = accessCodeConfig.createCode;
+            break;
+            case 'updateComment':
+                currentAccessCode = accessCodeConfig.updateCode;
+            break;
+            case 'delete':
+                currentAccessCode = accessCodeConfig.deleteCode;
+            break;
+            case 'manage':
+                currentAccessCode = accessCodeConfig.coManageCode;
+            break;
+        }
+
+        if(!accessCode || (accessCode && (accessCode.indexOf(currentAccessCode)==-1) && (accessCode.indexOf(accessCodeConfig.coManageCode)==-1))){
+            layer.alert('没有当前功能使用权限，请联系企业管理员', {
+                title:'提示',
+                closeBtn: 0,
+                move:false
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
 });

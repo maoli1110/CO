@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./css/scrollnice.css">
 <div class="edit-detailC" ng-show="!device && !flag.isPreview">
 
-    <div class="main" style="margin-bottom:50px min-width:320px;" copy-radio>
+    <div class="main" style="margin-bottom:50px ;min-width:320px;" copy-radio>
         <!--main_content-->
         <div class="inner">
             <header >
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="Avatar row pc-relate">
                                     <div class="row" style="padding:0;margin-bottom:20px;">
-                                        <label for="" class="col-xs-1 align-right">负责人：</label>
+                                        <label class="col-xs-1 align-right">负责人：</label>
                                         <div class="inline col-xs-7" style="margin-left:-4px;">
                                             <ul class="inline rela relative-ion" style="margin-left:0;">
                                                 <img ng-src="{{responsiblePerson.avatar}}"  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="responsiblePerson.avatar"/>
@@ -252,8 +252,8 @@
             </div>
         </div>
          <div class="footer footer-commom">
-            <button type="button" class="btn btn-default ok" ng-click="ok()" style="width:143px;height:34px;">确定</button>
-            <button type="button" class="btn btn-default cancel" style="width:143px;height:34px;" ng-click="backDetail()">取消</button>
+            <button type="button" class="btn btn-default ok" ng-click="ok()" style="width:143px;height:34px;font-weight:bold;">确定</button>
+            <button type="button" class="btn btn-default cancel btn-cancel" style="width:143px;height:34px;" ng-click="backDetail()">取消</button>
         </div>
 
 </div>

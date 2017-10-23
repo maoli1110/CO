@@ -151,25 +151,29 @@ canvas{
 	display:none;
 }
 .comboBox .filter-table label span{
-	width: 88px;
+	width: 68px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
     padding: 4px 8px;
     vertical-align: middle;
+	font-size:12px;
+	padding-left:10px;
 }
 .comboBox .filter-table .filter_title span{
-	width: 81px;
+	width: 72px;
     font-weight: bold;
+	font-size:12px;
 }
 .filter-tab .filterOptions span,
 .form-inline div span{
-	cursor:pointer;
+
 }
-.comboBox .filter-table .check-sub label span:hover{
+.comboBox .filter-table .filter-sub label span:hover{
 	background: #e0f3e5;
 	color:#69c080;
+	cursor:pointer;
 }
 
 /*data_count(鏁版嵁缁熻椤甸潰)*/
@@ -181,7 +185,7 @@ canvas{
 /*data_count*/
 .data_count{
 	display:none;
-	position:relative;
+	position:absolute;
 	min-width:800px;
 	overflow:hidden;/*----------------------------------*/
 }
@@ -527,10 +531,15 @@ canvas{
 
 .colorBox{
     vertical-align: middle;
-    width: 20px;
-    height: 13px;
+    width: 44px;
+	border-radius: 15px;
+	padding: 1px 8px;
+    height: 15px;
+	line-height:13px;
     display: inline-block;
-    margin: 0px 5px 0 0;
+    /*margin: 0px 5px 0 0;*/
+	color: #fff;
+	font-weight: 400 !important;
 }
 .checkStatus{
 	/*float:left;*/
@@ -552,14 +561,14 @@ canvas{
 	margin-top: -22px !important;
 }
 .noFilter:active,.new-btnFail:active{
-	color:#FFF !important;
+	color:#333 !important;
 }
 .filterOptions{
 	line-height:41px;
 	height:30px;
 }
 .filter-criteria{
-	width:80px;max-width:100px !important;display:inline-block;line-height:30px;height:30px !important;margin-top:-22px !important;margin-top:10px;
+	width:86px;max-width:100px !important;display:inline-block;line-height:30px;height:30px !important;margin-top:-22px !important;margin-top:10px;
 }
 .filter-btn{
 	display:inline-block;
@@ -599,6 +608,6 @@ canvas{
 }
 .multi-choice{
 	position:absolute !important;
-	top:5px;
-	left:31px;
+	/*top:-13px;*/
+	left:30px;
 }

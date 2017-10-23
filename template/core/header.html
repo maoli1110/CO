@@ -1,4 +1,11 @@
 <link rel="stylesheet" href="./css/scrollnice.css">
+<style>
+
+	.layer-skin .layui-layer-btn{text-align:right !important;margin-top: -10px;}
+	.layer-skin.layui-layer-dialog .layui-layer-content {
+		padding: 20px 10px !important;
+	}
+</style>
 <nav class="navbar navbar-default" role="navigation"  ng-controller="headerCtrl">
 		<div class="header clearfix">
 			<div class="navbar-header user" >
@@ -6,12 +13,13 @@
 				<img ng-if="currentUser.img!=''"  ng-src="{{currentUser.img}}"  alt="头像">
 					<div class="inline about-company" style="float:left" >
 						<div class="substr header-avatar"  title="{{currentUser.name}}">{{currentUser.name}}</div>
-						<div class="substr header-role" style="max-width:145px;text-align: left;padding-left: 10px;" title="{{currentUser.job}}">{{currentUser.job}}</div>
-						<div class="substr" style="max-width: 242px;text-align: left;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
+						<div class="substr header-role" style="max-width:140px;text-align: left;" title="{{currentUser.job}}">{{currentUser.job}}</div>
+						<div class="absol switch-par" title="切换用户" style="width:26px;height:22px;top:5px;left:209px;" ng-click="switchUser()"><span class="switch-user " style="margin-left:5px;" ></span></div>
+						<div class="substr" style="max-width: 140px;text-align: left;margin-top:-1px;" title="{{currentUser.compName}}">{{currentUser.compName}}</div>
 					</div>
 					<div class="inline header-shape" ng-click="menus()" style="float:left">
 						<!--<span class="glyphicon glyphicon-chevron-down f-white ml-10"></span>-->
-						<div class="header_trigon" style="margin-top: -4px;cursor: pointer;">
+						<div class="header_trigon" style="margin-top: -4px;cursor: pointer;margin-left:6px;">
 
 						</div>
 					</div>
@@ -25,8 +33,8 @@
 							</p>
 							<div class="child_items">
 								<ol >
-									<li class="substr ol-item">动态({{menus.trendsCount}})</li>
 									<li class="substr ol-item">协作({{menus.coCount}})</li>
+									<li class="substr ol-item">动态({{menus.trendsCount}})</li>
 								</ol>
 							</div>
 						</li>
@@ -34,25 +42,32 @@
 				</div>
 			</div>
 			<ul class="nav navbar-nav">
-				<li  ui-sref="cooperation" ng-class="{navActive:$state.includes('cooperation')}">
-					<img ng-src="imgs/icon02.png" alt="">
-					<a>协作管理</a>
+				<li  ui-sref="cooperationNew.threeCloumn" ng-class="{true:'navActive'}[$state.includes('cooperationNew.detail')|| $state.includes('cooperationNew.threeCloumn') || $state.includes('cooperationNew.secondCloumn')]">
+					<!--<img ng-src="imgs/icon02.png" alt="">-->
+					<span class=" icon-header-menus">
+						<span class="icon-cooper"></span>
+					</span>
+					<a>协作</a>
 
 				</li>
+
 				<li ui-sref="manage" ng-class="{navActive:$state.includes('manage')}">
-					<img ng-src="imgs/icon01.png" alt="">
-					<a>资料动态</a>
+					<!--<img ng-src="imgs/icon01.png" alt="">-->
+					<span class="icon-header-menus">
+						<span class="icon-trent"></span>
+					</span>
+					<a>动态</a>
 				</li>
 			</ul>
 			<div class="label_tools">
-				<span class="min-window" ng-click="minimize()">
+				<span class="min-window" ng-click="minimize()" title="最小化">
 					<img ng-src="imgs/icon/icon-small.png" alt="">
 				</span>
 				<span class="max-window" ng-click="maxRestore()">
-					<img ng-src="imgs/icon/icon-max.png" class="max-restore" id="w-max">
-					<img ng-src="imgs/icon/icon-middle.png" class="max-restore" id="w-middle">
+					<img ng-src="imgs/icon/icon-max.png" title="最大化" class="max-restore" id="w-max">
+					<img ng-src="imgs/icon/icon-middle.png" title="向下还原" class="max-restore" id="w-middle">
 				</span>
-				<span class="change-window" ng-click="close()" style="margin-left:0px;"><img ng-src="imgs/icon/icon-close.png" alt=""></span>
+				<span class="change-window" title="关闭" ng-click="close()" style="margin-left:0px;"><img ng-src="imgs/icon/icon-close.png" alt=""></span>
 			</div>
 		</div>
 		<!-- 跳转协作管理frombe -->

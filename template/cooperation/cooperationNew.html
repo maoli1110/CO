@@ -1,0 +1,570 @@
+<style>
+	.data_count {
+		height: calc(100vh - 62px);
+	}
+	.content-scroll-container {
+		overflow:auto;
+	}
+
+	.noStatistics{
+		display: none;
+	}
+	
+	.cooperation-common .main-container {
+		position: absolute;
+	    width: 100%;
+	    bottom: 0px;
+	    z-index: 100;
+	    top: 60px;
+	    overflow: hidden;
+	}
+	.cooperation-common .data_count {
+		width: calc(100% - 252px);
+		top: 0;
+		bottom: 0;
+		left:252px; 
+		background: #fff;
+		z-index: 103;
+	}
+	.cooperation-common .detailLg {
+		top: 0;
+        bottom: 0;
+	    background: #fff;
+	    z-index: 103;
+	    position: absolute;
+	    left: 0;
+	    right: 0;
+	    overflow: auto;
+	}
+	.cooperation-common .sidebar {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0px;
+	    background-color: #293038;
+	    z-index: 100;
+	    overflow-x: hidden;
+	}
+
+    .trigon-pop{
+        bottom: -8px;
+        left: 50px;
+        -index: -1;
+        -webkit-box-shadow: 1px 0px 7px #ccc;
+        -moz-box-shadow: 1px 0px 7px #ccc;
+        box-shadow: 1px 0px 7px #ccc;
+        -webkit-transform: rotate(131deg);
+        -moz-transform: rotate(131deg);
+        -ms-transform: rotate(131deg);
+        -o-transform: rotate(131deg);
+        transform: rotate(131deg);
+    }
+    .stroke-border{
+        width:100%;
+        height:1px;
+        border-bottom:1px solid #ddd;
+    }
+
+    .comboBox .filter_title span {
+        text-overflow: unset !important;
+    }
+    
+    .content_right_pc .down-time {
+        float: right;
+        padding-right: 8px;
+        width: auto;
+    }
+</style>
+<!-- 三栏模式 -->
+<link rel="stylesheet" href="./css/scrollnice.css">
+<div class="cooperation-common">
+    <header ng-include="'template/core/header.html'"></header>
+    <div class="content" id="dvCompute" style="font-size:14px;position:absolute;visibility:hidden;"></div>
+    <div class="main-container rela">
+        <div class="sidebar" ng-include="'template/core/sidebar.html'" id="siderbar"></div>
+        <!--筛选条件-->
+        <div class="filters" ng-class="{true:'stroke-bottom'}[flag.filterExist || closeStause]">
+            <div class="container-fluid rela">
+                <div class="operation clearfix">
+                    <div class="left">
+                        <!--<button type="button" class="btn btn_new new_cooper" ng-click="openNew()">新建协作</button>-->
+                        <span class="new-file menus-tools-active " name="menusTool" ng-click="openNew()" title="新建"></span>
+                        <div id="comboBox_count" name="menusTool" ng-click="comboxCount()" class="btn  btn_count"
+                             style="margin-right:12px;" title="统计">
+                        </div>
+                        <div class="filter-btn rela icon-filter" name="menusTool" ng-click="isShowComboBox()" title="筛选">
+                            <!--<div class="cop-filter" style="width:74px">筛选条件</div>
+                            <span class="double-arrow absol" style="top:0;right:0">
+								<span class="direction-arrow"></span>
+								<span class="single-arrow"></span>
+
+							</span>-->
+                        </div>
+
+
+                    </div>
+                    <div class="right">
+                        <div class="rela search inline">
+                            <input type="text"  class="form-control coop-searchKey" id="exampleInputName1"
+                                   style="height:34px;border-radius:1px;" ng-keyUp="searchEnter($event)" placeholder="搜索主题"
+                                   ng-model="flag.searchkey" >
+                            <div class="search-bj" title="搜索" style="top:10px;"><img ng-src="imgs/seache.png" alt=""
+                                                        ng-click="inputSearch()"></div>
+                        </div>
+                        <span ui-sref="cooperationNew.secondCloumn" class="second-column " title="两栏" ng-click="menusColumn($event)"><!--2栏--></span>
+                        <span ui-sref="cooperationNew.threeCloumn" class="three-column " title="三栏" ng-click="menusColumn($event)"><!--3栏--></span>
+                        <input type="hidden" ng-click="toDetailPage()" id="toDetailPage">
+                        <input type="hidden" value="" id="detailFromBe">
+                        
+                        <!-- <span id="toDetailPage"  ng-click="toDetailPage()">详情测试用</span> -->
+                        <!-- <input type="hidden" value="59e419b3fabcdfb06f655949" id="detailFromBe"> -->
+                    </div>
+                    <div class="operation-mask"></div>
+                </div>
+            </div>
+            <!--筛选框-->
+            <div class="comboBox filter-box clearfix rela" copy-radio style="position:relative">
+                <div class="filter-tab" ng-show="flag.filterExist">
+                    <div class="search clearfix">
+                        <div class="filterOptions inline">
+                            <!-- <span style="border:1px solid #ccc;">问题整改 x</span> -->
+                            <!--<button ng-if="flag.coTypeFilter || flag.coAffiliation || flag.coMarkFilter || flag.coStatus ||flag.coCreateTime" type="button" value="清空筛选" class="btn btn-default new-btnFail"></button>--></div>
+                        <button type="button" value="清空筛选" class="noFilter btn btn-default new-btnFail"
+                                ng-show="flag.filterExist" ng-click="clearAllFiltertemplate()">清空筛选
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-close filter-panel-active" ng-show="closeStause || flag.filterExist" ng-click="filterPanel($event)" ><span class="filter-panel"></span><span class="icon-arrow"></span></div>
+                <div class="row filter clearfix" ng-show="closeStause">
+                    <div class="filter-table clearfix">
+                        <form class="form-inline">
+                            <!-- 协作类型 -->
+                            <div class="tabs coType check-sub" ng-show="!flag.coTypeFilter">
+                                <div class="inline ">
+                                    <label class="filter_title"><span>协作类型：</span></label>
+                                </div>
+                                <div class="inline check-sub filter-sub">
+                                    <div class="rela inline" ng-repeat="item in coQueryType track by $index"
+                                         pro-profit>
+                                        <label class="rela" title="{{item.name}}">
+                                            <!-- <input type="checkbox" class="absol checkbox_type_{{$index}}"   style="opacity:0;"> -->
+                                            <span ng-click="changeFilter(item,601)" title="{{item.name}}">{{item.name}}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 协作归属 -->
+                            <div class="tabs check-sub" ng-show="!flag.coAffiliation">
+                                <div class="inline">
+                                    <label class="filter_title"><span>协作归属：</span></label>
+                                </div>
+                                <div class="inline filter-sub">
+                                    <div class="rela inline" ng-repeat="item in coAffiliation track by $index"
+                                         pro-profit>
+                                        <label class="rela" title="{{item.name}}">
+                                            <!-- <input type="checkbox" class="absol checkbox_type_{{$index}}"   style="opacity:0;"> -->
+                                            <span ng-click="changeFilter(item,606)">{{item.name}}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 标识 -->
+                            <div class="tabs coMark check-sub" ng-show="!flag.coMarkFilter">
+                                <div class="tabs clearfix">
+                                    <div class="inline pull-left">
+                                        <label class="filter_title"><span>标识：</span></label>
+                                    </div>
+                                    <div class="marklist">
+                                        <div class="rela inline filter-sub" ng-repeat="item in coMark track by $index"
+                                             pro-profit>
+                                            <label class="rela" title="{{item.name}}">
+                                                <span ng-click="changeFilter(item,603)">{{item.name}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 状态 -->
+                            <div class="tabs coMark check-sub" ng-show="!flag.coStatus">
+                                <div class="tabs clearfix">
+                                    <div class="inline pull-left ">
+                                        <label class="filter_title"><span>状态：</span></label>
+                                    </div>
+                                    <div style="margin-left:93px;">
+                                        <div class="rela inline filter-sub" ng-repeat="item in coStatus track by $index"
+                                             profit pro-profit>
+                                            <label class="rela" title="{{item.name}}">
+                                                <span ng-click="changeFilter(item,605)">{{item.name}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 发起时间 -->
+                            <div class="tabs check-sub" ng-show="!flag.coCreateTime">
+                                <div class="tabs clearfix">
+                                    <div class="inline">
+                                        <label class="filter_title"><span>创建时间：</span></label>
+                                    </div>
+                                    <div class="inline">
+                                        <div class="rela inline filter-sub"
+                                             ng-repeat="item in coCreateTime track by $index" profit pro-profit>
+                                            <label class="rela" title="{{item.name}}">
+                                                <span ng-click="changeFilter(item,607)">{{item.name}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="overlay" style="display:none;top:59px;" ng-click="clicklay()"></div>
+            <div class="overlay1" style="display:none;top:59px;" ng-click="clicklay1()"></div>
+            <!--新建类型列表-->
+            <div class="addcoo absol overflow modal-header" ng-show="openSignal">
+                <div class="inline close-sbtn" ng-click="clicklay()">
+                    <span class="close"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 new-type" ng-repeat="items in typeList">
+                        <a ng-if="items.typeImg==1" ng-click="trans(items.typeId,items.name)" ></a>
+                        <a ng-if="items.typeImg==2" ng-click="trans(items.typeId,items.name)" ></a>
+                        <a ng-if="items.typeImg==3" ng-click="trans(items.typeId,items.name)" ></a>
+                        <a ng-if="items.typeImg==4" ng-click="trans(items.typeId,items.name)" ></a>
+                        <a ng-if="items.typeImg==5" ng-click="trans(items.typeId,items.name)" ></a>
+                        <a ng-if="items.typeImg==6" ng-click="trans(items.typeId,items.name)" ></a>
+                        <!--<a class="typeImg_{{items.typeImg}}" ng-click="trans(items.typeId,items.name)" style="background:url('./imgs/dyfilter/co-type_00{{items.typeImg}}.png') no-repeat"></a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div ng-class="{true:'stroke-border'}[flag.filterExist && !closeStause]"></div>-->
+        <div ui-view></div>
+        <!--data_count（统计页面）-->
+		<div class="data_count" scroll-directive>
+	        <div class="data_Totle">
+	            <div class="pull-left detail-return data_back" style="line-height:47px;">
+	                <span class="detail-gt" style="margin-left:24px;display:inline-block;top:78px;left:255px;"></span>
+	                <a style="text-decoration: none;margin-left:18px;">返回</a>
+	            </div>
+	            <!--<button type="button" class="btn btn-default" ng-click="openNew()" class="new_cooper">新建协作</button>-->
+	            <!--<button type="butt  on" class="btn btn_new new_cooper" ng-click="openNew()" style="float:right;margin-right:15px;margin-top:15px;">新建协作</button>-->
+	            <h4>统计结果</h4>
+	        </div>
+	        <!-- 统计无结果显示勿删 -->
+	       	<!--  <div class="noSearch">
+	            <div>
+	                <dl class="noProject noStatistics"
+	                    style="left: 50%; top: 50%; margin-left: -110px; margin-top: -135px;">
+	                    <dt>
+	                        <img src="imgs/noReject.png" alt="">
+	                        <span></span>
+	                    </dt>
+	                    <dd>当前统计无结果</dd>
+	                </dl>
+	            </div>
+	        </div> -->
+	        <!--data_list-->
+	        <div class="data_list clearfix row" copy-radio style="padding:0">
+	            <!--data_every-->
+	            <div class="statistics-menus col-xs-2">
+	                <ul id="count-menus">
+	                </ul>
+	            </div>
+	            <div class="echart-shape col-xs-10">
+	                <div class="data_every col-lg-6 second" style="padding:0;margin-top:8px;">
+	                    <div class="count-echart">
+	                        <div id="data_graph4" class="data_graph" style="height:300px;width:98%;"></div>
+	                    </div>
+	                </div>
+	                <div class="data_every col-lg-6 forth" style="padding:0;margin-top:8px;">
+	                    <div class="count-echart">
+	                        <div id="data_graph3" class="data_graph" style="height:300px;width:98%;"></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+        <!--搜索无结果图标-->
+        <div ng-show="coNoResult" sytle="height:100%" class="noresult">
+            <div class="noSearch clearfix" style="position:relative" ng-show="projNoCo">
+                <dl class="noProject" style="top:43.5%">
+                    <dt>
+                        <img src="imgs/co-search.png" alt="">
+                        <span></span>
+                    </dt>
+                    <dd>当前工程无协作</dd>
+                    <dd><p class="clearfix" ng-click="openNew()"><span class="icon-new"></span><span>新建协作</span></p></dd>
+                </dl>
+            </div>
+            <div class="noSearch clearfix" style="position:relative" ng-show="searchNoCo">
+                <dl class="noProject">
+                    <dt>
+                        <img src="imgs/co-search.png" alt="">
+                        <span></span>
+                    </dt>
+                    <dd>当前无结果</dd>
+                    <!--<dd><p class="clearfix" ng-click="openNew()"><span class="icon-new"></span><span>新建协作</span></p></dd>-->
+                </dl>
+            </div>
+            <div class="noSearch clearfix" style="position:relative"  ng-show="noRelatedNoCo">
+                <dl class="noProject" style="margin-top: -120px;">
+                    <dt>
+                        <img src="imgs/co-search.png" alt="">
+                        <span></span>
+                    </dt>
+                    <dd>当前无协作</dd>
+                    <dd><p class="clearfix" ng-click="openNew()"><span class="icon-new"></span><span>新建协作</span></p></dd>
+                </dl>
+            </div>
+        </div>
+        <!-- 大详情界面 -->
+		<!--电脑端-->
+		<div id="detailLg" ng-include="'template/cooperation/coop_detail_pc.html'" scope="" onload="" ng-if="flag.LgDetailMode"></div>
+    </div>
+    <div ng-if="flag.isPreview" class="pdf-sign">
+        <div ng-show="flag.isGeneral" class="column-priview" style="overflow:hidden;position:absolute;width:100%">
+            <div class="priview-header"><span class="icon-priview" ng-click="closePriview()"></span></div>
+            <div style="width:100%;" ng-show="!isEdit">
+                <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 60px);width:100%;" scrolling="no" frameborder="0"> </iframe>
+            </div>
+        </div>
+    </div>
+    <div  style="position:fixed;left:50%;top:50%;margin-left:-120px;margin-top:-100px;display:none">
+        <img src="./imgs/first-loading.gif" alt="">
+    </div>
+</div>
+<div class="dialog-mask-column"></div>
+<div class="detail-computer">
+    <div class="down-mark"></div>
+    <div class="downloading"><img src="./imgs/down-loading.gif" alt=""></div>
+    <div class="downloadIndex"><span>当前下载文件</span><span class="changeIndex">0</span><span>/</span><span>{{downloadTotal}}</span></div>
+</div>
+<!--侧边栏里面的按钮样式-->
+<div class="btn_box_pc" id="btn_box" pc-operation ng-click="getOperationList()" ng-show="flag.LgDetailMode"">
+    <span class="glyphicon glyphicon-menu-left show_btn" title="展开"></span>
+    <span class="glyphicon glyphicon-menu-right hide_btn" title="收起"></span>
+</div>
+<!--右边内容-->
+<div class="content_right_pc">
+    <div class="aside">
+        <!-- <p class="side_title" onclick="transStatisticsCooperation()">协作动态</p> -->
+        <p class="side_title">协作动态</p>
+        <div class="status content-container content-scroll-container content-scroll-container-detail"
+             infinite-scroll-parent="true">
+            <div class="state rela" infinite-scroll-container='".content-scroll-container-detail"'
+                 infinite-scroll="addMoreDataTrend()" infinite-scroll-distance="0"
+                 infinite-scroll-disabled="trendScrollEnd">
+                <ul>
+                    <li ng-repeat="item in operationList">
+                        <div class="step  pc-step">
+                            <img src="./imgs/icon/fq-icon.png" alt=""
+                                 ng-if="item.operation == '发起'">
+                            <img src="./imgs/icon/ck-icon.png" alt=""
+                                 ng-if="item.operation == '查看'">
+                            <img src="./imgs/icon/jjue-icon.png" alt=""
+                                 ng-if="item.operation == '拒绝'">
+                            <img src="./imgs/icon/js-icon.png" alt=""
+                                 ng-if="item.operation == '结束'">
+                            <img src="./imgs/icon/bj-icon.png" alt="" ng-if="item.operation == '编辑'"
+                                 style="width:20px;">
+                            <img src="./imgs/icon/wc-icon.png" alt=""
+                                 ng-if="item.operation == '通过'">
+                            <img src="./imgs/icon/update-icon.png" alt=""
+                                 ng-if="item.operation == '添加'">
+                            <img src="./imgs/icon/update.png" alt="" ng-if="item.operation == '更新'">
+                            <img src="./imgs/icon/icon-signPng.png" alt=""
+                                 ng-if="item.operation == '签署'" style="width:20px;">
+                            <span></span>
+                        </div>
+                        <div class="handle">
+                            <div class="icon_man">
+                                <div style="" class="icon_man_pic">
+                                    <div style="float:left;margin-top:1px;">
+                                        <img ng-src="{{item.avatar}}"
+                                             onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"
+                                             ng-if="item.avatar"/>
+                                        <img src="./imgs/icon/defalut.png" ng-if="item.avatar==null"
+                                             alt=""/>
+                                    </div>
+                                    <p class="substr menus-name" title="{{item.username}}">
+                                        {{item.username}}</p>
+                                    <p class="substr menus-date" title="{{item.operationDateTime}}" style="margin:0">
+                                        {{item.operationDateTime | date:'yyyy.MM.dd'}}</p>
+                                </div>
+                            </div>
+                            <div>
+                               <p class="substr down-operate">{{item.operation}}<span>本次协作</span></p>
+                               <p class="substr down-operate down-time"  style="margin:0">{{item.operationDateTime | date:'H:mm'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 跳转协作主界面 -->
+<input type="hidden" ng-click="transCoManage()" id="trans-co-manage"> 
+<input type="hidden" ng-click="accordCheckIn()" id="accord-check-in">
+<script>
+    function commonReminder() {
+        // alert('commonReminder')
+        var currentWindow = $(".modal");
+        var currentWindowName = '';
+        var reCode = BimCo.IsShowProgressBar(); //导出标志
+        if(currentWindow && currentWindow.hasClass('newcooper')){
+            currentWindowName = 'newcooper';
+            var rtn = BimCo.MessageBox("提示", "当前正在创建中，是否跳转？", 0x31);
+            //确定1取消2
+            if (rtn == 1) {
+                //关闭客户端预览签字弹框
+                setTimeout(function(){
+                    BimCo.SignCancel();
+                    BimCo.CancelSubmitAll();
+                },10);
+                //关闭弹框
+                $(".modal-backdrop").remove();
+                $(".modal").remove();
+                return true;
+            }
+            return false;
+        }
+        if(currentWindow && currentWindow.hasClass('editcooper')){
+            currentWindowName = 'editcooper';
+            var rtn = BimCo.MessageBox("提示", "当前正在编辑中，是否跳转？", 0x31);
+            //确定1取消2
+            if (rtn == 1) {
+                //关闭弹框
+                $(".modal-backdrop").remove();
+                $(".modal").remove();
+                $("#accord-check-in").click();
+                return true;
+            }
+            return false;
+        }
+        if(currentWindow && currentWindow.hasClass('preview_sign_comment') && ($('.doc-edit.footer').css('display') == 'block')){
+            currentWindowName = 'pdfSign';
+            //当前正在签署且已经签出协作
+            var rtn = BimCo.MessageBox("提示","当前正在签署中，是否跳转？", 0x31);
+            if(rtn == 1){
+                //关闭客户端预览签字弹框
+                setTimeout(function(){
+                    BimCo.SignCancel();
+                    BimCo.CancelSubmitAll();
+                },10);
+                //关闭弹框
+                $(".modal-backdrop").remove();
+                $(".modal").remove();
+                $("#accord-check-in").click();
+                return true;
+            }
+            return false;
+        }
+        if(reCode){
+            //当前正在导
+            var rtn = BimCo.MessageBox("提示","当前正在导出，无法切换！", 0x31);
+            return false;
+        }
+        if(!currentWindowName){
+            return true;
+        }
+        
+    }
+    /**
+     * initBeforeFromBe 客户端小助手过来之前的页面初始化
+     */
+    var initBeforeFromBe = function(){
+        if($(".content_right_pc") && $(".content_right_pc").hasClass('menus')){
+            $(".glyphicon-menu-right").click();
+        }
+        if($(".data_count") && $(".data_count").css('display') === 'block'){
+            $(".data_back").click();
+        }
+        if($(".detailLg") && $(".detailLg").length){
+            $(".detail-return").click();
+        }
+        if($(".modal")){
+            $(".modal-header .close-sbtn").click();
+        }
+        if($(".pdf-sign") && $(".pdf-sign").css('display') === 'block'){
+            $(".priview-header .icon-priview").click();
+        }
+    }
+
+    var initforDetail = function(){
+        if($(".content_right_pc") && $(".content_right_pc").hasClass('menus')){
+            $(".glyphicon-menu-right").click();
+        }
+        if($(".data_count") && $(".data_count").css('display') === 'block'){
+            $(".data_back").click();
+        }
+        if($(".modal")){
+            $(".modal-header .close-sbtn").click();
+        }
+        if($(".pdf-sign") && $(".pdf-sign").css('display') === 'block'){
+            $(".priview-header .icon-priview").click();
+        }
+    }
+
+
+
+	//新建协作(调出新建协作)
+	function transCreateCooperation (deptId,ppid) {
+        if(commonReminder()){
+            initBeforeFromBe();
+            $('.new-file').click();
+        }
+	}
+
+    //统计协作(第一个项目部的统计结果)
+    function transStatisticsCooperation(){
+        if(commonReminder()){
+            initBeforeFromBe();
+            if($(".addcoo").css('display') === 'block'){
+                $(".addcoo .close-sbtn").click();
+            }
+            $("#comboBox_count").click();
+        }
+    }
+
+    //查看资料(第一个项目部的资料)
+    function transManagerList(){
+        if(commonReminder()){
+            initBeforeFromBe();
+            document.location= '#/manage';
+        }
+    }
+
+	//跳转协作详情
+	function transCoDetail (coid) {
+        // var coid="59e1a61984ae9102d3a254d4";
+        // alert(coid+'detail')
+        if(commonReminder()){
+            if($("#detailLg").length){$("#detailLg").remove();}//从消息推送过来的协作，页面特殊处理是，删除之前的详情页
+             initforDetail();
+            $("#detailFromBe").val(coid);
+            $("#toDetailPage").click();
+        }
+	}
+
+    //客户端点击协作管理调出bimco
+    function transCoManage () {
+        if(commonReminder()){
+            initBeforeFromBe();
+            if($(".data_back") && $(".data_back").css('display') !== 'none'){
+                $(".data_back").click(); //修复统计协作界面，查看协作无效
+            }
+            $("#trans-co-manage").click();
+        }
+    }
+    
+    //根据客户端的值改变页面下载index
+    function GetDownloadIndex(downIndex) {
+        $('.changeIndex').html(downIndex);
+    }
+
+</script>

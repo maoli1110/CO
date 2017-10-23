@@ -1,0 +1,64 @@
+<style>
+
+    .btn-default.new-btnFail {
+        height: 34px !important;
+    }
+
+    .footer {
+        border-left: 0 none;
+        /*border-right: 2px solid !important;*/
+    }
+
+    .footer .text-center {
+        height: 50px;
+    }
+</style>
+<div class="pdf-sign">
+    <div class="inner">
+        <div class="modal-header" style="height: 42px;border: 0 none;">
+            <div class="inline close-sbtn" ng-click="signCancel()">
+                <span class="close"></span>
+            </div>
+        </div>
+        <!-- 默认预览 -->
+        <!--ng-show="flag.isGeneral"-->
+        <div style="overflow:hidden;position:absolute;top:42px;width:100%;">
+            <div style="width:100%;" ng-show="!isEdit">
+                <iframe ng-src="{{previewUrl}}" style="width:100%;" scrolling="no"
+                        frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <!--ng-show="flag.isPdfsign"-->
+        <div style="height: 500px;overflow:auto">
+            <!-- 勿删 -->
+            <!--  <div class="sign footer-commom" style="position:fixed;">
+                <div class="text-center">
+                    <button class="btn btn-default foot-btn" ng-click="signComment()">签署意见</button>
+                    <button class="btn btn-default foot-btn" ng-click="signElectronic()">电子签名</button>
+                </div>
+            </div> -->
+        </div>
+            <div class="btn-sign" ng-show="isPriview && isSign"><a href="javascript:;;" ng-click="isPriviewSing()">签字</a></div>
+            <div class="doc-edit footer footer-commom" ng-show="isSign && !isPriview" style="height: 100px;">
+
+                <div class="text-center icon-doc-edit" style="padding: 5px;box-shadow: 0 -2px 5px rgba(0,0,0,0.2);">
+                    <a title="签署意见" ng-click="signComment($event)" class="signComment">
+                        <span class="sign-comment"></span>
+                    </a>
+                    <a title="电子签名" ng-click="signElectronic($event)" class="signElectronic">
+                        <span class="electronic-signature"></span>
+                    </a>
+                    <a title="清空意见" ng-click="signEmpty($event)" class="signEmpty">
+                        <span class="clear-content"></span>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-default foot-btn" ng-click="SubmitAll()">提交</button>
+                    <button class="btn btn-default new-btnFail foot-btn" ng-click="signCancel()">取消</button>
+                    <!-- <button class="btn btn-default new-btnFail foot-btn" onclick="transCoManage()">取消</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,238 +15,245 @@
     .trends .noSearch{
         height:calc(100vh - 124px);
     }
+    .trends .noSearch .noProject{
+        margin-left: -110px !important;
+        top: 50%;
+        margin-top: -135px !important;
+    }
 </style>
-<header ng-include="'template/core/header.html'" ng-show="!flag.isPreview"></header>
-<div class="main-container" scroll-directive  resize-left ng-show="!flag.isPreview">
-    <div class="sidebar"  id="siderbarTrent"  ng-include="'template/core/sidebar-trends.html'" ></div>
-    <div class="right-content" id="rightViewTrent">
-        <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
-        <div class="container-fluid rela">
-            <div class="operation clearfix goodlist_left">
-                <div class="clearfix goods_toolsBar">
-                    <div class="left good_L">
-                        <input type="text" class="form-control" id="exampleInputName2" placeholder="搜索工程" ng-keyUp = "previewList($event)">
-                        <div class="good_search001" ng-click="getDeptId()"><img src="imgs/seache.png" alt=""></div>
+<div class="cooperation-old">
+    <header ng-include="'template/core/header.html'" ng-show="!flag.isPreview"></header>
+    <div class="main-container" scroll-directive ng-show="!flag.isPreview">
+        <div class="sidebar"  id="siderbarTrent"  ng-include="'template/core/sidebar-trends.html'" ></div>
+        <div class="right-content" id="rightViewTrent">
+            <!-- <breadcrumbs display-name="data.displayName" front-msg="当前页面"></breadcrumbs> -->
+            <div class="container-fluid rela manage-filters">
+                <div class="operation clearfix goodlist_left">
+                    <div class="clearfix goods_toolsBar">
+                        <div class="left good_L">
+                            <input type="text" class="form-control" id="exampleInputName2" placeholder="搜索工程" ng-keyUp = "previewList($event)">
+                            <div class="good_search001" style="top:13px;" ng-click="getDeptId()"><img src="imgs/seache.png" alt=""></div>
+                            <!-- <div id="test">dfdfdf</div> -->
+                        </div>
                     </div>
+                    <strong></strong>
                 </div>
-                <strong></strong>
             </div>
-        </div>
 
-        <div class="addcoo absol clearfix" ng-show="openSignal">
-            <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
-            <div class="row">
-                <div class="col-md-6"><a ng-click="trans()">问题整改</a></div>
-                <div class="col-md-6"><a href="">阶段性报告</a></div>
+            <div class="addcoo absol clearfix" ng-show="openSignal">
+                <div class="row"><span class="glyphicon glyphicon-remove align-right block close" ng-click="closeNew()"></span></div>
+                <div class="row">
+                    <div class="col-md-6"><a ng-click="trans()">问题整改</a></div>
+                    <div class="col-md-6"><a href="">阶段性报告</a></div>
+                </div>
             </div>
-        </div>
-        <div class="trends clearfix" >
-            <div class="table-list rela clearfix">
-            <div class="goods_pro clearfix">
+            <div class="trends clearfix" >
+                <div class="table-list rela clearfix">
+                <div class="goods_pro clearfix">
 
-                <div class="right_Content clearfix">
-                    <!--<div class="tools"></div>-->
-                    <div class="content clearfix">
-                        <!--商品展示-->
-                        <div class="good_list clearfix"  style="height:calc(100vh - 127px);overflow:auto;" light-height >
-                            <!--商品1F-->
-                            <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage(trentsLiInfo.ppid)">
-                                <!--ng-click="updateNew($event)"-->
-                                <dt>
-                                    <img src="imgs/icon/1.png" alt="" ng-if="trentsLiInfo.projectType == '土建预算'">
-                                    <img src="imgs/icon/2.png" alt="" ng-if="trentsLiInfo.projectType == '钢筋预算'">
-                                    <img src="imgs/icon/3.png" alt="" ng-if="trentsLiInfo.projectType == '安装预算'">
-                                    <img src="imgs/icon/4.png" alt="" ng-if="trentsLiInfo.projectType == 'Revit'">
-                                    <img src="imgs/icon/5.png" alt="" ng-if="trentsLiInfo.projectType == 'Tekla'">
-                                    <img src="imgs/icon/6.png" alt="" ng-if="trentsLiInfo.projectType == 'PDF'">
-                                <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
-                                </dt>
-                                <dd>
-                                    <div  class="box" onerror="this.onerror='';this.src='./imgs/icon-projectDefult.png'"  style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:120px">
-                                        <img ng-if="!trentsLiInfo.projectPicture" src="./imgs/icon/icon-projectDefult.png" alt="">
-                                    </div>
-                                    <div class=" data_update">
-                                        <p class="updata_info" ng-click="updataBook(trentsLiInfo.adds)">资料更新</p>
-                                        <p class="totle_count"><b class="updateNub">{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
-                                    </div>
-                                </dd>
-                            </dl>
-                        </div>
+                    <div class="right_Content clearfix">
+                        <!--<div class="tools"></div>-->
+                        <div class="content clearfix">
+                            <!--商品展示-->
+                            <div class="good_list clearfix"  style="height:calc(100vh - 127px);overflow:auto;" light-height >
+                                <!--商品1F-->
+                                <dl box-shadow ng-repeat="trentsLiInfo in trentsCount track by $index" ng-click = "turnPage(trentsLiInfo.ppid)">
+                                    <!--ng-click="updateNew($event)"-->
+                                    <dt>
+                                        <img src="imgs/icon/1.png" alt="" ng-if="trentsLiInfo.projectType == '土建预算'">
+                                        <img src="imgs/icon/2.png" alt="" ng-if="trentsLiInfo.projectType == '钢筋预算'">
+                                        <img src="imgs/icon/3.png" alt="" ng-if="trentsLiInfo.projectType == '安装预算'">
+                                        <img src="imgs/icon/4.png" alt="" ng-if="trentsLiInfo.projectType == 'Revit'">
+                                        <img src="imgs/icon/5.png" alt="" ng-if="trentsLiInfo.projectType == 'Tekla'">
+                                        <img src="imgs/icon/6.png" alt="" ng-if="trentsLiInfo.projectType == 'PDF'">
+                                        <img src="imgs/icon/luban-home.png" alt="" ng-if="trentsLiInfo.projectType == '班筑家装'">
+                                        <img src="imgs/icon/s.png" alt="" ng-if="trentsLiInfo.projectType == '场布预算'">
+                                    <p class="project_name" title="{{trentsLiInfo.projectName}}">{{trentsLiInfo.projectName}}</p>
+                                    </dt>
+                                    <dd>
+                                        <div  class="box" onerror="this.onerror='';this.src='./imgs/icon-projectDefult.png'"  style="background:url({{trentsLiInfo.projectPicture}}) no-repeat center;background-size:120px">
+                                            <img ng-if="!trentsLiInfo.projectPicture" src="./imgs/icon/icon-projectDefult.png" alt="">
+                                        </div>
+                                        <div class=" data_update">
+                                            <p class="updata_info" ng-click="updataBook(trentsLiInfo.adds)">资料更新</p>
+                                            <p class="totle_count"><b class="updateNub">{{trentsLiInfo.adds}}</b>/{{trentsLiInfo.totals}}</p>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
 
-                        <!--商品列表展示页面-->
-                        <!--工具栏-->
-                        <div class="operation clearfix prolist_left">
-                            <div class="left proLeft">
-                                <!--<div class="manage_back" ng-click="listBack()">-->
-                                    <!--<span><img src="imgs/call_back.png" alt=""></span>-->
-                                    <!--<b>返回</b>-->
+                            <!--商品列表展示页面-->
+                            <!--工具栏-->
+                            <div class="operation clearfix prolist_left" style="border-bottom:1px solid #ddd;margin-top:-8px;">
+                                <div class="left proLeft">
+                                    <!--<div class="manage_back" ng-click="listBack()">-->
+                                        <!--<span><img src="imgs/call_back.png" alt=""></span>-->
+                                        <!--<b>返回</b>-->
+                                    <!--</div>-->
+                                    <div class="pull-left detail-return manage_back" style="margin-left: -17px; margin-right: 10px;"  ng-click="listBack()">
+                                        <span class="detail-gt" style="display:inline-block;top:80px !important;left:260px"></span>
+                                        <a  style="text-decoration: none;margin-left:31px;">返回</a>
+                                    </div>
+                                    <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr()">
+                                        <option value="1">全部类型</option>
+                                        <option value="2">文档</option>
+                                        <option value="4">图纸</option>
+                                        <option value="8">图片</option>
+                                        <option value="16">视频</option>
+                                        <option value="64">压缩文件</option>
+                                        <option value="128">其他</option>
+                                    </select>
+                                        <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)" style="margin-top:2px;">
+                                        <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
+                                    </div>
+                                <!--<div class="right ">-->
+                                    <!--<button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>-->
                                 <!--</div>-->
-                                <div class="pull-left detail-return manage_back" style="margin-left: -17px; margin-right: 10px;"  ng-click="listBack()">
-                                    <span class="detail-gt" style="display:inline-block;top:18px;"></span>
-                                    <a  style="text-decoration: none;margin-left:31px;">返回</a>
-                                </div>
-                                <select class="selectpicker btn_white" ng-model="docType" id="doc_type" ng-change="changeAttr()">
-                                    <option value="1">全部类型</option>
-                                    <option value="2">文档</option>
-                                    <option value="4">图纸</option>
-                                    <option value="8">图片</option>
-                                    <option value="16">视频</option>
-                                    <option value="64">压缩文件</option>
-                                    <option value="128">其他</option>
-                                </select>
-                                    <input type="text" class="form-control pro_inp" id="exampleInputName3" placeholder="搜索联系人、资料" ng-keyup="keyUp($event)" style="margin-top:2px;">
-                                    <div class="good_search002" ng-click="manageSeacher(trentsLiInfo.ppid)"><img src="imgs/seache.png" alt=""></div>
-                                </div>
-                            <!--<div class="right ">-->
-                                <!--<button type="button" class="btn  btn_new" ng-click="openNew()">新建协作</button>-->
-                            <!--</div>-->
-                        </div>
-                        <!--搜索无工程-->
-                        <div class="noSearch" ng-show="isNoSearchValue">
-                            <dl class="noProject">
-                                <dt>
-                                    <img src="imgs/noBook.png" alt="">
-                                    <span></span>
-                                </dt>
-                                <dd>当前项目部无资料</dd>
-                            </dl>
-                        </div>
-                        <!--搜索无结果-->
-                        <div class="noSearch" ng-show="isNoSearchValueReject">
-                            <dl class="noProject">
-                                <dt>
-                                    <img src="imgs/noReject.png" alt="">
-                                    <span></span>
-                                </dt>
-                                <dd>当前无结果</dd>
-                            </dl>
-                        </div>
+                            </div>
+                            <!--搜索无工程-->
+                            <div class="noSearch" ng-show="isNoSearchValue">
+                                <dl class="noProject">
+                                    <dt>
+                                        <img src="imgs/noBook.png" alt="">
+                                        <span></span>
+                                    </dt>
+                                    <dd>当前项目部无资料</dd>
+                                </dl>
+                            </div>
+                            <!--搜索无结果-->
+                            <div class="noSearch" ng-show="isNoSearchValueReject">
+                                <dl class="noProject">
+                                    <dt>
+                                        <img src="imgs/noReject.png" alt="">
+                                        <span></span>
+                                    </dt>
+                                    <dd>当前无结果</dd>
+                                </dl>
+                            </div>
 
 
-                        <div class="pro_list clearfix content-container content-scroll-container"  infinite-scroll-parent="true">
-                          <!--<div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject" >-->
+                            <div class="pro_list clearfix content-container content-scroll-container"  infinite-scroll-parent="true">
+                              <!--<div class="pro_list clearfix content-container content-scroll-container" infinite-scroll-parent="true" ng-if="!isNoSearchValueReject" >-->
 
-                            <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
-                                <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
-                                <li ng-repeat="getTrents in trentsListInfo track by $index" class="clearfix" style="min-width:820px;" profit>
-                                    <!--icon_img-->
-                                    <div class="icon_img col-xs-1">
-                                        <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{getTrents.avatar}}" ng-if="getTrents.avatar"/>
-                                        <img src="./imgs/icon/defalut.png" ng-if="getTrents.avatar==null" alt="">
-                                    </div>
-                                    <div class="trents-list col-xs-11" >
-                                        <p style="font-size:14px;"><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b>&nbsp;上传</p>
-                                        <div class="bx-controls" >
-                                            <div class="img_list actives" ng-repeat = "items in getTrents.docs">
-                                                <div ng-if="items.thumbnailUrl" class="tools_bar" style="background:url({{items.thumbnailUrl}}) no-repeat;background-size:cover">
-                                                    <img  onerror="this.onerror='';this.src='./imgs/icon/interError.png'" style="margin-top:7px;margin-left:0" ng-src="{{items.thumbnailUrl}}" alt="" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
-                                                    <div class="bar" >
-                                                        <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
-                                                        <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123"><img src="imgs/icon_down.png"/></a>
-                                                        <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
-                                                        <em></em>
+                                <ul class="list" infinite-scroll-container='".content-scroll-container"'  infinite-scroll="addMoreData()" infinite-scroll-distance="0" infinite-scroll-disabled="scrollend" >
+                                    <!--<p>非叫我叫饿哦无人家玩手机费，我如今我让我看人家我绕我日晚就让我两人</p>-->
+                                    <li ng-repeat="getTrents in trentsListInfo track by $index" class="clearfix" style="min-width:820px;" profit>
+                                        <!--icon_img-->
+                                        <div class="icon_img col-xs-1">
+                                            <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"  ng-src="{{getTrents.avatar}}" ng-if="getTrents.avatar"/>
+                                            <img src="./imgs/icon/defalut.png" ng-if="getTrents.avatar==null" alt="">
+                                        </div>
+                                        <div class="trents-list col-xs-11" >
+                                            <p style="font-size:14px;"><span class="menName">{{getTrents.username}}</span>&nbsp;&nbsp;<b>{{getTrents.updateTime}}</b>&nbsp;上传</p>
+                                            <div class="bx-controls" >
+                                                <div class="img_list actives" ng-repeat = "items in getTrents.docs">
+                                                    <div ng-if="items.thumbnailUrl" class="tools_bar" style="background:url({{items.thumbnailUrl}}) no-repeat;background-size:cover">
+                                                        <img  onerror="this.onerror='';this.src='./imgs/icon/interError.png'" style="margin-top:7px;margin-left:0" ng-src="{{items.thumbnailUrl}}" alt="" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
+                                                        <div class="bar" >
+                                                            <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
+                                                            <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123"><img src="imgs/icon_down.png"/></a>
+                                                            <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
+                                                            <em></em>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div ng-if="items.thumbnailUuid==''||items.thumbnailUuid==null" class="tools_bar" >
-                                                    <!--文件类型-->
-                                                    <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
-                                                    <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
-                                                    <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">
-                                                    <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xls'">
-                                                    <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='ppt'||items.fileType=='PPT'">
-                                                    <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
-                                                    <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
-                                                    <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='XLS'" >
-                                                    <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPEG'" >
-                                                    <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pptx'||items.fileType=='PPTX'">
-                                                    <!--图片类型-->
-                                                    <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpeg'">
-                                                    <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='bmp'">
-                                                    <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='PNG'">
-                                                    <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='GIF'">
-                                                    <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPG'">
-                                                    <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='png'">
-                                                    <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpg'">
-                                                    <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='gif'">
+                                                    <div ng-if="items.thumbnailUuid==''||items.thumbnailUuid==null" class="tools_bar" >
+                                                        <!--文件类型-->
+                                                        <img src="imgs/pro-icon/icon-txt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='txt'||items.fileType=='TXT'">
+                                                        <img src="imgs/pro-icon/icon-doc.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='doc'||items.fileType=='DOC'">
+                                                        <img src="imgs/pro-icon/icon-pdf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pdf'||items.fileType=='PDF'">
+                                                        <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xls'">
+                                                        <img src="imgs/pro-icon/icon-ppt.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='ppt'||items.fileType=='PPT'">
+                                                        <img src="imgs/pro-icon/icon-docx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='docx'||items.fileType=='DOCX'">
+                                                        <img src="imgs/pro-icon/icon-xlsx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='xlsx'||items.fileType=='XLSX'">
+                                                        <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='XLS'" >
+                                                        <img src="imgs/pro-icon/icon-xls.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPEG'" >
+                                                        <img src="imgs/pro-icon/icon-pptx.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='pptx'||items.fileType=='PPTX'">
+                                                        <!--图片类型-->
+                                                        <img src="imgs/pro-icon/icon-jpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpeg'">
+                                                        <img src="imgs/pro-icon/icon-bmp.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='bmp'">
+                                                        <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='PNG'">
+                                                        <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='GIF'">
+                                                        <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='JPG'">
+                                                        <img src="imgs/pro-icon/icon-png.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='png'">
+                                                        <img src="imgs/pro-icon/icon-jpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='jpg'">
+                                                        <img src="imgs/pro-icon/icon-gif.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='gif'">
 
-                                                    <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='dwg'">
-                                                    <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='rar'">
-                                                    <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='zip'">
+                                                        <img src="imgs/pro-icon/icon-dwg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='dwg'">
+                                                        <img src="imgs/pro-icon/icon-rar.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='rar'">
+                                                        <img src="imgs/pro-icon/icon-zip.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='zip'">
 
-                                                    <!--视频-->
-                                                    <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='avi'">
-                                                    <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mp4'">
-                                                    <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mov'">
-                                                    <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='flv'">
-                                                    <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='swf'">
-                                                    <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='wmv'">
-                                                    <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mpeg'">
-                                                    <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mpg'">
-                                                    <!--音频-->
-                                                    <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mp3'">
+                                                        <!--视频-->
+                                                        <img src="imgs/pro-icon/icon-avi.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='avi'">
+                                                        <img src="imgs/pro-icon/icon-mp4.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mp4'">
+                                                        <img src="imgs/pro-icon/icon-mov.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mov'">
+                                                        <img src="imgs/pro-icon/icon-flv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='flv'">
+                                                        <img src="imgs/pro-icon/icon-swf.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='swf'">
+                                                        <img src="imgs/pro-icon/icon-wmv.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='wmv'">
+                                                        <img src="imgs/pro-icon/icon-mpeg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mpeg'">
+                                                        <img src="imgs/pro-icon/icon-mpg.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mpg'">
+                                                        <!--音频-->
+                                                        <img src="imgs/pro-icon/icon-mp3.png" class="bookSection" ng-click="transformBig(items.uuid,items.docName,items.isPreview)" ng-if="items.fileType=='mp3'">
 
 
-                                                    <!--显示其他页面-->
-                                                    <img src="imgs/pro-icon/icon-other.png" alt="" ng-if="items.fileType=='other'" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
-                                                    <em></em>
-                                                    <div class="bar" >
-                                                        <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
-                                                        <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123"><img src="imgs/icon_down.png"/></a>
-                                                        <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
+                                                        <!--显示其他页面-->
+                                                        <img src="imgs/pro-icon/icon-other.png" alt="" ng-if="items.fileType=='other'" ng-click="transformBig(items.uuid,items.docName,items.isPreview)">
                                                         <em></em>
+                                                        <div class="bar" >
+                                                            <!--<img src="imgs/icon_down.png" class="pro-down" ng-click="proDown()" />--><!--class="pro-down"-->
+                                                            <a ng-href="{{items.downlodUrl}}?name={{items.docName}}" download="123" ng-click="manageDownload()"><img src="imgs/icon_down.png"/></a>
+                                                            <!--<img src="imgs/icon_add.png"  class="pro-address"/>-->
+                                                            <em></em>
+                                                        </div>
+                                                        <!--<div class="pro_mask"></div>-->
                                                     </div>
-                                                    <!--<div class="pro_mask"></div>-->
+                                                    <i  class="substr margin20 menName" title="{{items.docName}}" style="text-align:left;font-style:normal" >&nbsp;&nbsp;{{items.docName}}</i>
                                                 </div>
-                                                <i  class="substr margin20 menName" title="{{items.docName}}" style="text-align:left;font-style:normal" >&nbsp;&nbsp;{{items.docName}}</i>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
         </div>
     </div>
-</div>
-<div ng-if="flag.isPreview" class="pdf-sign">
-    <div class="inner">
-    <header>
-        <div class="header-operation clearfix">
-            <div class="pull-left detail-return" style="line-height:42px;"  ng-click="backManage()">
-                <span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
-                <a  style="text-decoration: none;">返回</a>
-            </div>
-            <div class="label_tools">
-                <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
-                <div  ng-click="maxRestore()" class="inline" style="margin-left:18px;">
-                    <img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max-inner">
-                    <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle-inner">
+    <div ng-if="flag.isPreview" class="pdf-sign">
+        <div class="inner">
+        <header style="margin:0;">
+            <div class="header-operation clearfix">
+                <div class="pull-left detail-return" style="line-height:42px;"  ng-click="backManage()">
+                    <span class="detail-gt" style="margin-left:15px;display:inline-block;top:16px;"></span>
+                    <a  style="text-decoration: none;">返回</a>
                 </div>
-                <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
+                <div class="label_tools">
+                    <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
+                    <div  ng-click="maxRestore()" class="inline" style="margin-left:18px;">
+                        <img src="imgs/icon/icon-max-h.png" class="max-restore" id="w-max-inner">
+                        <img src="imgs/icon/icon-middle-h.png" class="max-restore" id="w-middle-inner">
+                    </div>
+                    <span class="change-window" style="margin:0 0 0 8px;"><img src="imgs/icon/icon-close-h.png" alt="" ng-click="close()"></span>
+                </div>
+            </div>
+        </header>
+        <!-- 默认预览 -->
+        <div>
+            <div style="width:100%;" ng-show="!isEdit">
+                <iframe ng-src="{{previewUrl}}" style="height:calc(100vh);width:100%;" scrolling="no" frameborder="0"></iframe>
             </div>
         </div>
-    </header>
-    <!-- 默认预览 -->
-    <div>
-        <div style="width:100%;margin-top:42px" ng-show="!isEdit">
-            <iframe ng-src="{{previewUrl}}" style="height:calc(100vh);width:100%;" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>
-    </div>
+    <input type="hidden" value="" ng-click="transCooperation()">
 </div>
-
-<input type="hidden" value="" ng-click="transCooperation()">
 <script type="text/javascript">
-
     $('.selectpicker').selectpicker({
         style: 'btn-default',
         size: 'auto'
 
     });
-    
     $(function(){
         $(".good_list").on("click",".good_list>dl",function(){
             alert(123)
@@ -254,17 +261,29 @@
             $(".pro_list").show();
         })
     })
-
 </script>
 <script>
     //资料动态界面调出新建
     function transCreateCooperation () {
-        document.location= '#/cooperation?newcoop=frombe';
+        document.location= '#/cooperationNew/threeCloumn?newcoop=frombe';
+
+    }
+    //统计协作(第一个项目部的统计结果)
+    function transStatisticsCooperation(){
+        document.location= '#/cooperationNew/threeCloumn?statistics=frombe';
     }
     //跳转协作详情
     function transCoDetail (coid) {
-        document.location= '#/coopdetail/?coid='+coid+'+&source='+'frombe';
+        document.location= '#/cooperationNew/detail/?coid='+coid;
     }
+    //客户端点击协作管理调出bimco
+    function transCoManage () {
+        document.location= '#/cooperationNew/threeCloumn?coop=frombe';
+    }
+    // 跳转详情测试勿删
+    // $("#test").click(function(){
+    //     transCoDetail("59bf267e84ae27f79f21a1bd");
+    // })
 </script>
 
 

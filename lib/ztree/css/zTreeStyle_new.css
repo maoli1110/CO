@@ -11,7 +11,7 @@ website:	http://code.google.com/p/jquerytree/
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
-	font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif
+	font-family: Microsoft yahei Verdana, Arial, Helvetica, AppleGothic, sans-serif
 }
 
 .ztree {
@@ -435,6 +435,12 @@ ul.ztree.zTreeDragUL {
 }
 .ztree li span.button.tekla_ico_docu {
 	background: url(../../../imgs/icon/tekla.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.pdsremiz_ico_docu {
+	background: url(../../../imgs/icon/pdsremiz.png) no-repeat scroll 0 0 transparent;
+}
+.ztree li span.button.site_ico_docu {
+	background: url(../../../imgs/icon/site.png) no-repeat scroll 0 0 transparent;
 }
 
 .ztree li span.button.org_ico_docu {

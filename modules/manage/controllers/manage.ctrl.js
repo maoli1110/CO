@@ -9,6 +9,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
     var searchId = $stateParams.ppid?$stateParams.ppid:'';//工程ppid
 	var deptId = $stateParams.deptId?$stateParams.deptId:'';
 	var changeProj = false;
+    var loading = layer.load(0, {
+        shade: [0.5,'#000'] //0.1透明度的黑色背景
+    });
     $scope.flag = {};
 	$scope.docType = "1";
     $scope.deptInfoList = [];
@@ -51,7 +54,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 lastUsername = '';
             }
      }
-  
+
     //点击项目部追加工程列表，并且绑定click事件
     function getimgurl(treeItems,deptId){
     	$("#dept_"+deptId).empty();
@@ -68,6 +71,10 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 				treeItems[i].imgsrc="imgs/icon/5.png";
 			}else if(treeItems[i].projectType=="PDF"){
 				treeItems[i].imgsrc="imgs/icon/6.png";
+			}else if(treeItems[i].projectType=="班筑家装"){
+				treeItems[i].imgsrc="imgs/icon/8.png";
+			}else if(treeItems[i].projectType=="场布预算"){
+				treeItems[i].imgsrc="imgs/icon/9.png";
 			}
             if(!!treeItems[i].count){
                 $("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span>&nbsp;<b class='coop-countElement'>("+treeItems[i].count+")</b></span>")
@@ -75,7 +82,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $("#dept_"+deptId).append("<span id=projectbutton_"+treeItems[i].ppid+" title='"+treeItems[i].projectName+"' class='spanwidth'><img src='"+treeItems[i].imgsrc+"'><span class='substr-sideMenus coop-menusSet' style='display:inline-block;'>"+treeItems[i].projectName+"</span></span>")
             }
         }
-		
+
 		$("span[id^='projectbutton_']").bind("click", function(){
             $scope.isNoSearchValue = false;
             $scope.isNoSearchValueBook = false;
@@ -89,10 +96,10 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
 		   	  $scope.trentsList($(this).attr("id").split("_")[1]);
 		});
 	}
-    
+
     //获取项目部下的工程列表
     $scope.childItems = function(id,$event,open){
-    	var createindex = layer.load(1, {
+    	var createindex = layer.load(0, {
             shade: [0.5,'#000'] //0.1透明度的黑色背景
         });
         var searchBox = $("#exampleInputName2").val();
@@ -142,6 +149,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                    $(".good_list").css({'display':'block'});
                    $(".pro_list").css({'display':'none'})
                }
+               layer.closeAll();
             });
         } else {
         	layer.close(createindex);
@@ -265,7 +273,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 $(".mask").hide();
                 $(".showImg").hide();
             })
-         
+
             //下载弹出遮罩层和下载进度
             $(".pro-down").click(function(){
                 $(".tools_bar>.pro_mask").animate({top:0});
@@ -427,7 +435,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         	}else{
         		changeProj = false;
         	}
-            
+
         };
         var setSearchFlagFalse = function(){
             searchFlag = false;
@@ -473,7 +481,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $(".pro_list").show();
             $(".goodlist_left").hide();
             $(".prolist_left").show();
-            var createindex = layer.load(1, {
+            var createindex = layer.load(0, {
                 shade: [0.5,'#000'] //0.1透明度的黑色背景
             });
             $scope.seacherKey = $("#exampleInputName3").val();
@@ -499,7 +507,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                     lastUploadTime = data.data[data.data.length-1].updateTime;
                     lastUsername = data.data[data.data.length-1].username;
                 }
-                
+
                 if($scope.trentsListInfo.length == 0) {
                 	 $(".pro_list").css('display','none');
                      $scope.isNoSearchValueReject = true;
@@ -535,6 +543,8 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
         //通过动态列表的图片获取大图的资源路径
         $scope.transformBig = function(uuid,docName,isPreview){
             var data ={fileName:docName,uuid:uuid};
+            Cooperation.writeLog(1, $state.current.name, false, LogConfiguration.progressName.managePreview, 0, '');
+
             if(isPreview == false){
                 //alert('该文件暂不支持预览')
                 layer.alert('该文件暂不支持预览',{
@@ -544,6 +554,9 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 return;
             }
             Manage.getTrendsFileViewUrl(data).then(function (result) {
+
+                Cooperation.writeLog(1, $state.current.name, false, LogConfiguration.progressName.managePreview, 0, '');
+
                 console.log(typeof result)
                     $scope.flag.isPreview = true;
                     $scope.previewUrl = $sce.trustAsResourceUrl(result);
@@ -556,6 +569,10 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 })
                 //alert(obj.message);
             });
+        }
+        //通过动态列表的图片下载大图
+        $scope.manageDownload=function () {
+            Cooperation.writeLog(1, $state.current.name, false, LogConfiguration.progressName.manageDownload, 0, '');
         }
         $scope.tokenBack = false;
         //回退按钮关闭列表页面
@@ -582,7 +599,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
                 })
             }
         })
-        
+
         $scope.$on('ngRepeatFinishedDept',function(ngRepeatFinishedEvent){
 	    	if(firstreackflag){
 				//获取列表里面第一个项目部
@@ -610,15 +627,6 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             $state.go('cooperation', {'transignal':'be'});
         }
 
-        // //调用心跳机制
-        // Cooperation.heartBeat();
-        // //跳转新页面去除心跳机制
-        // $scope.$on('$stateChangeStart',
-        //     function(event, toState, toParams, fromState, fromParams){
-        //         clearInterval(ApplicationConfiguration.refreshID);
-        //         layer.closeAll();
-        // });
-
         //最大化、最小化、还原、关闭
         //SC_MAXIMIZE、SC_MINIMIZE、SC_RESTORE、SC_CLOSE  
         //窗口缩小
@@ -631,7 +639,7 @@ angular.module('manage').controller('manageCtrl', ['$scope', '$http', '$uibModal
             //对接pc
             BimCo.SysCommand('SC_MAXIMIZE');
         }
-        
+
         //窗口关闭
         $scope.close = function () {
             BimCo.SysCommand('SC_CLOSE');

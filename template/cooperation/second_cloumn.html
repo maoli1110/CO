@@ -1,0 +1,173 @@
+<style>
+    .cooper-remove {
+        background: #fff !important;
+        border-top: 1px solid #ddd !important;
+        width: calc(100vw - 250px) !important;
+    }
+    .them-title div span {
+        padding-right: 20px;
+        text-align: right;
+    }
+
+
+</style>
+
+<div class="second-columnMode" ng-show="!coNoResult">
+    <div class="right-content">
+        <div class="table-list table-simulate">
+            <table class="table">
+                <thead>
+                <tr style="background:#f2f4f5;height:38px;">
+                    <th style="width:170px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;协作类型</th>
+                    <th style="min-width:20%">主题</th>
+                    <th style="width:13%">标识</th>
+                    <th style="width:10%">状态</th>
+                    <th style="width:20%">更新时间</th>
+                    <th style="width:10%" ng-show="!flag.isDraft" class="updata-person" >更新人</th>
+                    <th ng-show="flag.isDraft">删除</th>
+                    <th style="width:6%">详情</th>
+                </tr>
+                </thead>
+            </table>
+
+        </div>
+        <div class="table-list basic-project content-container content-scroll-container" infinite-scroll-parent="true" style="margin-bottom:50px;">
+            <table ng-if="!coNoResult" class="table" class="info_list" id="table1scroll"
+                   infinite-scroll-container='".content-scroll-container"' infinite-scroll="addMoreData()"
+                   infinite-scroll-
+                   distance="0" infinite-scroll-disabled="scrollend">
+                <!--<div  ng-show="coNoResult">
+                    <div class="noSearch" ng-show="projNoCo">
+                        <dl class="noProject">
+                            <dt>
+                                <img src="imgs/co-search.png" alt="">
+                                <span></span>
+                            </dt>
+                            <dd>当前工程无协作</dd>
+                        </dl>
+                    </div>
+                    <div class="noSearch" ng-show="searchNoCo">
+                        <dl class="noProject">
+                            <dt>
+                                <img src="imgs/co-search.png" alt="">
+                                <span></span>
+                            </dt>
+                            <dd>当前无结果</dd>
+                        </dl>
+                    </div>
+                    <div class="noSearch" ng-show="noRelatedNoCo">
+                        <dl class="noProject">
+                            <dt>
+                                <img src="imgs/co-search.png" alt="">
+                                <span></span>
+                            </dt>
+                            <dd>当前无协作</dd>
+                        </dl>
+                    </div>
+                </div>-->
+                <tbody>
+                <tr ng-repeat="item in cooperationList" style="font-size:12px;border-bottom:1px solid #ddd;" colist-repeat-finished
+                    coid="{{item.coid}}" class="coopers" style="position:relative">
+                    <td class="problems-rect" style="border:none;position:relative;width:170px;position:relative;text-align:left;word-wrap:break-word;  ">
+
+                        <label class="rela multi-choice">
+                            <input type="checkbox" class="remove-signal" ng-click="updateSelection($event, item)">
+                            <div class="absol check-funnel" style="margin-top: 4px;"></div>
+                        </label>
+                        <!--<span class="cop-edit" ng-show="item.isLock"></span>-->
+                        <!--<span class="cop-edit" ng-class ="{true: 'isShow', false: 'isHide'}[item.isLock]"></span>-->
+                        <div class='problems-box' ng-click="transCoDetail(item)">
+                            <a class="icon-type" ng-if="item.type.name=='问题整改'" style="background-position: 0 0;"></a>
+                            <a class="icon-type" ng-if="item.type.name=='阶段报告'" style="background-position: 0 -15px;"></a>
+                            <!--<a class="icon-type" ng-if="item.type.name=='阶段报告'"
+                               style="background-position: 0 -15px;"></a>-->
+                            <a class="icon-type" ng-if="item.type.name=='方案报审'"
+                               style="background-position: 0 -30px;"></a>
+                            <a class="icon-type" ng-if="item.type.name=='方案会签'"
+                               style="background-position: 0 -45px;"></a>
+                            <a class="icon-type" ng-if="item.type.name=='现场签证'"
+                               style="background-position: 0 -60px;"></a>
+                            <a class="icon-type" ng-if="item.type.name=='图纸变更'"
+                               style="background-position: 0 -75px;"></a>
+                        </div>
+                    </td>
+                    <td ng-click="transCoDetail(item)" title="{{item.name}}" ng-class="{'bold':!item.isRead}" class="second-them absol substr"
+                        style="width:20% !important;border:none;text-align:left;margin-right:10px;word-break:break-all;">
+                        {{item.name}}
+                    </td><!--ng-click="transCoDetail(item)"-->
+                    <td ng-click="transCoDetail(item)" class="substr" style="border:none;width:13%;">
+                        <b class="colorBox substr" style="background:{{item.markerColor}}" title={{item.markerName}}>{{item.markerName}}</b>
+                        <!--<span class="substr" title={{item.markerName}} style="width:37px;vertical-align:middle;display:inline-block;">{{item.markerName}}</span>-->
+                    </td>
+                    <td style="width:10%" ng-click="transCoDetail(item)">{{item.status}}</td>
+                    <td style="width:20%" ng-click="transCoDetail(item)" style="border:none;">{{item.updateTime | date:'yyyy.MM.dd '}}<span class="time-seconds" style="margin-left:15px;">{{item.updateTime|date:'HH:mm'}}</span></td>
+                    <td style="width:10%" ng-show="!flag.isDraft" class="edit-click" title="{{item.updater}}" style="text-align:left ;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">{{item.updater}}</td>
+                    <td ng-show="flag.isDraft" class="td-del"  ng-click ="deleteProject(item.coid)"><span class="icon-del-tr"></span></td>
+                    <td ng-click="openDetail(item)" style="width:6%">
+                        <!--<img ng-src="imgs/icon/detail.png" alt="">-->
+                        <span class="cop-add" title="详情"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cooper-remove clearfix"><!-- ng-show="flag.isVisible" -->
+            <div style="width:275px;text-align:center;display:inline-block;float:left;margin-top:1px;">
+                <label class="rela checkStatus" >
+                    <input type="checkbox" class="remove-signal absol" ng-click="allSelect()" ng-model="flag.allSelected">
+                    <div class=" check-funnel" style="margin-top: 4px;"></div>
+                </label>
+                <button class="btn btn-default new-btnFail coopertion-tools" style="width:88px;margin-left:13px;" ng-click="remarkRead()">标记为已读
+                </button>
+                <button style="width:70px;margin:-4px 20px 0 10px;" ng-click="removeAll()" class="btn btn-default new-btnFail second-delete-btn">删除</button>
+            </div>
+            <span style="margin-right:10px;font-size:12px;" class="total inline pull-right">共<span ng-if="cooperationList.length">{{coItemsTotals}}</span><span ng-if="!cooperationList.length">0</span>条协作</span>
+        </div>
+        <div class="coo-detail absol" ng-show="detailSignal">
+            <div class="title">协作详情</div>
+            <div class="row list">
+                <div class="col-xs-6 them-title" style="padding-left:0">
+                    <div><span>类型：</span></div>
+                    <div><span>主题：</span></div>
+                    <div><span>负责人：</span></div>
+                    <div><span>标识：</span></div>
+                    <div><span>创建时间：</span></div>
+                    <div><span>更新时间：</span></div>
+                    <div><span>更新人：</span></div>
+                    <div><span>创建人：</span></div>
+                    <div><span>状态：</span></div>
+                    <div><span>期限：</span></div>
+                </div>
+                <div class="col-xs-6" style="padding: 0;">
+                    <div class="coop-detial-right">{{everyDetail.type.name}}</div>
+                    <div class="substr deta-main coop-detial-right substr" style="width:62px;text-align:left;"
+                         title="{{everyDetail.name}}">{{everyDetail.name}}
+                    </div>
+                    <div class="coop-detial-right substr" style="width:62px;text-align:left;"
+                         title="{{everyDetail.collaborator}}">{{everyDetail.collaborator}}
+                    </div>
+                    <div class="coop-detial-right substr" style="max-width:100px;text-align:left;"
+                         title="{{everyDetail.markerName}}"><span class="mark"
+                                                                  style="background:{{everyDetail.markerColor}}"></span>{{everyDetail.markerName}}
+                    </div>
+                    <div class="coop-detial-right">{{everyDetail.createTime}}</div>
+                    <div class="coop-detial-right">{{everyDetail.updateTimeCopy | date:'yyyy-MM-dd HH:mm'}}</div>
+                    <div class="coop-detial-right substr" style="width:62px;text-align:left;"
+                         title="{{everyDetail.updater}}">{{everyDetail.updater}}
+                    </div>
+                    <div class="coop-detial-right substr" style="width:62px;text-align:left;"
+                         title="{{everyDetail.creator}}">{{everyDetail.creator}}
+                    </div>
+                    <div class="coop-detial-right">{{everyDetail.status}}</div>
+                    <div class="coop-detial-right" ng-if="everyDetail.deadline == null">不期限</div>
+                    <div class="coop-detial-right" ng-if="everyDetail.deadline != null">{{everyDetail.deadline |
+                        date:'yyyy-MM-dd HH:mm'}}
+                    </div>
+                </div>
+            </div>
+            <div class="coop-btns">
+                <button type="button" ng-click="deleteCoop(everyDetail)">删除</button>
+            </div>
+        </div>
+    </div>
+</div>

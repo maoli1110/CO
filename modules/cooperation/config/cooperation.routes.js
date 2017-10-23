@@ -3,15 +3,15 @@
 angular.module('core').config(['$stateProvider', '$urlRouterProvider','$locationProvider',
 	function($stateProvider, $urlRouterProvider,$locationProvider) {
 		
-		$urlRouterProvider.otherwise('/cooperation');
+		$urlRouterProvider.otherwise('/cooperationNew/threeCloumn');
 
-		$stateProvider.
-		 state('cooperation', {
-			url:"/cooperation?deptId&ppid&source",
-			templateUrl: 'template/cooperation/cooperation.html',
-			controller: 'coopreationCtrl',
+		$stateProvider
+		.state('cooperationNew', { //(新)3栏，2栏的父级路由(新增协作路由及页面,之前的路由保留)
+			url:"/cooperationNew?deptId&ppid&source",
+			templateUrl: 'template/cooperation/cooperationNew.html',
+			controller: 'coopreationNewCtrl',
 			data: {
-				displayName: 'cooperation'
+				displayName: 'coopercolumnModeCtrl' 
 			},
 			params: {
 				'deptId': null,
@@ -21,25 +21,34 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 				'source':null
 			}
 		})
-		.state('newcopper', {
-			'url':"/newcopper?typeid",
-			templateUrl: 'template/cooperation/newcopper.html',
-			controller: 'newcoopreationCtrl',
+		.state('cooperationNew.threeCloumn', {   //三栏
+			url:"/threeCloumn",
+			templateUrl: 'template/cooperation/three_cloumn.html',
 			data: {
-				displayName: 'newcopper'
+				displayName: 'threeCloumn'
+			}
+		})
+		.state('cooperationNew.secondCloumn', {  //两栏
+			url:"/secondCloumn",
+			templateUrl: 'template/cooperation/second_cloumn.html',
+			data: {
+				displayName: 'secondCloumn'
+			}
+		})
+		.state('cooperationNew.detail', {  //详情
+			url:"/detail/?coid&source",
+			templateUrl: 'template/cooperation/coop_detail_pc.html',
+			data: {
+				displayName: 'detail'
 			},
-			params:{
-				typeid:null,
-				typename:null,
-				deptId:null,
-				ppid:null,
-				deptName:null,
-				ppidName:null,
-				productId:null
+			params: {
+				'deptId':null,
+				'ppid':null,
+				'coid':null
 			}
 		})
 		.state('coopdetail', {
-			'url':"/coopdetail/?coid&source",
+			url:"/coopdetail/?coid&source",
 			templateUrl: 'template/cooperation/coop_detail.html',
 			controller: 'coopdetailCtrl',
 			data: {
@@ -51,11 +60,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 				'coid':null
 			}
 		}).state("editdetail",{
-			'url':"/editdetail/?coid",
+			url:"/editdetail/?coid",
 			templateUrl:"template/cooperation/coop_editdetail.html",
 			controller:"editdetailCtrl"
 		}).state('sharedetail', {
-			'url':"/sharedetail/?coid",
+			url:"/sharedetail/?coid",
 			templateUrl: 'template/cooperation/share_detail.html',
 			controller: 'sharedetailCtrl',
 			data: {
@@ -67,31 +76,5 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider','$location
 				'coid':null
 			}
 		})
-
-		// .state('home.all', {
-		// 	'url': "/all",
-		// 	templateUrl: 'template/home/all.html',
-		// 	controller: 'allCtrl',
-		// 	data: {
-		// 		displayName: 'all'
-		// 	}
-		// });
-
-		//$locationProvider.html5Mode(true);
-
 	}
-])
-// .run(function($rootScope){
-// 	$rootScope
-//         .$on('$viewContentLoading',
-//             function(event, viewConfig){ 
-//                 console.log("View Load: the view is loading, and DOM rendered!");
-//         });
-
-//     $rootScope
-//         .$on('$viewContentLoaded',
-//             function(event, viewConfig){ 
-//                 console.log("View Load: the view is loaded, and DOM rendered!");
-//                 alert('9090')
-//         });
-// });
+]);

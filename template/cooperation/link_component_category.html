@@ -1,6 +1,19 @@
+<style>
+    .link-categoty-modal {
+        z-index: 1052;
+    }
+
+    .select-project .modal-body .btn-group {
+        margin-left: 0 !important;
+    }
+
+    .select-project .form-inline .form-group {
+        margin-right: 10px;
+    }
+</style>
 <!-- <div class="select-project" ng-show="openSignal" scroll-directive> -->
 <div class="select-project" ng-show="openSignal">
-    <div class="modal-header">
+    <div class="modal-header" style="padding-top:8px;">
         <h3 class="modal-title">选择构件类别</h3>
         <div class="inline close-sbtn" ng-click="cancel()">
             <span class="close"></span>
@@ -17,6 +30,8 @@
                       <option value="3">安装预算</option>
                       <option value="4">Revit</option>
                       <option value="5">Tekla</option>
+                      <option value="8">班筑家装</option>
+                      <option value="9">场布预算</option>
                       <!-- <option value="6">PDF</option> -->
                     </select>
                 </div>
@@ -88,7 +103,7 @@
                 <!--</div>-->
             </div>
         </div>
-        <div class="row right" id="content-a15" style="margin-top:-13px;height:449px;overflow:auto;border:1px solid #ddd">
+        <div class="row" id="content-a15" style="margin-top:-13px;height:449px;overflow:auto;border:1px solid #ddd">
             <ul id="tree1" class="ztree"></ul>
         </div>
     </div>

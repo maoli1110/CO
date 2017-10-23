@@ -18,17 +18,17 @@
 		<!-- project core CSS -->
 		<link rel="stylesheet" href="./css/cooperation.css">
 		<link rel="stylesheet" href="./css/main.css">
-
+		<link rel="stylesheet" href="./css/coopdetail.css">
+		<link rel="stylesheet" href="./css/cooper-column.css">
 		<!-- gulp 压缩 整合 -->
 		<!-- <link rel="stylesheet" href="./release/main.min.css"> -->
-
 		<!-- 动画css插件加载 -->
 		<link rel="stylesheet" href="./css/animate.min.css">
 
 		<!--滚动条-->
 		<!-- custom scrollbar stylesheet -->
 		<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
-
+		<link rel="stylesheet" href="./lib/swiper/dist/css/swiper.min.css">
 		<script type="text/javascript">
 		<%@page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 		<%
@@ -45,48 +45,21 @@
 		<body>
 
 		<div class="content-main" ui-view>
-			
 		</div> 
-		
-		<!-- 警告弹框 -->
-		<!-- <div style="position: absolute; width:270px; right:30px; top:128px; z-index:100;" ng-repeat="alert in alerts" class="alert {{alert.type}}">
-		    <alert>
-		        <span ng-bind="alert.msg"></span>
-		    </alert>
-		</div> -->
-
-		<!-- <div ng-repeat="alert in alerts" class="alert {{alert.type}}">
-		    <alert>
-		       <span ng-bind="alert.msg"></span>
-		    </alert>
-		</div> -->
-
 		<!-- vendor -->
-		<script src="./lib/lodash.min.js"></script>
-		<!-- <script src="//cdn.bootcss.com/lodash.js/4.15.0/lodash.js"></script> -->
 		<script type="text/javascript" src="./lib/jquery/dist/jquery.min.js"></script>
 		<!--<script src="js/jquery-1.9.0.js" type="text/javascript"></script>-->
 		<script type="text/javascript" src="./lib/angular/angular.min.js"></script>
-		
 		<script type="text/javascript" src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+		<!-- layer -->
+		<script type="text/javascript" src="./lib/layer/layer.min.js"></script>
 		<script type="text/javascript" src="./lib/angular-i18n.js"></script>
 		<script type="text/javascript" src="./lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls-2.0.0.min.js"></script>
 		<script type="text/javascript" src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="./lib/echart/echarts.min.js"></script>
 		<script type="text/javascript" src="./lib/nginfinite/ng-infinite-scroll.min.js"></script>
-		<script type="text/javascript" src="./lib/layer/layer.min.js"></script>
-		<script type="text/javascript" src="./lib/audio1/jquery.jplayer.min.js"></script>
 		<script src="./lib/jquery.scrollLoading.js"></script>
 		<!-- select -->
 		<script type="text/javascript" src="./lib/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-		<!-- upload -->
-		<script type="text/javascript" src="./lib/angular-upload/angular-upload.min.js"></script>
-		<script type="text/javascript" src="./lib/plugin/i18n.js"></script>
-		<script type="text/javascript" src="./lib/plugin/alert.js"></script>
-		<!-- ztree -->
-		<script type="text/javascript" src="./lib/ztree/js/jquery.ztree.core-3.5.min.js"></script>
-		<script type="text/javascript" src="./lib/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
-		<script type="text/javascript" src="./lib/ztree/js/jquery.ztree.exhide-3.5.js"></script>
 		<!-- main -->
 		<script type="text/javascript" src="./modules/config.js"></script>
 		<script type="text/javascript" src="./modules/application.js"></script>
@@ -105,38 +78,52 @@
 		<!-- cooperation -->
 		<script type="text/javascript" src="./modules/cooperation/cooperation.module.js"></script>
 		<script type="text/javascript" src="./modules/cooperation/config/cooperation.routes.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/cooperation.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/newcooperation.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/selectperson.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/coopdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/updatecomment.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/coopeditdetail.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkproject.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkcomponent.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkbe.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/controllers/linkform.ctrl.js"></script>
-		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js"></script>
+		<!-- <script type="text/javascript" src="./modules/cooperation/controllers/cooperation.ctrl.js"></script> -->
+		<script type="text/javascript" src="./modules/cooperation/controllers/cooperationNew.ctrl.js"></script>
 
+		<!-- 非第三方插件 可延迟 -->
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/newcooperation.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/coopeditpc.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/selectperson.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/coopdetail.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/updatecomment.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/coopeditdetail.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/linkproject.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/linkcomponent.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/linkbe.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/controllers/defer/linkform.ctrl.js" defer></script>
+		<script type="text/javascript" src="./modules/cooperation/services/cooperation.service.js" defer></script>
+		
 		<!-- core manage cooperation js gulp 整合 -->
-		<!-- <script type="text/javascript" src="./release/all.min.js"></script> --> 
+		<!-- <script type="text/javascript" src="./release/init.min.js" defer></script> -->
+		<!-- core manage cooperation js gulp 整合 -->
+		<!-- <script type="text/javascript" src="./release/defer.min.js" defer></script> -->
+		
+		<!-- 第三方插件 可延迟 -->
+		<!-- lodash -->
+		<script src="./lib/lodash.min.js"></script>
+		<!-- ztree -->
+		<script type="text/javascript" src="./lib/ztree/js/jquery.ztree.core-3.5.min.js" defer></script>
+		<script type="text/javascript" src="./lib/ztree/js/jquery.ztree.excheck-3.5.min.js" defer></script>
+		<script type="text/javascript" src="./lib/ztree/js/jquery.ztree.exhide-3.5.js" defer></script>
+		<!-- echart -->
+		<script type="text/javascript" src="./lib/echart/echarts.min.js" defer></script>
+
+		<!-- audio -->
+		<script type="text/javascript" src="./lib/audio1/jquery.jplayer.min.js" defer></script>
+		<!-- upload -->
+		<script type="text/javascript" src="./lib/angular-upload/angular-upload.min.js" defer></script>
+		<script type="text/javascript" src="./lib/plugin/i18n.js" defer></script>
+		<script type="text/javascript" src="./lib/plugin/alert.js" defer></script>
 
 		<!--滚动条-->
-		<script src="js/jquery.mCustomScrollbar.js"></script>
-		<script src="js/jquery.mousewheel.min.js"></script>
+		<script src="js/jquery.mCustomScrollbar.js" defer></script>
+		<script src="js/jquery.mousewheel.min.js" defer></script>
+		<%--swiper--%>
+		<script src="./lib/swiper/dist/js/swiper.jquery.min.js"></script>
 		<!--autosize(多行文本高度自适应)-->
-		<script	src="./js/autosize.min.js" ></script>
-		<script>
-		    //客户端点击协作管理调出bimco （当前定位代码注释--勿删）
-		    function transCoManage (deptId,ppid) {
-		        //pc跳转传递deptId, ppid 定位到当前工程---勿删
-				   	// $('#deptId_formbe').val(deptId);
-			     	//   if(ppid <= 0){
-					// $('#deptId_formbe').val("");
-				   	// }
-			     	//   $('#ppid_formbe').val(ppid);
-			     	//   $('#deptId_formbe').click();
-		    }
-		</script>
+		<script	src="./js/autosize.min.js"></script>
+		
 		<script>
 		//显示大图标
 		function Restore  (status) {
@@ -149,7 +136,6 @@
 				$('#w-middle-inner').css('display','none');
 				$('#w-max-inner').css('display','inline-block');
 			}
-
 		}
 		//显示小图标
 		function Zoom  (status) {
@@ -161,7 +147,6 @@
 			$('#w-max-inner').css('display','none');
 		    $('#w-max').removeClass('maxStates');
 		}
-	    
 		</script>
 		</body>
 		</html>

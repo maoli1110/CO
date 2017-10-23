@@ -70,9 +70,10 @@
 					<div class="row most-leave">
 						<label for="" class="col-xs-2 create-title">优先级：</label>
 					   	<select class="selectpicker col-xs-6 priority" ng-model="priority">
-						  	<option value="1">Ⅰ</option>
+						  <!-- 	<option value="1">Ⅰ</option>
 						  	<option value="2">Ⅱ</option>
-						  	<option value="3">Ⅲ</option>
+						  	<option value="3">Ⅲ</option> -->
+						  	<option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option> 
 						</select>
 					</div>
 					<div class="row coop-Levels">
@@ -392,18 +393,13 @@
 
 <!-- <div onclick="transCoDetail()" style="position:fixed;z-index:1000;top:20px">transCoDetail</div> -->
 
-<script type="text/javascript">
-	$('.selectpicker').selectpicker({
-		  style: '',
-		  size: 'auto'
-		});
-</script>
-
-<script>
+<!-- <script>
 	//跳转协作详情-第二版
 	function transCoDetail (coid) {
+		alert(coid+'html')
 		// document.location= '#/coopdetail/?coid='+ coid;
 		$('#checkformbe').val(coid);
 		$('#checkformbe').click();
 	}
 </script>
+ -->

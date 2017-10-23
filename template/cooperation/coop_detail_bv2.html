@@ -88,7 +88,7 @@
             <div class="col-xs-9 col-md-11 mobile-relate-con clearfix" style="float:right;width:82%;margin-bottom:15px;">
                 <dl ng-repeat="item in collaList.relevants" class="photoImg" >
                     <dt><img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>
-                    <dd class="substr" title="{{item.username}}" style="font-size:14px;">{{item.username}}</dd>
+                    <dd class="substr" title="{{item.username}}" ng-class="{'max-width':item.needSign}" style="font-size:14px;">{{item.username}}</dd>
                     <dd   ng-if="!item.isPassed && !item.isRejected && item.isReaded" class="color-gray">已读</dd>
                     <dd   ng-if="!item.isPassed && !item.isRejected && !item.isReaded" class="color-green">未读</dd>
                     <dd   ng-if="item.isPassed" class="color-blue">已通过</dd>

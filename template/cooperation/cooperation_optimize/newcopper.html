@@ -1,0 +1,399 @@
+<link rel="stylesheet" href="./css/scrollnice.css">
+<style type="text/css">
+    body{
+        -webkit-font-smoothing:none;
+    }
+    .new-create .container {
+        padding-left: 50px !important;
+        width: 100% !important;
+        max-height: 478px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .modal-content {
+        border-radius: 6px !important;
+    }
+
+    .create {
+        position: relative;
+        margin-top: 16px !important;
+    }
+    .create .uib-close{
+        color:#fff !important;
+    }
+    .popBox {
+        width: 273px;
+        height: 260px;
+        border-radius: 3px;
+        box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.5);
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 201;
+        transform: translate(-50%, -50%);
+        background: #fff url(imgs/menus-head.png) no-repeat top;
+        line-height: 50px;
+        /*color: #fff;*/
+    }
+
+    .arrow-outer {
+        width: 7px;
+        height: 102px;
+        position: absolute;
+        bottom: 10px;
+        left: -7px;
+        overflow: hidden
+    }
+
+    .arrow {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        width: 10px;
+        height: 10px;
+        position: relative;
+        left: 2px;
+        -webkit-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        background: #FFFFFF;
+        -moz-transform: rotate(45deg);
+    }
+
+    .buttonOut {
+        margin-top: 15px;
+    }
+
+    .dropdown-menu > li > a {
+        padding: 7px 20px;
+    }
+
+    .create .coop-delete .new-pro {
+        width: 100% !important;
+        position: relative;
+    }
+
+    .btn-group {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 15px !important;
+    }
+
+    .upload .btn-add span:not(.btn-photo) {
+        padding: 10px 20px !important;
+        line-height: 20px;
+    }
+
+    .border-list {
+        border: 1px solid rgb(221, 221, 221);
+        width: 100%;
+    }
+
+    .file-name-str {
+        vertical-align: middle;
+        width: 85%;
+        display: inline-block;
+        line-height: 40px;
+        text-align: left !important;
+    }
+
+    .create .docs ul li {
+        text-align: left !important;
+        position: relative;
+        margin-right: 0 !important;
+    }
+    .create .docs ul li .upload-data{
+        cursor:pointer;
+    }
+    .btn-default.new-btnFail {
+        height: 34px !important;
+        font-size: 14px !important;
+        line-height: 20px !important;
+    }
+
+    .new-name {
+        margin-left: 15px !important;
+    }
+   label {
+       text-align: right !important;
+       padding-right: 10px !important;
+   }
+    .bootstrap-select.btn-group .dropdown-menu{
+        /*max-height:277px !important;
+        padding-bottom:10px;*/
+    }
+    .coop-Levels  .bootstrap-select{
+        padding-bottom:30px;
+    }
+    .bootstrap-select.btn-group .dropdown-menu.inner{
+        max-height:295px !important;
+    }
+</style>
+<div class="new-create">
+    <div class="new-mask" ng-click="closePopBox()"></div>
+    <div class="inner">
+        <header>
+            <div class="opreation clearfix">
+                <span class="close-window" ng-click="cancel()"></span>
+            </div>
+            <div style="padding-left: 50px;">
+                <p class="F18" ng-if="!typeName"><span class="substr">创建协作</span></p>
+                <p class="F18" ng-if="typeName"><span class="substr">创建协作{{"—"+typeName}}</span></p>
+                <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation"></span> -->
+            </div>
+        </header>
+    </div>
+    <div class="container">
+        <div class="create">
+            <form name="create_form" id="create-form" novalidate="">
+                <div class="row">
+                    <div class="row sign-main">
+                        <label for="" class="col-xs-2 create-title">主题：</label>
+                        <div class="inline col-xs-9" style="padding:0;">
+                            <input type="text" class="form-control left-area new-name" id="" placeholder="输入主题（必填）"
+                                   ng-model="coopname" required="" name="topic" maxlength="30" ng-click="changeTopic()">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-xs-2 create-title" style="">关联BIM：</label>
+                    <div class="col-xs-9"
+                         ng-show="link.linkProjectName" style="margin-left: 15px;padding: 0;">
+                        <!--(linkProject1 &&!link.linkProjectName)||(linkComponent1 &&!link.linkProjectName)||(linkCategoty1 &&!link.linkProjectName)-->
+                        <div class="coop-delete">
+                            <div class="inline new-pro relate-pro">
+                                <!--<div ng-if="link.linkProjectDeptName && (!linkProject1||!linkComponent1||!linkCategoty1) &&!link.linkProjectName" ng-bind="link.linkProjectDeptName" style="line-height:38px;"></div>-->
+                                <div ng-if="link.linkProjectName && (!linkProject1||!linkComponent1||!linkCategoty1)"
+                                     ng-bind="link.linkProjectName" style="line-height:38px;    height: 40px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>
+                                <div ng-show="linkProject1 &&!link.linkProjectName" style="line-height:37px">
+                                    <span class="substr" width="285px">与工程相关： {{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span>
+                                    <!-- <span ng-click="removeLink()" style="margin-left:20px;">重新关联</span> -->
+                                </div>
+                                <div ng-show="linkComponent1 &&!link.linkProjectName" style="line-height:37px;">
+                                    <span>与构件相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span>
+                                    <!-- <span ng-click="removeLink()" style="margin-left:20px;">删除</span> -->
+                                </div>
+                                <div ng-show="linkCategoty1 &&!link.linkProjectName" style="line-height:37px;">
+                                    <span>与构件类别相关：{{link.linkProjectDptName}}项目部 -- {{link.linkProjectName}}工程</span>
+                                </div>
+                                <a class="delete-wrapper" ng-click="removeLink()">
+                                    <span class="delete-btn"></span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="list-inline col-xs-10" style="margin-bottom: 20px;font-size: 0;padding: 0;">
+                        <button class="btn btn-link1 new-relative" ng-click="linkProject()">工程</button>
+                        <button class="btn btn-link1 new-relative" ng-click="linkComponent()">构件</button>
+                        <button class="btn btn-link1 new-relative" ng-click="linkCategoty()">类别</button>
+                    </div>
+                </div>
+
+                <div class="row coop-Levels">
+                    <label class="col-xs-2 create-title">标识：</label>
+                    <select class="selectpicker1 col-xs-3" ng-model="mark">
+                        <option value="{{item.markerId}}"
+                                data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
+					  					<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
+					  					<span style='line-height:13px;'>{{item.picMarker}}</span>
+					  				</div>"
+                                ng-repeat="item in markerList track by $index"></option>
+                    </select>
+                </div>
+                <div class="row most-leave">
+                    <label for="" class="col-xs-2 create-title">优先级：</label>
+                    <select class="selectpicker col-xs-3 priority" ng-model="priority">
+                        <option ng-repeat="item in priorityList" value="{{item.code}}">{{item.name}}</option>
+                    </select>
+                </div>
+                <div class="row most-leave">
+                    <label for="" class="col-xs-2 align-right create-title" style="padding:0;">截止日期：</label>
+                    <div class="btn-group col-xs-4" style="width:200px;position: relative;">
+                        <input type="text" class="form-control create-calder" uib-datepicker-popup ="{{format}}" readonly ng-click="open2()"
+                                ng-model="dt" is-open="popup2.opened"
+                               datepicker-options="dateOptions" close-text="关闭" clear-text="清除"
+                               current-text="今天" style="padding: 6px 30px 6px 12px;"/>
+                        <a class="calendar-wrapper" ng-click="open2()">
+                            <span class="calendar-btn"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mx" style="margin-bottom:15px;">
+                    <label for="" class="col-xs-2 create-title">描述：</label>
+                    <div class="col-xs-9" style="margin-left: 15px;padding-right: 0;">
+                        <textarea id="desc" rows="6" ng-model="desc" data-ng-trim="false"
+                                  style="width:100%;padding:10px 13px;padding-bottom:26px;" placeholder="最多可输入500个字"
+                                  ng-click="changeDesc()" maxlength="500"></textarea>
+                        <!--<span class="" style="">({{desc.length+"/"+500}})</span>-->
+                        <p class="tootips-numb" style="width:97.5%;top:127px;background:#fff;"><span class=" ng-binding" style="color:#808080;font-size:12px;float:right;margin-top:5px;">({{desc.length+"/"+500}})</span></p>
+                    </div>
+                </div>
+                <!-- upload -->
+                <div class="row upload">
+                    <label for="" class="col-xs-2 create-title">照片：</label>
+                    <div class="upload-img col-xs-9 clearfix" style="margin-left: 15px;">
+                        <input class="upload-img" type="file" nv-file-select="" uploader="uploader"
+                               style="display:none;" multiple/>
+
+                        <ul class="list-inline"
+                            style="max-height:210px;overflow-y: auto">
+                            <li ng-repeat="item in uploader.queue" style="position:relative" ng-click="isNotPreview()">
+                                <div class="updata-photo">
+                                    <div style="display:inline">
+                                        <div ng-show="uploader.isHTML5" class="up-picture"
+                                             ng-thumb="{ file: item._file,width:90,height:65}"></div>
+                                        <br/>
+                                        <div class="updata-hoverStyle">
+                                            <span class="delete-btn absol" style="right:6px;top:3px;" ng-click="item.remove()"></span>
+                                        </div>
+                                    </div>
+                                    <span ng-bind="item.file.name" title="{{item.file.name}}" class="substr"
+                                          style="width:100px;display:inline-block;position: absolute;left: 10px;top: 130px;"></span>
+                                </div>
+                            </li>
+                            <div style="float:left;margin-right:20px;">
+                                <button class="btn btn-add btn-lg-add btn-photo" ng-click="fileUpload()"
+                                        style="vertical-align:top;"><span
+                                        style="font-size: 30px !important;padding: 9px 0px !important;line-height:6px;">+</span>
+                                </button>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="row docs upload clearfix" style="margin-top: 20px;margin-bottom: 20px;">
+                    <label for="" class="col-xs-2 create-title">资料：</label>
+                    <div class="col-xs-9" style="padding: 0;">
+                        <div class="clearfix border-list" style="margin-left: 15px;max-height:210px;overflow-y: auto;padding-left: 15px;"
+                             ng-show="docSelectedList.length||formSelectedList.length||uploader1.queue.length">
+                            <ul class="select-docs"
+                                ng-show="docSelectedList.length" style="width: 100%;">
+                                <!--文件类型-->
+                                <li ng-repeat="items in docSelectedList track by $index" style="vertical-align:middle">
+                                    <div class="upload-data" style="width: 100%;">
+                                        <span class="file-icon"></span>
+                                    <span ng-bind="items.docName" title="{{items.docName}}"
+                                          class="substr file-name-str"
+                                          ng-click="preView(items.uuid,items.docName,items.fileType,$index,'docSelectedList')"></span>
+                                        <a class="delete-wrapper" ng-click="removeDoc(items)">
+                                            <span class="delete-btn"></span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="select-form rela" ng-show="formSelectedList.length" style="width: 100%;">
+                                <li ng-repeat="items in formSelectedList" style="vertical-align:middle">
+                                    <div class="upload-data" style="width: 100%;">
+                                        <span class="file-icon"></span>
+                                    <span title="{{items.name}}"
+                                          class="substr file-name-str"
+                                          ng-click="preView(items.uuid,items.name,items.suffix,$index,'formSelectedList')">{{items.name}}.{{items.suffix}}</span>
+                                        <a class="delete-wrapper" ng-click="removeForm(items)">
+                                            <span class="delete-btn"></span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <input class="upload-docs-new" type="file" nv-file-select="" uploader="uploader1" multiple
+                                   nv-file-select="" style="display:none;"/>
+                            <ul ng-show="uploader1.queue.length" style="width: 100%;">
+                                <li ng-click="isNotPreview()" ng-repeat="item in uploader1.queue"
+                                    style="vertical-align:middle">
+                                    <div class="upload-data" style="width: 100%;">
+                                        <span class="file-icon"></span>
+                                    <span ng-bind="item.file.name" title="{{item.file.name}}"
+                                          class="substr file-name-str"></span>
+                                        <a class="delete-wrapper" ng-click="item.remove()">
+                                            <span class="delete-btn"></span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="upload" style="margin-left: 15px;">
+                            <div class="buttonOut">
+                                <button type="button" class="btn  btn-add btn-middle" popover-trigger="'focus'" ng-click="popBoxState()"> <span style="font-size: 14px !important; font-weight: 700 !important;" class="add-span">+添加</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--选择be表单-->
+                <div class="popBox" ng-if="beStates">
+                    <div class="pop-title">选择协同内容</div>
+                    <div class="row pop-content">
+                        <button class="btn btn-link1 select-be" ng-click="linkBe()" style="margin-left:0px !important">
+                            <span>引用BE资料</span></button>
+                        <div></div>
+                        <button class="btn btn-link1 select-be" ng-click="linkForm()"><span>选择表单</span></button>
+                        <div></div>
+                        <button class="btn btn-link1 select-be" ng-click="docsUpload()"><span>上传资料</span></button>
+                    </div>
+                </div>
+                <!--<div class="row mt-15 relative-man">-->
+                <div class="row" style="margin-bottom:20px;">
+                    <label for="" class="col-xs-2 align-right create-title">负责人：</label>
+                    <div class="inline col-xs-6" style="text-align:left;margin-left: 15px;padding-left: 0;">
+                        <ul class="inline rela relative-ion">
+
+                            <img ng-src="{{responsiblePerson.avatar}}"
+                                 onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"
+                                 ng-if="responsiblePerson.avatar"/>
+                            <img ng-src="./imgs/icon/defalut.png" ng-if="responsiblePerson.avatar==null" alt=""/>
+                            <li ng-if="!responsiblePerson.realname" class="substr" title="{{responsiblePerson.username}}"
+                                style="width:55px;margin-top:5px;line-height: 16px;">{{responsiblePerson.username}}
+                            </li>
+                            <li ng-if="responsiblePerson.realname" class="substr" title="{{responsiblePerson.realname}}"
+                                style="width:55px;margin-top:5px;line-height: 16px;">{{responsiblePerson.realname}}
+                            </li>
+                        </ul>
+                        <!--负责人-->
+                        <div class="change" ng-click="selectResponsible()">更改</div>
+                    </div>
+                </div>
+                <!--</div>-->
+                <div class="row">
+                    <label for="" class="col-xs-2 create-title">相关人：</label>
+                    <div class="selected-list inline col-xs-9" style="margin-left: 15px;">
+                        <ul class="inline rela relative-ion photoImg" ng-repeat="item in related.sign track by $index">
+                            <span class="delete-btn absol" style="right:0" ng-click="deleteRelated($index,'sign')" ng-show="item.username != responsiblePerson.username"></span>
+                            <img ng-src="{{item.avatar}}" onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-if="item.avatar"/>
+                            <img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+                            <li class="substr" title="{{item.realname}}" style="width:55px;margin-top:6px;margin-bottom:10px;line-height: 16px;"><span
+                                ng-if="item.realname">{{item.realname}}</span><span ng-if="!item.realname">{{item.username}}</span>
+                            </li>
+                        </ul>
+                        <ul class="inline relative-ion" ng-repeat="item in related.noSign track by $index"
+                            style="margin-bottom: 10px;position:relative" >
+                            <span class="delete-btn absol" style="right:0" ng-click="deleteRelated($index,'noSign')" ng-show="item.username != responsiblePerson.username"></span>
+                            <img ng-src="{{item.avatar}}" onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"
+                                 ng-if="item.avatar"/>
+                            <img ng-src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""/>
+                            <li class="substr" title="{{item.realname}}" style="width:55px;margin-top:6px;line-height: 16px;">
+
+                                <span ng-if="item.realname">{{item.realname}}</span><span ng-if="!item.realname">{{item.username}}</span>
+                            </li>
+                        </ul>
+                        <div class="upload">
+                            <button class="btn  btn-add btn-middle" ng-click="selectRelated()"><span style="font-size: 14px !important; font-weight: 700 !important;" class="add-span">+添加</span></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <!-- errorMessage-->
+    <div class="create-error">
+        <ul>
+            <li style="color:red" ng-show="flag.nameToLong">协作主题长度不能超过30个字符</li>
+            <li style="color:red" ng-show="flag.descToLong">文字已超过限制，请修改</li>
+            <li style="color:red" ng-show="flag.isTopicNull && create_form.topic.$error.required">协作主题不能为空</li>
+            <li style="color:red" ng-show="flag.isleast">请至少上传一张图片或一份资料</li>
+        </ul>
+    </div>
+    <div class="create-btn-submit footer footer-commom">
+        <div class="text-center">
+            <!--<button class="btn btn-default foot-btn" ng-click="save(0)">存草稿</button>-->
+            <button class="btn btn-default foot-btn " style="font-weight:bold;" ng-click="save(1)">提交</button>
+            <button class="btn btn-default new-btnFail btn-cancel" style="margin-left:20px;" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

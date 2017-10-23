@@ -1,0 +1,542 @@
+<link rel="stylesheet" href="./css/scrollnice.css">
+<style>
+
+    .edit-detailC .container {
+        padding-left: 50px !important;
+        width: 100% !important;
+        max-height: 455px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .modal-content {
+        height: 600px;
+    }
+
+    .proInfo .pro_man > div {
+        margin-bottom: 0px !important;
+    }
+
+    .btn-default.new-btnFail {
+        height: 34px !important;
+        font-size: 14px !important;
+        line-height: 20px !important;
+    }
+
+    .modal-content {
+        border-radius: 6px !important;
+    }
+
+    .create {
+        position: relative;
+        margin: 0 !important;
+    }
+
+    .popBox {
+        width: 273px;
+        height: 260px;
+        border-radius: 3px;
+        box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.5);
+        margin-top: 10px;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-left: 10px;
+        background-color: #fff;
+        z-index: 201;
+        margin-left: -136px;
+        margin-top: -126px;
+        transform: translateY(-50%);
+        background: #fff url(imgs/menus-head.png) no-repeat top;
+        line-height: 50px;
+        color: #fff;
+    }
+
+    .arrow-outer {
+        width: 7px;
+        height: 102px;
+        position: absolute;
+        bottom: 10px;
+        left: -7px;
+        overflow: hidden
+    }
+
+    .arrow {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        width: 10px;
+        height: 10px;
+        position: relative;
+        left: 2px;
+        -webkit-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        background: #FFFFFF;
+        -moz-transform: rotate(45deg);
+    }
+
+    .dropdown-menu > li > a {
+        padding: 7px 20px;
+    }
+
+    .create .coop-delete .new-pro {
+        width: 100% !important;
+        position: relative;
+    }
+
+    .btn-group {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0px !important;
+    }
+
+    .upload .btn-add span:not(.btn-photo) {
+        padding: 10px 20px !important;
+        line-height: 20px !important;
+    }
+
+    .border-list {
+        border: 1px solid rgb(221, 221, 221);
+        width: 100%;
+    }
+
+    .file-name-str {
+        vertical-align: middle;
+        width: 85%;
+        display: inline-block;
+        line-height: 40px;
+        text-align: left !important;
+    }
+
+    .create .docs ul li {
+        text-align: left !important;
+        position: relative;
+        margin-right: 0 !important;
+    }
+
+    .most-leave .input-group {
+        display: inline-block;
+        position: relative;
+        padding: 6px 30px 6px 12px;
+        border: 1px solid #ddd;
+        height: 40px !important;
+        background-color: #eee;
+        line-height: 30px;
+    }
+
+    .action dl {
+        margin-right: 20px !important;
+        width: 90px !important;
+    }
+
+    .action {
+        border: 0 none !important;
+        padding-top: 0 !important;
+
+    }
+
+    .Avatar .photo dl {
+        margin-right: 20px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .Avatar {
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+    }
+
+    .reply {
+        margin-top: 0 !important;
+    }
+
+    .uib-datepicker-popup {
+        top: 0 !important;
+    }
+
+    .detail-status {
+        border: 1px solid #ddd;
+        padding: 9px 0 9px 10px !important;
+        margin-bottom: 20px;
+        width: 200px;
+    }
+
+    .detail-status:hover {
+        border-color: #65C17D;
+    }
+    .edit-detailC .delete-btn{
+        right:-3px;
+    }
+    .edit-detailC .delete-btn-sign{
+        right:9px;
+    }
+
+    label {
+        text-align: right !important;
+        padding-right: 20px !important;
+    }
+</style>
+
+<div class="edit-detailC" ng-show="!device && !flag.isPreview">
+
+    <div class="main" copy-radio>
+        <!--main_content-->
+        <div class="inner">
+            <header>
+                <div class="opreation clearfix">
+                    <span class="close-window" ng-click="backDetail()"></span>
+                </div>
+                <div style="padding-left: 50px;">
+                    <!--<p class="F18" ><span class="substr">编辑协作</span></p>-->
+                    <p class="F18" ng-if="!typeName"><span class="substr">编辑协作</span></p>
+                    <p class="F18" ng-if="typeName"><span class="substr">编辑协作{{"—"+typeName}}</span></p>
+                    <!-- <span class="glyphicon glyphicon-remove close" ui-sref="cooperation" href="#/cooperation"></span> -->
+                </div>
+            </header>
+            <div class="container clearfix">
+                <div class="main_content clearfix create">
+                    <!--content_left(中间内容的左边)-->
+                    <form action="" name="coopedit_form">
+                        <div class="content_left clearfix">
+                            <div class="proInfo">
+                                <div class="clearfix row">
+                                    <!--主题-->
+                                    <div class="row sign-main">
+                                        <label for="" class="col-xs-2 create-title">主题：</label>
+                                        <div class="inline col-xs-9" style="padding:0">
+                                            <input type="text" class="form-control left-area new-name" id=""
+                                                   placeholder="输入主题（必填）"
+                                                   ng-model="collaList.name" required name="topic" maxlength="30">
+                                        </div>
+                                    </div>
+                                    <!--状态-->
+                                    <div class="row coop-Levels" ng-show="collaList.status">
+                                        <label class="create-title col-xs-2">状态：</label>
+                                        <div class="col-xs-4 basicInfo">
+                                            <div class="inline int-style col-xs-4 detail-status" ng-model="statusE"
+                                                 style="padding-left: 10px;">{{collaList.status}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--标识-->
+                                    <div class="row coop-Levels">
+                                        <label class="col-xs-2 create-title">标识：</label>
+                                        <select class="identify selectpicker1 col-xs-3" ng-model="mark1"
+                                                ng-change="switchMark(mark1)">
+                                            <option value="{{item.markerId}}"
+                                                    data-content="<div class='substr' title='{{item.picMarker}}' style='text-align: left;'>
+					  					<span class='glyphicon glyphicon-stop chara' style='color:{{item.picRgb}};margin-right:5px'></span>
+					  					<span style='line-height:13px;'>{{item.picMarker}}</span>
+					  				</div>"
+                                                    ng-repeat="item in markerList1 track by $index"></option>
+                                        </select>
+                                    </div>
+                                    <!--优先级-->
+                                    <div class="row most-leave">
+                                        <label for="" class="col-xs-2 create-title">优先级：</label>
+                                        <select class="selectpicker col-xs-3 priority" ng-model="priority"
+                                                ng-change="switchPriority(priority)">
+                                            <option ng-repeat="item in priorityList" value="{{item.code}}">
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!--截止日期-->
+                                    <div class="row most-leave">
+                                        <label for="" class="col-xs-2 align-right create-title"
+                                               style="padding:0;">截止日期：</label>
+                                        <div class="input-group col-xs-4" style="width:200px;display:inline-block;position: relative;padding: 6px 30px 6px 12px;    border: 1px solid #ddd;
+    height: 40px !important;background-color: #eee;">
+                                            <div class="calder date-value" ng-click="open2()"
+                                                 ng-show="!isDeadlineNull">{{dt |
+                                                date:'yyyy.MM.dd'}}
+                                            </div>
+                                            <!--ng-style="color:deadlineStyle"-->
+
+                                            <div class="calder" ng-click="open2()" ng-show="isDeadlineNull">不限期
+                                            </div>
+                                            <input type="hidden" class="form-control create-calder"
+                                                   uib-datepicker-popup="{{format}}" readonly
+                                                   ng-click="open2()"
+                                                   ng-model="dt" is-open="popup2.opened"
+                                                   datepicker-options="dateOptions" close-text="关闭" clear-text="清除"
+                                                   current-text="今天" style="padding: 6px 30px 6px 12px;"/>
+                                            <a class="calendar-wrapper" ng-click="open2()">
+                                                <span class="calendar-btn"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--detail(描述)-->
+                                    <div class="row mx" style="margin-bottom:20px;">
+                                        <label for="" class="col-xs-2 create-title">描述：</label>
+                                        <div class="col-xs-9" style="padding-right: 0;">
+                                            <textarea class="form-control edit-dis" style="padding-bottom:30px;" rows="6" data-ng-trim="false" ng-model="collaList.desc"
+                                                       placeholder="最多可输入500个字"  maxlength="500"></textarea>
+                                            <!--<span class="absol" style="color:#cfd1d9;right: 10px;bottom: 5px;background:#fff;">({{desc.length+"/"+500}})</span>-->
+                                            <p class="tootips-numb" style="width:97.5%;top:127px;background:#fff;"><span class=" ng-binding" style="color:#808080;font-size:12px;float:right;margin-top:5px;">({{collaList.desc.length+"/"+500}})</span></p>
+                                        </div>
+                                    </div>
+                                    <!--照片(功能)-->
+                                    <div class="action row" ng-show="collaList.pictures.length">
+                                            <label class="col-xs-2 create-title">照片：</label>
+                                        <div class="col-xs-9 picInfo" style="max-height:210px;overflow-y: auto;margin-bottom:20px;    padding-left: 0;">
+                                            <dl class="data-list" ng-repeat="item in collaList.pictures" profit>
+                                                <dt class="rela detail-sear" ng-if="item.thumbnailUrl">
+                                                    <!-- ng-click="downDocs(item.uuid)"-->
+                                                <span title="{{item.name}}"
+                                                      style="background:url({{item.thumbnailUrl}});background-size:cover;width:90px;height:65px;display:inline-block"></span>
+                                                </dt>
+                                                <dt class="rela detail-sear" ng-if="item.thumbnailUrl==null">
+                                                    <img ng-src="{{item.imgsrc}}" alt=""
+                                                         style="width:70px;margin-top:20px">
+                                                </dt>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <!--资料-->
+                                    <div class="action row pc-means" ng-show="collaList.docs.length"
+                                         style="margin-bottom:20px;">
+                                            <label class="col-xs-2 create-title">资料：</label>
+                                        <ul class="col-xs-9 picInfo"
+                                            style="max-height:210px;overflow-y: auto;border: 1px solid rgb(221, 221, 221);padding-left: 15px;">
+                                            <li class="means-list" ng-repeat="item in collaList.docs">
+                                                <!--<dt class="rela means-down">-->
+                                                <!--<img ng-src="{{item.imgsrc}}"-->
+                                                <!--ng-click="pcPreView(item.name, item.uuid)"/>-->
+
+                                                <!--</dt>-->
+                                                <!--<dd title="{{item.name}}">{{item.name}}</dd>-->
+                                                <div class="upload-data" style="width: 100%;">
+                                                    <span class="file-icon"></span>
+                                                    <span ng-bind="item.name" title="{{item.name}}"
+                                                          class="substr file-name-str"></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--负责人-->
+                                    <div class="row" style="margin-bottom:20px;" ng-show="responsiblePerson">
+                                        <label for="" class="col-xs-2 align-right create-title">负责人：</label>
+                                        <div class="inline col-xs-6"
+                                             style="text-align:left;padding-left: 0;">
+                                            <ul class="inline rela relative-ion">
+                                                <img ng-src="{{responsiblePerson.avatar}}"
+                                                     onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"
+                                                     ng-if="responsiblePerson.avatar"/>
+                                                <img ng-src="./imgs/icon/defalut.png"
+                                                     ng-if="responsiblePerson.avatar==null"
+                                                     alt=""/>
+                                                <li class="substr" ng-if="!responsiblePerson.realname"  title="{{responsiblePerson.username}}"
+                                                    style="width:55px;margin-top:5px;    line-height: 16px;">{{responsiblePerson.username}}
+                                                </li>
+                                                <li class="substr" ng-if="responsiblePerson.realname"  title="{{responsiblePerson.realname}}"
+                                                    style="width:55px;margin-top:5px;    line-height: 16px;">{{responsiblePerson.realname}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--相关人-->
+                                    <div class="row Avatar" ng-show="relatedNew" style="padding-left: 0;">
+                                            <label class="col-xs-2 create-title">相关人：</label>
+                                        <div class="photo col-xs-9" style="padding: 0;">
+                                            <div class="inline add-chioce" style="width: 100%;">
+                                                <dl class="inline photoImg" ng-repeat="item in relatedNew"
+                                                    style="display: inline-block;">
+                                                    <span ng-if="item.realname" class="delete-btn absol" ng-class="{'delete-btn-sign':item.needSign}" style="z-index:1"
+                                                          ng-click="deleteRelated($index,item.username,item.needSign)" ng-show="item.realname != responsiblePerson.username"></span>
+                                                    <span ng-if="!item.realname" class="delete-btn absol" ng-class="{'delete-btn-sign':item.needSign}" style="z-index:1"
+                                                          ng-click="deleteRelated($index,item.username,item.needSign)" ng-show="item.username != responsiblePerson.username"></span>
+                                                    <dt class="rela">
+                                                        <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"
+                                                             ng-src="{{item.avatar}}" ng-if="item.avatar"/><img
+                                                            src="./imgs/icon/defalut.png" ng-if="item.avatar==null"
+                                                            alt="">
+                                                        <!-- <span class="absol glyphicon glyphicon-pencil" style="right:5px;top:28px;color:#1298DD"></span> -->
+                                                    </dt>
+                                                    <dd  ng-if="item.realname" class="substr user-names " ng-class="{'max-width':item.needSign}" title="{{item.realname}}"
+                                                         style="margin-bottom:6px;    line-height: 16px;">
+                                                        {{item.realname}}
+                                                    </dd>
+                                                    <dd  ng-if="!item.realname" class="substr user-names " ng-class="{'max-width':item.needSign}" title="{{item.username}}"
+                                                        style="margin-bottom:6px;    line-height: 16px;">
+                                                        {{item.username}}
+                                                    </dd>
+                                                    <dd ng-if="!item.isPassed && !item.isRejected && item.isReaded"
+                                                        class="color-gray edit-status">已读
+                                                    </dd>
+                                                    <dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded"
+                                                        class="color-green edit-status">未读
+                                                    </dd>
+                                                    <dd ng-if="item.isPassed" class="color-blue edit-status">已通过</dd>
+                                                    <dd ng-if="item.isRejected" class="color-orange edit-status">已拒绝
+                                                    </dd>
+                                                    <dd ng-class="{'margin-bottom20':isRevlentMore}"
+                                                        ng-if="item.needSign"
+                                                        class="color-orange avatar-status">
+                                                        <a href="javascript:;;" ng-if="item.isSigned"
+                                                           class="color-gray"><span class="gray">|&nbsp;</span>&nbsp;已签字</a>
+                                                        <a href="javascript:;;" ng-if="!item.isSigned"
+                                                           class="color-green"
+                                                           style="color:#3fce61"><span
+                                                                class="gray">|&nbsp;</span>未签字</a>
+
+                                                    </dd>
+                                                    <!--<div class="detail-sign" ng-if="item.needSign">
+                                                        <img src="imgs/detail-icon-sign.png" alt="">
+                                                    </div>-->
+                                                </dl>
+                                                <!--<dl class="inline photoImg" ng-repeat="item in related.noSign ">-->
+                                                <!--<dt> <img  onerror="this.onerror='';this.src='./imgs/icon/defalut.png'" ng-src="{{item.avatar}}" ng-if="item.avatar"/><img src="./imgs/icon/defalut.png" ng-if="item.avatar==null" alt=""></dt>-->
+                                                <!--<dd class="substr" title="{{item.username}}" style="width:55px;">{{item.username}}</dd>-->
+                                                <!--<dd ng-if="!item.isPassed && !item.isRejected && item.isReaded">已读</dd>-->
+                                                <!--<dd ng-if="!item.isPassed && !item.isRejected && !item.isReaded">未读</dd>-->
+                                                <!--<dd ng-if="item.isPassed">已通过</dd>-->
+                                                <!--<dd ng-if="item.isRejected">已拒绝</dd>-->
+                                                <!--<div class="detail-sign" ng-if="item.needSign">-->
+                                                <!--<img src="imgs/detail-icon-sign.png" alt="">-->
+                                                <!--</div>-->
+                                                <!--</dl>-->
+                                                <div class="upload">
+                                                    <div class="buttonOut">
+                                                        <button type="button" class="btn  btn-add btn-middle"
+                                                                popover-trigger="'focus'" ng-click="selectRelated()">
+                                    <span style="font-size: 14px !important;
+        font-weight: 700 !important;" class="add-span">+添加</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!--<div ng-show="isRevlentMore" class="show-more-btn"-->
+                                        <!--style="margin-top:10px;padding-bottom:15px;text-align:center;color:#909090;">-->
+                                        <!--<span ng-show="showMore" ng-click="showMorePerson()">显示更多</span>-->
+                                        <!--<span ng-show="collapse" ng-click="collapsePerson()">收起</span>-->
+                                        <!--</div>-->
+                                    </div>
+                                    <!--&lt;!&ndash;reply&ndash;&gt;
+                                    <div class="reply row pc-reply" ng-show="collaList.comments.length">
+                                        <div class="col-xs-12" style="margin-bottom:10px;">
+                                            <p>已回复({{collaList.comments.length}}):</p>
+                                        </div>
+                                        <div class="col-xs-12" style="padding-left:0;">
+                                            <div class="say clearfix col-xs-12" ng-repeat="item in collaList.comments"
+                                                 profit>
+                                                <div class="col-xs-3 col-md-2 man_pic">
+                                                    <div>
+                                                        <img onerror="this.onerror='';this.src='./imgs/icon/defalut.png'"
+                                                             ng-src="{{item.avatar}}" ng-if="item.avatar"/><img
+                                                            src="./imgs/icon/defalut.png" ng-if="item.avatar==null"
+                                                            alt="">
+                                                        <p class="substr" title="{{item.commentator}}"
+                                                           style="max-width:60px;">{{item.commentator}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-9 col-md-9 comment">
+                                                    <div class="drop-pop absol comments-pop shape-pop" style="border-right:1px solid #f2f3f5;"></div>
+                                                    &lt;!&ndash; 状态 &ndash;&gt;
+                                                    <div class="dashed" ng-if="item.status">更新状态为：<span
+                                                            style="color:#65c17d">"{{item.status}}"</span></div>
+                                                    &lt;!&ndash; 评论 &ndash;&gt;
+                                                    <div class="dashed break-word text-format" ng-if="item.comment"
+                                                         id="comment-{{index}}"
+                                                         ng-bind-html="item.comment | to_trusted"></div>
+                                                    &lt;!&ndash; 资料 &ndash;&gt;
+                                                    &lt;!&ndash;<div class="dashed comment-doclist" ng-if="item.docs.length">&ndash;&gt;
+                                                    &lt;!&ndash;<div class="inline" ng-repeat="doc in item.docs track by $index">&ndash;&gt;
+                                                    &lt;!&ndash;&lt;!&ndash;<img src="./imgs/icon/icon-doc.png" alt="" style="width:50px">&ndash;&gt;&ndash;&gt;
+                                                    &lt;!&ndash;&lt;!&ndash;   <span style="width:50px;height:50px;background:url('{{doc.thumbnailUrl}}');background-size:cover;display:inline-block;" ng-if="doc.thumbnailUrl != null"  ng-click="previewComment($parent.$parent.$index,doc.uuid)" ></span> &ndash;&gt;&ndash;&gt;
+                                                    &lt;!&ndash;<span><img style="width:75px;height:75px;background:url('{{doc.imgsrc}}');background-size:cover;display:inline-block;"  ng-click="previewSign(doc.uuid,doc.name)"></span>&ndash;&gt;
+                                                    &lt;!&ndash;<div class="substr" title="{{doc.name}}">{{doc.name}}</div>&ndash;&gt;
+                                                    &lt;!&ndash;</div>&ndash;&gt;
+                                                    &lt;!&ndash;</div>&ndash;&gt;
+                                                    <div class="dashed comment-doclist" ng-if="item.docs.length">
+
+                                                        <div class="common-picture" style="">
+                                                            <div class="inline" ng-repeat="doc in item.docs track by $index" ng-if="doc.thumbnailUrl">
+                                                                <div class="replay-down" style="height:65px;">
+                                                                        <span style="width:90px;height:66px;background:url('{{doc.thumbnailUrl}}') no-repeat center;background-size:cover;display:inline-block;"
+                                                                              ng-click="previewSign(doc.uuid,doc.name,2)"></span>
+                                                                    <div class="user-down">
+                                                                        <a ng-href="{{doc.fileUrl}}?name={{doc.name}}"><img
+                                                                                class="detail-down" src="imgs/icon_down.png"
+                                                                                class="a-{{$index}}"/></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="inline replay-message" ng-repeat="doc in item.docs track by $index" ng-if="!doc.thumbnailUrl">
+                                                            <div class="reply-data-info" >
+                                                                <div class="substr reply-name" title="{{doc.name}}" ng-click="previewSign(doc.uuid,doc.name,2)"><span class="infomation-file-icon"></span>{{doc.name}}</div>
+                                                            </div>
+                                                            <div class="user-down">
+                                                                <a ng-href="{{doc.fileUrl}}?name={{doc.name}}">下载</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    &lt;!&ndash; 录音 &ndash;&gt;
+                                                    <div class="dashed" ng-if="item.speech.speechUrl">
+                                                        <div>
+                                                            <button type="button " class="play-audio DIY-btn F14"
+                                                                    ng-click="play(item.speech.speechUrl)"><input
+                                                                    type="hidden" ng-model="item.speech.speechUrl"/><img
+                                                                    src="imgs/play.png" style="padding-right:5px;">播放录音
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    &lt;!&ndash; 时间 &ndash;&gt;
+                                                    <div class="reply-time" ng-if="item.commentTime">{{item.commentTime
+                                                        |
+                                                        date:'yyyy-MM-dd HH:mm'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="create-error">
+    <ul>
+        <li style="color:red" ng-show="flag.topicNull && coopedit_form.topic.$error.required">当前协作主题不能为空</li>
+    </ul>
+</div>
+<div class="footer footer-commom">
+    <button type="button" class="btn btn-default foot-btn" ng-click="ok()">确定</button>
+    <button type="button" class="btn btn-default new-btnFail" ng-click="backDetail()">
+        取消
+    </button>
+</div>
+<div ng-if="flag.isPreview" class="pdf-sign">
+    <div class="inner">
+        <header style="height:42px">
+            <div class="header-operation clearfix">
+                <div class="pull-left detail-return" style="line-height:42px;width:10%;" ng-click="backDetail()">
+                    <span class="detail-gt" style="margin-left:15px;display:inline-block"></span>
+                    <a style="text-decoration: none;">返回</a>
+                </div>
+                <div class="label_tools">
+                    <img src="imgs/icon/icon-small-h.png" alt="" ng-click="minimize()">
+                    <div ng-click="maxRestore($event)" class="inline" style="margin-left:18px;">
+                        <img src="imgs/icon/icon-max-h.png" class="max-restore">
+                        <img src="imgs/icon/icon-middle-h.png" class="max-restore">
+                    </div>
+                        <span class="change-window"><img src="imgs/icon/icon-close-h.png" alt=""
+                                                         ng-click="close()"></span>
+                </div>
+            </div>
+        </header>
+        <div>
+            <div style="width:100%;">
+                <iframe ng-src="{{previewUrl}}" style="height:calc(100vh - 100px);width:100%;" scrolling="no"
+                        frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- 默认预览 -->
+
+</div>
+

@@ -86,16 +86,7 @@ angular.module('core').directive('copyRadio', function ($timeout) {
     return {
 		restrict: 'AE',
 		link: function (scope, ele, attr) {
-           
-			//var checkObj= angular.element('.sub-nav li');
-			////console.log(checkObj);
-			//checkObj.on('click', function () {
-			//	if($(this).find(':checkbox').prop('checked')){
-			//		$(this).siblings().find(':checkbox').prop('checked',false);
-			//		$(this).parent().parent().siblings().find(':checkbox').prop('checked', false);
-			//	}
-			//})
-            //点击新建协作把统计页面给关闭
+            // 点击新建协作把统计页面给关闭
             $(".new_cooper").click(function(){
                 $(".data_count").hide();
             })
@@ -105,52 +96,11 @@ angular.module('core').directive('copyRadio', function ($timeout) {
                 $(".table-list.basic-project").show();
                 $(".table-list.draft-box").hide();
             })
-                    //动态列表图片定位动画
-            //$(".list").on("mouseenter",".tools_bar",function(){
-            //	$(this).children(".bar").animate({"bottom":'0'})
-            //});
-            //$(".list").on("mouseleave",".tools_bar",function(){
-            //    $(this).children(".bar").animate({"bottom":'-28px'})
-            //});
-
-         //   协作首页点击表格编辑状态
-         //   $(".table-list>table").on('click','edit-click',function(){
-         //       alert(123)
-         //       $(this).find(".cop-edit").hide();
-         //   })
-         //   新建负责人点击选中状态时间委托
+            //  新建负责人点击选中状态时间委托
             $(".select-person-responsible-modal .person-list").on("click",".checkA",function(){
                 $(".user-chioce").hide();
                 $(this).find(".user-chioce").show();
             })
-            //新建相关人点击选中事件委托
-            $(".select-person-related-modal .left .person-list").on("click",".select-check",function(){
-                //删除默认状态
-                $('li ').css("background",'#fff')
-                // $(".user-chioce").hide();
-                //给当前获取焦点添加一个样式
-                //debugger;
-                // $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
-                // $(this).css("background",'#eceef0').siblings().css("background","#fff");
-                $(this).find(".user-chioce").show();
-                $(this).css("background",'#eceef0');
-
-            });
-            //编辑页面
-            $(".edit-related .left .person-list").on("click",".select-check",function(){
-                //删除默认状态
-                $('li ').css("background",'#fff')
-                // $(".user-chioce").hide();
-                //给当前获取焦点添加一个样式
-                //debugger;
-                // $(this).find(".user-chioce").show().siblings().find(".user-chioce").hide();
-                // $(this).css("background",'#eceef0').siblings().css("background","#fff");
-                $(this).find(".user-chioce").show();
-                $(this).css("background",'#eceef0');
-
-            })
-
-
 		}
 	};
 });
@@ -531,9 +481,10 @@ angular.module('core').directive('pcOperation', function() {
     return {
         restrict: 'AE',
         link: function(scope, element, attr) {
-            $(".btn_box_pc").click(function(){
+
+            $(".btn_box_pc").unbind("click").bind("click",function () {
                 $(".show_btn").toggleClass("glyphicon-menu-left")
-                //toggleClass增加一个class      
+                //toggleClass增加一个class
                 //通过判断这个class的状态来决定是开操作还是关操作
                 $(".content_right_pc").toggleClass("menus");
                 if($(".content_right_pc").hasClass("menus")){
@@ -545,13 +496,13 @@ angular.module('core').directive('pcOperation', function() {
 
                 }else{
                     $('body').css('overflow-y','auto');
-                     $(".btn_box_pc").animate({"right":"0"});
-                     $(".content_right_pc").animate({"right":"-260px"});
+                    $(".btn_box_pc").animate({"right":"0"});
+                    $(".content_right_pc").animate({"right":"-260px"});
                     $(".glyphicon-menu-right").css('display','none');
                     $(".mobile-mark").hide();
                 }
-              });
-            $('.mobile-mark').click(function() {
+            })
+            $('.mobile-mark').unbind("click").bind("click",function() {
                  $(".show_btn").toggleClass("glyphicon-menu-left")
                 //toggleClass增加一个class      
                 //通过判断这个class的状态来决定是开操作还是关操作
@@ -788,3 +739,12 @@ angular.module('core').directive('resizeLeft', function($timeout) {
         }
     };
 });
+angular.module('core').directive('photoSwiper',function(){
+    return{
+        link:function(scope,element,attrs){
+            if(scope.$last){
+                scope.$eval(attrs.photoSwiper);
+            }
+        }
+    }
+})

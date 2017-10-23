@@ -2,7 +2,7 @@
 
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise('/cooperation');
+		$urlRouterProvider.otherwise('/cooperationNew/threeCloumn');
 
 		$stateProvider.
 		 state('login', {
